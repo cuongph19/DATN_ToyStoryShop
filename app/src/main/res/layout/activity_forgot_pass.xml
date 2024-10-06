@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Forgot_pass"
     android:orientation="vertical"
-    android:background="#0D1E3A"
+    android:background="#172A5C"
     >
 
     <LinearLayout
