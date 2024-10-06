@@ -22,11 +22,12 @@
         android:id="@+id/loginPromptText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/your_account"
+        android:text="@string/signin_account"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="20dp"
-        android:gravity="center" /><!-- Input Email/Số điện thoại -->
+        android:gravity="center" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -43,7 +44,7 @@
             android:paddingLeft="10dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Input Mật khẩu -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -65,7 +66,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"
+        android:text="@string/signin_button"
         android:layout_margin="10dp"
         android:textColor="#13B48B"
         android:padding="12dp"
