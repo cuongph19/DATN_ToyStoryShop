@@ -28,9 +28,9 @@
     <View
         android:id="@+id/loadingBar"
         android:layout_width="100dp"
-        android:layout_height="2dp"
-        android:background="#FFFFFF"
+        android:layout_height="1dp"
         android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
         android:scaleX="0" />
 
 </LinearLayout>
