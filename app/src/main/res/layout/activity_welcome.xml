@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D1C49"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- Logo ToyStory Shop -->
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_logo"
+        android:contentDescription="@string/app_name" />
+
+
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WELCOME!"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:layout_marginTop="20dp" />
+
+
+    <View
+        android:id="@+id/loadingBar"
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="#FFFFFF"
+        android:layout_marginTop="20dp"
+        android:scaleX="0" />
+
+</LinearLayout>
