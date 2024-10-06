@@ -31,7 +31,9 @@
             android:name=".ArtStory_screen"
             android:exported="false" />
         <activity
-            android:name=".BlindBox_screen"
+            android:name=".BlindBox_screen"/>
+        <activity
+            android:name=".Welcome_screen"
             android:exported="false" />
         <activity
             android:name=".Forgot_pass"
@@ -46,7 +48,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Welcome_screen"
+            android:name=".Product_detail"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
