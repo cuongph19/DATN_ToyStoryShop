@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">DATN_ToyStoryShop</string>
+    <string name="app_name">ToyStory Shop</string>
+    <string name="welcome_text">Chào mừng đến ToyStory Shop</string>
+    <string name="email_hint">Email/Số điện thoại</string>
+    <string name="password_hint">Mật khẩu</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="google_login_button">Đăng nhập với Google</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="signup_prompt">Bạn chưa có tài khoản?</string>
+    <string name="signup_now">Đăng ký ngay</string>
+    <string name="your_account">Đăng nhập vào tài khoản của bạn</string>
+    <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
 </resources>

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.datn_toystoryshop" />
+                  <option name="mobileSdkAppId" value="1:392434089726:android:9f2a81a51acd0923e9efaf" />
+                  <option name="projectId" value="datn-toystoryshop-94692" />
+                  <option name="projectNumber" value="392434089726" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
