@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#F5F7F9"
+    android:padding="16dp">
+
+    <!-- Header section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#172A5C"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <!-- Back icon -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:padding="8dp" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:text="Limited Figure"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Filter buttons under the title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#172A5C"
+        android:padding="8dp"
+        >
+
+        <!-- Button 1: Sort by -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_sort"
+            android:text="Sort by"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:drawablePadding="8dp"
+            android:padding="8dp" />
+
+        <!-- Button 2: Location -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/ic_location"
+            android:text="Location"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:drawablePadding="8dp"
+            android:padding="8dp" />
+
+        <!-- Button 3: Category -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/ic_category"
+            android:text="Category"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:drawablePadding="8dp"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Product Grid Layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/product_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        android:padding="8dp"
+        tools:listitem="@layout/item_product"
+        android:clipToPadding="false" />
+
+</LinearLayout>
