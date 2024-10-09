@@ -166,7 +166,8 @@
                     android:id="@+id/decreaseQuantity"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:text="-" />
+
+                    />
 
                 <!-- Quantity Text -->
                 <TextView
@@ -183,7 +184,8 @@
                     android:id="@+id/increaseQuantity"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:text="+" />
+
+                    />
             </LinearLayout>
 
             <!-- Add to Cart Button -->
