@@ -6,6 +6,17 @@
     <string name="email_hint">Email/Số điện thoại</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="re_password_hint">Nhập Lại Mật khẩu</string>
+    <string name="sort_by">Sort By</string>
+    <string name="blindbox">Blind Box</string>
+    <string name="search_hint">Tìm kiếm sản phẩm</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="other_products">Other Products</string>
+    <string name="newarrivals">New Arrivals</string>
+    <string name="limited_figure">Limited Figure</string>
+    <string name="figuring">Figuring</string>
+    <string name="art_store">Art Store</string>
+    <string name="location">Location</string>
+    <string name="category">Category</string>
     <string name="signin_button">Đăng nhập</string>
     <string name="signup_button">Đăng Kí</string>
     <string name="send_button">Gửi yêu cầu</string>

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:text="Other Products"
+            android:text="@string/other_products"
             android:textSize="24sp"
             android:gravity="center"
             android:layout_weight="1"
@@ -52,12 +52,11 @@
         android:padding="8dp"
         >
 
-        <!-- Button 1: Sort by -->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_sort"
-            android:text="Sort by"
+            android:text="@string/sort_by"
             android:background="@drawable/button_background"
             android:textColor="#ffffff"
             android:drawablePadding="8dp"
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:drawableLeft="@drawable/ic_location"
-            android:text="Location"
+            android:text="@string/location"
             android:background="@drawable/button_background"
             android:textColor="#ffffff"
             android:drawablePadding="8dp"
@@ -81,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:drawableLeft="@drawable/ic_category"
-            android:text="Category"
+            android:text="@string/category"
             android:background="@drawable/button_background"
             android:textColor="#ffffff"
             android:drawablePadding="8dp"
