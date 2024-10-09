@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,7 +23,13 @@
         android:theme="@style/Theme.DATN_ToyStoryShop"
         tools:targetApi="31">
         <activity
-            android:name=".Welcome_screen"
+            android:name=".PhoneNumber_screen"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneOTP_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Product_detail"
             android:exported="false" />
         <activity
             android:name=".Forgot_pass"
@@ -25,10 +41,10 @@
             android:name=".SignIn_screen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Home_screen"
             android:exported="false" />
         <activity
-            android:name=".Product_detail"
+            android:name=".Welcome_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
