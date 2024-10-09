@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop;
+package com.example.datn_toystoryshop.Register_login;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.datn_toystoryshop.R;
 
 public class Welcome_screen extends AppCompatActivity {
     private static final int SPLASH_SCREEN_TIME_OUT = 3000; // 3 giây
