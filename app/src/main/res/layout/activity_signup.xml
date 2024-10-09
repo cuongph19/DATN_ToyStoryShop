@@ -53,30 +53,38 @@
         android:layout_margin="10dp"
         android:hint="@string/password_hint"
         android:gravity="center"
-        app:hintTextColor="@color/white">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edpassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_custtomedit"
-            android:textColor="#FFFFFF"
-            android:paddingLeft="10dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:hintTextColor="@color/white"
+        app:endIconMode="password_toggle"
+    app:passwordToggleEnabled="true">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edpassword"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:hint="@string/re_password_hint"
-        android:gravity="center"
-        app:hintTextColor="@color/white">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edrppassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_custtomedit"
-            android:textColor="#FFFFFF"
-            android:paddingLeft="10dp" />
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_custtomedit"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="10dp"
+        android:inputType="textPassword" />
+</com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+android:layout_width="match_parent"
+android:layout_height="80dp"
+android:layout_margin="10dp"
+android:hint="@string/re_password_hint"
+android:gravity="center"
+app:hintTextColor="@color/white"
+app:endIconMode="password_toggle"
+    app:passwordToggleEnabled="true">
+
+<com.google.android.material.textfield.TextInputEditText
+android:id="@+id/edrppassword"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/ic_custtomedit"
+android:textColor="#FFFFFF"
+android:paddingLeft="10dp"
+android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

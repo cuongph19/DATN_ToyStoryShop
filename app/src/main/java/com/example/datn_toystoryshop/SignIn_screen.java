@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,17 +22,26 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.concurrent.TimeUnit;
 
 public class SignIn_screen extends AppCompatActivity {
-    private TextInputEditText edmail, edpassword;
+    private TextInputEditText edInput, edPassword;
     private Button btnLogin, btnGoogleLogin;
-    private TextView txtSignup, txtForgerPass;
+    private TextView txtSignup, txtForgotPass;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
 
@@ -42,24 +50,25 @@ public class SignIn_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        // Khởi tạo Firebase Auth
+        // Khởi tạo Firebase Auth và Firestore
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Cấu hình Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // Thay YOUR_CLIENT_ID_HERE bằng client_id từ google-services.json
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Khởi tạo các thành phần giao diện
-        edmail = findViewById(R.id.edemailLg);
-        edpassword = findViewById(R.id.edpasswordLg);
+        edInput = findViewById(R.id.edemailLg); // Nhập email hoặc số điện thoại
+        edPassword = findViewById(R.id.edpasswordLg);
         btnLogin = findViewById(R.id.btnLogin);
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
         txtSignup = findViewById(R.id.txtSignup);
-        txtForgerPass = findViewById(R.id.txtForgotPass);
+        txtForgotPass = findViewById(R.id.txtForgotPass);
 
         // Thiết lập OnClickListener cho nút đăng nhập Google
         btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
@@ -69,37 +78,26 @@ public class SignIn_screen extends AppCompatActivity {
             }
         });
 
-        // Thiết lập OnClickListener cho nút đăng nhập bằng email và mật khẩu
+        // Thiết lập OnClickListener cho nút đăng nhập
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edmail.getText().toString();
-                String password = edpassword.getText().toString();
-                if (email.isEmpty() || password.isEmpty()) {
+                String input = edInput.getText().toString().trim();
+                String password = edPassword.getText().toString().trim();
+
+                if (!input.isEmpty() && !password.isEmpty()) {
+                    if (isPhoneNumber(input)) {
+                        // Đăng nhập bằng số điện thoại
+                        loginWithPhone(input, password);
+                    } else if (isValidEmail(input)) {
+                        // Đăng nhập bằng email
+                        loginWithEmail(input, password);
+                    } else {
+                        Toast.makeText(SignIn_screen.this, "Vui lòng nhập email hoặc số điện thoại hợp lệ!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(SignIn_screen.this, "Không được bỏ trống!", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-                if (!isValidEmail(email)) {
-                    Toast.makeText(SignIn_screen.this, "Địa chỉ email không hợp lệ!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignIn_screen.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SignIn_screen.this, MainActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(SignIn_screen.this, "Sai Tài Khoản Hoặc Mật khẩu!",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
             }
         });
 
@@ -113,7 +111,7 @@ public class SignIn_screen extends AppCompatActivity {
         });
 
         // Thiết lập OnClickListener cho nút quên mật khẩu
-        txtForgerPass.setOnClickListener(new View.OnClickListener() {
+        txtForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(SignIn_screen.this, Forgot_pass.class);
@@ -133,14 +131,13 @@ public class SignIn_screen extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Kết quả trả về từ Google Sign-In
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
     }
 
-    // Xử lý kết quả đăng nhập
+    // Xử lý kết quả đăng nhập Google
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -163,7 +160,7 @@ public class SignIn_screen extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignIn_screen.this, MainActivity.class);
+                            Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                             startActivity(intent);
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -173,8 +170,69 @@ public class SignIn_screen extends AppCompatActivity {
                 });
     }
 
-    // Kiểm tra tính hợp lệ của email
-    private boolean isValidEmail(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    // Đăng nhập bằng số điện thoại
+    private void loginWithPhone(String phoneNumber, String password) {
+        // Định dạng lại số điện thoại nếu cần
+        if (!phoneNumber.startsWith("+84")) {
+            phoneNumber = "+84" + phoneNumber.substring(1); // Bỏ số 0 đầu và thêm +84
+        }
+
+
+        String finalPhoneNumber = phoneNumber;
+        db.collection("users").document(phoneNumber)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String storedPassword = document.getString("password");
+                            if (storedPassword != null && storedPassword.equals(password)) {
+                                // Đăng nhập thành công
+                                Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(SignIn_screen.this, "Mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // Log để kiểm tra nếu tài liệu không tồn tại
+                            Log.d(TAG, "Số điện thoại không tồn tại: " + finalPhoneNumber);
+                            Toast.makeText(SignIn_screen.this, "Số điện thoại không tồn tại!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.e(TAG, "Lỗi khi lấy thông tin người dùng: ", task.getException());
+                        Toast.makeText(SignIn_screen.this, "Lỗi khi lấy thông tin người dùng: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Đăng nhập bằng email
+    private void loginWithEmail(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                            startActivity(intent);
+                        } else {
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(SignIn_screen.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // Kiểm tra số điện thoại hợp lệ
+    private boolean isPhoneNumber(String input) {
+        return input.matches("0[0-9]{9}"); // Kiểm tra định dạng số điện thoại
+    }
+
+    // Kiểm tra email hợp lệ
+    private boolean isValidEmail(String input) {
+        return Patterns.EMAIL_ADDRESS.matcher(input).matches(); // Sử dụng Patterns để kiểm tra email
     }
 }

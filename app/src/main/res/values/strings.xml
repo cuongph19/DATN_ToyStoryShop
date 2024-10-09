@@ -29,6 +29,7 @@
     <string name="signin_account">Đăng nhập vào tài khoản của bạn</string>
     <string name="signup_account">Đăng ký tài khoản của bạn</string>
     <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite_list">Danh sách ưa thích</string>
+
+
 </resources>

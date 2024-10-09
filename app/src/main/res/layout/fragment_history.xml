@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.History_Fragment">
+    android:background="@color/white"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Header layout with title and icons -->
+
+    <!-- Transaction header with filter -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#172A5C"
+        android:padding="16dp">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lịch sử mua hàng"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Heart Icon -->
+        <ImageView
+            android:id="@+id/ivHeart"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/ic_heart"
+            app:tint="@android:color/white" />
+
+        <!-- Cart Icon -->
+        <ImageView
+            android:id="@+id/ivCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_cart"
+            app:tint="@android:color/white" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transactions"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E6ECF0"
+            android:text="Januari 2020"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <!-- RecyclerView for the transaction list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrderHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="1111" />
-
-</FrameLayout>
+        android:layout_marginTop="16dp" />
+</LinearLayout>
