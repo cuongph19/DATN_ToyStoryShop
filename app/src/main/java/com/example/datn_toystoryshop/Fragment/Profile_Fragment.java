@@ -1,66 +1,102 @@
 package com.example.datn_toystoryshop.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.datn_toystoryshop.Profile.Currency_Language_screen;
+import com.example.datn_toystoryshop.Profile.Evaluate_screen;
+import com.example.datn_toystoryshop.Profile.Introduce_Friends_screen;
+import com.example.datn_toystoryshop.Profile.Setting_screen;
+import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Profile_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Profile_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvmail, tvname, tvphone;
+    private ImageView ivAvatar;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Profile_Fragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Profile_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Profile_Fragment newInstance(String param1, String param2) {
-        Profile_Fragment fragment = new Profile_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void ProfileFragment() {
+        // Constructor mặc định
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate layout cho Fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Khởi tạo các view từ layout
+        ivAvatar = view.findViewById(R.id.iv_avatar);
+        tvname = view.findViewById(R.id.tv_user_name);
+        tvphone = view.findViewById(R.id.tv_phone_number);
+        tvmail = view.findViewById(R.id.tv_email);
+
+        tvSettings = view.findViewById(R.id.tv_settings);
+        tvLanguageCurrency = view.findViewById(R.id.tv_languagecurrency);
+        tvRate = view.findViewById(R.id.tv_rate);
+        tvIntroduceFriend = view.findViewById(R.id.tv_introducefriend);
+        tvTerms = view.findViewById(R.id.tv_terms);
+        tvLogout = view.findViewById(R.id.tv_logout);
+
+
+        // Xử lý sự kiện cho mục "Cài đặt"
+        tvSettings.setOnClickListener(v -> {
+            // Chuyển tới màn hình cài đặt
+            Intent intent = new Intent(getActivity(), Setting_screen.class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện cho mục "Ngôn ngữ & tiền tệ"
+        tvLanguageCurrency.setOnClickListener(v -> {
+            // Chuyển tới màn hình ngôn ngữ và tiền tệ
+            Intent intent = new Intent(getActivity(), Currency_Language_screen.class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện cho mục "Đánh giá"
+        tvRate.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Evaluate_screen.class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện cho mục "Giới thiệu bạn bè"
+        tvIntroduceFriend.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Introduce_Friends_screen.class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện cho mục "Điều khoản & Điều kiện"
+        tvTerms.setOnClickListener(v -> {
+            // Chuyển tới trang điều khoản và điều kiện
+            Intent intent = new Intent(getActivity(), Terms_Conditions_screen   .class);
+            startActivity(intent);
+        });
+
+        // Xử lý sự kiện cho mục "Đăng xuất"
+        tvLogout.setOnClickListener(v -> {
+            // Đăng xuất người dùng
+            Toast.makeText(getActivity(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            // Chuyển tới màn hình đăng nhập
+            Intent intent = new Intent(getActivity(), SignIn_screen.class);
+            startActivity(intent);
+            getActivity().finish(); // Đóng tất cả các Activity hiện tại
+        });
     }
 }
