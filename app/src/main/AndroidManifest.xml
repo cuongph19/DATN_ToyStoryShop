@@ -23,6 +23,21 @@
         android:theme="@style/Theme.DATN_ToyStoryShop"
         tools:targetApi="31">
         <activity
+            android:name=".Profile.Evaluate_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.Terms_Conditions_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.Introduce_Friends_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.Currency_Language_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.Setting_screen"
+            android:exported="false" />
+        <activity
             android:name=".Register_login.PhoneNumber_screen"
             android:exported="false" />
         <activity
