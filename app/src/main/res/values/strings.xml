@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">ToyStory Shop</string>
     <string name="welcome_text">Chào mừng đến ToyStory Shop</string>
-    <string name="forgot_text">Xác minh gmail của bạn</string>
-    <string name="forgot_text1">Vui lòng nhập gmail để đổi mật khẩu</string>
+    <string name="forgot_text">Xác minh thông tin của bạn</string>
+    <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
+    <string name="name_hint">Họ và tên</string>
     <string name="email_hint">Email/Số điện thoại</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="re_password_hint">Nhập Lại Mật khẩu</string>
@@ -31,5 +32,10 @@
     <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
     <string name="favorite_list">Danh sách ưa thích</string>
 
-
+    <string-array name="country_codes">
+        <item>+91</item>
+        <item>+84</item>
+        <item>+1</item>
+        <!-- Thêm mã quốc gia khác -->
+    </string-array>
 </resources>

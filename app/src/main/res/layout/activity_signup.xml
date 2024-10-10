@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp_screen"
+    tools:context=".Register_login.SignUp_screen"
     android:gravity="center"
     android:orientation="vertical"
     android:background="#172A5C">
@@ -27,7 +27,23 @@
         android:textColor="#FFFFFF"
         android:layout_marginBottom="20dp"
         android:gravity="center" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:hint="@string/name_hint"
+        app:hintTextColor="@color/white"
+        android:gravity="center">
 
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_custtomedit"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
