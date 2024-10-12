@@ -2,7 +2,6 @@ package com.example.datn_toystoryshop;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -11,18 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Fragment.Browse_Fragment;
 import com.example.datn_toystoryshop.Fragment.History_Fragment;
 import com.example.datn_toystoryshop.Fragment.Home_Fragment;
 import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
 import com.example.datn_toystoryshop.Fragment.Store_Fragment;
-import com.example.datn_toystoryshop.adapter.ImageAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Home_screen extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
