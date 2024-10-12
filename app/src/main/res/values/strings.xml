@@ -31,6 +31,11 @@
     <string name="signup_account">Đăng ký tài khoản của bạn</string>
     <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
     <string name="favorite_list">Danh sách ưa thích</string>
+    <string name="my_store">Cửa hàng của tôi</string>
+    <string name="name_pro">Tên sản phẩm</string>
+    <string name="add_cart">Thêm vào giỏ hàng</string>
+    <string name="brand">Thương hiệu: </string>
+
 
     <string-array name="country_codes">
         <item>+91</item>

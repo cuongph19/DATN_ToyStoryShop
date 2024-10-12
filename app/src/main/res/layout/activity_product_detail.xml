@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,126 +7,255 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Product_detail">
-    <ImageView
-        android:id="@+id/productImage"
+
+    <!-- ScrollView cho nội dung cuộn -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/cartSection"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/robo"
-        />
-
-    <!-- Product Title -->
-    <TextView
-        android:id="@+id/productTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Tên sản phẩm"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productImage" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Product Price -->
-    <TextView
-        android:id="@+id/productPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="649.000đ"
-        android:textSize="20sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/productTitle"
-        app:layout_constraintTop_toBottomOf="@id/productTitle" />
+            <!-- Nội dung cuộn của bạn ở đây -->
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/robo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!-- Nút quay lại (Back Button) -->
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@android:color/white" />
 
-    <!-- Like Icon -->
-    <ImageView
-        android:id="@+id/likeIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="Like Icon"
-        android:src="@drawable/img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/productTitle" />
+            <!-- Nút chia sẻ (Share Button) -->
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_share"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@android:color/white" />
 
-    <!-- Product Brand and SKU -->
-    <TextView
-        android:id="@+id/productBrand"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Thương hiệu: Gundam"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productPrice" />
+            <!-- Nút menu (Menu Button) -->
+            <ImageButton
+                android:id="@+id/menuButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_more"
+                app:layout_constraintEnd_toStartOf="@id/shareButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@android:color/white" />
 
-    <TextView
-        android:id="@+id/productSku"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="SKU: 693157002879"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productBrand" />
+            <LinearLayout
+                android:id="@+id/dotIndicatorLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/productImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productImage">
 
-    <!-- Product Description -->
-    <TextView
-        android:id="@+id/productDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Lorem ipsum dolor sit amet..."
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productSku" />
+                <!-- Dot Indicator 1 -->
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/dot_inactive" />
 
-    <!-- Details Section -->
-    <TextView
-        android:id="@+id/detailsHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Details"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/productDescription"
-        app:layout_constraintStart_toStartOf="parent" />
+                <!-- Dot Indicator 2 -->
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/dot_active" />
 
-    <!-- Product Details -->
-    <TextView
-        android:id="@+id/productDetails"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="• Nhận hàng nhanh chóng..."
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailsHeader" />
+                <!-- Dot Indicator 3 -->
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/dot_inactive" />
+            </LinearLayout>
+            <!-- Product Title -->
+            <TextView
+                android:id="@+id/productTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/name_pro"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productImage" />
+
+            <!-- Product Price -->
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="649.000đ"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/productTitle"
+                app:layout_constraintTop_toBottomOf="@id/productTitle" />
+
+            <!-- Like Icon -->
+            <ImageView
+                android:id="@+id/likeIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Like Icon"
+                android:src="@drawable/img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/productTitle" />
+
+            <!-- Product Brand and SKU -->
+
+            <!-- LinearLayout chứa TextView cho Thương hiệu và SKU -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/ln1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productPrice">
+
+                <!-- Thương hiệu: -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- TextView cho nhãn Thương hiệu -->
+                    <TextView
+                        android:id="@+id/labelBrand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/brand"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <!-- TextView cho giá trị Thương hiệu -->
+                    <TextView
+                        android:id="@+id/productBrandValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gundam"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <!-- SKU: -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <!-- TextView cho nhãn SKU -->
+                    <TextView
+                        android:id="@+id/labelSku"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SKU: "
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <!-- TextView cho giá trị SKU -->
+                    <TextView
+                        android:id="@+id/productSkuValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="693157002879"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- Product Description -->
+            <TextView
+                android:id="@+id/productDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lobortis cras placerat diam ipsum ut. Nisi vel adipiscing massa bibendum diam. Suspendisse mattis dui maecenas duis mattis. Mattis aliquam at arcu, semper nunc, venenatis et pellentesque eu. Id tristique maecenas tristique habitasse eu elementum sed. Aliquam eget lacus, arcu, adipiscing eget feugiat in dolor sagittis.
+Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempus sed. Mi varius morbi egestas dictum tempor nisl. In "
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ln1" />
+
+            <!-- Details Section -->
+            <TextView
+                android:id="@+id/detailsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Details"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productDescription" />
+
+            <!-- Product Details -->
+            <TextView
+                android:id="@+id/productDetails"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="• Nhận hàng nhanh chóng..."
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailsHeader" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <!-- Add to Cart Section -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cartSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productDetails">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -136,9 +266,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_margin="16dp">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rbIndividual"
@@ -151,41 +281,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Nguyên set 12 hộp" />
+                    android:text="Nguyên set 12 bộ" />
             </LinearLayout>
 
             <!-- Quantity Picker and Add to Cart Button -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <!-- Decrease Button -->
                 <Button
                     android:id="@+id/decreaseQuantity"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
-
-                    />
+                    android:backgroundTint="@android:color/white"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <!-- Quantity Text -->
                 <TextView
                     android:id="@+id/quantityText"
-                    android:layout_width="40dp"
+                    android:layout_width="134dp"
                     android:layout_height="wrap_content"
-                    android:text="1"
+                    android:background="@drawable/border_tv"
                     android:gravity="center"
+                    android:text="1"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+
+                    />
 
                 <!-- Increase Button -->
                 <Button
                     android:id="@+id/increaseQuantity"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:backgroundTint="@android:color/white"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    />
+
             </LinearLayout>
 
             <!-- Add to Cart Button -->
@@ -193,11 +337,13 @@
                 android:id="@+id/addToCartButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add To Cart"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="#172A5C"
+                android:text="@string/add_cart"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
 
-                android:textColor="@android:color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
