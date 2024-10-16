@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">ToyStory Shop</string>
     <string name="welcome_text">Chào mừng đến ToyStory Shop</string>
-    <string name="forgot_text">Xác minh gmail của bạn</string>
-    <string name="forgot_text1">Vui lòng nhập gmail để đổi mật khẩu</string>
+    <string name="forgot_text">Xác minh thông tin của bạn</string>
+    <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
+    <string name="name_hint">Họ và tên</string>
     <string name="email_hint">Email/Số điện thoại</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="re_password_hint">Nhập Lại Mật khẩu</string>
+    <string name="sort_by">Sort By</string>
+    <string name="blindbox">Blind Box</string>
+    <string name="search_hint">Tìm kiếm sản phẩm</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="other_products">Other Products</string>
+    <string name="newarrivals">New Arrivals</string>
+    <string name="limited_figure">Limited Figure</string>
+    <string name="figuring">Figuring</string>
+    <string name="art_store">Art Store</string>
+    <string name="location">Location</string>
+    <string name="category">Category</string>
     <string name="signin_button">Đăng nhập</string>
     <string name="signup_button">Đăng Kí</string>
     <string name="send_button">Gửi yêu cầu</string>
@@ -18,11 +30,17 @@
     <string name="signin_account">Đăng nhập vào tài khoản của bạn</string>
     <string name="signup_account">Đăng ký tài khoản của bạn</string>
     <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
-    <string name="fav_list">Danh sách ưa thích</string>
+    <string name="favorite_list">Danh sách ưa thích</string>
     <string name="my_store">Cửa hàng của tôi</string>
     <string name="name_pro">Tên sản phẩm</string>
     <string name="add_cart">Thêm vào giỏ hàng</string>
     <string name="brand">Thương hiệu: </string>
 
 
+    <string-array name="country_codes">
+        <item>+91</item>
+        <item>+84</item>
+        <item>+1</item>
+        <!-- Thêm mã quốc gia khác -->
+    </string-array>
 </resources>
