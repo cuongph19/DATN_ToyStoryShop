@@ -9,63 +9,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/header_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start|center_vertical"
-                android:text="ToyStory Shop"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/heart_icon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginEnd="16dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="Heart Icon"
-                android:src="@drawable/ic_heart"
-                app:tint="@android:color/white" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical">
-
-                <ImageView
-                    android:id="@+id/cart_icon"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/ic_cart"
-                    android:contentDescription="Cart Icon"
-                    app:tint="@android:color/white" />
-
-                <View
-                    android:id="@+id/notification_dot"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_alignTop="@id/cart_icon"
-                    android:layout_alignEnd="@id/cart_icon"
-                    android:background="@android:color/holo_red_light"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:shape="oval" />
-            </RelativeLayout>
-        </LinearLayout>
 
         <EditText
             android:id="@+id/search_bar"
@@ -79,7 +29,7 @@
             android:textSize="16sp"
             android:inputType="text"
             android:textColorHint="@android:color/darker_gray"
-            android:layout_marginTop="10dp" />
+           />
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -98,13 +48,14 @@
         android:padding="8dp"
         android:layout_marginTop="8dp"
         app:alignmentMode="alignMargins"
-        app:columnCount="2"
-        app:rowCount="3"
+        app:columnCount="3"
+        app:rowCount="2"
         app:layout_constraintTop_toBottomOf="@id/view_pager"
         >
 
         <!-- New Arrivals -->
         <LinearLayout
+            android:id="@+id/new_arrivals"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -114,13 +65,6 @@
             app:layout_rowWeight="1"
             app:layout_column="0"
             app:layout_row="0">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="New Arrivals"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,6 +76,7 @@
 
         <!-- Blind Box -->
         <LinearLayout
+            android:id="@+id/blind_box"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -141,13 +86,6 @@
             app:layout_rowWeight="1"
             app:layout_column="1"
             app:layout_row="0">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Blind Box"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,8 +95,9 @@
                 android:gravity="center"/>
         </LinearLayout>
 
-        <!-- Figurine -->
+        <!-- Figuring -->
         <LinearLayout
+            android:id="@+id/figuring"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -166,15 +105,8 @@
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:layout_column="0"
-            app:layout_row="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Figurine"/>
-
+            app:layout_column="2"
+            app:layout_row="0">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -186,6 +118,7 @@
 
         <!-- Other Products -->
         <LinearLayout
+            android:id="@+id/other_products"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -193,15 +126,8 @@
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:layout_column="1"
+            app:layout_column="0"
             app:layout_row="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Other Products"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -213,6 +139,7 @@
 
         <!-- Art Story -->
         <LinearLayout
+            android:id="@+id/art_story"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -220,14 +147,9 @@
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:layout_column="0"
-            app:layout_row="2">
+            app:layout_column="1"
+            app:layout_row="1">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Art Story"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -239,22 +161,16 @@
 
         <!-- Limited Figure -->
         <LinearLayout
+            android:id="@+id/limited_figure"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@drawable/ic_logo"
-            app:layout_column="1"
+            app:layout_column="2"
             app:layout_columnWeight="1"
-            app:layout_row="2"
+            app:layout_row="1"
             app:layout_rowWeight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Limited Figure"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

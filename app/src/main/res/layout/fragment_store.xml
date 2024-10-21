@@ -6,6 +6,7 @@
     tools:context=".Fragment.Store_Fragment">
 
     <!-- Thanh tiêu đề -->
+<!--    bỏ cái này đi -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appBar"
         android:layout_width="0dp"
