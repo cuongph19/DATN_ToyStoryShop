@@ -92,7 +92,7 @@ public class Profile_Fragment extends Fragment {
         // Xử lý sự kiện cho mục "Đăng xuất"
         tvLogout.setOnClickListener(v -> {
             // Đăng xuất người dùng
-            Toast.makeText(getActivity(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.sign_out_success_pro), Toast.LENGTH_SHORT).show();
             // Chuyển tới màn hình đăng nhập
             Intent intent = new Intent(getActivity(), SignIn_screen.class);
             startActivity(intent);

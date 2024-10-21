@@ -9,42 +9,7 @@
     android:padding="16dp">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#172A5C"
-        android:padding="16dp">
 
-        <!-- Title TextView -->
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lịch sử mua hàng"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Heart Icon -->
-        <ImageView
-            android:id="@+id/ivHeart"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="50dp"
-            android:src="@drawable/ic_heart"
-            app:tint="@android:color/white" />
-
-        <!-- Cart Icon -->
-        <ImageView
-            android:id="@+id/ivCart"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_cart"
-            app:tint="@android:color/white" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
