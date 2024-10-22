@@ -19,7 +19,7 @@
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WELCOME!"
+        android:text="@string/welcome_text"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:layout_marginTop="20dp" />

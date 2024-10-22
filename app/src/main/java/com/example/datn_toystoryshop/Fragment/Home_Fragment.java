@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +28,7 @@ public class Home_Fragment extends Fragment {
     private ViewPager2 viewPager;
     private Handler handler = new Handler();
     private Runnable runnable;
-    private LinearLayout new_arrivals,blind_box,figuring,other_products,art_story,limited_figure;
+    private FrameLayout new_arrivals,blind_box,figuring,other_products,art_story,limited_figure;
     private int currentPage = 0;
 
     @Nullable
@@ -97,8 +97,12 @@ public class Home_Fragment extends Fragment {
                 R.drawable.ic_google,
                 R.drawable.ic_search
         );
-
-        ImageAdapter adapter = new ImageAdapter(images);
+        List<String> texts = Arrays.asList(
+                "aaaa",  // Text cho ảnh R.drawable.ic_logo
+                "bbbb",  // Text cho ảnh R.drawable.ic_google
+                "cccc"   // Text cho ảnh R.drawable.ic_search
+        );
+        ImageAdapter adapter = new ImageAdapter(images, texts);
         viewPager.setAdapter(adapter);
 
         // Setup auto slide for images in ViewPager2

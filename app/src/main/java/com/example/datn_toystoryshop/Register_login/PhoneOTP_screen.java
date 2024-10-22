@@ -79,7 +79,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
                         otp6.getText().toString().trim();
 
                 if (code.isEmpty() || code.length() < 6) {
-                    Toast.makeText(PhoneOTP_screen.this, "Vui lòng nhập mã OTP hợp lệ.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 verifyCode(code);
@@ -101,7 +101,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
                         // Sau khi xác minh thành công, lưu dữ liệu người dùng vào Firestore
                         saveUserDataToFirestore();
                     } else {
-                        Toast.makeText(PhoneOTP_screen.this, "Xác minh thất bại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_fail), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -124,14 +124,13 @@ public class PhoneOTP_screen extends AppCompatActivity {
         db.collection("users").document(phoneNumber)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(PhoneOTP_screen.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
                     // Chuyển sang màn hình chính sau khi xác minh thành công
                     Intent intent = new Intent(PhoneOTP_screen.this, Home_screen.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(PhoneOTP_screen.this, "Lỗi lưu dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

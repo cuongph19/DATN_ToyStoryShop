@@ -46,7 +46,7 @@ public class Forgot_pass extends AppCompatActivity {
                 String email = edmail.getText().toString();
 
                 if (email.isEmpty()) {
-                    Toast.makeText(Forgot_pass.this, "Email không được bỏ trống!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Forgot_pass.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -54,9 +54,9 @@ public class Forgot_pass extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Forgot_pass.this, "Chúng tôi đã gửi mail đến hộp thư của bạn để đổi mật khẩu!" + email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Forgot_pass.this,  getString(R.string.Toast_send) + email, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Forgot_pass.this, "Không thể gửi mail. Hãy kiểm tra lại địa chỉ email.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Forgot_pass.this,  getString(R.string.Toast_send_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

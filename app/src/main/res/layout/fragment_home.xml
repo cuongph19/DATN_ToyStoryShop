@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/header_layout"
         android:layout_width="0dp"
@@ -21,7 +25,7 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search Product"
+            android:hint="@string/search_product_homefm"
             android:padding="12dp"
             android:background="@drawable/search_background"
             android:drawableLeft="@drawable/ic_search"
@@ -54,131 +58,151 @@
         >
 
         <!-- New Arrivals -->
-        <LinearLayout
+
+        <FrameLayout
             android:id="@+id/new_arrivals"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="0"
             app:layout_row="0">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NEW ARRIVALS"
+                android:text="@string/new_arrivals_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
         <!-- Blind Box -->
-        <LinearLayout
+
+        <FrameLayout
             android:id="@+id/blind_box"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="1"
             app:layout_row="0">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BLIND BOX"
+                android:text="@string/blind_box_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
         <!-- Figuring -->
-        <LinearLayout
+
+        <FrameLayout
             android:id="@+id/figuring"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="2"
             app:layout_row="0">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FIGURINE"
+                android:text="@string/figuring_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
         <!-- Other Products -->
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/other_products"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="0"
             app:layout_row="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OTHER PRODUCTS"
+                android:text="@string/other_products_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
         <!-- Art Story -->
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/art_story"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="1"
             app:layout_row="1">
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ART STORY"
+                android:text="@string/art_story_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
         <!-- Limited Figure -->
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/limited_figure"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@drawable/ic_logo"
             app:layout_column="2"
             app:layout_columnWeight="1"
             app:layout_row="1"
             app:layout_rowWeight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LIMITED FIGURE"
+                android:text="@string/limited_figure_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
     </androidx.gridlayout.widget.GridLayout>
 
@@ -196,7 +220,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="New Product"
+            android:text="@string/new_product_homefm"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
@@ -205,7 +229,7 @@
             android:id="@+id/btn_see_all_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="See All"
+            android:text="@string/see_all_homefm"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/colorPrimary" />
     </LinearLayout>
@@ -234,7 +258,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Popular Product"
+            android:text="@string/popular_product_homefm"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
@@ -243,7 +267,7 @@
             android:id="@+id/btn_see_all_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="See All"
+            android:text="@string/see_all_homefm"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/colorPrimary" />
     </LinearLayout>
@@ -257,4 +281,255 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="8dp" />
+    <LinearLayout
+        android:id="@+id/store_to_follow_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#1A3B72"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewpopularProducts">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_store_to_follow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/store_follow_homefm"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_view_all_stores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_all_homefm"
+                android:textColor="@android:color/black"
+                android:backgroundTint="@android:color/white" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Store 1 -->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="@drawable/store_card_background"
+                    android:layout_marginRight="8dp">
+
+                    <!-- Main Image -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <!-- Store Image (Hobiverse) -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_search" />
+
+                        <!-- Circular ImageView in the center (Profile or Logo) -->
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-32dp"
+                            android:src="@drawable/ic_store"
+                            android:background="@drawable/circle_background"
+                            android:scaleType="centerCrop" />
+                    </FrameLayout>
+                    <!-- Store Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hobiverse"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp" />
+                    <!-- Follow Button -->
+                    <Button
+                        android:id="@+id/btn_follow_store_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follow_homefm"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#1A3B72"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- Store 2 -->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="@drawable/store_card_background"
+                    android:layout_marginRight="8dp">
+
+                    <!-- Main Image -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <!-- Store Image (Hobiverse) -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_search" />
+
+                        <!-- Circular ImageView in the center (Profile or Logo) -->
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-32dp"
+                            android:src="@drawable/ic_store"
+                            android:background="@drawable/circle_background"
+                            android:scaleType="centerCrop" />
+                    </FrameLayout>
+                    <!-- Store Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hobiverse"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp" />
+                    <!-- Follow Button -->
+                    <Button
+                        android:id="@+id/btn_follow_store_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follow_homefm"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#1A3B72"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- Store 3 -->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="@drawable/store_card_background"
+                    android:layout_marginRight="8dp">
+
+                    <!-- Main Image -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <!-- Store Image (Hobiverse) -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_search" />
+
+                        <!-- Circular ImageView in the center (Profile or Logo) -->
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-32dp"
+                            android:src="@drawable/ic_store"
+                            android:background="@drawable/circle_background"
+                            android:scaleType="centerCrop" />
+                    </FrameLayout>
+                    <!-- Store Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hobiverse"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp" />
+                    <!-- Follow Button -->
+                    <Button
+                        android:id="@+id/btn_follow_store_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follow_homefm"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#1A3B72"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- Store 4 -->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="@drawable/store_card_background"
+                    android:layout_marginRight="8dp">
+
+                    <!-- Main Image -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <!-- Store Image (Hobiverse) -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_search" />
+
+                        <!-- Circular ImageView in the center (Profile or Logo) -->
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-32dp"
+                            android:src="@drawable/ic_store"
+                            android:background="@drawable/circle_background"
+                            android:scaleType="centerCrop" />
+                    </FrameLayout>
+                    <!-- Store Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hobiverse"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp" />
+                    <!-- Follow Button -->
+                    <Button
+                        android:id="@+id/btn_follow_store_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follow_homefm"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#1A3B72"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- You can add more stores here -->
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
