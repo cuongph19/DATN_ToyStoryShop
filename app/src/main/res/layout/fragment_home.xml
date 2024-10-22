@@ -58,6 +58,7 @@
         >
 
         <!-- New Arrivals -->
+
         <FrameLayout
             android:id="@+id/new_arrivals"
             android:layout_width="0dp"
@@ -82,6 +83,7 @@
         </FrameLayout>
 
         <!-- Blind Box -->
+
         <FrameLayout
             android:id="@+id/blind_box"
             android:layout_width="0dp"
@@ -106,6 +108,7 @@
         </FrameLayout>
 
         <!-- Figuring -->
+
         <FrameLayout
             android:id="@+id/figuring"
             android:layout_width="0dp"
