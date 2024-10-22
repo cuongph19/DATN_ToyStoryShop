@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="16dp"
     android:background="#172A5C">
 
@@ -17,7 +16,12 @@
         android:contentDescription="Back"
         android:padding="8dp"
         android:src="@drawable/back_icon" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center_horizontal">
     <TextView
         android:id="@+id/phoneVerificationTitle"
         android:layout_width="wrap_content"
@@ -131,4 +135,5 @@
         android:padding="12dp"
         android:backgroundTint="#FFFFFF"
         android:layout_marginTop="20dp" />
+</LinearLayout>
 </LinearLayout>

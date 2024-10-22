@@ -30,12 +30,18 @@
                 <!-- Currency_Language_screen -->
                 <string name="select_language">言語を選択してください： </string>
 
-                <!-- forgot -->
+                <!-- forgot_pass -->
                 <string name="forgot_text">あなたの情報を確認します</string>
                 <string name="forgot_text1">パスワードをリセットするために情報を入力してください</string>
                 <string name="send_button">リクエストを送信</string>
                 <string name="Toast_send">パスワードをリセットするためのメールを送信しました！</string>
                 <string name="Toast_send_error">メールを送信できません。メールアドレスを確認してください。</string>
+
+                <!-- forgotOTP -->
+                <string name="forgot_otp_pass">新しいパスワードを入力してください</string>
+                <string name="forgot_otp_success">パスワードが正常に更新されました！</string>
+                <string name="forgot_otp_error">パスワードの更新に失敗しました！</string>
+                <string name="forgot_otp_title">パスワードを更新！</string>
 
                 <!-- phone number -->
                 <string name="send_sdt">電話番号を確認します</string>

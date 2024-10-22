@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -21,13 +23,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class PhoneOTP_screen extends AppCompatActivity {
+public class ForgotOTP_screen extends AppCompatActivity {
     private EditText otp1, otp2, otp3, otp4, otp5, otp6; // Các EditText cho OTP
     private Button verifyButton;
     private String verificationId;
     private FirebaseAuth mAuth;
-    private String name, email, phoneNumber, password;
+    private String phoneNumber, password;
     private ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +50,6 @@ public class PhoneOTP_screen extends AppCompatActivity {
 
         // Nhận dữ liệu từ intent
         verificationId = getIntent().getStringExtra("verificationId");
-        name = getIntent().getStringExtra("name");
-        email = getIntent().getStringExtra("email");
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         password = getIntent().getStringExtra("password");
 
@@ -62,7 +63,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Chuyển đến màn hình chính
-                Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
+                Intent intent = new Intent(ForgotOTP_screen.this, SignIn_screen.class); // Thay HomeActivity bằng tên activity chính của bạn
                 startActivity(intent);
                 finish(); // Kết thúc activity hiện tại nếu không cần quay lại
             }
@@ -79,7 +80,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
                         otp6.getText().toString().trim();
 
                 if (code.isEmpty() || code.length() < 6) {
-                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 verifyCode(code);
@@ -93,7 +94,6 @@ public class PhoneOTP_screen extends AppCompatActivity {
         signInWithCredential(credential);
     }
 
-    // Đăng nhập hoặc tạo tài khoản với OTP đã xác minh
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
@@ -101,7 +101,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
                         // Sau khi xác minh thành công, lưu dữ liệu người dùng vào Firestore
                         saveUserDataToFirestore();
                     } else {
-                        Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_fail), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotOTP_screen.this, getString(R.string.otp_fail), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -115,24 +115,81 @@ public class PhoneOTP_screen extends AppCompatActivity {
         }
 
         Map<String, Object> user = new HashMap<>();
-        user.put("email", email);
         user.put("phoneNumber", phoneNumber);
         user.put("password", password); // Thay thế bằng biến mật khẩu của bạn
-        user.put("name", name);
 
         // Sử dụng email làm Collection ID và số điện thoại làm Document ID
         db.collection("users").document(phoneNumber)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
-                    // Chuyển sang màn hình chính sau khi xác minh thành công
-                    Intent intent = new Intent(PhoneOTP_screen.this, Home_screen.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    // Hiển thị dialog với thông tin người dùng
+                    showUserInfoDialog(phoneNumber);
                 })
                 .addOnFailureListener(e -> {
+                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
                 });
     }
+
+    private void showUserInfoDialog(String phoneNumber) {
+        // Tạo AlertDialog để hiển thị phoneNumber và cho phép nhập mật khẩu mới
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(ForgotOTP_screen.this);
+        builder.setTitle(getString(R.string.forgot_otp_title));
+
+        // Tạo layout cho dialog
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+        builder.setView(dialogView);
+
+        // Liên kết các view trong dialog
+        TextInputEditText newPasswordInput = dialogView.findViewById(R.id.newPasswordInput);
+        TextView phoneNumberText = dialogView.findViewById(R.id.phoneNumberText);
+        phoneNumberText.setText(phoneNumber); // Hiển thị số điện thoại
+
+        // Nút "Update" để cập nhật mật khẩu
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String newPassword = Objects.requireNonNull(newPasswordInput.getText()).toString().trim();
+            if (!isPasswordValid(newPassword)) {
+                Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!newPassword.isEmpty()) {
+                // Cập nhật mật khẩu mới lên Firestore
+                updatePasswordInFirestore(phoneNumber, newPassword);
+                // Truyền dữ liệu phoneNumber và newPassword sang màn SignIn_screen
+                Intent intent = new Intent(ForgotOTP_screen.this, SignIn_screen.class);
+                intent.putExtra("phoneNumber", phoneNumber);
+                intent.putExtra("newPassword", newPassword);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            } else {
+                Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_pass), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Nút "Cancel" để đóng dialog
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        // Hiển thị dialog
+        builder.create().show();
+    }
+    private boolean isPasswordValid(String password) {
+        return password.length() >= 6 && password.chars().anyMatch(Character::isUpperCase);
+    }
+    private void updatePasswordInFirestore(String phoneNumber, String newPassword) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> user = new HashMap<>();
+        user.put("password", newPassword); // Cập nhật mật khẩu mới
+
+        // Cập nhật mật khẩu trong Firestore
+        db.collection("users").document(phoneNumber)
+                .update(user)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_success), Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_error), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
     // Thiết lập tự động chuyển tiếp giữa các EditText
     private void setOtpMoveListener(final EditText currentOtp, final EditText nextOtp) {
@@ -164,4 +221,5 @@ public class PhoneOTP_screen extends AppCompatActivity {
             return false;
         });
     }
+
 }
