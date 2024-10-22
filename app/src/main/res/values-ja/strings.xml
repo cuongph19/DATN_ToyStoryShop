@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    tiếng nhật-->
+
+                <string name="app_name">ToyStory ショップ</string>
+                <!-- Home_Fragment -->
+                <string name="search_product_homefm">商品を探す</string>
+                <string name="new_arrivals_homefm">新商品</string>
+                <string name="blind_box_homefm">ブラインドボックス</string>
+                <string name="figuring_homefm">フィギュア</string>
+                <string name="other_products_homefm">その他の商品</string>
+                <string name="art_story_homefm">アートストア</string>
+                <string name="limited_figure_homefm">限定版</string>
+                <string name="new_product_homefm">新商品</string>
+                <string name="see_all_homefm">すべてを見る</string>
+                <string name="popular_product_homefm">人気商品</string>
+                <string name="store_follow_homefm">ストアをフォローする</string>
+                <string name="view_all_homefm">すべて見る</string>
+                <string name="follow_homefm">フォロー</string>
+
+                <!-- Profile_Fragment -->
+                <string name="sign_out_success_pro">サインアウトに成功しました</string>
+                <string name="setting_pro">設定</string>
+                <string name="language_currency_pro">言語と通貨</string>
+                <string name="evaluate_pro">評価する</string>
+                <string name="refer_friends_pro">友達を紹介する</string>
+                <string name="terms_conditions_pro">利用規約</string>
+                <string name="sign_out_pro">サインアウト</string>
+
+                <!-- Currency_Language_screen -->
+                <string name="select_language">言語を選択してください： </string>
+
+                <!-- forgot -->
+                <string name="forgot_text">あなたの情報を確認します</string>
+                <string name="forgot_text1">パスワードをリセットするために情報を入力してください</string>
+                <string name="send_button">リクエストを送信</string>
+                <string name="Toast_send">パスワードをリセットするためのメールを送信しました！</string>
+                <string name="Toast_send_error">メールを送信できません。メールアドレスを確認してください。</string>
+
+                <!-- phone number -->
+                <string name="send_sdt">電話番号を確認します</string>
+                <string name="send_text_phone">SMSにコードを送信しました</string>
+                <string name="send_otp_error">OTPの送信に失敗しました：</string>
+
+                <!-- phone otp -->
+                <string name="no_otp">コードを受け取っていませんか？コードを再送します</string>
+                <string name="otp_verify">有効なOTPを入力してください。</string>
+                <string name="otp_fail">認証に失敗しました！</string>
+
+                <!-- signin -->
+                <string name="welcome_text">ToyStory ショップへようこそ！</string>
+                <string name="signin_account">アカウントにサインイン</string>
+                <string name="email_hint">メール/電話番号</string>
+                <string name="password_hint">パスワード</string>
+                <string name="signin_button">サインイン</string>
+                <string name="google_login_button">Googleでサインイン</string>
+                <string name="forgot_password">パスワードを忘れましたか？</string>
+                <string name="signup_prompt">アカウントをお持ちではありませんか？</string>
+                <string name="signup_now">今すぐ登録</string>
+
+                <!-- signup -->
+                <string name="signup_account">アカウントを登録する</string>
+                <string name="name_hint">フルネーム</string>
+                <string name="re_password_hint">パスワードを再入力してください</string>
+                <string name="signup_button">登録</string>
+                <string name="signin_prompt">すでにアカウントをお持ちですか？</string>
+                <string name="signin_now">今すぐサインイン</string>
+                <string name="signup_sdt">登録に成功しました！電話番号を入力してください。</string>
+
+                <!-- Toast Register_login -->
+                <string name="Toast_infor">すべての情報を入力してください！</string>
+                <string name="Toast_email">有効なメールアドレスを入力してください！</string>
+                <string name="Toast_format">正しい形式を入力してください！</string>
+                <string name="Toast_google">Googleのサインインに失敗しました！</string>
+                <string name="Toast_success">サインインに成功しました</string>
+                <string name="Toast_failure">サインインに失敗しました！</string>
+                <string name="Toast_success_sign">登録に成功しました！</string>
+                <string name="Toast_failure_signup">登録に失敗しました！</string>
+                <string name="Toast_wrong_password">パスワードが間違っています！</string>
+                <string name="Toast_donot_pass">パスワードが一致しません！</string>
+                <string name="Toast_wrong_sdt">電話番号が存在しません！</string>
+                <string name="Toast_pass">パスワードは少なくとも6文字以上、大文字を1文字以上含む必要があります！</string>
+                <string name="Toast_wrong">入力された情報が正しくありません。もう一度確認してください！</string>
+
+                <!-- menu -->
+                <string name="home_menu">ホーム</string>
+                <string name="browse_menu">検索</string>
+                <string name="store_menu">ストア</string>
+                <string name="history_menu">購入履歴</string>
+                <string name="profile_menu">プロフィール</string>
+
+                <string name="sort_by">並び替え</string>
+                <string name="blindbox">ブラインドボックス</string>
+                <string name="search_hint">商品を探す</string>
+                <string name="search">検索</string>
+                <string name="other_products">その他の商品</string>
+                <string name="newarrivals">新商品</string>
+                <string name="limited_figure">限定フィギュア</string>
+                <string name="figuring">フィギュア</string>
+                <string name="art_store">アートストア</string>
+                <string name="location">場所</string>
+                <string name="category">カテゴリー</string>
+
+                <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
+                <string name="favorite_list">お気に入りリスト</string>
+                <string name="my_store">私の店</string>
+                <string name="name_pro">商品名</string>
+                <string name="add_cart">カートに追加</string>
+                <string name="brand">ブランド：</string>
+        </resources>

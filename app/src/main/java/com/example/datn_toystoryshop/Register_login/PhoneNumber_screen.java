@@ -63,7 +63,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
                 String countryCode = spinnerCountryCode.getSelectedItem().toString(); // Lấy mã quốc gia từ Spinner
 
                 if (TextUtils.isEmpty(phoneNumber)) {
-                    Toast.makeText(PhoneNumber_screen.this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PhoneNumber_screen.this,  getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -86,7 +86,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
 
         // Kiểm tra định dạng số điện thoại đúng chuẩn E.164
         if (!fullPhoneNumber.matches("^\\+[1-9]\\d{1,14}$")) {
-            Toast.makeText(PhoneNumber_screen.this, "Số điện thoại không hợp lệ", Toast.LENGTH_LONG).show();
+            Toast.makeText(PhoneNumber_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -109,7 +109,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(PhoneNumber_screen.this, "Gửi OTP thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(PhoneNumber_screen.this, getString(R.string.send_otp_error) + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override

@@ -68,7 +68,7 @@
             android:id="@+id/tv_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cài đặt"
+            android:text="@string/setting_pro"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
@@ -77,7 +77,7 @@
             android:id="@+id/tv_languagecurrency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ngôn ngữ và tiền tệ"
+            android:text="@string/language_currency_pro"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
@@ -86,7 +86,7 @@
             android:id="@+id/tv_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đánh giá"
+            android:text="@string/evaluate_pro"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
@@ -95,7 +95,7 @@
             android:id="@+id/tv_introducefriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giới thiệu bạn bè"
+            android:text="@string/refer_friends_pro"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
@@ -104,7 +104,7 @@
             android:id="@+id/tv_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Điều khoản và Điều kiện"
+            android:text="@string/terms_conditions_pro"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
@@ -113,7 +113,7 @@
             android:id="@+id/tv_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng xuất"
+            android:text="@string/sign_out_pro"
             android:textColor="#FF0000"
             android:textSize="16sp"
             android:padding="12dp"/>

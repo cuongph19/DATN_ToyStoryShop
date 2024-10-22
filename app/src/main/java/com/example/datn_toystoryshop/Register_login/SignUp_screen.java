@@ -53,20 +53,20 @@ public class SignUp_screen extends AppCompatActivity {
                 String rppassword = edrppassword.getText().toString().trim();
 
                 if (input.isEmpty()) {
-                    Toast.makeText(SignUp_screen.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!isValidEmail(input)) {
-                    Toast.makeText(SignUp_screen.this, "Vui lòng nhập địa chỉ email hợp lệ!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!isPasswordValid(password)) {
-                    Toast.makeText(SignUp_screen.this, "Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!password.equals(rppassword)) {
-                    Toast.makeText(SignUp_screen.this, "Mật khẩu không khớp!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -78,7 +78,7 @@ public class SignUp_screen extends AppCompatActivity {
                     // Đăng ký qua email
                     registerWithEmail(input, password, name);
                 } else {
-                    Toast.makeText(SignUp_screen.this, "Vui lòng nhập đúng định dạng!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_format), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -110,7 +110,7 @@ public class SignUp_screen extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(SignUp_screen.this, "Đăng ký thành công! Vui lòng nhập số điện thoại.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp_screen.this, getString(R.string.signup_sdt), Toast.LENGTH_SHORT).show();
                         // Chuyển tới màn hình nhập số điện thoại
                         Intent intent = new Intent(SignUp_screen.this, PhoneNumber_screen.class);
                         intent.putExtra("email", email);
@@ -118,7 +118,7 @@ public class SignUp_screen extends AppCompatActivity {
                         intent.putExtra("name", name);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(SignUp_screen.this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -181,7 +181,7 @@ public class SignUp_screen extends AppCompatActivity {
                         String name = getIntent().getStringExtra("name");
                         savePasswordToFirestore(phoneNumber, password, name); // Lưu mật khẩu
                     } else {
-                        Toast.makeText(SignUp_screen.this, "Xác minh OTP thất bại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -196,11 +196,10 @@ public class SignUp_screen extends AppCompatActivity {
         db.collection("users").document(phoneNumber)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(SignUp_screen.this, "Mật khẩu đã được lưu!", Toast.LENGTH_SHORT).show();
                     checkUserPasswordInFirestore(phoneNumber); // Kiểm tra dữ liệu đã lưu
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(SignUp_screen.this, "Lưu mật khẩu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -215,7 +214,7 @@ public class SignUp_screen extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(SignUp_screen.this, "Lỗi khi kiểm tra dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(SignUp_screen.this, "Lỗi khi kiểm tra dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

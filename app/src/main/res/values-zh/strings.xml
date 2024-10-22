@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    tiếng trung-->
+                <string name="app_name">ToyStory 商店</string>
+                <!-- Home_Fragment -->
+                <string name="search_product_homefm">搜索产品</string>
+                <string name="new_arrivals_homefm">新品到货</string>
+                <string name="blind_box_homefm">盲盒</string>
+                <string name="figuring_homefm">雕像</string>
+                <string name="other_products_homefm">其他产品</string>
+                <string name="art_story_homefm">艺术商店</string>
+                <string name="limited_figure_homefm">限量版</string>
+                <string name="new_product_homefm">新产品</string>
+                <string name="see_all_homefm">查看全部</string>
+                <string name="popular_product_homefm">热门产品</string>
+                <string name="store_follow_homefm">关注商店</string>
+                <string name="view_all_homefm">查看全部</string>
+                <string name="follow_homefm">关注</string>
+
+                <!-- Profile_Fragment -->
+                <string name="sign_out_success_pro">成功退出</string>
+                <string name="setting_pro">设置</string>
+                <string name="language_currency_pro">语言和货币</string>
+                <string name="evaluate_pro">评价</string>
+                <string name="refer_friends_pro">推荐给朋友</string>
+                <string name="terms_conditions_pro">条款和条件</string>
+                <string name="sign_out_pro">退出登录</string>
+
+                <!-- Currency_Language_screen -->
+                <string name="select_language">选择语言： </string>
+
+                <!-- forgot -->
+                <string name="forgot_text">验证您的信息</string>
+                <string name="forgot_text1">请输入信息以重置密码</string>
+                <string name="send_button">发送请求</string>
+                <string name="Toast_send">我们已向您的邮箱发送了重置密码的邮件！</string>
+                <string name="Toast_send_error">无法发送邮件。请检查您的电子邮件地址。</string>
+
+                <!-- phone number -->
+                <string name="send_sdt">验证您的电话号码</string>
+                <string name="send_text_phone">我们已发送带有代码的短信到您的手机号码</string>
+                <string name="send_otp_error">发送 OTP 失败：</string>
+
+                <!-- phone otp -->
+                <string name="no_otp">没有收到代码吗？重新发送代码</string>
+                <string name="otp_verify">请输入有效的 OTP。</string>
+                <string name="otp_fail">验证失败！</string>
+
+                <!-- signin -->
+                <string name="welcome_text">欢迎来到 ToyStory 商店！</string>
+                <string name="signin_account">登录您的帐户</string>
+                <string name="email_hint">电子邮件/电话号码</string>
+                <string name="password_hint">密码</string>
+                <string name="signin_button">登录</string>
+                <string name="google_login_button">通过 Google 登录</string>
+                <string name="forgot_password">忘记密码？</string>
+                <string name="signup_prompt">还没有帐户？</string>
+                <string name="signup_now">立即注册</string>
+
+                <!-- signup -->
+                <string name="signup_account">注册您的帐户</string>
+                <string name="name_hint">全名</string>
+                <string name="re_password_hint">重新输入密码</string>
+                <string name="signup_button">注册</string>
+                <string name="signin_prompt">已有帐户？</string>
+                <string name="signin_now">立即登录</string>
+                <string name="signup_sdt">注册成功！请输入您的电话号码。</string>
+
+                <!-- Toast Register_login -->
+                <string name="Toast_infor">请填写所有信息！</string>
+                <string name="Toast_email">请输入有效的电子邮件地址！</string>
+                <string name="Toast_format">请输入正确的格式！</string>
+                <string name="Toast_google">Google 登录失败！</string>
+                <string name="Toast_success">登录成功</string>
+                <string name="Toast_failure">登录失败！</string>
+                <string name="Toast_success_sign">注册成功！</string>
+                <string name="Toast_failure_signup">注册失败！</string>
+                <string name="Toast_wrong_password">密码错误！</string>
+                <string name="Toast_donot_pass">密码不匹配！</string>
+                <string name="Toast_wrong_sdt">电话号码不存在！</string>
+                <string name="Toast_pass">密码必须至少包含 6 个字符，其中至少 1 个为大写字母！</string>
+                <string name="Toast_wrong">您输入的信息不正确，请再次检查！</string>
+
+                <!-- menu -->
+                <string name="home_menu">首页</string>
+                <string name="browse_menu">浏览</string>
+                <string name="store_menu">商店</string>
+                <string name="history_menu">购买历史</string>
+                <string name="profile_menu">个人资料</string>
+
+                <string name="sort_by">排序方式</string>
+                <string name="blindbox">盲盒</string>
+                <string name="search_hint">搜索产品</string>
+                <string name="search">搜索</string>
+                <string name="other_products">其他产品</string>
+                <string name="newarrivals">新品到货</string>
+                <string name="limited_figure">限量雕像</string>
+                <string name="figuring">雕像</string>
+                <string name="art_store">艺术商店</string>
+                <string name="location">位置</string>
+                <string name="category">分类</string>
+
+                <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
+                <string name="favorite_list">收藏夹</string>
+                <string name="my_store">我的商店</string>
+                <string name="name_pro">产品名称</string>
+                <string name="add_cart">加入购物车</string>
+                <string name="brand">品牌：</string>
+        </resources>

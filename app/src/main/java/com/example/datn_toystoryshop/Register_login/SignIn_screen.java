@@ -77,16 +77,16 @@ public class SignIn_screen extends AppCompatActivity {
                 String input = edInput.getText().toString().trim();
                 String password = edPassword.getText().toString().trim();
                 if (input.isEmpty()) {
-                    Toast.makeText(SignIn_screen.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn_screen.this, getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!isValidEmail(input)) {
-                    Toast.makeText(SignIn_screen.this, "Vui lòng nhập địa chỉ email hợp lệ!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn_screen.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!isPasswordValid(password)) {
-                    Toast.makeText(SignIn_screen.this, "Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -99,7 +99,7 @@ public class SignIn_screen extends AppCompatActivity {
                         // Đăng nhập bằng email
                         loginWithEmail(input, password);
                     } else {
-                        Toast.makeText(SignIn_screen.this, "Vui lòng nhập đúng định dạng!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn_screen.this, getString(R.string.Toast_format), Toast.LENGTH_SHORT).show();
                     }
             }
         });
@@ -147,7 +147,7 @@ public class SignIn_screen extends AppCompatActivity {
             // Đăng nhập thành công, sử dụng token
             firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
-            Toast.makeText(this, "Đăng nhập Google thất bại!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.Toast_google), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -160,11 +160,11 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(SignIn_screen.this, "Thông tin bạn nhập hiện đang sai, Hãy kiểm tra lại !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -187,17 +187,15 @@ public class SignIn_screen extends AppCompatActivity {
                             String storedPassword = document.getString("password");
                             if (storedPassword != null && storedPassword.equals(password)) {
                                 // Đăng nhập thành công
-                                Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(SignIn_screen.this, "Mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(SignIn_screen.this, "Số điện thoại không tồn tại!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(SignIn_screen.this, "Lỗi khi lấy thông tin người dùng: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -210,11 +208,11 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SignIn_screen.this, "Đăng Nhập Thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(SignIn_screen.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

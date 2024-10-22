@@ -23,7 +23,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify your phone number"
+        android:text="@string/send_button"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:layout_marginBottom="16dp" />
@@ -33,7 +33,7 @@
         android:id="@+id/tvInstruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="We have sent you an SMS with a code to enter number"
+        android:text="@string/send_text_phone"
         android:textColor="#B0BEC5"
         android:textSize="14sp"
         android:gravity="center"
@@ -75,23 +75,13 @@
         android:paddingLeft="8dp" />
 </LinearLayout>
 
-    <!-- Nội dung login bằng Social -->
-<TextView
-android:id="@+id/tvLoginWithSocial"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Or login with Social network"
-android:textColor="#B0BEC5"
-android:textSize="14sp"
-android:gravity="center"
-android:layout_marginBottom="24dp" />
 
     <!-- Nút Next -->
 <Button
 android:id="@+id/btnNext"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:text="Next"
+android:text="@string/send_button"
 android:textColor="#13B48B"
 android:backgroundTint="#FFFFFF"
 android:padding="12dp"
