@@ -30,7 +30,8 @@
     <!-- Currency_Language_screen -->
     <string name="select_language">Chọn ngôn ngữ: </string>
 
-    <!-- Register_login -->
+
+<!-- Register_login -->
     <!-- forgot_pass -->
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
