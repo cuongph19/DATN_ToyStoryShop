@@ -58,13 +58,13 @@
             android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.Welcome_screen"
+            android:name=".Home_screen"
             android:exported="false" />
         <activity
             android:name=".Product_detail"
             android:exported="false" />
         <activity
-            android:name=".Home_screen"
+            android:name=".Register_login.Welcome_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

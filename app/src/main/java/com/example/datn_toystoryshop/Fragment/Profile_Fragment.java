@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,21 +32,14 @@ public class Profile_Fragment extends Fragment {
         // Constructor mặc định
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate layout cho Fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
         // Khởi tạo các view từ layout
         ivAvatar = view.findViewById(R.id.iv_avatar);
         tvname = view.findViewById(R.id.tv_user_name);
-        tvphone = view.findViewById(R.id.tv_phone_number);
+          tvphone = view.findViewById(R.id.tv_phone_number);
         tvmail = view.findViewById(R.id.tv_email);
 
         tvSettings = view.findViewById(R.id.tv_settings);
@@ -55,6 +49,41 @@ public class Profile_Fragment extends Fragment {
         tvTerms = view.findViewById(R.id.tv_terms);
         tvLogout = view.findViewById(R.id.tv_logout);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String phoneNumber = bundle.getString("phoneNumber");
+            String email = bundle.getString("email");
+            String gmail = bundle.getString("gmail");
+            // Kiểm tra và hiển thị số điện thoại nếu không null
+            if (phoneNumber != null) {
+
+
+
+
+                //////////////////////////code lỗi//////////////////////////////////////
+                Toast.makeText(getActivity(), "Phone number: " + phoneNumber, Toast.LENGTH_SHORT).show();
+                tvphone.setText(phoneNumber);
+                Log.d("ProfileFragment", "Phone number set: " + tvphone.getText().toString());
+                Toast.makeText(getActivity(), "Phone set: " + tvphone.getText().toString(), Toast.LENGTH_SHORT).show();
+                //////////////////////////code lỗi//////////////////////////////////////
+
+            }
+
+            // Kiểm tra và hiển thị email nếu không null
+            if (email != null) {
+                Toast.makeText(getActivity(), "Email: " + email, Toast.LENGTH_SHORT).show();
+                tvmail.setText(email);
+            } else {
+                tvmail.setText("");
+            }
+            if (gmail != null) {
+                Toast.makeText(getActivity(), "gmail: " + gmail, Toast.LENGTH_SHORT).show();
+                Log.d("gmail", "Gmail3: " + gmail);
+                tvmail.setText(gmail);
+            } else {
+                tvmail.setText("");
+            }
+        }
 
         // Xử lý sự kiện cho mục "Cài đặt"
         tvSettings.setOnClickListener(v -> {
@@ -98,5 +127,7 @@ public class Profile_Fragment extends Fragment {
             startActivity(intent);
             getActivity().finish(); // Đóng tất cả các Activity hiện tại
         });
+        return view;
+
     }
 }
