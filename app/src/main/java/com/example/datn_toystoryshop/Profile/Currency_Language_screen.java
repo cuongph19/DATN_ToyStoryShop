@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_toystoryshop.Home_screen;
@@ -62,9 +63,8 @@ public class Currency_Language_screen extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Currency_Language_screen.this, Home_screen.class);
-                startActivity(intent);
-                finish(); // Kết thúc activity hiện tại
+
+                onBackPressed();
             }
         });
 
@@ -138,5 +138,12 @@ public class Currency_Language_screen extends AppCompatActivity {
             Log.e(TAG, "Error setting locale", e);  // Log lỗi nếu có exception
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        // Tạo Intent để trở về Home_screen
+        super.onBackPressed();
+        Intent intent = new Intent(Currency_Language_screen.this, Home_screen.class);
+        startActivity(intent);
+        finish(); // Kết thúc activity hiện tại
+    }
 }

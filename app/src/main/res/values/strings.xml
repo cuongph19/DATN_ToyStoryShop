@@ -30,6 +30,59 @@
     <!-- Currency_Language_screen -->
     <string name="select_language">Chọn ngôn ngữ: </string>
 
+    <!-- Evaluate_screen -->
+    <string name="star_rating_eva">Vui lòng chọn đánh giá sao </string>
+    <string name="thank_review_eva">Cảm ơn bạn đã gửi đánh giá! </string>
+    <string name="review_shop_eva">Đánh giá ToyStory Shop </string>
+    <string name="feedback_eva">Nhập phản hồi của bạn tại đây</string>
+    <string name="submit_review_eva">Gửi đánh giá</string>
+
+    <!-- Introduce_Friends_screen -->
+    <string name="intro_title_int">Khám phá ngay ToyStory Shop với các mô hình đồ chơi độc đáo và nhận quà ưu đãi với mã giới thiệu:</string>
+    <string name="share_with_friends_int">Chia sẻ với bạn bè qua</string>
+    <string name="intro_rewards_int">Giới thiệu &amp; nhận ngay quà ưu đãi</string>
+    <string name="share_referral_code_int">Chia sẻ mã giới thiệu của bạn</string>
+    <string name="steps_to_get_rewards_int">Hướng dẫn bạn bè thực hiện qua các bước sau để cả hai nhận quà:</string>
+    <string name="step_1_int">1. Mở ứng dụng ToyStory Shop và chọn mục Giới thiệu.</string>
+    <string name="step_2_int">2. Nhập mã giới thiệu khi đăng ký tài khoản.</string>
+    <string name="step_3_int">3. Sau khi hoàn tất, cả hai bạn sẽ nhận ưu đãi đặc biệt.</string>
+    <string name="share_button_int">Chia sẻ với bạn bè</string>
+
+    <!-- Setting_screen -->
+
+
+    <!-- Terms_Conditions_screen -->
+    <string name="conditions_content_ter">
+        <![CDATA[
+        Chào mừng bạn đến với ứng dụng ToyStory Shop! Vui lòng đọc kỹ các Điều khoản và Điều kiện dưới đây trước khi sử dụng ứng dụng của chúng tôi.\n\n
+
+        1. Điều Khoản Sử Dụng: Khi truy cập và sử dụng ứng dụng ToyStory Shop, bạn đồng ý tuân theo các Điều khoản này. Nếu bạn không đồng ý, vui lòng ngừng sử dụng ứng dụng.\n\n
+
+        2. Đăng Ký Tài Khoản: Bạn phải đăng ký tài khoản để mua hàng và sử dụng các tính năng của ToyStory Shop. Bạn chịu trách nhiệm về bảo mật tài khoản và không chia sẻ thông tin tài khoản.\n\n
+
+        3. Sản Phẩm và Giá Cả: Chúng tôi cung cấp các sản phẩm đồ chơi mô hình chính hãng. Giá sản phẩm có thể thay đổi mà không cần thông báo trước, nhưng giá khi đặt hàng sẽ là giá thanh toán cuối cùng.\n\n
+
+        4. Thanh Toán: ToyStory Shop hỗ trợ các phương thức thanh toán trực tuyến. Bạn cần đảm bảo thanh toán đầy đủ trước khi chúng tôi tiến hành giao hàng.\n\n
+
+        5. Chính Sách Giao Hàng: Chúng tôi giao hàng toàn quốc với thời gian từ 3-7 ngày làm việc. Phí giao hàng sẽ được hiển thị khi thanh toán.\n\n
+
+        6. Chính Sách Đổi Trả: Sản phẩm có thể được đổi trả trong vòng 7 ngày nếu chưa qua sử dụng và còn nguyên bao bì. Nếu sản phẩm lỗi do nhà sản xuất, bạn sẽ được đổi miễn phí.\n\n
+
+        7. Bảo Mật Thông Tin: Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn và chỉ sử dụng chúng để cung cấp dịch vụ tốt nhất.\n\n
+
+        8. Sửa Đổi Điều Khoản: ToyStory Shop có quyền thay đổi các Điều khoản này mà không cần thông báo trước. Các thay đổi sẽ có hiệu lực ngay khi được cập nhật.\n\n
+
+        Bằng cách sử dụng ứng dụng ToyStory Shop, bạn đồng ý với các Điều khoản và Điều Kiện này.\n\n
+        ]]>
+    </string>
+    <string name="accepted_message_ter">Cảm ơn bạn đã chấp nhận điều khoản!</string>
+    <string name="confirm_exit_without_accepting_ter">Bạn có chắc chắn muốn thoát mà không chấp nhận điều khoản?</string>
+    <string name="exit_button_ter">Thoát</string>
+    <string name="stay_button_ter">Ở lại</string>
+    <string name="terms_and_conditions_title_ter">Điều khoản và Điều kiện</string>
+    <string name="agree_statement_ter">Tôi đồng ý với các điều khoản và điều kiện</string>
+    <string name="accept_button_ter">Chấp nhận</string>
+
 <!-- Register_login -->
     <!-- forgot_pass -->
     <string name="forgot_text">Xác minh thông tin của bạn</string>
@@ -118,15 +171,14 @@
     <string name="brand">Thương hiệu: </string>
 
     <string-array name="country_codes">
-<!--        Việt Nam-->
+        <!--        Việt Nam-->
         <item>+84</item>
-<!--        Vương Quốc Anh-->
+        <!--        Vương Quốc Anh-->
         <item>+44</item>
-<!--        Trung Quốc-->
+        <!--        Trung Quốc-->
         <item>+86</item>
-<!--        Nhật Bản-->
+        <!--        Nhật Bản-->
         <item>+81</item>
     </string-array>
-
 
 </resources>

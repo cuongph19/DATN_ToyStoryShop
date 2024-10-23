@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -32,6 +33,31 @@ public class Home_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+// Nhận dữ liệu từ Intent
+        Intent intent = getIntent();
+        String phoneNumber = intent.getStringExtra("phoneNumber");
+        String email = intent.getStringExtra("email");
+        String gmail = intent.getStringExtra("gmail");
+
+        // Truyền dữ liệu cho Fragment
+        Profile_Fragment profileFragment = new Profile_Fragment();
+        Bundle bundle = new Bundle();
+        // Chỉ thêm vào Bundle nếu không null
+        if (phoneNumber != null) {
+            bundle.putString("phoneNumber", phoneNumber);
+        }
+        if (email != null) {
+            bundle.putString("email", email);
+        }
+        if (gmail != null) {
+            bundle.putString("gmail", gmail);
+        }
+        profileFragment.setArguments(bundle);
+
+        // Hiển thị Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentLayout, profileFragment)
+                .commit();
 
         bottomNavigationView =findViewById(R.id.bottomNaviView);
         frameLayout = findViewById(R.id.fragmentLayout);

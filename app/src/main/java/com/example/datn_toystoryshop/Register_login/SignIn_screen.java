@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.datn_toystoryshop.Home_screen;
@@ -30,10 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignIn_screen extends AppCompatActivity {
     private TextInputEditText edInput, edPassword;
-    private Button btnLogin, btnGoogleLogin;
+    private Button btnLogin;
     private TextView txtSignup, txtForgotPass;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private LinearLayout btnGoogleLogin;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
 
@@ -169,8 +171,12 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // Lấy email từ tài khoản Google
+                            String gmail = acct.getEmail();
+
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                            intent.putExtra("gmail", gmail);
                             startActivity(intent);
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
@@ -198,6 +204,7 @@ public class SignIn_screen extends AppCompatActivity {
                                 // Đăng nhập thành công
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                intent.putExtra("phoneNumber", finalPhoneNumber);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
@@ -219,6 +226,7 @@ public class SignIn_screen extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                            intent.putExtra("email", email);
                             startActivity(intent);
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();
