@@ -56,10 +56,6 @@ public class SignUp_screen extends AppCompatActivity {
                     Toast.makeText(SignUp_screen.this, getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!isValidEmail(input)) {
-                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 if (!isPasswordValid(password)) {
                     Toast.makeText(SignUp_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();

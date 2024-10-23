@@ -29,12 +29,18 @@
         <!-- Currency_Language_screen -->
         <string name="select_language">Select Language: </string>
 
-        <!-- forgot -->
+        <!-- forgot_pass -->
         <string name="forgot_text">Verify your information</string>
         <string name="forgot_text1">Please enter your information to reset your password</string>
         <string name="send_button">Send Request</string>
         <string name="Toast_send">We have sent a mail to your inbox to reset your password!</string>
         <string name="Toast_send_error">Cannot send mail. Please check your email address again.</string>
+
+        <!-- forgotOTP -->
+        <string name="forgot_otp_pass">Please enter a new password</string>
+        <string name="forgot_otp_success">Password updated successfully!</string>
+        <string name="forgot_otp_error">Password update failed!</string>
+        <string name="forgot_otp_title">Update password!</string>
 
         <!-- phone number -->
         <string name="send_sdt">Verify your phone number</string>

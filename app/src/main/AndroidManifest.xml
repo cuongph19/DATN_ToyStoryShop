@@ -49,6 +49,9 @@
             android:name=".Register_login.Forgot_pass"
             android:exported="false" />
         <activity
+            android:name=".Register_login.ForgotOTP_screen"
+            android:exported="false" />
+        <activity
             android:name=".Register_login.SignUp_screen"
             android:exported="false" />
         <activity

@@ -61,7 +61,22 @@ public class SignIn_screen extends AppCompatActivity {
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
         txtSignup = findViewById(R.id.txtSignup);
         txtForgotPass = findViewById(R.id.txtForgotPass);
-
+        //truyền dữ liệu từ ForgotOTP_screen
+        Intent intent = getIntent();
+        if (intent != null) {
+            String phoneNumber = intent.getStringExtra("phoneNumber");
+            String newPassword = intent.getStringExtra("newPassword");
+            if (phoneNumber != null && phoneNumber.startsWith("+84")) {
+                phoneNumber = phoneNumber.replaceFirst("\\+84", "0");
+            }
+            // Gán dữ liệu vào các TextInputEditText
+            if (phoneNumber != null) {
+                edInput.setText(phoneNumber);
+            }
+            if (newPassword != null) {
+                edPassword.setText(newPassword);
+            }
+        }
         // Thiết lập OnClickListener cho nút đăng nhập Google
         btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,17 +95,11 @@ public class SignIn_screen extends AppCompatActivity {
                     Toast.makeText(SignIn_screen.this, getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!isValidEmail(input)) {
-                    Toast.makeText(SignIn_screen.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 if (!isPasswordValid(password)) {
                     Toast.makeText(SignIn_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
 
                     if (isPhoneNumber(input)) {
                         // Đăng nhập bằng số điện thoại
