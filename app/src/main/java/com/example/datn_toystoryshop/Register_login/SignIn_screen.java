@@ -61,7 +61,22 @@ public class SignIn_screen extends AppCompatActivity {
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
         txtSignup = findViewById(R.id.txtSignup);
         txtForgotPass = findViewById(R.id.txtForgotPass);
-
+        //truyền dữ liệu từ ForgotOTP_screen
+        Intent intent = getIntent();
+        if (intent != null) {
+            String phoneNumber = intent.getStringExtra("phoneNumber");
+            String newPassword = intent.getStringExtra("newPassword");
+            if (phoneNumber != null && phoneNumber.startsWith("+84")) {
+                phoneNumber = phoneNumber.replaceFirst("\\+84", "0");
+            }
+            // Gán dữ liệu vào các TextInputEditText
+            if (phoneNumber != null) {
+                edInput.setText(phoneNumber);
+            }
+            if (newPassword != null) {
+                edPassword.setText(newPassword);
+            }
+        }
         // Thiết lập OnClickListener cho nút đăng nhập Google
         btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,17 +95,11 @@ public class SignIn_screen extends AppCompatActivity {
                     Toast.makeText(SignIn_screen.this, getString(R.string.Toast_infor), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!isValidEmail(input)) {
-                    Toast.makeText(SignIn_screen.this, getString(R.string.Toast_email), Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 if (!isPasswordValid(password)) {
                     Toast.makeText(SignIn_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
 
                     if (isPhoneNumber(input)) {
                         // Đăng nhập bằng số điện thoại
@@ -160,8 +169,12 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // Lấy email từ tài khoản Google
+                            String gmail = acct.getEmail();
+
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                            intent.putExtra("gmail", gmail);
                             startActivity(intent);
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
@@ -189,6 +202,7 @@ public class SignIn_screen extends AppCompatActivity {
                                 // Đăng nhập thành công
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                intent.putExtra("phoneNumber", finalPhoneNumber);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
@@ -210,6 +224,7 @@ public class SignIn_screen extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                            intent.putExtra("email", email);
                             startActivity(intent);
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();

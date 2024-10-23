@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ToyStory Shop</string>
 
-<!-- Fragment -->
+    <!-- Fragment -->
     <!-- Home_Fragment -->
     <string name="search_product_homefm">Tìm kiếm sản phẩm</string>
     <string name="new_arrivals_homefm">Hàng mới về</string>
@@ -26,17 +26,23 @@
     <string name="terms_conditions_pro">Điều khoản và Điều kiện</string>
     <string name="sign_out_pro">Đăng xuất</string>
 
-<!-- Profile -->
+    <!-- Profile -->
     <!-- Currency_Language_screen -->
     <string name="select_language">Chọn ngôn ngữ: </string>
 
-<!-- Register_login -->
-    <!-- forgot -->
+    <!-- Register_login -->
+    <!-- forgot_pass -->
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
     <string name="send_button">Gửi yêu cầu</string>
     <string name="Toast_send">Chúng tôi đã gửi mail đến hộp thư của bạn để đổi mật khẩu!</string>
     <string name="Toast_send_error">Không thể gửi mail. Hãy kiểm tra lại địa chỉ email.</string>
+
+    <!-- forgotOTP -->
+    <string name="forgot_otp_pass">Vui lòng nhập mật khẩu mới</string>
+    <string name="forgot_otp_success">Cập nhập mật khẩu thành công!</string>
+    <string name="forgot_otp_error">Cập nhập mật khẩu thất bại!</string>
+    <string name="forgot_otp_title">Cập nhập mật khẩu !</string>
 
     <!-- phone number -->
     <string name="send_sdt">Xác minh số điện thoại của bạn</string>
@@ -81,9 +87,9 @@
     <string name="Toast_donot_pass">Mật khẩu không khớp!</string>
     <string name="Toast_wrong_sdt">Số điện thoại không tồn tại!</string>
     <string name="Toast_pass">Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!</string>
-    <string name="Toast_wrong">Thông tin bạn nhập hiện đang sai, Hãy kiểm tra lại !</string>
+    <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
 
-<!-- menu -->
+    <!-- menu -->
     <string name="home_menu">Trang Chủ</string>
     <string name="browse_menu">Tìm Kiếm</string>
     <string name="store_menu">Cửa Hàng</string>
@@ -112,15 +118,17 @@
     <string name="brand">Thương hiệu: </string>
 
     <string-array name="country_codes">
-<!--        Việt Nam-->
+        <!--        Việt Nam-->
         <item>+84</item>
-<!--        Vương Quốc Anh-->
+        <!--        Vương Quốc Anh-->
         <item>+44</item>
-<!--        Trung Quốc-->
+        <!--        Trung Quốc-->
         <item>+86</item>
-<!--        Nhật Bản-->
+        <!--        Nhật Bản-->
         <item>+81</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
