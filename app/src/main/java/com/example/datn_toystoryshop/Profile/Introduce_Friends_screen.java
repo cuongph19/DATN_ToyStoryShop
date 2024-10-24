@@ -34,19 +34,19 @@ public class Introduce_Friends_screen extends AppCompatActivity {
         String referralCode = getRandomReferralCode();
         tvReferralCode.setText(referralCode);
 
-//        btnShare.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                shareApp(referralCode);
-//            }
-//        });
-//
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareApp(referralCode);
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     // Phương thức chọn mã ngẫu nhiên từ danh sách
