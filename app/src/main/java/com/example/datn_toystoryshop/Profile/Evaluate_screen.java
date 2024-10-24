@@ -32,20 +32,20 @@ public class Evaluate_screen extends AppCompatActivity {
         etFeedback = findViewById(R.id.etFeedback);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);
-//
-//        // Nút quay lại đăng nhập
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-//        btnSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                submitFeedback();
-//            }
-//        });
+
+        // Nút quay lại đăng nhập
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitFeedback();
+            }
+        });
     }
 
     private void submitFeedback() {
