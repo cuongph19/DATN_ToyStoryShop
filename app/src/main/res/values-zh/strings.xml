@@ -29,7 +29,57 @@
                 <!-- Currency_Language_screen -->
                 <string name="select_language">选择语言： </string>
 
-                <!-- forgot_pass -->
+    <!-- Evaluate_screen -->
+    <string name="star_rating_eva">请选择星级评分</string>
+    <string name="thank_review_eva">感谢您的评价！</string>
+    <string name="review_shop_eva">评价ToyStory商店</string>
+    <string name="feedback_eva">在这里输入您的反馈</string>
+    <string name="submit_review_eva">提交评价</string>
+
+    <!-- Introduce_Friends_screen -->
+    <string name="intro_title_int">立即探索ToyStory商店，通过独特的玩具模型和您的推荐码获取特别奖励：</string>
+    <string name="share_with_friends_int">通过以下方式与朋友分享</string>
+    <string name="intro_rewards_int">推荐并获取特别奖励</string>
+    <string name="share_referral_code_int">分享您的推荐码</string>
+    <string name="steps_to_get_rewards_int">引导朋友按照以下步骤操作，双方皆可获得奖励：</string>
+    <string name="step_1_int">1. 打开ToyStory商店应用程序并选择推荐。</string>
+    <string name="step_2_int">2. 注册账号时输入推荐码。</string>
+    <string name="step_3_int">3. 完成步骤后，你们双方将获得特别奖励。</string>
+    <string name="share_button_int">与朋友分享</string>
+
+    <!-- Terms_Conditions_screen -->
+    <string name="conditions_content_ter">
+    <![CDATA[
+    欢迎来到ToyStory商店应用程序！在使用我们的应用程序之前，请仔细阅读以下条款和条件。\n\n
+
+    1. 使用条款：通过访问和使用ToyStory商店应用程序，您同意这些条款。如果不同意，请停止使用应用程序。\n\n
+
+    2. 账号注册：您必须注册账号才能购买和使用ToyStory商店的功能。您有责任确保账号安全，并且不分享账号信息。\n\n
+
+    3. 产品与定价：我们提供正品模型玩具。产品价格可能会在不通知的情况下更改，但下单时的价格将是最终支付价格。\n\n
+
+    4. 支付：ToyStory商店支持在线支付方式。您需确保支付完成后我们才会发货。\n\n
+
+    5. 运输政策：我们在全国范围内发货，发货时间为3-7个工作日。运费将在结算时显示。\n\n
+
+    6. 退换政策：产品在未使用且保持原包装的情况下，可在7天内退换。如果因制造缺陷而出现问题，您将免费更换。\n\n
+
+    7. 信息安全：我们致力于保护您的个人信息，仅用于提供最佳服务。\n\n
+
+    8. 条款修改：ToyStory商店保留在不通知的情况下更改这些条款的权利。更改将在更新后立即生效。\n\n
+
+    使用ToyStory商店应用程序，即表示您同意这些条款和条件。\n\n
+    ]]>
+    </string>
+    <string name="accepted_message_ter">感谢您接受条款！</string>
+    <string name="confirm_exit_without_accepting_ter">您确定要在不接受条款的情况下退出吗？</string>
+    <string name="exit_button_ter">退出</string>
+    <string name="stay_button_ter">留下</string>
+    <string name="terms_and_conditions_title_ter">条款和条件</string>
+    <string name="agree_statement_ter">我同意条款和条件</string>
+    <string name="accept_button_ter">接受</string>
+
+    <!-- forgot_pass -->
                 <string name="forgot_text">验证您的信息</string>
                 <string name="forgot_text1">请输入信息以重置密码</string>
                 <string name="send_button">发送请求</string>

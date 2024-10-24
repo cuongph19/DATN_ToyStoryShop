@@ -30,6 +30,56 @@
                 <!-- Currency_Language_screen -->
                 <string name="select_language">言語を選択してください： </string>
 
+    <!-- Evaluate_screen -->
+    <string name="star_rating_eva">星評価を選択してください</string>
+    <string name="thank_review_eva">ご評価ありがとうございます！</string>
+    <string name="review_shop_eva">ToyStoryショップのレビュー</string>
+    <string name="feedback_eva">ここにフィードバックを入力してください</string>
+    <string name="submit_review_eva">レビューを送信</string>
+
+    <!-- Introduce_Friends_screen -->
+    <string name="intro_title_int">今すぐToyStoryショップを探索し、ユニークなおもちゃモデルと紹介コードで特別な報酬を受け取ろう：</string>
+    <string name="share_with_friends_int">友達とシェアする</string>
+    <string name="intro_rewards_int">紹介して特別な報酬をゲット</string>
+    <string name="share_referral_code_int">紹介コードをシェア</string>
+    <string name="steps_to_get_rewards_int">以下の手順を友達に案内して、両方に報酬をゲット：</string>
+    <string name="step_1_int">1. ToyStoryショップアプリを開き、「紹介」を選択。</string>
+    <string name="step_2_int">2. アカウント登録時に紹介コードを入力。</string>
+    <string name="step_3_int">3. 手順を完了後、両方に特別な報酬が届きます。</string>
+    <string name="share_button_int">友達とシェア</string>
+
+    <!-- Terms_Conditions_screen -->
+    <string name="conditions_content_ter">
+    <![CDATA[
+    ToyStoryショップアプリへようこそ！アプリケーションを使用する前に、以下の利用規約をよくお読みください。\n\n
+
+    1. 利用規約：ToyStoryショップアプリにアクセスおよび使用することで、これらの規約に同意したものとみなします。不同意の場合は、アプリの使用を中止してください。\n\n
+
+    2. アカウント登録：購入およびToyStoryショップの機能を使用するには、アカウント登録が必要です。アカウントのセキュリティを確保し、情報を共有しないようにする責任はあなたにあります。\n\n
+
+     3. 製品と価格設定：私たちは正規のモデルおもちゃを提供しています。製品の価格は予告なしに変更される場合がありますが、注文時の価格が最終支払額となります。\n\n
+
+    4. 支払い：ToyStoryショップではオンライン支払い方法をサポートしています。配送を行う前に全額を支払う必要があります。\n\n
+
+    5. 配送ポリシー：全国配送対応で、3〜7営業日以内にお届けします。送料はチェックアウト時に表示されます。\n\n
+
+    6. 返品ポリシー：未使用で元の包装のままの場合、7日以内に返品可能です。製造上の欠陥があった場合、無料で交換いたします。\n\n
+
+    7. 情報セキュリティ：個人情報を保護し、最良のサービスを提供するためにのみ使用します。\n\n
+
+    8. 規約の変更：ToyStoryショップは、予告なしにこれらの規約を変更する権利を有します。変更は、更新された時点で直ちに有効になります。\n\n
+
+    ToyStoryショップアプリを使用することで、これらの利用規約に同意したものとみなします。\n\n
+    ]]>
+    </string>
+    <string name="accepted_message_ter">規約を承諾していただきありがとうございます！</string>
+    <string name="confirm_exit_without_accepting_ter">規約を承諾せずに終了してもよろしいですか？</string>
+    <string name="exit_button_ter">終了</string>
+    <string name="stay_button_ter">滞在</string>
+    <string name="terms_and_conditions_title_ter">利用規約</string>
+    <string name="agree_statement_ter">利用規約に同意します</string>
+    <string name="accept_button_ter">承諾</string>
+
                 <!-- forgot_pass -->
                 <string name="forgot_text">あなたの情報を確認します</string>
                 <string name="forgot_text1">パスワードをリセットするために情報を入力してください</string>

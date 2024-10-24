@@ -29,6 +29,57 @@
         <!-- Currency_Language_screen -->
         <string name="select_language">Select Language: </string>
 
+        <!-- Evaluate_screen -->
+        <string name="star_rating_eva">Please select a star rating</string>
+        <string name="thank_review_eva">Thank you for your review!</string>
+        <string name="review_shop_eva">Review ToyStory Shop</string>
+        <string name="feedback_eva">Enter your feedback here</string>
+        <string name="submit_review_eva">Submit Review</string>
+
+        <!-- Introduce_Friends_screen -->
+        <string name="intro_title_int">Discover ToyStory Shop now with unique toy models and receive special rewards with your referral code:</string>
+        <string name="share_with_friends_int">Share with friends via</string>
+        <string name="intro_rewards_int">Refer &amp; receive special rewards</string>
+        <string name="share_referral_code_int">Share your referral code</string>
+        <string name="steps_to_get_rewards_int">Guide your friends through the following steps to get rewards for both of you:</string>
+        <string name="step_1_int">1. Open the ToyStory Shop app and select Referral.</string>
+        <string name="step_2_int">2. Enter the referral code when registering an account.</string>
+        <string name="step_3_int">3. After completing the steps, both of you will receive special rewards.</string>
+        <string name="share_button_int">Share with friends</string>
+
+        <!-- Terms_Conditions_screen -->
+        <string name="conditions_content_ter">
+    <![CDATA[
+    Welcome to the ToyStory Shop app! Please read the following Terms and Conditions carefully before using our application.\n\n
+
+    1. Terms of Use: By accessing and using the ToyStory Shop app, you agree to these Terms. If you do not agree, please stop using the app.\n\n
+
+    2. Account Registration: You must register an account to purchase and use ToyStory Shop features. You are responsible for securing your account and not sharing your account information.\n\n
+
+    3. Products and Pricing: We offer genuine model toys. Product prices may change without prior notice, but the order price will be the final payment amount.\n\n
+
+    4. Payment: ToyStory Shop supports online payment methods. You need to ensure full payment before we proceed with delivery.\n\n
+
+    5. Shipping Policy: We ship nationwide with a delivery time of 3-7 working days. Shipping fees will be displayed during checkout.\n\n
+
+    6. Return Policy: Products can be returned within 7 days if unused and in original packaging. If the product is defective due to manufacturing, you will receive a free exchange.\n\n
+
+    7. Information Security: We are committed to protecting your personal information and using it only to provide the best service.\n\n
+
+    8. Terms Modification: ToyStory Shop reserves the right to change these Terms without prior notice. Changes will take effect immediately upon being updated.\n\n
+
+    By using the ToyStory Shop app, you agree to these Terms and Conditions.\n\n
+    ]]>
+</string>
+        <string name="accepted_message_ter">Thank you for accepting the terms!</string>
+        <string name="confirm_exit_without_accepting_ter">Are you sure you want to exit without accepting the terms?</string>
+        <string name="exit_button_ter">Exit</string>
+        <string name="stay_button_ter">Stay</string>
+        <string name="terms_and_conditions_title_ter">Terms and Conditions</string>
+        <string name="agree_statement_ter">I agree to the terms and conditions</string>
+        <string name="accept_button_ter">Accept</string>
+
+
         <!-- forgot_pass -->
         <string name="forgot_text">Verify your information</string>
         <string name="forgot_text1">Please enter your information to reset your password</string>
