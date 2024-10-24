@@ -27,7 +27,7 @@ public class Terms_Conditions_screen extends AppCompatActivity {
     private static final String PREFS_NAME = "TermsPrefs";
     private static final String KEY_CHECKBOX_AGREE = "checkbox_agree";
 
-    // Biến để kiểm tra người dùng đã nhấn Accept hay chưa
+    // Biến để kiểm tra người dùng đã nhấn Accept h ay chưa
     private boolean isAccepted = false;
 
     @Override
@@ -40,21 +40,21 @@ public class Terms_Conditions_screen extends AppCompatActivity {
         tvTerms = findViewById(R.id.tvTerms);
         btnBack = findViewById(R.id.btnBack);
 
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkboxAgree.setChecked(false);  // Reset CheckBox về không được chọn
-//                btnAccept.setEnabled(false);      // Tắt nút Accept
-//
-//                // Lưu trạng thái mới vào SharedPreferences
-//                SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-//                editor.putBoolean(KEY_CHECKBOX_AGREE, false); // Lưu trạng thái là chưa đồng ý
-//                editor.apply();
-//
-//                // Hành động mặc định của nút Back
-//                onBackPressed(); // Gọi phương thức onBackPressed() để thực hiện hành động mặc định
-//            }
-//        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkboxAgree.setChecked(false);  // Reset CheckBox về không được chọn
+                btnAccept.setEnabled(false);      // Tắt nút Accept
+
+                // Lưu trạng thái mới vào SharedPreferences
+                SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean(KEY_CHECKBOX_AGREE, false); // Lưu trạng thái là chưa đồng ý
+                editor.apply();
+
+                // Hành động mặc định của nút Back
+                onBackPressed(); // Gọi phương thức onBackPressed() để thực hiện hành động mặc định
+            }
+        });
         // Load điều khoản vào TextView từ strings.xml
         tvTerms.setText(getString(R.string.conditions_content_ter));
 
