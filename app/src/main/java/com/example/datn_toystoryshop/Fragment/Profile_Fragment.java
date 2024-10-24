@@ -114,7 +114,7 @@ public class Profile_Fragment extends Fragment {
         // Xử lý sự kiện cho mục "Điều khoản & Điều kiện"
         tvTerms.setOnClickListener(v -> {
             // Chuyển tới trang điều khoản và điều kiện
-            Intent intent = new Intent(getActivity(), Terms_Conditions_screen   .class);
+            Intent intent = new Intent(getActivity(), Terms_Conditions_screen.class);
             startActivity(intent);
         });
 

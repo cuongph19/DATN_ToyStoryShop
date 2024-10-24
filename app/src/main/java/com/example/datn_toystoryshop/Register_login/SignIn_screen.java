@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.datn_toystoryshop.Home_screen;
@@ -30,10 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignIn_screen extends AppCompatActivity {
     private TextInputEditText edInput, edPassword;
-    private Button btnLogin, btnGoogleLogin;
+    private Button btnLogin;
     private TextView txtSignup, txtForgotPass;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private LinearLayout btnGoogleLogin;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
 
