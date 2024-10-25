@@ -24,10 +24,12 @@
         <string name="evaluate_pro">Rate Us</string>
         <string name="refer_friends_pro">Refer Friends</string>
         <string name="terms_conditions_pro">Terms and Conditions</string>
+        <string name="privacy_security_pro">Privacy &amp; Security</string>
         <string name="sign_out_pro">Sign Out</string>
 
         <!-- Currency_Language_screen -->
         <string name="select_language">Select Language: </string>
+        <string name="select_currency">Select currency:</string>
 
         <!-- Evaluate_screen -->
         <string name="star_rating_eva">Please select a star rating</string>
@@ -46,6 +48,50 @@
         <string name="step_2_int">2. Enter the referral code when registering an account.</string>
         <string name="step_3_int">3. After completing the steps, both of you will receive special rewards.</string>
         <string name="share_button_int">Share with friends</string>
+
+        <!-- Privacy_Security_screen -->
+        <string name="privacy_security_title">Privacy &amp; Security</string>
+        <string name="privacy_content">
+    <![CDATA[
+    ToyStory Shop is committed to protecting your privacy and personal information security. Please read the following terms carefully to understand how we use and protect your information.\n\n
+
+    1. Collection and Use of Personal Data:\n
+    We collect personal information such as your name, address, phone number, email, and payment details to provide the best service. This information is used solely to complete orders, support customers, and enhance your experience.\n\n
+
+    2. Cookies and Tracking Technologies:\n
+    ToyStory Shop uses cookies and tracking technologies to personalize your experience and monitor browsing behavior for service improvements. You can choose to decline or manage cookies as needed.\n\n
+
+    3. Access, Edit, and Delete Data Rights:\n
+    You have the right to access, edit, or request deletion of your personal information. Please contact us via your account or support to proceed.\n\n
+
+    4. Sharing Information with Third Parties:\n
+    ToyStory Shop shares information with third parties only when necessary, such as with delivery or payment partners, to fulfill your orders. These parties adhere to high security standards to protect your information.\n\n
+
+    5. Information Security:\n
+    We implement technical and organizational measures to protect personal data, including encryption and two-factor authentication. All payment transactions are encrypted to secure your financial data.\n\n
+
+    6. Privacy Policy Updates:\n
+    ToyStory Shop reserves the right to modify its privacy and security policies as necessary. We encourage you to check periodically to stay informed about your rights and responsibilities.\n\n
+
+    7. Contact and Support:\n
+    If you have questions or requests regarding privacy, please contact us via our support email or phone number.
+    ]]>
+</string>
+        <string name="privacy_agree">I have read and agree to the Privacy &amp; Security terms.</string>
+        <string name="accepted_message_privacy">You have agreed to the Privacy &amp; Security terms.</string>
+        <string name="confirm_exit_without_accepting_privacy">
+        Are you sure you want to exit without agreeing to the Privacy &amp; Security terms?
+        </string>
+
+        <!-- Setting_screen -->
+        <string name="dark_mode_enabled_set">Dark mode has been </string>
+        <string name="dark_mode_on_set">enabled</string>
+        <string name="dark_mode_off_set">disabled</string>
+        <string name="update_profile_set">Update profile</string>
+        <string name="change_password_set">Change password</string>
+        <string name="notification_set">Notifications</string>
+        <string name="dark_mode_set">Dark mode</string>
+        <string name="contact_support_set">Contact support</string>
 
         <!-- Terms_Conditions_screen -->
         <string name="conditions_content_ter">
@@ -78,7 +124,6 @@
         <string name="terms_and_conditions_title_ter">Terms and Conditions</string>
         <string name="agree_statement_ter">I agree to the terms and conditions</string>
         <string name="accept_button_ter">Accept</string>
-
 
         <!-- forgot_pass -->
         <string name="forgot_text">Verify your information</string>
@@ -145,6 +190,10 @@
         <string name="history_menu">Purchase History</string>
         <string name="profile_menu">Profile</string>
 
+
+
+
+
         <string name="sort_by">Sort By</string>
         <string name="blindbox">Blind Box</string>
         <string name="search_hint">Search for products</string>
@@ -163,4 +212,4 @@
         <string name="name_pro">Product Name</string>
         <string name="add_cart">Add to Cart</string>
         <string name="brand">Brand: </string>
-    </resources>
+</resources>
