@@ -79,6 +79,9 @@
             android:name=".Product_detail"
             android:exported="false" />
         <activity
+            android:name=".Favorite_products"
+            android:exported="false" />
+        <activity
             android:name=".Register_login.Welcome_screen"
             android:exported="true">
             <intent-filter>

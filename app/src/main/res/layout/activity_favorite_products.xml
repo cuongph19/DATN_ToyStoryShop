@@ -53,6 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        android:padding="8dp" />
+        android:padding="8dp"
+        tools:listitem="@layout/item_favorite_product"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
