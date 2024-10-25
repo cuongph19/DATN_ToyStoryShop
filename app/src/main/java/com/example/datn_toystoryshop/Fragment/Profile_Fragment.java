@@ -25,7 +25,7 @@ import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 
 public class Profile_Fragment extends Fragment {
 
-    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvmail, tvname, tvphone;
+    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvmail, tvname, tvphone,tvPrivacySecurity;
     private ImageView ivAvatar;
 
     public void ProfileFragment() {
@@ -47,6 +47,7 @@ public class Profile_Fragment extends Fragment {
         tvRate = view.findViewById(R.id.tv_rate);
         tvIntroduceFriend = view.findViewById(R.id.tv_introducefriend);
         tvTerms = view.findViewById(R.id.tv_terms);
+        tvPrivacySecurity = view.findViewById(R.id.tv_privacy_security);
         tvLogout = view.findViewById(R.id.tv_logout);
 
         Bundle bundle = getArguments();
@@ -116,6 +117,12 @@ public class Profile_Fragment extends Fragment {
             // Chuyển tới trang điều khoản và điều kiện
             Intent intent = new Intent(getActivity(), Terms_Conditions_screen.class);
             startActivity(intent);
+        });
+        // Xử lý sự kiện cho mục "Quyền riêng tư &amp; Bảo mật"
+        tvPrivacySecurity.setOnClickListener(v -> {
+            // Chuyển tới trang điều khoản và điều kiện
+//            Intent intent = new Intent(getActivity(), Privacy_Security_screen.class);
+//            startActivity(intent);
         });
 
         // Xử lý sự kiện cho mục "Đăng xuất"
