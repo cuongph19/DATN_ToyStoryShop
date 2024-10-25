@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.datn_toystoryshop.Profile.Currency_Language_screen;
 import com.example.datn_toystoryshop.Profile.Evaluate_screen;
 import com.example.datn_toystoryshop.Profile.Introduce_Friends_screen;
+import com.example.datn_toystoryshop.Profile.Privacy_Security_screen;
 import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
@@ -121,8 +122,8 @@ public class Profile_Fragment extends Fragment {
         // Xử lý sự kiện cho mục "Quyền riêng tư &amp; Bảo mật"
         tvPrivacySecurity.setOnClickListener(v -> {
             // Chuyển tới trang điều khoản và điều kiện
-//            Intent intent = new Intent(getActivity(), Privacy_Security_screen.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getActivity(), Privacy_Security_screen.class);
+            startActivity(intent);
         });
 
         // Xử lý sự kiện cho mục "Đăng xuất"

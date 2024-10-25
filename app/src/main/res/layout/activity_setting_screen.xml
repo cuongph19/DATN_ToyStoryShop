@@ -5,65 +5,97 @@
     android:orientation="vertical"
     android:background="#FFFFFF"
     android:padding="16dp">
-
-    <!-- Header Section -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cài đặt"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:paddingBottom="24dp"
-        android:textColor="@android:color/black"/>
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
+        <TextView
+            android:id="@+id/tvEvaluate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_pro"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#001A61"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
 
     <!-- Personal Information Update -->
     <TextView
         android:id="@+id/tv_update_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cập nhật thông tin cá nhân"
-        android:textColor="@android:color/black"
+        android:text="@string/update_profile_set"
+        android:textColor="#001A61"
         android:textSize="16sp"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:background="@drawable/rounded_corners_background"
+        android:drawableStart="@drawable/ic_personal_info"
+        android:drawablePadding="8dp" />
 
     <!-- Change Password -->
     <TextView
         android:id="@+id/tv_change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thay đổi mật khẩu"
-        android:textColor="@android:color/black"
+        android:text="@string/change_password_set"
+        android:textColor="#001A61"
         android:textSize="16sp"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_corners_background"
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="8dp" />
 
     <!-- Notifications Settings -->
     <TextView
         android:id="@+id/tv_notifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thông báo"
-        android:textColor="@android:color/black"
+        android:text="@string/notification_set"
+        android:textColor="#001A61"
         android:textSize="16sp"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_corners_background"
+        android:drawableStart="@drawable/ic_notifications"
+        android:drawablePadding="8dp" />
 
     <!-- Dark Mode Toggle -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_corners_background">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chế độ tối (Dark Mode)"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"/>
+            android:text="@string/dark_mode_set"
+            android:textColor="#001A61"
+            android:textSize="16sp"
+            android:layout_weight="1"/>
 
         <Switch
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:thumbTint="#FFFFFF"
+            android:trackTint="#001A61"/>
     </LinearLayout>
 
     <!-- Support & Contact -->
@@ -71,10 +103,12 @@
         android:id="@+id/tv_contact_support"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Liên hệ hỗ trợ"
-        android:textColor="@android:color/black"
+        android:text="@string/contact_support_set"
+        android:textColor="#001A61"
         android:textSize="16sp"
-        android:padding="12dp"/>
-
-
+        android:padding="12dp"
+        android:background="@drawable/rounded_corners_background"
+        android:layout_marginTop="15dp"
+        android:drawableStart="@drawable/ic_contact_support"
+        android:drawablePadding="8dp"/>
 </LinearLayout>
