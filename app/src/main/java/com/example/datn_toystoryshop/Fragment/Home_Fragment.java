@@ -20,7 +20,7 @@ import com.example.datn_toystoryshop.LimitedFigure_screen;
 import com.example.datn_toystoryshop.NewArrivals_screen;
 import com.example.datn_toystoryshop.OtherProducts_screen;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.adapter.ImageAdapter;
+import com.example.datn_toystoryshop.Adapter.Image_Adapter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -102,7 +102,7 @@ public class Home_Fragment extends Fragment {
                 "bbbb",  // Text cho ảnh R.drawable.ic_google
                 "cccc"   // Text cho ảnh R.drawable.ic_search
         );
-        ImageAdapter adapter = new ImageAdapter(images, texts);
+        Image_Adapter adapter = new Image_Adapter(images, texts);
         viewPager.setAdapter(adapter);
 
         // Setup auto slide for images in ViewPager2

@@ -2,33 +2,35 @@
 <resources>
 <!--    tiếng nhật-->
 
-                <string name="app_name">ToyStory ショップ</string>
-                <!-- Home_Fragment -->
-                <string name="search_product_homefm">商品を探す</string>
-                <string name="new_arrivals_homefm">新商品</string>
-                <string name="blind_box_homefm">ブラインドボックス</string>
-                <string name="figuring_homefm">フィギュア</string>
-                <string name="other_products_homefm">その他の商品</string>
-                <string name="art_story_homefm">アートストア</string>
-                <string name="limited_figure_homefm">限定版</string>
-                <string name="new_product_homefm">新商品</string>
-                <string name="see_all_homefm">すべてを見る</string>
-                <string name="popular_product_homefm">人気商品</string>
-                <string name="store_follow_homefm">ストアをフォローする</string>
-                <string name="view_all_homefm">すべて見る</string>
-                <string name="follow_homefm">フォロー</string>
+   <string name="app_name">ToyStory ショップ</string>
+    <!-- Home_Fragment -->
+    <string name="search_product_homefm">商品を探す</string>
+    <string name="new_arrivals_homefm">新商品</string>
+    <string name="blind_box_homefm">ブラインドボックス</string>
+    <string name="figuring_homefm">フィギュア</string>
+    <string name="other_products_homefm">その他の商品</string>
+    <string name="art_story_homefm">アートストア</string>
+    <string name="limited_figure_homefm">限定版</string>
+    <string name="new_product_homefm">新商品</string>
+    <string name="see_all_homefm">すべてを見る</string>
+    <string name="popular_product_homefm">人気商品</string>
+    <string name="store_follow_homefm">ストアをフォローする</string>
+    <string name="view_all_homefm">すべて見る</string>
+    <string name="follow_homefm">フォロー</string>
 
-                <!-- Profile_Fragment -->
-                <string name="sign_out_success_pro">サインアウトに成功しました</string>
-                <string name="setting_pro">設定</string>
-                <string name="language_currency_pro">言語と通貨</string>
-                <string name="evaluate_pro">評価する</string>
-                <string name="refer_friends_pro">友達を紹介する</string>
-                <string name="terms_conditions_pro">利用規約</string>
-                <string name="sign_out_pro">サインアウト</string>
+    <!-- Profile_Fragment -->
+    <string name="sign_out_success_pro">サインアウトに成功しました</string>
+    <string name="setting_pro">設定</string>
+    <string name="language_currency_pro">言語と通貨</string>
+    <string name="evaluate_pro">評価する</string>
+    <string name="refer_friends_pro">友達を紹介する</string>
+    <string name="terms_conditions_pro">利用規約</string>
+    <string name="privacy_security_pro">プライバシーとセキュリティ</string>
+    <string name="sign_out_pro">サインアウト</string>
 
-                <!-- Currency_Language_screen -->
-                <string name="select_language">言語を選択してください： </string>
+    <!-- Currency_Language_screen -->
+    <string name="select_language">言語を選択してください： </string>
+    <string name="select_currency">通貨を選択：</string>
 
     <!-- Evaluate_screen -->
     <string name="star_rating_eva">星評価を選択してください</string>
@@ -47,6 +49,50 @@
     <string name="step_2_int">2. アカウント登録時に紹介コードを入力。</string>
     <string name="step_3_int">3. 手順を完了後、両方に特別な報酬が届きます。</string>
     <string name="share_button_int">友達とシェア</string>
+
+    <!-- Privacy_Security_screen -->
+    <string name="privacy_security_title">プライバシーとセキュリティ</string>
+    <string name="privacy_content">
+    <![CDATA[
+    ToyStory Shopは、お客様のプライバシーと個人情報の安全を保護することをお約束します。以下の条項をよくお読みいただき、情報の利用方法と保護方法をご理解ください。\n\n
+
+    1. 個人データの収集と利用：\n
+    お客様の名前、住所、電話番号、メールアドレス、お支払い情報などの個人情報を収集し、最良のサービスを提供します。この情報は注文の完了、顧客サポート、および体験向上のためにのみ使用されます。\n\n
+
+    2. クッキーとトラッキング技術：\n
+    ToyStory Shopは、クッキーとトラッキング技術を使用して、お客様の体験をパーソナライズし、サービス向上のために閲覧行動を監視します。必要に応じてクッキーを拒否または管理することができます。\n\n
+
+    3. データへのアクセス、編集、および削除権：\n
+    お客様には、個人情報へのアクセス、編集、または削除を要求する権利があります。アカウントまたはサポート経由でご連絡ください。\n\n
+
+    4. 第三者との情報共有：\n
+    ToyStory Shopは、配送業者や決済パートナーなど、注文を完了するために必要な場合のみ第三者と情報を共有します。これらのパートナーは高いセキュリティ基準を守り、お客様の情報を保護します。\n\n
+
+    5. 情報セキュリティ：\n
+    私たちは暗号化や二要素認証などの技術的および組織的な対策を実施し、個人データを保護します。すべての支払い取引は暗号化されており、財務データを保護します。\n\n
+
+    6. プライバシーポリシーの更新：\n
+    ToyStory Shopは、必要に応じてプライバシーおよびセキュリティポリシーを変更する権利を有します。定期的に確認して、権利と責任を把握してください。\n\n
+
+    7. 連絡とサポート：\n
+    プライバシーに関する質問やリクエストがある場合は、サポートメールまたは電話番号からご連絡ください。
+    ]]>
+</string>
+    <string name="privacy_agree">プライバシーとセキュリティ条項を読み、同意します。</string>
+    <string name="accepted_message_privacy">プライバシーとセキュリティ条項に同意しました。</string>
+    <string name="confirm_exit_without_accepting_privacy">
+    プライバシーとセキュリティ条項に同意せずに終了してもよろしいですか？
+    </string>
+
+    <!-- Setting_screen -->
+    <string name="dark_mode_enabled_set">ダークモードが </string>
+    <string name="dark_mode_on_set">有効</string>
+    <string name="dark_mode_off_set">無効</string>
+    <string name="update_profile_set">プロフィール更新</string>
+    <string name="change_password_set">パスワード変更</string>
+    <string name="notification_set">通知</string>
+    <string name="dark_mode_set">ダークモード</string>
+    <string name="contact_support_set">サポートに連絡</string>
 
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
@@ -80,87 +126,91 @@
     <string name="agree_statement_ter">利用規約に同意します</string>
     <string name="accept_button_ter">承諾</string>
 
-                <!-- forgot_pass -->
-                <string name="forgot_text">あなたの情報を確認します</string>
-                <string name="forgot_text1">パスワードをリセットするために情報を入力してください</string>
-                <string name="send_button">リクエストを送信</string>
-                <string name="Toast_send">パスワードをリセットするためのメールを送信しました！</string>
-                <string name="Toast_send_error">メールを送信できません。メールアドレスを確認してください。</string>
+    <!-- forgot_pass -->
+    <string name="forgot_text">あなたの情報を確認します</string>
+    <string name="forgot_text1">パスワードをリセットするために情報を入力してください</string>
+    <string name="send_button">リクエストを送信</string>
+    <string name="Toast_send">パスワードをリセットするためのメールを送信しました！</string>
+    <string name="Toast_send_error">メールを送信できません。メールアドレスを確認してください。</string>
 
-                <!-- forgotOTP -->
-                <string name="forgot_otp_pass">新しいパスワードを入力してください</string>
-                <string name="forgot_otp_success">パスワードが正常に更新されました！</string>
-                <string name="forgot_otp_error">パスワードの更新に失敗しました！</string>
-                <string name="forgot_otp_title">パスワードを更新！</string>
+    <!-- forgotOTP -->
+    <string name="forgot_otp_pass">新しいパスワードを入力してください</string>
+    <string name="forgot_otp_success">パスワードが正常に更新されました！</string>
+    <string name="forgot_otp_error">パスワードの更新に失敗しました！</string>
+    <string name="forgot_otp_title">パスワードを更新！</string>
 
-                <!-- phone number -->
-                <string name="send_sdt">電話番号を確認します</string>
-                <string name="send_text_phone">SMSにコードを送信しました</string>
-                <string name="send_otp_error">OTPの送信に失敗しました：</string>
+    <!-- phone number -->
+    <string name="send_sdt">電話番号を確認します</string>
+    <string name="send_text_phone">SMSにコードを送信しました</string>
+    <string name="send_otp_error">OTPの送信に失敗しました：</string>
 
-                <!-- phone otp -->
-                <string name="no_otp">コードを受け取っていませんか？コードを再送します</string>
-                <string name="otp_verify">有効なOTPを入力してください。</string>
-                <string name="otp_fail">認証に失敗しました！</string>
+    <!-- phone otp -->
+    <string name="no_otp">コードを受け取っていませんか？コードを再送します</string>
+    <string name="otp_verify">有効なOTPを入力してください。</string>
+    <string name="otp_fail">認証に失敗しました！</string>
 
-                <!-- signin -->
-                <string name="welcome_text">ToyStory ショップへようこそ！</string>
-                <string name="signin_account">アカウントにサインイン</string>
-                <string name="email_hint">メール/電話番号</string>
-                <string name="password_hint">パスワード</string>
-                <string name="signin_button">サインイン</string>
-                <string name="google_login_button">Googleでサインイン</string>
-                <string name="forgot_password">パスワードを忘れましたか？</string>
-                <string name="signup_prompt">アカウントをお持ちではありませんか？</string>
-                <string name="signup_now">今すぐ登録</string>
+    <!-- signin -->
+    <string name="welcome_text">ToyStory ショップへようこそ！</string>
+    <string name="signin_account">アカウントにサインイン</string>
+    <string name="email_hint">メール/電話番号</string>
+    <string name="password_hint">パスワード</string>
+    <string name="signin_button">サインイン</string>
+    <string name="google_login_button">Googleでサインイン</string>
+    <string name="forgot_password">パスワードを忘れましたか？</string>
+    <string name="signup_prompt">アカウントをお持ちではありませんか？</string>
+    <string name="signup_now">今すぐ登録</string>
 
-                <!-- signup -->
-                <string name="signup_account">アカウントを登録する</string>
-                <string name="name_hint">フルネーム</string>
-                <string name="re_password_hint">パスワードを再入力してください</string>
-                <string name="signup_button">登録</string>
-                <string name="signin_prompt">すでにアカウントをお持ちですか？</string>
-                <string name="signin_now">今すぐサインイン</string>
-                <string name="signup_sdt">登録に成功しました！電話番号を入力してください。</string>
+    <!-- signup -->
+    <string name="signup_account">アカウントを登録する</string>
+    <string name="name_hint">フルネーム</string>
+    <string name="re_password_hint">パスワードを再入力してください</string>
+    <string name="signup_button">登録</string>
+    <string name="signin_prompt">すでにアカウントをお持ちですか？</string>
+    <string name="signin_now">今すぐサインイン</string>
+    <string name="signup_sdt">登録に成功しました！電話番号を入力してください。</string>
 
-                <!-- Toast Register_login -->
-                <string name="Toast_infor">すべての情報を入力してください！</string>
-                <string name="Toast_email">有効なメールアドレスを入力してください！</string>
-                <string name="Toast_format">正しい形式を入力してください！</string>
-                <string name="Toast_google">Googleのサインインに失敗しました！</string>
-                <string name="Toast_success">サインインに成功しました</string>
-                <string name="Toast_failure">サインインに失敗しました！</string>
-                <string name="Toast_success_sign">登録に成功しました！</string>
-                <string name="Toast_failure_signup">登録に失敗しました！</string>
-                <string name="Toast_wrong_password">パスワードが間違っています！</string>
-                <string name="Toast_donot_pass">パスワードが一致しません！</string>
-                <string name="Toast_wrong_sdt">電話番号が存在しません！</string>
-                <string name="Toast_pass">パスワードは少なくとも6文字以上、大文字を1文字以上含む必要があります！</string>
-                <string name="Toast_wrong">入力された情報が正しくありません。もう一度確認してください！</string>
+    <!-- Toast Register_login -->
+    <string name="Toast_infor">すべての情報を入力してください！</string>
+    <string name="Toast_email">有効なメールアドレスを入力してください！</string>
+    <string name="Toast_format">正しい形式を入力してください！</string>
+    <string name="Toast_google">Googleのサインインに失敗しました！</string>
+    <string name="Toast_success">サインインに成功しました</string>
+    <string name="Toast_failure">サインインに失敗しました！</string>
+    <string name="Toast_success_sign">登録に成功しました！</string>
+    <string name="Toast_failure_signup">登録に失敗しました！</string>
+    <string name="Toast_wrong_password">パスワードが間違っています！</string>
+    <string name="Toast_donot_pass">パスワードが一致しません！</string>
+    <string name="Toast_wrong_sdt">電話番号が存在しません！</string>
+    <string name="Toast_pass">パスワードは少なくとも6文字以上、大文字を1文字以上含む必要があります！</string>
+    <string name="Toast_wrong">入力された情報が正しくありません。もう一度確認してください！</string>
 
-                <!-- menu -->
-                <string name="home_menu">ホーム</string>
-                <string name="browse_menu">検索</string>
-                <string name="store_menu">ストア</string>
-                <string name="history_menu">購入履歴</string>
-                <string name="profile_menu">プロフィール</string>
+    <!-- menu -->
+    <string name="home_menu">ホーム</string>
+    <string name="browse_menu">検索</string>
+    <string name="store_menu">ストア</string>
+    <string name="history_menu">購入履歴</string>
+    <string name="profile_menu">プロフィール</string>
 
-                <string name="sort_by">並び替え</string>
-                <string name="blindbox">ブラインドボックス</string>
-                <string name="search_hint">商品を探す</string>
-                <string name="search">検索</string>
-                <string name="other_products">その他の商品</string>
-                <string name="newarrivals">新商品</string>
-                <string name="limited_figure">限定フィギュア</string>
-                <string name="figuring">フィギュア</string>
-                <string name="art_store">アートストア</string>
-                <string name="location">場所</string>
-                <string name="category">カテゴリー</string>
 
-                <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
-                <string name="favorite_list">お気に入りリスト</string>
-                <string name="my_store">私の店</string>
-                <string name="name_pro">商品名</string>
-                <string name="add_cart">カートに追加</string>
-                <string name="brand">ブランド：</string>
-        </resources>
+
+
+    <string name="sort_by">並び替え</string>
+    <string name="blindbox">ブラインドボックス</string>
+    <string name="search_hint">商品を探す</string>
+    <string name="search">検索</string>
+    <string name="other_products">その他の商品</string>
+    <string name="newarrivals">新商品</string>
+    <string name="limited_figure">限定フィギュア</string>
+    <string name="figuring">フィギュア</string>
+    <string name="art_store">アートストア</string>
+    <string name="location">場所</string>
+    <string name="category">カテゴリー</string>
+
+
+    <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
+    <string name="favorite_list">お気に入りリスト</string>
+    <string name="my_store">私の店</string>
+    <string name="name_pro">商品名</string>
+    <string name="add_cart">カートに追加</string>
+    <string name="brand">ブランド：</string>
+</resources>
