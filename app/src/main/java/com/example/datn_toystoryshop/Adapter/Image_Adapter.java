@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.adapter;
+package com.example.datn_toystoryshop.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +13,12 @@ import com.example.datn_toystoryshop.R;
 
 import java.util.List;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder> {
 
     private List<Integer> imageList;
     private List<String> textList; // Danh sách chứa các nội dung text tương ứng
 
-    public ImageAdapter(List<Integer> imageList, List<String> textList) {
+    public Image_Adapter(List<Integer> imageList, List<String> textList) {
         this.imageList = imageList;
         this.textList = textList;  // Khởi tạo danh sách text
     }
