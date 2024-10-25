@@ -109,6 +109,14 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
+        <TextView
+            android:id="@+id/tv_privacy_security"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_security_pro"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:padding="12dp"/>
 
         <TextView
             android:id="@+id/tv_logout"

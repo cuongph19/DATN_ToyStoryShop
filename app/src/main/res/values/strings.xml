@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ToyStory Shop</string>
 
-<!-- Fragment -->
+    <!-- Fragment -->
     <!-- Home_Fragment -->
     <string name="search_product_homefm">Tìm kiếm sản phẩm</string>
     <string name="new_arrivals_homefm">Hàng mới về</string>
@@ -23,12 +23,15 @@
     <string name="language_currency_pro">Ngôn ngữ và tiền tệ</string>
     <string name="evaluate_pro">Đánh giá</string>
     <string name="refer_friends_pro">Giới thiệu bạn bè</string>
-    <string name="terms_conditions_pro">Điều khoản và Điều kiện</string>
+    <string name="terms_conditions_pro">Điều khoản &amp; Điều kiện</string>
+    <string name="privacy_security_pro">Quyền riêng tư &amp; Bảo mật</string>
     <string name="sign_out_pro">Đăng xuất</string>
 
-<!-- Profile -->
+    <!-- Profile -->
     <!-- Currency_Language_screen -->
     <string name="select_language">Chọn ngôn ngữ: </string>
+    <string name="select_currency">Chọn loại tiền: </string>
+
 
     <!-- Evaluate_screen -->
     <string name="star_rating_eva">Vui lòng chọn đánh giá sao </string>
@@ -48,7 +51,49 @@
     <string name="step_3_int">3. Sau khi hoàn tất, cả hai bạn sẽ nhận ưu đãi đặc biệt.</string>
     <string name="share_button_int">Chia sẻ với bạn bè</string>
 
+    <!--  Privacy_Security_screen-->
+    <string name="privacy_security_title">Quyền Riêng Tư &amp; Bảo Mật</string>
+    <string name="privacy_content">
+    <![CDATA[
+    ToyStory Shop cam kết bảo vệ quyền riêng tư và bảo mật thông tin cá nhân của bạn. Vui lòng đọc kỹ các điều khoản sau để hiểu cách chúng tôi sử dụng và bảo vệ thông tin của bạn.\n\n
+
+    1. Thu thập và Sử dụng Dữ liệu Cá nhân:\n
+    Chúng tôi thu thập các thông tin cá nhân như tên, địa chỉ, số điện thoại, email, và thông tin thanh toán của bạn nhằm cung cấp dịch vụ tốt nhất. Thông tin này chỉ được sử dụng cho mục đích hoàn thành đơn hàng, hỗ trợ khách hàng, và nâng cao trải nghiệm của bạn.\n\n
+
+    2. Cookies và Công nghệ Theo dõi:\n
+    ToyStory Shop sử dụng cookies và công nghệ theo dõi để cá nhân hóa trải nghiệm của bạn và theo dõi hành vi duyệt web nhằm cải thiện dịch vụ. Bạn có thể tùy chọn từ chối hoặc quản lý cookies theo nhu cầu.\n\n
+
+    3. Quyền Truy cập, Chỉnh sửa và Xóa Dữ liệu:\n
+    Bạn có quyền truy cập, chỉnh sửa hoặc yêu cầu xóa thông tin cá nhân của mình. Để thực hiện, vui lòng liên hệ với chúng tôi qua tài khoản của bạn hoặc qua bộ phận hỗ trợ.\n\n
+
+    4. Chia sẻ Thông tin với Bên Thứ Ba:\n
+    ToyStory Shop chỉ chia sẻ thông tin với các bên thứ ba khi cần thiết, chẳng hạn như bên giao hàng hoặc đối tác thanh toán, nhằm hoàn thành đơn hàng. Các bên này đều phải tuân thủ các tiêu chuẩn bảo mật cao để bảo vệ thông tin của bạn.\n\n
+
+    5. Bảo mật Thông tin:\n
+    Chúng tôi áp dụng các biện pháp kỹ thuật và tổ chức để bảo vệ dữ liệu cá nhân, bao gồm mã hóa và xác thực hai yếu tố. Tất cả giao dịch thanh toán đều được mã hóa để bảo vệ dữ liệu tài chính của bạn.\n\n
+
+    6. Cập nhật Chính sách Quyền Riêng Tư:\n
+    ToyStory Shop có quyền thay đổi chính sách quyền riêng tư và bảo mật khi cần thiết. Chúng tôi khuyến nghị bạn kiểm tra định kỳ để hiểu rõ quyền và trách nhiệm của mình.\n\n
+
+    7. Liên hệ và Hỗ trợ:\n
+    Nếu bạn có câu hỏi hoặc yêu cầu liên quan đến quyền riêng tư, vui lòng liên hệ với chúng tôi qua địa chỉ email hoặc số điện thoại hỗ trợ.
+    ]]>
+    </string>
+    <string name="privacy_agree">Tôi đã đọc và đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật.</string>
+    <string name="accepted_message_privacy">Bạn đã đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật.</string>
+    <string name="confirm_exit_without_accepting_privacy">
+        Bạn có chắc chắn muốn thoát mà không đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật không?
+    </string>
+
     <!-- Setting_screen -->
+    <string name="dark_mode_enabled_set">Chế độ tối đã được </string>
+    <string name="dark_mode_on_set">bật</string>
+    <string name="dark_mode_off_set">tắt</string>
+    <string name="update_profile_set">Cập nhật thông tin cá nhân</string>
+    <string name="change_password_set">Thay đổi mật khẩu</string>
+    <string name="notification_set">Thông báo</string>
+    <string name="dark_mode_set">Chế độ tối</string>
+    <string name="contact_support_set">Liên hệ hỗ trợ</string>
 
 
     <!-- Terms_Conditions_screen -->
@@ -76,14 +121,14 @@
         ]]>
     </string>
     <string name="accepted_message_ter">Cảm ơn bạn đã chấp nhận điều khoản!</string>
-    <string name="confirm_exit_without_accepting_ter">Bạn có chắc chắn muốn thoát mà không chấp nhận điều khoản?</string>
+    <string name="confirm_exit_without_accepting_ter">Bạn có chắc chắn muốn thoát mà không chấp nhận Điều khoản và Điều kiện không?</string>
     <string name="exit_button_ter">Thoát</string>
     <string name="stay_button_ter">Ở lại</string>
     <string name="terms_and_conditions_title_ter">Điều khoản và Điều kiện</string>
     <string name="agree_statement_ter">Tôi đồng ý với các điều khoản và điều kiện</string>
     <string name="accept_button_ter">Chấp nhận</string>
 
-<!-- Register_login -->
+    <!-- Register_login -->
     <!-- forgot_pass -->
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
@@ -142,7 +187,7 @@
     <string name="Toast_pass">Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!</string>
     <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
 
-<!-- menu -->
+    <!-- menu -->
     <string name="home_menu">Trang Chủ</string>
     <string name="browse_menu">Tìm Kiếm</string>
     <string name="store_menu">Cửa Hàng</string>
@@ -180,5 +225,4 @@
         <!--        Nhật Bản-->
         <item>+81</item>
     </string-array>
-
 </resources>

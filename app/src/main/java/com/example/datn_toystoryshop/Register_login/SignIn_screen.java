@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignIn_screen extends AppCompatActivity {
     private TextInputEditText edInput, edPassword;
-    private Button btnLogin;
+    private Button btnLogin,btnGoogleLogin1;
     private TextView txtSignup, txtForgotPass;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -61,6 +61,7 @@ public class SignIn_screen extends AppCompatActivity {
         edPassword = findViewById(R.id.edpasswordLg);
         btnLogin = findViewById(R.id.btnLogin);
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
+        btnGoogleLogin1 = findViewById(R.id.btnGoogleLogin1);
         txtSignup = findViewById(R.id.txtSignup);
         txtForgotPass = findViewById(R.id.txtForgotPass);
         //truyền dữ liệu từ ForgotOTP_screen
@@ -81,6 +82,12 @@ public class SignIn_screen extends AppCompatActivity {
         }
         // Thiết lập OnClickListener cho nút đăng nhập Google
         btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInWithGoogle();
+            }
+        });
+        btnGoogleLogin1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signInWithGoogle();
