@@ -45,12 +45,15 @@ public class Home_screen extends AppCompatActivity {
         // Chỉ thêm vào Bundle nếu không null
         if (phoneNumber != null) {
             bundle.putString("phoneNumber", phoneNumber);
+            Log.d("Profile_Fragment", "aaaaaaa: " + phoneNumber);
         }
         if (email != null) {
             bundle.putString("email", email);
+            Log.d("Profile_Fragment", "aaaaaaa: " + email);
         }
         if (gmail != null) {
             bundle.putString("gmail", gmail);
+            Log.d("Profile_Fragment", "aaaaaaa: " + gmail);
         }
         profileFragment.setArguments(bundle);
 
@@ -89,21 +92,21 @@ public class Home_screen extends AppCompatActivity {
         });
 
         // Hiển thị Home_Fragment ngay khi vào màn hình Home
-        loadFragment(new Home_Fragment(), false);
+        loadFragment(new Home_Fragment(), null);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if(itemId == R.id.nav_home){
-                    loadFragment(new Home_Fragment(),false);
+                    loadFragment(new Home_Fragment(),null);
                 } else if (itemId == R.id.nav_browse){
-                    loadFragment(new Browse_Fragment(),false);
+                    loadFragment(new Browse_Fragment(),null);
                 } else if (itemId == R.id.nav_store){
-                    loadFragment(new Store_Fragment(),false);
+                    loadFragment(new Store_Fragment(),null);
                 } else if (itemId == R.id.nav_history){
-                    loadFragment(new History_Fragment(),false);
+                    loadFragment(new History_Fragment(),null);
                 } else{
-                    loadFragment(new Profile_Fragment(),false);
+                    loadFragment(new Profile_Fragment(), bundle);
                 }
 
 
@@ -111,7 +114,10 @@ public class Home_screen extends AppCompatActivity {
             }
         });
     }
-    private void loadFragment(Fragment fragment, boolean isAppInitialized){
+    private void loadFragment(Fragment fragment, Bundle args) {
+        if (args != null) {
+            fragment.setArguments(args);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentLayout, fragment);

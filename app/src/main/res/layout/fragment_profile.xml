@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fillViewport="true"
     android:background="#FFFFFF">
 
     <!-- Upper Blue Section -->
@@ -35,23 +36,12 @@
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
-        <!-- Phone Number -->
-
+        <!-- thông tin -->
         <TextView
-            android:id="@+id/tv_phone_number"
+            android:id="@+id/tv_information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+84 123456789"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginTop="4dp"/>
-
-        <!-- Email -->
-        <TextView
-            android:id="@+id/tv_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="abc1@gmail.com"
+            android:text="sdt and mail"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:layout_marginTop="4dp"/>

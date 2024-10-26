@@ -126,8 +126,9 @@ public class PhoneOTP_screen extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(PhoneOTP_screen.this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
                     // Chuyển sang màn hình chính sau khi xác minh thành công
-                    Intent intent = new Intent(PhoneOTP_screen.this, Home_screen.class);
+                    Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
                     intent.putExtra("phoneNumber", phoneNumber);
+                    intent.putExtra("password", password);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 })
