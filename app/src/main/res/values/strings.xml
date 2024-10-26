@@ -193,17 +193,17 @@
     <string name="profile_menu">Hồ Sơ</string>
 
 
-    <string name="sort_by">Sort By</string>
-    <string name="blindbox">Blind Box</string>
+    <string name="sort_by">Sắp xếp sản phẩm</string>
+    <string name="blindbox">Hộp mù</string>
     <string name="search_hint">Tìm kiếm sản phẩm</string>
     <string name="search">Tìm kiếm</string>
-    <string name="other_products">Other Products</string>
-    <string name="newarrivals">New Arrivals</string>
-    <string name="limited_figure">Limited Figure</string>
+    <string name="other_products">Các sản phẩm khác</string>
+    <string name="newarrivals">Sản phẩm mới</string>
+    <string name="limited_figure">Sản phẩm giới hạn</string>
     <string name="figuring">Figuring</string>
-    <string name="art_store">Art Store</string>
-    <string name="location">Location</string>
-    <string name="category">Category</string>
+    <string name="art_store">Tin tức sản phẩm</string>
+    <string name="location">Địa chỉ</string>
+    <string name="category">Phân loại</string>
 
 
     <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
