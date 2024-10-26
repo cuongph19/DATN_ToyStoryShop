@@ -25,13 +25,18 @@
             android:textStyle="bold"
             android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/btnFilter"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinnerMonth"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E6ECF0"
-            android:text="Januari 2020"
-            android:textColor="@color/black"/>
+            android:layout_weight="5"/>
+
+        <Spinner
+            android:id="@+id/spinnerYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"/>
+
     </LinearLayout>
 
     <!-- RecyclerView for the transaction list -->
