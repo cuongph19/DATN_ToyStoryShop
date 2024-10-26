@@ -10,10 +10,10 @@
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="0dp"
-        android:layout_height="116dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="#172A5C"
+        android:background="#3F51B5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
             android:id="@+id/backButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:padding="8dp"
             android:src="@drawable/ic_back"
             android:layout_gravity="center_vertical"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@string/favorite_list"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp" />
