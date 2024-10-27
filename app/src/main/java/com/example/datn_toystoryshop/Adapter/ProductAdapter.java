@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.datn_toystoryshop.Model.Product;
 import com.example.datn_toystoryshop.R;
+
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
@@ -43,21 +46,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public int getItemCount() {
         return filteredList.size();
     }
+    public static String removeDiacritics(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("");
+    }
 
-    // Hàm để lọc sản phẩm theo tên
+    // Hàm để lọc sản phẩm theo tên không dấu
     public void filter(String text) {
         filteredList.clear();
-        if (text.isEmpty()) {
+        String searchText = removeDiacritics(text).toLowerCase(); // Chuyển đổi chuỗi tìm kiếm thành không dấu và viết thường
+
+        if (searchText.isEmpty()) {
             filteredList.addAll(productList); // Hiển thị tất cả sản phẩm nếu ô tìm kiếm rỗng
         } else {
             for (Product product : productList) {
-                if (product.getName().toLowerCase().contains(text.toLowerCase())) {
+                // Chuyển đổi tên sản phẩm thành không dấu và viết thường
+                String productName = removeDiacritics(product.getName()).toLowerCase();
+                if (productName.contains(searchText)) {
                     filteredList.add(product);
                 }
             }
         }
         notifyDataSetChanged(); // Cập nhật giao diện
     }
+
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
