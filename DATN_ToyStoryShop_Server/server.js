@@ -32,26 +32,26 @@ app.get('/', async (req, res)=>{
     res.send(products);
 })
 
-app.post('/add_sp', async (req, res) => {
-    await mongoose.connect(uri);
+// app.post('/add_sp', async (req, res) => {
+//     await mongoose.connect(uri);
 
-    // let sanpham = {
-    //     ten: 'Sanpham 4',
-    //     gia: 500,
-    //     soluong: 10,
-    //     tonkho: false
-    // }
+//     // let product = {
+//     //     ten: 'Sanpham 4',
+//     //     gia: 500,
+//     //     soluong: 10,
+//     //     tonkho: false
+//     // }
 
-    let sanpham = req.body;
+//     let product = req.body;
 
-    let kq = await productModel.create(sanpham);
+//     let kq = await productModel.create(product);
 
-    console.log(kq);
+//     console.log(kq);
 
-    let products = await productModel.find();
+//     let products = await productModel.find();
 
-    res.send(products);
-})
+//     res.send(products);
+// })
 
 app.get('/xoa/:id', async(req, res) => {
     await mongoose.connect(uri);
@@ -64,22 +64,22 @@ app.get('/xoa/:id', async(req, res) => {
     res.redirect('../')
 })
 
-app.get('/update/:id', async (req, res) => {
+// app.get('/update/:id', async (req, res) => {
 
-    await mongoose.connect(uri);
+//     await mongoose.connect(uri);
 
-    console.log('Ket noi DB thanh cong');
+//     console.log('Ket noi DB thanh cong');
 
-    let id = req.params.id;
+//     let id = req.params.id;
 
-    let tenSPMoi = 'San pham phien ban moi 2024';
+//     let tenSPMoi = 'San pham phien ban moi 2024';
 
-    await productModel.updateOne({_id: id}, {ten: tenSPMoi});
+//     await productModel.updateOne({_id: id}, {ten: tenSPMoi});
 
-    let products = await productModel.find({});
+//     let products = await productModel.find({});
 
-    res.send(products);
-}) 
+//     res.send(products);
+// }) 
 
 // module.exports = {
 //     uri: uri,

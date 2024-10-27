@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,33 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.ArtStory_screen;
 import com.example.datn_toystoryshop.BlindBox_screen;
 import com.example.datn_toystoryshop.Figuring_screen;
 import com.example.datn_toystoryshop.LimitedFigure_screen;
+import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.NewArrivals_screen;
 import com.example.datn_toystoryshop.OtherProducts_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Adapter.Image_Adapter;
+import com.example.datn_toystoryshop.Server.APIService;
+
 import java.util.Arrays;
 import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Home_Fragment extends Fragment {
     private ViewPager2 viewPager;
@@ -30,11 +46,15 @@ public class Home_Fragment extends Fragment {
     private Runnable runnable;
     private FrameLayout new_arrivals,blind_box,figuring,other_products,art_story,limited_figure;
     private int currentPage = 0;
+    private RecyclerView recyclerViewMain;
+    private List<Product_Model> listProductModel;
+    private Product_Adapter productAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         viewPager = view.findViewById(R.id.view_pager);
         new_arrivals = view.findViewById(R.id.new_arrivals);
         blind_box = view.findViewById(R.id.blind_box);
@@ -42,6 +62,43 @@ public class Home_Fragment extends Fragment {
         other_products = view.findViewById(R.id.other_products);
         art_story = view.findViewById(R.id.art_story);
         limited_figure = view.findViewById(R.id.limited_figure);
+        recyclerViewMain = view.findViewById(R.id.recyclerViewNewProducts);
+
+        // Thiết lập LayoutManager theo chiều ngang
+        recyclerViewMain.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        // Cấu hình Retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(APIService.DOMAIN)  // Đảm bảo APIService.DOMAIN là URL chính xác của bạn
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        // Tạo instance của APIService
+        APIService apiService = retrofit.create(APIService.class);
+
+        // Gọi API để lấy danh sách ProductModel
+        Call<List<Product_Model>> call = apiService.getProducts();
+        call.enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Nhận dữ liệu từ API
+                    listProductModel = response.body();
+
+                    // Khởi tạo Adapter với dữ liệu nhận được
+                    productAdapter = new Product_Adapter(requireContext(), listProductModel);
+
+                    // Gắn Adapter vào RecyclerView
+                    recyclerViewMain.setAdapter(productAdapter);
+                } else {
+                    Log.e("ProductFragment", "Response unsuccessful or body is null");
+                }}
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                // Xử lý khi thất bại
+                Log.e("ProductFragment", "API call failed: " + t.getMessage());
+            }
+        });
 
         new_arrivals.setOnClickListener(new View.OnClickListener() {
             @Override

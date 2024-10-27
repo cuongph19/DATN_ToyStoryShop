@@ -235,16 +235,19 @@
     </LinearLayout>
 
     <!-- RecyclerView for product list -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewNewProducts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/new_product_section"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp" />
 
-    <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNewProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_product_section" />
+
+        <LinearLayout
         android:id="@+id/popular_product_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
