@@ -68,6 +68,7 @@ public class SignIn_screen extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             String phoneNumber = intent.getStringExtra("phoneNumber");
+            String password = intent.getStringExtra("password");
             String newPassword = intent.getStringExtra("newPassword");
             if (phoneNumber != null && phoneNumber.startsWith("+84")) {
                 phoneNumber = phoneNumber.replaceFirst("\\+84", "0");
@@ -75,6 +76,9 @@ public class SignIn_screen extends AppCompatActivity {
             // Gán dữ liệu vào các TextInputEditText
             if (phoneNumber != null) {
                 edInput.setText(phoneNumber);
+            }
+            if (password != null) {
+                edPassword.setText(password);
             }
             if (newPassword != null) {
                 edPassword.setText(newPassword);

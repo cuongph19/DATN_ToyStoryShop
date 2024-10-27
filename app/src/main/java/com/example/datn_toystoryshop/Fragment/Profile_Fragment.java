@@ -26,7 +26,7 @@ import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 
 public class Profile_Fragment extends Fragment {
 
-    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvmail, tvname, tvphone,tvPrivacySecurity;
+    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity;
     private ImageView ivAvatar;
 
     public void ProfileFragment() {
@@ -40,8 +40,8 @@ public class Profile_Fragment extends Fragment {
         // Khởi tạo các view từ layout
         ivAvatar = view.findViewById(R.id.iv_avatar);
         tvname = view.findViewById(R.id.tv_user_name);
-          tvphone = view.findViewById(R.id.tv_phone_number);
-        tvmail = view.findViewById(R.id.tv_email);
+        tvtvinformation = view.findViewById(R.id.tv_information);
+
 
         tvSettings = view.findViewById(R.id.tv_settings);
         tvLanguageCurrency = view.findViewById(R.id.tv_languagecurrency);
@@ -56,37 +56,21 @@ public class Profile_Fragment extends Fragment {
             String phoneNumber = bundle.getString("phoneNumber");
             String email = bundle.getString("email");
             String gmail = bundle.getString("gmail");
-            // Kiểm tra và hiển thị số điện thoại nếu không null
-            if (phoneNumber != null) {
 
-
-
-
-                //////////////////////////code lỗi//////////////////////////////////////
-                Toast.makeText(getActivity(), "Phone number: " + phoneNumber, Toast.LENGTH_SHORT).show();
-                tvphone.setText(phoneNumber);
-                Log.d("ProfileFragment", "Phone number set: " + tvphone.getText().toString());
-                Toast.makeText(getActivity(), "Phone set: " + tvphone.getText().toString(), Toast.LENGTH_SHORT).show();
-                //////////////////////////code lỗi//////////////////////////////////////
-
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                Log.d("Profile_Fragment", "Phone: " + tvtvinformation.getText().toString());
+                tvtvinformation.setText(phoneNumber);
             }
-
-            // Kiểm tra và hiển thị email nếu không null
             if (email != null) {
-                Toast.makeText(getActivity(), "Email: " + email, Toast.LENGTH_SHORT).show();
-                tvmail.setText(email);
-            } else {
-                tvmail.setText("");
+                Log.d("Profile_Fragment", "Email: " + email);
+                tvtvinformation.setText(email);
             }
             if (gmail != null) {
-                Toast.makeText(getActivity(), "gmail: " + gmail, Toast.LENGTH_SHORT).show();
-                Log.d("gmail", "Gmail3: " + gmail);
-                tvmail.setText(gmail);
-            } else {
-                tvmail.setText("");
+                Log.d("Profile_Fragment", "gmail: " + gmail);
+                tvtvinformation.setText(gmail);
             }
-        }
 
+        }
         // Xử lý sự kiện cho mục "Cài đặt"
         tvSettings.setOnClickListener(v -> {
             // Chuyển tới màn hình cài đặt
