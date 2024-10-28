@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
-    android:background="#FFFFFF">
+    style="@style/SCREEN"
+   >
 
     <!-- Upper Blue Section -->
     <LinearLayout
@@ -30,7 +31,7 @@
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ABC"
+            android:text="USER"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -52,59 +53,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#FFFFFF"
+        style="@style/SCREEN"
         android:padding="16dp">
 
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/setting_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
 
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_languagecurrency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/language_currency_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
 
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/evaluate_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
 
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_introducefriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/refer_friends_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
 
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/terms_conditions_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_privacy_security"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/privacy_security_pro"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:padding="12dp"/>
 
