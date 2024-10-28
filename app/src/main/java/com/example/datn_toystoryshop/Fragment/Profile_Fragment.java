@@ -141,6 +141,10 @@ public class Profile_Fragment extends Fragment {
         tvLogout.setOnClickListener(v -> {
             // Đăng xuất người dùng
             Toast.makeText(getActivity(), getString(R.string.sign_out_success_pro), Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedP = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedP.edit();
+            editor.putBoolean("notificationShown", false); // Đặt lại trạng thái thông báo
+            editor.apply();
             // Chuyển tới màn hình đăng nhập
             Intent intent = new Intent(getActivity(), SignIn_screen.class);
             startActivity(intent);

@@ -1,7 +1,11 @@
 package com.example.datn_toystoryshop;
 
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,11 +33,26 @@ public class Home_screen extends AppCompatActivity {
     private FrameLayout frameLayout ;
     private TextView header_title ;
     private ImageView cart_icon,heart_icon ;
-
+    private static final String PREFS_NAME = "MyPrefs"; // Khai báo biến ở đây
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Kiểm tra trạng thái thông báo
+        SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        boolean notificationShown = sharedPreferences.getBoolean("notificationShown", false);
+
+        if (!notificationShown) {
+            // Hiển thị thông báo
+            sendNotification();
+
+            // Đặt trạng thái thông báo đã được hiển thị
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("notificationShown", true);
+            editor.apply();
+        }
+
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         String phoneNumber = intent.getStringExtra("phoneNumber");
@@ -114,6 +134,7 @@ public class Home_screen extends AppCompatActivity {
             }
         });
     }
+
     private void loadFragment(Fragment fragment, Bundle args) {
         if (args != null) {
             fragment.setArguments(args);
@@ -122,6 +143,19 @@ public class Home_screen extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentLayout, fragment);
         fragmentTransaction.commit();
+    }
+    private void sendNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "MY_NOTIFICATION_CHANNEL")
+                .setSmallIcon(R.drawable.bell) // Icon thông báo
+                .setContentTitle("Chào mừng bạn đến với ứng dụng!") // Tiêu đề thông báo
+                .setContentText("Bạn đã vào màn hình Home.") // Nội dung thông báo
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // Độ ưu tiên của thông báo
+                .setAutoCancel(true); // Tự động hủy thông báo khi nhấn vào
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify(1, builder.build()); // Hiển thị thông báo
+        }
     }
 
 }

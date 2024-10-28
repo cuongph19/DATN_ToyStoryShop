@@ -93,6 +93,7 @@
     <string name="notification_set">Thông báo</string>
     <string name="dark_mode_set">Chế độ tối</string>
     <string name="contact_support_set">Liên hệ hỗ trợ</string>
+    <string name="status_notifi">Tất cả thông báo đã bị chặn</string>
 
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
