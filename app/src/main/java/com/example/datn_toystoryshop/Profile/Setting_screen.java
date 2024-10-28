@@ -14,9 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.NewArrivals_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
@@ -31,7 +29,6 @@ public class Setting_screen extends AppCompatActivity {
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    boolean nightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +42,14 @@ public class Setting_screen extends AppCompatActivity {
         tvContactSupport = findViewById(R.id.tv_contact_support);
         switchDarkMode = findViewById(R.id.switch_dark_mode);
         btnBack = findViewById(R.id.btnBack);
-
         // SharedPreferences setup for dark mode toggle
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
         editor = sharedPreferences.edit();
 
-        if (nightMode) {
-            switchDarkMode.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            btnBack.setImageResource(R.drawable.back_icon);
-        }else{
-            btnBack.setImageResource(R.drawable.back_icon_1);
-        }
+        // Load dark mode setting
+        boolean isDarkMode = sharedPreferences.getBoolean("DarkMode", false);
+        switchDarkMode.setChecked(isDarkMode);
+
 
         switchDarkMode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,17 +67,13 @@ public class Setting_screen extends AppCompatActivity {
                 }
                 editor.apply();
             }
-        });
 
-
+    
         // Nút quay lại đăng nhập
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Setting_screen.this, Home_screen.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {

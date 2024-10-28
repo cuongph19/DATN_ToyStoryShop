@@ -26,16 +26,26 @@ import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Register_login.SignIn_screen;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Profile_Fragment extends Fragment {
 
     private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity;
     private ImageView ivAvatar;
+    private FirebaseFirestore db;
 
-    public void ProfileFragment() {
-        // Constructor mặc định
+    private String gmail, email, name, password, phoneNumber;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,8 +62,6 @@ public class Profile_Fragment extends Fragment {
         ivAvatar = view.findViewById(R.id.iv_avatar);
         tvname = view.findViewById(R.id.tv_user_name);
         tvtvinformation = view.findViewById(R.id.tv_information);
-
-
         tvSettings = view.findViewById(R.id.tv_settings);
         tvLanguageCurrency = view.findViewById(R.id.tv_languagecurrency);
         tvRate = view.findViewById(R.id.tv_rate);
@@ -64,17 +72,19 @@ public class Profile_Fragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String phoneNumber = bundle.getString("phoneNumber");
-            String email = bundle.getString("email");
-            String gmail = bundle.getString("gmail");
+             phoneNumber = bundle.getString("phoneNumber");
+             email = bundle.getString("email");
+             gmail = bundle.getString("gmail");
 
             if (phoneNumber != null && !phoneNumber.isEmpty()) {
                 Log.d("Profile_Fragment", "Phone: " + tvtvinformation.getText().toString());
                 tvtvinformation.setText(phoneNumber);
+                loadUserDataPhone(phoneNumber);
             }
             if (email != null) {
                 Log.d("Profile_Fragment", "Email: " + email);
                 tvtvinformation.setText(email);
+                loadUserDataEmail(email);
             }
             if (gmail != null) {
                 Log.d("Profile_Fragment", "gmail: " + gmail);
@@ -86,6 +96,12 @@ public class Profile_Fragment extends Fragment {
         tvSettings.setOnClickListener(v -> {
             // Chuyển tới màn hình cài đặt
             Intent intent = new Intent(getActivity(), Setting_screen.class);
+            intent.putExtra("gmail", gmail);
+            intent.putExtra("email", email);
+            intent.putExtra("name", name);
+            intent.putExtra("password", password);
+            intent.putExtra("phoneNumber", phoneNumber);
+
             startActivity(intent);
         });
 
@@ -136,5 +152,55 @@ public class Profile_Fragment extends Fragment {
         });
         return view;
 
+    }
+
+    private void loadUserDataPhone(String phoneNumber) {
+        DocumentReference docRef = db.collection("users").document(phoneNumber);
+
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("Profile_Fragment", "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                     email = snapshot.getString("email");
+                     name = snapshot.getString("name");
+                     password = snapshot.getString("password");
+
+                    tvname.setText(name);
+
+                } else {
+                    Log.d("Profile_Fragment", "No such document");
+                }
+            }
+        });
+    }
+    private void loadUserDataEmail(String email) {
+        db.collection("users")
+                .whereEqualTo("email", email)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("Profile_Fragment", "Listen failed.", e);
+                            return;
+                        }
+
+                        if (snapshots != null && !snapshots.isEmpty()) {
+                            DocumentSnapshot snapshot = snapshots.getDocuments().get(0);
+                            name = snapshot.getString("name");
+                             password = snapshot.getString("password");
+                             phoneNumber = snapshot.getString("phoneNumber");
+
+                            tvname.setText(name);
+
+                        } else {
+                            Log.d("Profile_Fragment", "No such document with the specified email");
+                        }
+                    }
+                });
     }
 }

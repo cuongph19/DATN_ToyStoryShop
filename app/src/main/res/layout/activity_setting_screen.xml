@@ -6,11 +6,13 @@
 
     style="@style/SCREEN"
     android:padding="16dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="10dp">
+
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
@@ -19,6 +21,7 @@
             android:contentDescription="Back"
             android:padding="8dp"
             android:src="@drawable/back_icon_1" />
+
         <TextView
             style="@style/TEXT"
             android:id="@+id/tvEvaluate"
@@ -32,8 +35,7 @@
             android:layout_marginStart="10dp" />
     </LinearLayout>
 
-
-    <!-- Personal Information Update -->
+    <!-- Cập nhật thông tin cá nhân -->
     <TextView
         android:id="@+id/tv_update_info"
         android:layout_width="match_parent"
@@ -46,7 +48,7 @@
         android:drawableStart="@drawable/ic_personal_info"
         android:drawablePadding="8dp" />
 
-    <!-- Change Password -->
+    <!-- Đổi mật khẩu -->
     <TextView
         android:id="@+id/tv_change_password"
         android:layout_width="match_parent"
@@ -60,7 +62,7 @@
         android:drawableStart="@drawable/ic_password"
         android:drawablePadding="8dp" />
 
-    <!-- Notifications Settings -->
+    <!-- Cài đặt thông báo -->
     <TextView
         android:id="@+id/tv_notifications"
         android:layout_width="match_parent"
@@ -74,7 +76,7 @@
         android:drawableStart="@drawable/ic_notifications"
         android:drawablePadding="8dp" />
 
-    <!-- Dark Mode Toggle -->
+    <!-- Bật/tắt chế độ tối -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +101,7 @@
             android:trackTint="#001A61"/>
     </LinearLayout>
 
-    <!-- Support & Contact -->
+    <!-- Hỗ trợ & Liên hệ -->
     <TextView
         android:id="@+id/tv_contact_support"
         android:layout_width="match_parent"
