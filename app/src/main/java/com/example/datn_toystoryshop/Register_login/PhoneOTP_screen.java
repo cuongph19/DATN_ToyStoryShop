@@ -120,8 +120,8 @@ public class PhoneOTP_screen extends AppCompatActivity {
         user.put("name", name);
 
         // Sử dụng email làm Collection ID và số điện thoại làm Document ID
-        db.collection("users").document(phoneNumber)
-                .set(user)
+        db.collection("users")
+                .add(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(PhoneOTP_screen.this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
                     // Chuyển sang màn hình chính sau khi xác minh thành công

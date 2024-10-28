@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
-import com.example.datn_toystoryshop.ArtStory_screen;
-import com.example.datn_toystoryshop.BlindBox_screen;
-import com.example.datn_toystoryshop.Figuring_screen;
-import com.example.datn_toystoryshop.LimitedFigure_screen;
+import com.example.datn_toystoryshop.Home.ArtStory_screen;
+import com.example.datn_toystoryshop.Home.BlindBox_screen;
+import com.example.datn_toystoryshop.Home.Figuring_screen;
+import com.example.datn_toystoryshop.Home.LimitedFigure_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
-import com.example.datn_toystoryshop.NewArrivals_screen;
-import com.example.datn_toystoryshop.OtherProducts_screen;
+import com.example.datn_toystoryshop.Home.NewArrivals_screen;
+import com.example.datn_toystoryshop.Home.OtherProducts_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Adapter.Image_Adapter;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -37,11 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class Home_Fragment extends Fragment {
     private ViewPager2 viewPager;

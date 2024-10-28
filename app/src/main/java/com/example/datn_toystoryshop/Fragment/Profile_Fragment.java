@@ -39,12 +39,13 @@ public class Profile_Fragment extends Fragment {
     private ImageView ivAvatar;
     private FirebaseFirestore db;
 
-    private String gmail, email, name, password, phoneNumber;
+    private String documentId, name, phoneNumber;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
+
     }
     @Nullable
     @Override
@@ -70,38 +71,22 @@ public class Profile_Fragment extends Fragment {
         tvPrivacySecurity = view.findViewById(R.id.tv_privacy_security);
         tvLogout = view.findViewById(R.id.tv_logout);
 
+
         Bundle bundle = getArguments();
         if (bundle != null) {
-             phoneNumber = bundle.getString("phoneNumber");
-             email = bundle.getString("email");
-             gmail = bundle.getString("gmail");
+            documentId = bundle.getString("documentId");
 
-            if (phoneNumber != null && !phoneNumber.isEmpty()) {
-                Log.d("Profile_Fragment", "Phone: " + tvtvinformation.getText().toString());
-                tvtvinformation.setText(phoneNumber);
-                loadUserDataPhone(phoneNumber);
-            }
-            if (email != null) {
-                Log.d("Profile_Fragment", "Email: " + email);
-                tvtvinformation.setText(email);
-                loadUserDataEmail(email);
-            }
-            if (gmail != null) {
-                Log.d("Profile_Fragment", "gmail: " + gmail);
-                tvtvinformation.setText(gmail);
-            }
 
+             if (documentId != null && !documentId.isEmpty()) {
+                 loadUserDataByDocumentId(documentId);
+            }
         }
+
         // Xử lý sự kiện cho mục "Cài đặt"
         tvSettings.setOnClickListener(v -> {
             // Chuyển tới màn hình cài đặt
             Intent intent = new Intent(getActivity(), Setting_screen.class);
-            intent.putExtra("gmail", gmail);
-            intent.putExtra("email", email);
-            intent.putExtra("name", name);
-            intent.putExtra("password", password);
-            intent.putExtra("phoneNumber", phoneNumber);
-
+            intent.putExtra("documentId", documentId);
             startActivity(intent);
         });
 
@@ -153,54 +138,31 @@ public class Profile_Fragment extends Fragment {
         return view;
 
     }
+    private void loadUserDataByDocumentId(String documentId) {
+        DocumentReference docRef = db.collection("users").document(documentId);
 
-    private void loadUserDataPhone(String phoneNumber) {
-        DocumentReference docRef = db.collection("users").document(phoneNumber);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Lấy tất cả dữ liệu từ tài liệu
+                    name = document.getString("name");
+                    phoneNumber = document.getString("phoneNumber");
 
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w("Profile_Fragment", "Listen failed.", e);
-                    return;
-                }
+                    // Hiển thị dữ liệu trên log
+                    Log.d("UserData", "Name: " + name);
+                    Log.d("UserData", "PhoneNumber: " + phoneNumber);
 
-                if (snapshot != null && snapshot.exists()) {
-                     email = snapshot.getString("email");
-                     name = snapshot.getString("name");
-                     password = snapshot.getString("password");
-
+                    // Cập nhật giao diện nếu cần
                     tvname.setText(name);
-
+                    tvtvinformation.setText(phoneNumber);
                 } else {
-                    Log.d("Profile_Fragment", "No such document");
+                    Log.d("UserData", "No such document");
                 }
+            } else {
+                Log.w("UserData", "get failed with ", task.getException());
             }
         });
     }
-    private void loadUserDataEmail(String email) {
-        db.collection("users")
-                .whereEqualTo("email", email)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w("Profile_Fragment", "Listen failed.", e);
-                            return;
-                        }
 
-                        if (snapshots != null && !snapshots.isEmpty()) {
-                            DocumentSnapshot snapshot = snapshots.getDocuments().get(0);
-                            name = snapshot.getString("name");
-                             password = snapshot.getString("password");
-                             phoneNumber = snapshot.getString("phoneNumber");
-
-                            tvname.setText(name);
-
-                        } else {
-                            Log.d("Profile_Fragment", "No such document with the specified email");
-                        }
-                    }
-                });
-    }
 }

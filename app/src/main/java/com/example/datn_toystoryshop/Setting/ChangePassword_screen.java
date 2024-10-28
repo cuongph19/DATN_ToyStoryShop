@@ -21,12 +21,12 @@ public class ChangePassword_screen extends AppCompatActivity {
         // Lấy các dữ liệu từ Intent
         Intent intent = getIntent();
         String gmail = intent.getStringExtra("gmail");
-        String password = intent.getStringExtra("password");
+        String documentId = intent.getStringExtra("documentId");
 
 
         // Ghi log để kiểm tra dữ liệu nhận được
-        Log.d("ChangePassword_screen", "ChangePassword_screenaaaaaaaaaaaaaaaaaPassword: " + password);
-        Log.d("ChangePassword_screen", "ChangePassword_screenaaaaaaaaaaaaaaaaaPassword: " + gmail);
+        Log.d("ChangePassword_screen", "ChangePassword_screenaaaaaaaaaaaaaaaaa: " + documentId);
+        Log.d("ChangePassword_screen", "ChangePassword_screenaaaaaaaaaaaaaaaaa: " + gmail);
 
 
     }
