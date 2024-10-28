@@ -2,7 +2,7 @@
     <!-- Góc bo của hình dạng -->
     <corners android:radius="8dp" />
     <!-- Màu nền của TextInputLayout -->
-    <solid android:color="#3F3F40" />
+    <solid android:color="#C1C1C1" />
     <!-- Đường viền TextInputLayout (nếu cần) -->
     <stroke android:width="1dp" android:color="@color/white" />
 </shape>

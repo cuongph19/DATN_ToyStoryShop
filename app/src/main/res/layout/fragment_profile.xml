@@ -42,7 +42,7 @@
             android:id="@+id/tv_information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sdt and mail"
+            android:text="phoneNumber"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:layout_marginTop="4dp"/>

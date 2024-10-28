@@ -55,21 +55,16 @@ public class Home_screen extends AppCompatActivity {
 
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
-        String phoneNumber = intent.getStringExtra("phoneNumber");
-        String email = intent.getStringExtra("email");
+        String documentId = intent.getStringExtra("documentId");
         String gmail = intent.getStringExtra("gmail");
 
         // Truyền dữ liệu cho Fragment
         Profile_Fragment profileFragment = new Profile_Fragment();
         Bundle bundle = new Bundle();
         // Chỉ thêm vào Bundle nếu không null
-        if (phoneNumber != null) {
-            bundle.putString("phoneNumber", phoneNumber);
-            Log.d("Profile_Fragment", "aaaaaaa: " + phoneNumber);
-        }
-        if (email != null) {
-            bundle.putString("email", email);
-            Log.d("Profile_Fragment", "aaaaaaa: " + email);
+        if (documentId != null) {
+            bundle.putString("documentId", documentId);
+            Log.d("Profile_Fragment", "aaaaaaa: " + documentId);
         }
         if (gmail != null) {
             bundle.putString("gmail", gmail);

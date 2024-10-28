@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -109,6 +111,7 @@ public class ForgotOTP_screen extends AppCompatActivity {
     // Lưu thông tin người dùng vào Firestore
     private void saveUserDataToFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         // Kiểm tra và chuyển đổi số điện thoại về định dạng +84 nếu nó bắt đầu bằng 0
         if (phoneNumber.startsWith("0")) {
             phoneNumber = phoneNumber.replaceFirst("0", "+84");
@@ -116,19 +119,43 @@ public class ForgotOTP_screen extends AppCompatActivity {
 
         Map<String, Object> user = new HashMap<>();
         user.put("phoneNumber", phoneNumber);
-        user.put("password", password); // Thay thế bằng biến mật khẩu của bạn
+        user.put("password", password);
 
-        // Sử dụng email làm Collection ID và số điện thoại làm Document ID
-        db.collection("users").document(phoneNumber)
-                .set(user)
-                .addOnSuccessListener(aVoid -> {
-                    // Hiển thị dialog với thông tin người dùng
-                    showUserInfoDialog(phoneNumber);
+        // Kiểm tra xem số điện thoại đã tồn tại trong Firestore chưa
+        db.collection("users")
+                .whereEqualTo("phoneNumber", phoneNumber)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // Nếu tài liệu đã tồn tại, cập nhật dữ liệu
+                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                        document.getReference().update(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    // Hiển thị dialog với thông tin người dùng
+                                    showUserInfoDialog(phoneNumber);
+                                    Log.d("ForgotOTP_screen", "Phoneaaaaaaanumber: " + phoneNumber);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
+                                });
+                    }
+//                    else {
+//                        // Nếu tài liệu không tồn tại, tạo một tài liệu mới
+//                        db.collection("users").add(user)
+//                                .addOnSuccessListener(documentReference -> {
+//                                    // Hiển thị dialog với thông tin người dùng
+//                                    showUserInfoDialog(phoneNumber);
+//                                })
+//                                .addOnFailureListener(e -> {
+//                                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
+//                                });
+//                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     private void showUserInfoDialog(String phoneNumber) {
         // Tạo AlertDialog để hiển thị phoneNumber và cho phép nhập mật khẩu mới
@@ -176,19 +203,27 @@ public class ForgotOTP_screen extends AppCompatActivity {
     }
     private void updatePasswordInFirestore(String phoneNumber, String newPassword) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> user = new HashMap<>();
-        user.put("password", newPassword); // Cập nhật mật khẩu mới
 
-        // Cập nhật mật khẩu trong Firestore
-        db.collection("users").document(phoneNumber)
-                .update(user)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_success), Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_error), Toast.LENGTH_SHORT).show();
+        // Truy vấn tài liệu có phoneNumber khớp
+        db.collection("users")
+                .whereEqualTo("phoneNumber", phoneNumber)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                        document.getReference().update("password", newPassword) // Cập nhật mật khẩu mới
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_success), Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_error), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        Toast.makeText(ForgotOTP_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
+
 
 
     // Thiết lập tự động chuyển tiếp giữa các EditText

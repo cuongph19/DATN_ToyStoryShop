@@ -204,18 +204,20 @@ public class SignIn_screen extends AppCompatActivity {
         }
 
         String finalPhoneNumber = phoneNumber;
-        db.collection("users").document(phoneNumber)
+        db.collection("users")
+                .whereEqualTo("phoneNumber", finalPhoneNumber)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String storedPassword = document.getString("password");
+                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                        String storedPassword = document.getString("password");
                             if (storedPassword != null && storedPassword.equals(password)) {
                                 // Đăng nhập thành công
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
-                                intent.putExtra("phoneNumber", finalPhoneNumber);
+                                String documentId = document.getId();
+                                Log.d("aaaaaaa", "aaaaaaa: " + documentId);
+                                intent.putExtra("documentId", documentId);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
@@ -223,7 +225,7 @@ public class SignIn_screen extends AppCompatActivity {
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                         }
-                    }
+
                 });
     }
 
@@ -235,16 +237,34 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
-                            intent.putExtra("email", email);
-                            startActivity(intent);
+                            if (user != null) {
+                                // Lấy Document ID từ Firestore
+                                db.collection("users")
+                                        .whereEqualTo("email", email)
+                                        .get()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful() && !task1.getResult().isEmpty()) {
+                                                DocumentSnapshot document = task1.getResult().getDocuments().get(0);
+                                                String documentId = document.getId();
+                                                Log.d("aaaaaaa", "aaaaaaa: " + documentId);
+                                                // Đăng nhập thành công
+                                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                                intent.putExtra("documentId", documentId);
+                                                startActivity(intent);
+                                            } else {
+                                                // Không tìm thấy tài liệu của người dùng
+                                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 
     // Kiểm tra số điện thoại hợp lệ
     private boolean isPhoneNumber(String input) {

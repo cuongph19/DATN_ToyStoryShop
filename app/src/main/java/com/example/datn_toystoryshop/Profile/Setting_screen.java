@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -45,6 +46,13 @@ public class Setting_screen extends AppCompatActivity {
         tvContactSupport = findViewById(R.id.tv_contact_support);
         switchDarkMode = findViewById(R.id.switch_dark_mode);
         btnBack = findViewById(R.id.btnBack);
+
+        Intent intent = getIntent();
+        String documentId = intent.getStringExtra("documentId");
+        String gmail = intent.getStringExtra("gmail");
+        Log.d("Setting_screen", "Document ID received: " + documentId);
+        Log.d("Setting_screen", "gmail: " + gmail);
+
 
         // SharedPreferences setup for dark mode toggle
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
@@ -93,6 +101,8 @@ public class Setting_screen extends AppCompatActivity {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(Setting_screen.this, UpdateInfo_screen.class);
+                intent.putExtra("documentId", documentId);
+                intent.putExtra("gmail", gmail);
                 startActivity(intent);
             }
         });
@@ -101,6 +111,8 @@ public class Setting_screen extends AppCompatActivity {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(Setting_screen.this, ChangePassword_screen.class);
+                intent.putExtra("documentId", documentId);
+                intent.putExtra("gmail", gmail);
                 startActivity(intent);
             }
         });
