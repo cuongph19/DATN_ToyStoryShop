@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop.Register_login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -186,32 +187,42 @@ public class SignUp_screen extends AppCompatActivity {
     private void savePasswordToFirestore(String phoneNumber, String password, String name) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> user = new HashMap<>();
-
+        user.put("phoneNumber", phoneNumber);
         user.put("password", password);
         user.put("name", name);
-        // Sử dụng số điện thoại làm ID tài liệu
-        db.collection("users").document(phoneNumber)
-                .set(user)
-                .addOnSuccessListener(aVoid -> {
-                    checkUserPasswordInFirestore(phoneNumber); // Kiểm tra dữ liệu đã lưu
+
+        // Thêm tài liệu với ID ngẫu nhiên
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(documentReference -> {
+                    String randomID = documentReference.getId(); // Lấy ID ngẫu nhiên được tạo
+                    Log.d("SignUp_screen", "ID ngẫu nhiên: " + randomID);
+                    // Gọi hàm kiểm tra với ID ngẫu nhiên vừa tạo
+                    checkUserPasswordInFirestore(randomID);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
+
     // Kiểm tra dữ liệu đã lưu trong Firestore
-    private void checkUserPasswordInFirestore(String phoneNumber) {
+    private void checkUserPasswordInFirestore(String documentId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(phoneNumber).get()
+        db.collection("users").document(documentId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String password = documentSnapshot.getString("password");
                         String name = documentSnapshot.getString("name");
+                        // Xử lý dữ liệu đã lấy từ Firestore ở đây
+                    } else {
+                        Log.d("CheckUser", "Tài liệu không tồn tại");
                     }
                 })
                 .addOnFailureListener(e -> {
-                 //   Toast.makeText(SignUp_screen.this, "Lỗi khi kiểm tra dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("CheckUser", "Lỗi khi kiểm tra dữ liệu: " + e.getMessage());
+                    // Toast.makeText(SignUp_screen.this, "Lỗi khi kiểm tra dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 }
