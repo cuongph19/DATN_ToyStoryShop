@@ -2,8 +2,10 @@ package com.example.datn_toystoryshop.Profile;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -64,10 +66,12 @@ public class Setting_screen extends AppCompatActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     editor.putBoolean("night", true);
                     nightMode = true;
+                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set)+ " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
                 }else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     editor.putBoolean("night", false);
                     nightMode = false;
+                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set)+ " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
                 }
                 editor.apply();
             }
@@ -103,16 +107,20 @@ public class Setting_screen extends AppCompatActivity {
         tvNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(Setting_screen.this, Notifications_screen.class);
-                startActivity(intent);
+                // Chặn tất cả các thông báo
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                if (notificationManager != null) {
+                    notificationManager.cancelAll(); // Hủy tất cả các thông báo
+                    Toast.makeText(Setting_screen.this, getString(R.string.status_notifi), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         tvContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(Setting_screen.this, ContactSupport_screen.class);
+                String phoneNumber = "tel:0123987456";
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse(phoneNumber));
                 startActivity(intent);
             }
         });
