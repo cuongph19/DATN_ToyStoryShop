@@ -186,6 +186,7 @@ public class SignUp_screen extends AppCompatActivity {
     private void savePasswordToFirestore(String phoneNumber, String password, String name) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> user = new HashMap<>();
+
         user.put("password", password);
         user.put("name", name);
         // Sử dụng số điện thoại làm ID tài liệu
