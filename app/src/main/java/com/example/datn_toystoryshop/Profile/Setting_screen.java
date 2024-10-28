@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.NewArrivals_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
@@ -27,6 +29,7 @@ public class Setting_screen extends AppCompatActivity {
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    boolean nightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +43,45 @@ public class Setting_screen extends AppCompatActivity {
         tvContactSupport = findViewById(R.id.tv_contact_support);
         switchDarkMode = findViewById(R.id.switch_dark_mode);
         btnBack = findViewById(R.id.btnBack);
+
         // SharedPreferences setup for dark mode toggle
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
         editor = sharedPreferences.edit();
 
-        // Load dark mode setting
-        boolean isDarkMode = sharedPreferences.getBoolean("DarkMode", false);
-        switchDarkMode.setChecked(isDarkMode);
+        if (nightMode) {
+            switchDarkMode.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            btnBack.setImageResource(R.drawable.back_icon);
+        }else{
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
 
-        // Toggle Dark Mode
-        switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            editor.putBoolean("DarkMode", isChecked);
-            editor.apply();
-            // Add functionality to update UI theme here if needed
-            Toast.makeText(this,getString(R.string.dark_mode_enabled_set) + (isChecked ? getString(R.string.dark_mode_on_set) : getString(R.string.dark_mode_off_set)), Toast.LENGTH_SHORT).show();
+        switchDarkMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchDarkMode.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor.putBoolean("night", true);
+                    nightMode = true;
+                }else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putBoolean("night", false);
+                    nightMode = false;
+                }
+                editor.apply();
+            }
         });
+
+
         // Nút quay lại đăng nhập
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(Setting_screen.this, Home_screen.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         });
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {

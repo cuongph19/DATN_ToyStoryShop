@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+
+    style="@style/SCREEN"
     android:padding="16dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,13 +20,13 @@
             android:padding="8dp"
             android:src="@drawable/back_icon_1" />
         <TextView
+            style="@style/TEXT"
             android:id="@+id/tvEvaluate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setting_pro"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#001A61"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:layout_marginStart="10dp" />
