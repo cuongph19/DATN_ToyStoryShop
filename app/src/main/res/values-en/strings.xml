@@ -92,7 +92,7 @@
         <string name="notification_set">Notifications</string>
         <string name="dark_mode_set">Dark mode</string>
         <string name="contact_support_set">Contact support</string>
-
+        <string name="status_notifi">All notifications have been blocked</string>
         <!-- Terms_Conditions_screen -->
         <string name="conditions_content_ter">
     <![CDATA[

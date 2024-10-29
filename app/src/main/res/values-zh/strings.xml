@@ -92,7 +92,7 @@
     <string name="notification_set">通知</string>
     <string name="dark_mode_set">深色模式</string>
     <string name="contact_support_set">联系支持</string>
-
+    <string name="status_notifi">所有通知都已被阻止</string>
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
     <![CDATA[

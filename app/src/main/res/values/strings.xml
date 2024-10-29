@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ToyStory Shop</string>
 
-<!-- Fragment -->
+    <!-- Fragment -->
     <!-- Home_Fragment -->
     <string name="search_product_homefm">Tìm kiếm sản phẩm</string>
     <string name="new_arrivals_homefm">Hàng mới về</string>
@@ -27,7 +27,7 @@
     <string name="privacy_security_pro">Quyền riêng tư &amp; Bảo mật</string>
     <string name="sign_out_pro">Đăng xuất</string>
 
-<!-- Profile -->
+    <!-- Profile -->
     <!-- Currency_Language_screen -->
     <string name="select_language">Chọn ngôn ngữ: </string>
     <string name="select_currency">Chọn loại tiền: </string>
@@ -94,7 +94,10 @@
     <string name="dark_mode_set">Chế độ tối</string>
     <string name="contact_support_set">Liên hệ hỗ trợ</string>
     <string name="status_notifi">Tất cả thông báo đã bị chặn</string>
-
+    <string name="support">Hỗ trợ</string>
+    <string name="support_chat">Hỗ trợ qua chat</string>
+    <string name="support_phone">Hỗ trợ qua điện thoại</string>
+    <string name="support_email">Hỗ trợ qua email</string>
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
         <![CDATA[
@@ -127,7 +130,7 @@
     <string name="agree_statement_ter">Tôi đồng ý với các điều khoản và điều kiện</string>
     <string name="accept_button_ter">Chấp nhận</string>
 
-<!-- Register_login -->
+    <!-- Register_login -->
     <!-- forgot_pass -->
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
@@ -186,7 +189,7 @@
     <string name="Toast_pass">Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!</string>
     <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
 
- <!-- menu -->
+    <!-- menu -->
     <string name="home_menu">Trang Chủ</string>
     <string name="browse_menu">Tìm Kiếm</string>
     <string name="store_menu">Cửa Hàng</string>
