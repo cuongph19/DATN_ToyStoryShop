@@ -93,7 +93,7 @@
     <string name="notification_set">通知</string>
     <string name="dark_mode_set">ダークモード</string>
     <string name="contact_support_set">サポートに連絡</string>
-
+    <string name="status_notifi">すべての通知がブロックされました</string>
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
     <![CDATA[

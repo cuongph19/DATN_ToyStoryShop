@@ -21,6 +21,7 @@ import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
+import com.example.datn_toystoryshop.Setting.ContactSupport_screen;
 import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
@@ -85,18 +86,22 @@ public class Setting_screen extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
-        }});
+                Intent intent = new Intent(Setting_screen.this, Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                finish();
+            }});
 
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển sang NewActivity
+                // Chuyển sang UpdateInfo_screen
                 Intent intent = new Intent(Setting_screen.this, UpdateInfo_screen.class);
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
+
         tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,11 +125,8 @@ public class Setting_screen extends AppCompatActivity {
         tvContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phoneNumber = "tel:0123987456";
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse(phoneNumber));
-                startActivity(intent);
+              startActivity(new Intent(Setting_screen.this, ContactSupport_screen.class));
             }
         });
     }
-    }
+}

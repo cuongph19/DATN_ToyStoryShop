@@ -14,8 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -23,12 +22,16 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DATN_ToyStoryShop"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".Contact_support.Email_contact"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA-rwWM26GHvGh2sRvaMDJoz9TgMExk9wo" />
@@ -52,8 +55,6 @@
         <activity
             android:name=".Profile.Setting_screen"
             android:exported="false" />
-
-
         <activity
             android:name=".Register_login.PhoneNumber_screen"
             android:exported="false" />
@@ -72,8 +73,6 @@
         <activity
             android:name=".Register_login.SignIn_screen"
             android:exported="false" />
-
-
         <activity
             android:name=".Setting.ContactSupport_screen"
             android:exported="false" />
@@ -86,8 +85,6 @@
         <activity
             android:name=".Setting.UpdateInfo_screen"
             android:exported="false" />
-
-
         <activity
             android:name=".Home.OtherProducts_screen"
             android:exported="false" />
@@ -106,7 +103,6 @@
         <activity
             android:name=".Home.NewArrivals_screen"
             android:exported="false" />
-
         <activity
             android:name=".Register_login.Welcome_screen"
             android:exported="false" />
