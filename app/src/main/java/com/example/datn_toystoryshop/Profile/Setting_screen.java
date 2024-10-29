@@ -17,12 +17,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
-import com.example.datn_toystoryshop.NewArrivals_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
-import com.example.datn_toystoryshop.Setting.ContactSupport_screen;
-import com.example.datn_toystoryshop.Setting.Notifications_screen;
 import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
@@ -49,9 +47,7 @@ public class Setting_screen extends AppCompatActivity {
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
-        String gmail = intent.getStringExtra("gmail");
         Log.d("Setting_screen", "Document ID received: " + documentId);
-        Log.d("Setting_screen", "gmail: " + gmail);
 
 
         // SharedPreferences setup for dark mode toggle
@@ -86,23 +82,18 @@ public class Setting_screen extends AppCompatActivity {
         });
 
 
-        // Nút quay lại đăng nhập
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Setting_screen.this, Home_screen.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
+                onBackPressed();
+        }});
+
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(Setting_screen.this, UpdateInfo_screen.class);
                 intent.putExtra("documentId", documentId);
-                intent.putExtra("gmail", gmail);
                 startActivity(intent);
             }
         });
@@ -112,7 +103,6 @@ public class Setting_screen extends AppCompatActivity {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(Setting_screen.this, ChangePassword_screen.class);
                 intent.putExtra("documentId", documentId);
-                intent.putExtra("gmail", gmail);
                 startActivity(intent);
             }
         });

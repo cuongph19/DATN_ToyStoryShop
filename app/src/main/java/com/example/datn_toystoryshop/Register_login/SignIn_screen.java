@@ -29,6 +29,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignIn_screen extends AppCompatActivity {
     private TextInputEditText edInput, edPassword;
     private Button btnLogin,btnGoogleLogin1;
@@ -182,19 +185,41 @@ public class SignIn_screen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             // Lấy email từ tài khoản Google
                             String gmail = acct.getEmail();
 
-                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
-                            intent.putExtra("gmail", gmail);
-                            startActivity(intent);
+                            // Tạo đối tượng map để lưu trữ dữ liệu người dùng
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("email", gmail);
+                            userData.put("name", user.getDisplayName()); // lấy tên từ Google tài khoản
+                            userData.put("phoneNumber", user.getPhoneNumber()); // có thể là null nếu không có số điện thoại
+                            userData.put("password", ""); // giữ trống nếu không có mật khẩu từ Google
+
+                            // Thêm dữ liệu vào Firestore với tài liệu mới và lấy documentId
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            db.collection("users")
+                                    .add(userData)
+                                    .addOnSuccessListener(documentReference -> {
+                                        // Lấy documentId của tài liệu mới tạo
+                                        String documentId = documentReference.getId();
+
+                                        // Chuyển đến Home_screen với documentId
+                                        Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                        intent.putExtra("documentId", documentId);
+                                        startActivity(intent);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(SignIn_screen.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                    });
                         } else {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 
     // Đăng nhập bằng số điện thoại
     private void loginWithPhone(String phoneNumber, String password) {

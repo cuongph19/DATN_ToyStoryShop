@@ -56,7 +56,7 @@ public class Home_screen extends AppCompatActivity {
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
-        String gmail = intent.getStringExtra("gmail");
+
 
         // Truyền dữ liệu cho Fragment
         Profile_Fragment profileFragment = new Profile_Fragment();
@@ -66,10 +66,7 @@ public class Home_screen extends AppCompatActivity {
             bundle.putString("documentId", documentId);
             Log.d("Profile_Fragment", "aaaaaaa: " + documentId);
         }
-        if (gmail != null) {
-            bundle.putString("gmail", gmail);
-            Log.d("Profile_Fragment", "aaaaaaa: " + gmail);
-        }
+
         profileFragment.setArguments(bundle);
 
         // Hiển thị Fragment

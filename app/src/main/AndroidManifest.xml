@@ -89,22 +89,22 @@
 
 
         <activity
-            android:name=".OtherProducts_screen"
+            android:name=".Home.OtherProducts_screen"
             android:exported="false" />
         <activity
-            android:name=".BlindBox_screen"
+            android:name=".Home.BlindBox_screen"
             android:exported="false" />
         <activity
-            android:name=".LimitedFigure_screen"
+            android:name=".Home.LimitedFigure_screen"
             android:exported="false" />
         <activity
-            android:name=".Figuring_screen"
+            android:name=".Home.Figuring_screen"
             android:exported="false" />
         <activity
-            android:name=".ArtStory_screen"
+            android:name=".Home.ArtStory_screen"
             android:exported="false" />
         <activity
-            android:name=".NewArrivals_screen"
+            android:name=".Home.NewArrivals_screen"
             android:exported="false" />
 
         <activity

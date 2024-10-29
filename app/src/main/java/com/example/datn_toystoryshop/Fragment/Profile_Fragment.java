@@ -39,12 +39,13 @@ public class Profile_Fragment extends Fragment {
     private ImageView ivAvatar;
     private FirebaseFirestore db;
 
-    private String documentId, gmail, name, phoneNumber;
+    private String documentId, name, phoneNumber;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
+
     }
     @Nullable
     @Override
@@ -70,19 +71,15 @@ public class Profile_Fragment extends Fragment {
         tvPrivacySecurity = view.findViewById(R.id.tv_privacy_security);
         tvLogout = view.findViewById(R.id.tv_logout);
 
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-             gmail = bundle.getString("gmail");
+
 
              if (documentId != null && !documentId.isEmpty()) {
                  loadUserDataByDocumentId(documentId);
             }
-            if (gmail != null) {
-                Log.d("Profile_Fragment", "gmail: " + gmail);
-                tvtvinformation.setText(gmail);
-            }
-
         }
 
         // Xử lý sự kiện cho mục "Cài đặt"
@@ -90,7 +87,6 @@ public class Profile_Fragment extends Fragment {
             // Chuyển tới màn hình cài đặt
             Intent intent = new Intent(getActivity(), Setting_screen.class);
             intent.putExtra("documentId", documentId);
-            intent.putExtra("gmail", gmail);
             startActivity(intent);
         });
 
