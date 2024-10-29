@@ -245,4 +245,11 @@
         <item>Tháng 12</item>
     </string-array>
 
+    //Sort by
+    <string-array name="sort_options">
+        <item>Giá thấp - cao</item>
+        <item>Giá cao - thấp</item>
+    </string-array>
+
+
 </resources>

@@ -1,6 +1,8 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +12,20 @@ public class BlindBox_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blindbox);
+        ImageView ivBack = findViewById(R.id.ivBack); // Lấy đối tượng ImageView
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Gọi phương thức quay lại activity trước đó
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed(); // Quay lại activity trước đó
+    }
 
     }
-}
+
