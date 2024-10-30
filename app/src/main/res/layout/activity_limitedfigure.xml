@@ -98,7 +98,6 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         android:padding="8dp"
-        tools:listitem="@layout/item_product"
         android:clipToPadding="false" />
 
 </LinearLayout>
