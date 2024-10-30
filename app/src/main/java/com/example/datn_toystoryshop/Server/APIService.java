@@ -9,8 +9,8 @@ import retrofit2.http.GET;
 public interface APIService {
 
 
-//    String DOMAIN = "http://192.168.16.101:3000/";
-    String DOMAIN = "http://192.168.1.11:3000/";
+    String DOMAIN = "http://192.168.16.101:3000/";
+   // String DOMAIN = "http://192.168.1.11:3000/";
 
 
     @GET("/api/list")
