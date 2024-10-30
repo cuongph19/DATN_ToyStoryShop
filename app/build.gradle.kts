@@ -63,4 +63,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("io.realm:realm-android-library:10.7.0") // Kiểm tra phiên bản mới nhất
+
+
+
 }
