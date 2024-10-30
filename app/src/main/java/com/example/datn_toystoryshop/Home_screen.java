@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -33,27 +34,31 @@ public class Home_screen extends AppCompatActivity {
     private FrameLayout frameLayout ;
     private TextView header_title ;
     private ImageView cart_icon,heart_icon ;
-    private static final String PREFS_NAME = "MyPrefs"; // Khai báo biến ở đây
+    private static final String CHANNEL_ID = "my_channel_id";
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String NOTIFICATION_SHOWN_KEY = "notificationShown";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Kiểm tra trạng thái thông báo
-        SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        boolean notificationShown = sharedPreferences.getBoolean("notificationShown", false);
+        createNotificationChannel();
+
+        // Kiểm tra xem thông báo đã được hiển thị chưa
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean notificationShown = prefs.getBoolean(NOTIFICATION_SHOWN_KEY, false);
 
         if (!notificationShown) {
             // Hiển thị thông báo
-            sendNotification();
+            showNotification("Chào mừng bạn!", "Cảm ơn bạn đã mở ứng dụng của chúng tôi.");
 
-            // Đặt trạng thái thông báo đã được hiển thị
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("notificationShown", true);
+            // Cập nhật trạng thái đã hiển thị thông báo
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(NOTIFICATION_SHOWN_KEY, true);
             editor.apply();
         }
 
-// Nhận dữ liệu từ Intent
+        // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
@@ -136,18 +141,35 @@ public class Home_screen extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragmentLayout, fragment);
         fragmentTransaction.commit();
     }
-    private void sendNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "MY_NOTIFICATION_CHANNEL")
-                .setSmallIcon(R.drawable.bell) // Icon thông báo
-                .setContentTitle("Chào mừng bạn đến với ứng dụng!") // Tiêu đề thông báo
-                .setContentText("Bạn đã vào màn hình Home.") // Nội dung thông báo
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // Độ ưu tiên của thông báo
-                .setAutoCancel(true); // Tự động hủy thông báo khi nhấn vào
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Notification Channel";
+            String description = "Channel for app notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            // Register the channel with the system
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showNotification(String title, String message) {
+        Intent intent = new Intent(this, Home_screen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.bell) // Biểu tượng thông báo của bạn
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent) // Thiết lập intent
+                .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
-            notificationManager.notify(1, builder.build()); // Hiển thị thông báo
-        }
+        notificationManager.notify(1, builder.build());
     }
 
 }

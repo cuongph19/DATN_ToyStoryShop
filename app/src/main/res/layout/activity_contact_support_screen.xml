@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Setting.ContactSupport_screen">
+    tools:context=".Setting.ContactSupport_screen"
+    style="@style/SCREEN">
 
     <LinearLayout
         android:id="@+id/topLinearLayout"
@@ -16,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/btnBack"
+            android:id="@+id/imgBackSp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -26,7 +27,7 @@
 
         <TextView
             style="@style/TEXT"
-            android:id="@+id/tvEvaluate"
+            android:id="@+id/tvSp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/support"
@@ -47,7 +48,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black" />
+            style="@style/LINE"/>
         <TextView
             android:id="@+id/tvChat"
             android:layout_width="match_parent"
@@ -59,7 +60,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black" />
+            style="@style/LINE" />
 
         <TextView
             android:id="@+id/tvPhone"
@@ -72,7 +73,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black" />
+            style="@style/LINE"/>
 
         <TextView
             android:id="@+id/tvEmail"
@@ -82,8 +83,9 @@
             android:padding="16dp"
             android:textSize="18sp" />
         <View
+            style="@style/LINE"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black" />
+             />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
