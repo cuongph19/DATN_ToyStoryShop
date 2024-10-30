@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +34,7 @@ public class NewArrivals_screen extends AppCompatActivity {
         setContentView(R.layout.activity_newarrivals);
 
         recyclerView = findViewById(R.id.product_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getNewArrivals().enqueue(new Callback<List<Product_Model>>() {
