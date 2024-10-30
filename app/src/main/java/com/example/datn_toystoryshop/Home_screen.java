@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class Home_screen extends AppCompatActivity {
     private FrameLayout frameLayout ;
     private TextView header_title ;
     private ImageView cart_icon,heart_icon ;
+    private RelativeLayout cart_full_icon;
     private static final String CHANNEL_ID = "my_channel_id";
     private static final String PREFS_NAME = "MyPrefs";
     private static final String NOTIFICATION_SHOWN_KEY = "notificationShown";
@@ -83,6 +85,7 @@ public class Home_screen extends AppCompatActivity {
         frameLayout = findViewById(R.id.fragmentLayout);
         header_title = findViewById(R.id.header_title);
         cart_icon = findViewById(R.id.cart_icon);
+        cart_full_icon = findViewById(R.id.cart_full_icon);
         heart_icon = findViewById(R.id.heart_icon);
 
         header_title.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +95,11 @@ public class Home_screen extends AppCompatActivity {
                 recreate();
             }
         });
-        cart_icon.setOnClickListener(new View.OnClickListener() {
+        cart_full_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //////////////chua tao man gio hàng//////////////////////
-                Intent intent = new Intent(Home_screen.this, Favorite_products.class);
+                Intent intent = new Intent(Home_screen.this, Shopping_cart_screen.class);
                 startActivity(intent);
             }
         });

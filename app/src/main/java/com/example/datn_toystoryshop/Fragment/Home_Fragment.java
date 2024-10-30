@@ -3,12 +3,14 @@ package com.example.datn_toystoryshop.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class Home_Fragment extends Fragment {
+    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
     private ViewPager2 viewPager;
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -61,6 +64,10 @@ public class Home_Fragment extends Fragment {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        btn_follow_store_1 = view.findViewById(R.id.btn_follow_store_1);
+        btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);
+        btn_follow_store_3 = view.findViewById(R.id.btn_follow_store_3);
+        btn_follow_store_4 = view.findViewById(R.id.btn_follow_store_4);
         viewPager = view.findViewById(R.id.view_pager);
         new_arrivals = view.findViewById(R.id.new_arrivals);
         blind_box = view.findViewById(R.id.blind_box);
@@ -181,6 +188,38 @@ public class Home_Fragment extends Fragment {
         };
         handler.postDelayed(runnable, 3000);
 
+        btn_follow_store_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
