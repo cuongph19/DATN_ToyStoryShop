@@ -15,4 +15,7 @@ public interface APIService {
 
     @GET("/api/list")
     Call<List<Product_Model>> getProducts();
+
+    @GET("/api/new-arrivals")
+    Call<List<Product_Model>> getNewArrivals();
 }
