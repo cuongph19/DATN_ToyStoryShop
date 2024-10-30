@@ -41,8 +41,7 @@ public class UpdateInfo_screen extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // Lấy dữ liệu từ Intent
-        Intent intent = getIntent();
-        documentId = intent.getStringExtra("documentId");
+        documentId = getIntent().getStringExtra("documentId");
         // Kiểm tra documentId có null không
         if (documentId == null) {
             Toast.makeText(this, "Document ID is null. Cannot load user data.", Toast.LENGTH_SHORT).show();
@@ -58,9 +57,6 @@ public class UpdateInfo_screen extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (documentId  != null) {
-//                    saveDataToFirestore(); // Lưu với documentId hiện có
-//                }
                 btnSave.setEnabled(false); // Vô hiệu hóa nút để ngăn người dùng nhấn lại
                 if (documentId != null) {
                     saveDataToFirestore(); // Lưu với documentId hiện có
@@ -97,13 +93,6 @@ public class UpdateInfo_screen extends AppCompatActivity {
         userData.put("password", password);
         // Lưu dữ liệu vào Firestore
         DocumentReference docRef = db.collection("users").document(documentId);
-//        docRef.set(userData)
-//                .addOnSuccessListener(aVoid -> {
-//                    Toast.makeText(UpdateInfo_screen.this, "User info updated successfully", Toast.LENGTH_SHORT).show();
-//                })
-//                .addOnFailureListener(e -> {
-//                    Toast.makeText(UpdateInfo_screen.this, "Failed to update user info", Toast.LENGTH_SHORT).show();
-//                });
         docRef.set(userData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(UpdateInfo_screen.this, "User info updated successfully", Toast.LENGTH_SHORT).show();
