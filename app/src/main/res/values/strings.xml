@@ -93,11 +93,23 @@
     <string name="notification_set">Thông báo</string>
     <string name="dark_mode_set">Chế độ tối</string>
     <string name="contact_support_set">Liên hệ hỗ trợ</string>
-    <string name="status_notifi">Tất cả thông báo đã bị chặn</string>
+    <string name="status_notifi">Thông báo đã bị</string>
+    <string name="noti_block">Tắt thông báo</string>
+    <string name="notification">Thông báo</string>
     <string name="support">Hỗ trợ</string>
     <string name="support_chat">Hỗ trợ qua chat</string>
     <string name="support_phone">Hỗ trợ qua điện thoại</string>
     <string name="support_email">Hỗ trợ qua email</string>
+    <string name="service">Dịch vụ</string>
+    <string name="attachment">Tập tin đính kèm</string>
+    <string name="title_contact">Tiêu đề</string>
+    <string name="descr_contact">Mô tả</string>
+    <string name="btn_attachm">Chọn tệp tin</string>
+    <string name="edt_email">Nhập email của bạn</string>
+    <string name="edt_title">Nhập tiêu đề</string>
+    <string name="edt_des">Nhập mô tả</string>
+    <string name="send_contact">Gửi</string>
+
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
         <![CDATA[

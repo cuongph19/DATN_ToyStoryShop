@@ -22,6 +22,7 @@ import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
 import com.example.datn_toystoryshop.Setting.ContactSupport_screen;
+import com.example.datn_toystoryshop.Setting.Notifications_screen;
 import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
@@ -114,18 +115,15 @@ public class Setting_screen extends AppCompatActivity {
         tvNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chặn tất cả các thông báo
-                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                if (notificationManager != null) {
-                    notificationManager.cancelAll(); // Hủy tất cả các thông báo
-                    Toast.makeText(Setting_screen.this, getString(R.string.status_notifi), Toast.LENGTH_SHORT).show();
-                }
+                startActivity(new Intent(Setting_screen.this, Notifications_screen.class));
             }
         });
         tvContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startActivity(new Intent(Setting_screen.this, ContactSupport_screen.class));
+                Intent intent = new Intent(Setting_screen.this, ContactSupport_screen.class);
+                intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
+                startActivity(intent);
             }
         });
     }

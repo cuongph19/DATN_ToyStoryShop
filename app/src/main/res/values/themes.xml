@@ -13,4 +13,7 @@
     <style name="TEXT">
         <item name="android:textColor">#001A61</item>
     </style>
+    <style name="LINE">
+        <item name="android:background">#000000</item>
+    </style>
 </resources>
