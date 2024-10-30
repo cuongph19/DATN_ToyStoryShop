@@ -1,9 +1,9 @@
-// Browse_Fragment.java
 package com.example.datn_toystoryshop.Fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
-import java.text.Normalizer;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Browse_Fragment extends Fragment {
 
@@ -41,44 +44,71 @@ public class Browse_Fragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        // Tạo danh sách sản phẩm mẫu
+        // Khởi tạo danh sách sản phẩm
         productList = new ArrayList<>();
-        productList.add(new Product_Model("1", 12345, 101, true, 100000, "Mô tả sản phẩm 1", "01/01/2024", 10, "Mới", "https://link_anh.png", "San pham 1", 1));
-        productList.add(new Product_Model("2", 12346, 102, false, 200000, "Mô tả sản phẩm 2", "02/01/2024", 5, "Hết hàng", "https://link_anh.png", "San pham 2", 2));
-
-        // Khởi tạo Adapter và gán vào RecyclerView
         productAdapter = new Product_Adapter(getContext(), productList);
         recyclerView.setAdapter(productAdapter);
 
+        // Gọi API để lấy sản phẩm từ MongoDB
+        getProductsFromApi();
+
+        // Thiết lập TextWatcher cho searchBar
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productAdapter.filter(s.toString()); // Gọi hàm filter
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
         // Xử lý sự kiện nhấn nút sắp xếp (Giá)
         btnSort.setOnClickListener(v -> {
-            // Tạo một PopupMenu bên dưới nút btnSort
             PopupMenu popupMenu = new PopupMenu(getContext(), btnSort);
             popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
 
-            // Xử lý khi người dùng chọn một tùy chọn
             popupMenu.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.menu_price_low_to_high) {
-                    productAdapter.sortByPriceAscending(); // Sắp xếp từ giá thấp đến cao
+                    productAdapter.sortByPriceAscending();
                     return true;
                 } else if (item.getItemId() == R.id.menu_price_high_to_low) {
-                    productAdapter.sortByPriceDescending(); // Sắp xếp từ giá cao đến thấp
+                    productAdapter.sortByPriceDescending();
                     return true;
                 }
                 return false;
             });
 
-            // Hiển thị PopupMenu
             popupMenu.show();
         });
 
         return view;
     }
 
-    // Hàm chuyển đổi chuỗi có dấu thành không dấu
-    public static String removeDiacritics(String input) {
-        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(normalized).replaceAll("");
+    private void getProductsFromApi() {
+        APIService apiService = RetrofitClient.getAPIService();
+        Call<List<Product_Model>> call = apiService.getProducts();
+
+        call.enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    productList.clear();
+                    productList.addAll(response.body()); // Thêm tất cả sản phẩm vào danh sách
+                    productAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+                    productAdapter.productModelListFull = new ArrayList<>(productList); // Khởi tạo danh sách đầy đủ
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 }

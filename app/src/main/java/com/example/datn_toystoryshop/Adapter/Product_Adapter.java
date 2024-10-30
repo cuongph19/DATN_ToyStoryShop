@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
-    private List<Product_Model> productModelListFull; // List gốc để lọc
+    public List<Product_Model> productModelListFull; // List gốc để lọc
     private Context context;
 
     public Product_Adapter(Context context, List<Product_Model> productModelList) {
@@ -74,18 +74,20 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
-        productModelList.clear();
+        productModelList.clear(); // Xóa danh sách hiện tại
         if (query.isEmpty()) {
-            productModelList.addAll(productModelListFull);
+            productModelList.addAll(productModelListFull); // Nếu không có từ khóa, thêm lại tất cả
         } else {
             for (Product_Model product : productModelListFull) {
+                // Kiểm tra xem tên sản phẩm có chứa từ khóa không
                 if (removeDiacritics(product.getNamePro().toLowerCase()).contains(query.toLowerCase())) {
-                    productModelList.add(product);
+                    productModelList.add(product); // Nếu có, thêm vào danh sách lọc
                 }
             }
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Cập nhật RecyclerView
     }
+
 
     // Sắp xếp theo giá cao đến thấp
     public void sortByPriceDescending() {
@@ -99,10 +101,10 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         notifyDataSetChanged();
     }
 
-    // Hàm chuyển đổi chuỗi có dấu thành không dấu
     private String removeDiacritics(String input) {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(normalized).replaceAll("");
     }
+
 }
