@@ -62,7 +62,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"/>
 
-            <EditText
+            <TextView
                 android:textColorHint="@color/black"
                 android:padding="10dp"
                 android:background="@drawable/edt_contact_background"
@@ -70,7 +70,7 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="50sp"
-                android:hint="@string/edt_email"
+                android:text="@string/edt_email"
                 android:textColor="@color/black"
                 android:inputType="textEmailAddress"
                 android:layout_marginStart="16dp"

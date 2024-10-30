@@ -41,8 +41,7 @@ public class UpdateInfo_screen extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // Lấy dữ liệu từ Intent
-        Intent intent = getIntent();
-        documentId = intent.getStringExtra("documentId");
+        documentId = getIntent().getStringExtra("documentId");
         // Kiểm tra documentId có null không
         if (documentId == null) {
             Toast.makeText(this, "Document ID is null. Cannot load user data.", Toast.LENGTH_SHORT).show();
