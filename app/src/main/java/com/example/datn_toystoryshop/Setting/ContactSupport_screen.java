@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Contact_support.Email_contact;
 import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.R;
@@ -65,6 +66,15 @@ public class ContactSupport_screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent emailIntent = new Intent(ContactSupport_screen.this, Email_contact.class);
+                emailIntent.putExtra("documentId", documentId);  // Truyền documentId sang Email_contact nếu cần
+                startActivity(emailIntent);
+            }
+        });
+
+        tvChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(ContactSupport_screen.this, Chat_contact.class);
                 emailIntent.putExtra("documentId", documentId);  // Truyền documentId sang Email_contact nếu cần
                 startActivity(emailIntent);
             }
