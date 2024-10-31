@@ -29,6 +29,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Home.All_new_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Home.Popular_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Home.Store_follow_screen"
+            android:exported="false" />
+        <activity
             android:name=".Shopping_cart_screen"
             android:exported="false" />
         <activity
