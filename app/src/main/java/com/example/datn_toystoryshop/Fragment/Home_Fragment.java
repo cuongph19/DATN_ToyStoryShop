@@ -100,24 +100,24 @@ public class Home_Fragment extends Fragment {
         call.enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && isAdded()) {
                     // Nhận dữ liệu từ API
                     listProductModel = response.body();
-
                     // Khởi tạo Adapter với dữ liệu nhận được
                     productAdapter = new Product_Adapter(requireContext(), listProductModel);
-
                     // Gắn Adapter vào RecyclerView
                     recyclerViewMain.setAdapter(productAdapter);
                 } else {
                     Log.e("ProductFragment", "Response unsuccessful or body is null");
-                }}
+                }
+            }
+
             @Override
             public void onFailure(Call<List<Product_Model>> call, Throwable t) {
-                // Xử lý khi thất bại
                 Log.e("ProductFragment", "API call failed: " + t.getMessage());
             }
         });
+
 
         new_arrivals.setOnClickListener(new View.OnClickListener() {
             @Override
