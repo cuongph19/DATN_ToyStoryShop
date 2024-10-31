@@ -143,7 +143,22 @@ public class Home_screen extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentLayout, fragment);
         fragmentTransaction.commit();
+
+        // Cập nhật tiêu đề dựa trên Fragment
+        if (fragment instanceof Home_Fragment) {
+            header_title.setText(getString(R.string.app_name));
+        } else if (fragment instanceof Browse_Fragment) {
+            header_title.setText(getString(R.string.browse_menu));
+        } else if (fragment instanceof Store_Fragment) {
+            header_title.setText(getString(R.string.store_menu));
+        } else if (fragment instanceof History_Fragment) {
+            header_title.setText(getString(R.string.history_menu));
+        } else if (fragment instanceof Profile_Fragment) {
+            header_title.setText(getString(R.string.profile_menu));
+        }
     }
+
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "My Notification Channel";

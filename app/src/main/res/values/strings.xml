@@ -109,7 +109,8 @@
     <string name="edt_title">Nhập tiêu đề</string>
     <string name="edt_des">Nhập mô tả</string>
     <string name="send_contact">Gửi</string>
-
+    <string name="prompt_select_city">Chọn tỉnh/thành phố</string>
+    <string name="prompt_select_district">Chọn quận/huyện</string>
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
         <![CDATA[
