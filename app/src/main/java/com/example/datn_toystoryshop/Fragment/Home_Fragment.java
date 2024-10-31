@@ -21,10 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
+import com.example.datn_toystoryshop.Home.All_new_screen;
 import com.example.datn_toystoryshop.Home.ArtStory_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
 import com.example.datn_toystoryshop.Home.Figuring_screen;
 import com.example.datn_toystoryshop.Home.LimitedFigure_screen;
+import com.example.datn_toystoryshop.Home.Popular_screen;
+import com.example.datn_toystoryshop.Home.Store_follow_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Home.NewArrivals_screen;
 import com.example.datn_toystoryshop.Home.OtherProducts_screen;
@@ -43,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class Home_Fragment extends Fragment {
-    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
+    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
     private ViewPager2 viewPager;
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -68,6 +71,9 @@ public class Home_Fragment extends Fragment {
         btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);
         btn_follow_store_3 = view.findViewById(R.id.btn_follow_store_3);
         btn_follow_store_4 = view.findViewById(R.id.btn_follow_store_4);
+        btn_see_all_new = view.findViewById(R.id.btn_see_all_new);
+        btn_see_all_popular = view.findViewById(R.id.btn_see_all_popular);
+        btn_view_all_stores = view.findViewById(R.id.btn_view_all_stores);
         viewPager = view.findViewById(R.id.view_pager);
         new_arrivals = view.findViewById(R.id.new_arrivals);
         blind_box = view.findViewById(R.id.blind_box);
@@ -161,6 +167,66 @@ public class Home_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        //////////////////////
+        btn_see_all_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển sang NewActivity
+                Intent intent = new Intent(getActivity(), All_new_screen.class);
+                startActivity(intent);
+            }
+        });
+        btn_see_all_popular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển sang NewActivity
+                Intent intent = new Intent(getActivity(), Popular_screen.class);
+                startActivity(intent);
+            }
+        });
+        btn_view_all_stores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển sang NewActivity
+                Intent intent = new Intent(getActivity(), Store_follow_screen.class);
+                startActivity(intent);
+            }
+        });
+        ///////////////
+
+        btn_follow_store_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://youtube.com/@ToyStationVietnam"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.youtube.com/@dochoirobot9952"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.youtube.com/@mykingdom"));
+                startActivity(intent);
+            }
+        });
+        btn_follow_store_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.youtube.com/@otocancaumayxuc"));
+                startActivity(intent);
+            }
+        });
+
         // Setup ViewPager2 for image slider
         List<Integer> images = Arrays.asList(
                 R.drawable.ic_logo,
@@ -188,38 +254,7 @@ public class Home_Fragment extends Fragment {
         };
         handler.postDelayed(runnable, 3000);
 
-        btn_follow_store_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://youtube.com/@LapTrinhJava"));
-                startActivity(intent);
-            }
-        });
+
         return view;
     }
 
