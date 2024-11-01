@@ -18,9 +18,13 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder
     private List<Integer> imageList;
     private List<String> textList; // Danh sách chứa các nội dung text tương ứng
 
-    public Image_Adapter(List<Integer> imageList, List<String> textList) {
+    public Image_Adapter(List<Integer> imageList, List<String> texts) {
+        // Kiểm tra xem imageList và texts có giá trị null không
+        if (imageList == null || texts == null || imageList.size() != texts.size()) {
+            throw new IllegalArgumentException("Image list and text list must not be null and must have the same size");
+        }
         this.imageList = imageList;
-        this.textList = textList;  // Khởi tạo danh sách text
+        this.textList = texts;  // Khởi tạo danh sách text
     }
 
     @NonNull

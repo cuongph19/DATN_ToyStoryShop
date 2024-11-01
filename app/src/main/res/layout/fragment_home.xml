@@ -36,6 +36,33 @@
             android:textColorHint="@android:color/darker_gray"
            />
     </LinearLayout>
+        <TextView
+            android:id="@+id/recycler_textview_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm gợi ý"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@+id/header_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_textview_suggestions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

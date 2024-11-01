@@ -121,6 +121,7 @@ public class Home_screen extends AppCompatActivity {
                     loadFragment(new Home_Fragment(),null);
                 } else if (itemId == R.id.nav_browse){
                     loadFragment(new Browse_Fragment(),null);
+                    //loadFragment(new Browse_Fragment(),null);
                 } else if (itemId == R.id.nav_store){
                     loadFragment(new Store_Fragment(),null);
                 } else if (itemId == R.id.nav_history){

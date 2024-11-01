@@ -23,6 +23,7 @@
             android:layout_height="wrap_content">
 
             <!-- Nội dung cuộn của bạn ở đây -->
+            <!-- Nút quay lại (Back Button) -->
             <ImageView
                 android:id="@+id/productImage"
                 android:layout_width="match_parent"
@@ -30,9 +31,10 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/robo"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <!-- Nút quay lại (Back Button) -->
+
             <ImageButton
                 android:id="@+id/backButton"
                 android:layout_width="40dp"
