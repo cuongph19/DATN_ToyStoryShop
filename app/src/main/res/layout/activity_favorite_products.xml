@@ -18,16 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Nút quay lại (Back Button) -->
         <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_back"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="Back" />
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            android:contentDescription="Back"
+            android:padding="8dp" />
 
         <!-- Title -->
         <TextView
