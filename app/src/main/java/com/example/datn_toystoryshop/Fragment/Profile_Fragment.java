@@ -32,6 +32,9 @@ public class Profile_Fragment extends Fragment {
     private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity;
     private ImageView ivAvatar;
     private FirebaseFirestore db;
+    private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
+    private static final String NOTIFICATION_SHOWN_KEY = "notificationShown"; // Khai báo hằng số cho trạng thái thông báo
+
 
     private String documentId, name, phoneNumber;
 
@@ -116,19 +119,41 @@ public class Profile_Fragment extends Fragment {
             startActivity(intent);
         });
 
+
+        //logout trước đó
+//         Xử lý sự kiện cho mục "Đăng xuất"
+//        tvLogout.setOnClickListener(v -> {
+//            // Đăng xuất người dùng
+//
+//            SharedPreferences sharedP = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedP.edit();
+//            editor.putBoolean("notificationShown", false); // Đặt lại trạng thái thông báo
+//            editor.apply();
+//            // Chuyển tới màn hình đăng nhập
+//            Intent intent = new Intent(getActivity(), SignIn_screen.class);
+//            startActivity(intent);
+//            getActivity().finish(); // Đóng tất cả các Activity hiện tại
+//            Toast.makeText(getActivity(), getString(R.string.sign_out_success_pro), Toast.LENGTH_SHORT).show();
+//        });
+
         // Xử lý sự kiện cho mục "Đăng xuất"
         tvLogout.setOnClickListener(v -> {
             // Đăng xuất người dùng
             Toast.makeText(getActivity(), getString(R.string.sign_out_success_pro), Toast.LENGTH_SHORT).show();
-            SharedPreferences sharedP = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedP.edit();
-            editor.putBoolean("notificationShown", false); // Đặt lại trạng thái thông báo
+
+            // Đặt lại trạng thái thông báo
+            SharedPreferences.Editor editor = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+            editor.putBoolean(NOTIFICATION_SHOWN_KEY, false); // Đặt lại trạng thái thông báo
             editor.apply();
+
             // Chuyển tới màn hình đăng nhập
             Intent intent = new Intent(getActivity(), SignIn_screen.class);
             startActivity(intent);
             getActivity().finish(); // Đóng tất cả các Activity hiện tại
+
         });
+
+
         return view;
 
     }

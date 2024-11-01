@@ -17,7 +17,7 @@ app.listen(port, () => {
 const api = require('./api');
 app.use ('/api', api);
 
-const uri = 'mongodb://localhost:27017/DATN_ToyStoryShop';
+const uri = 'mongodb+srv://hoalacanh2508:FnXN4Z9PhHQdRbcv@cluster0.x6cjq.mongodb.net/DATN_ToyStoryShop';
 
 const productModel = require('./productModel');
 const mongoose = require('mongoose');
