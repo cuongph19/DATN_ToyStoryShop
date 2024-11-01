@@ -11,7 +11,7 @@ public interface APIService {
 
   //  String DOMAIN = "http://192.168.16.101:3000/"; cương
     String DOMAIN = "http://192.168.1.11:3000/";
-
+//  String DOMAIN = "http://192.168.101.10:3000/";
 
     @GET("/api/list")
     Call<List<Product_Model>> getProducts();
