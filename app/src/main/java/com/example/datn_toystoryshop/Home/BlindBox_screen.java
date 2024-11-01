@@ -3,9 +3,7 @@ package com.example.datn_toystoryshop.Home;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.datn_toystoryshop.R;
 
 public class BlindBox_screen extends AppCompatActivity {

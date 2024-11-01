@@ -1,5 +1,7 @@
 package com.example.datn_toystoryshop.Model;
 
+import java.util.List;
+
 public class Product_Model {
 
     private String _id;          // Mã ID của sản phẩm
@@ -11,13 +13,13 @@ public class Product_Model {
     private String creatDatePro; // Ngày tạo sản phẩm
     private int quantity;        // Số lượng sản phẩm
     private String listPro;      // Danh sách trạng thái sản phẩm
-    private String imgPro;       // URL hình ảnh của sản phẩm
+    private List<String> imgPro;       // URL hình ảnh của sản phẩm
     private String namePro;      // Tên sản phẩm
     private int cateId;          // ID của danh mục sản phẩm
 
     public Product_Model(String _id, int prodId, int owerId, boolean statusPro, double price,
                          String desPro, String creatDatePro, int quantity, String listPro,
-                         String imgPro, String namePro, int cateId) {
+                         List<String> imgPro, String namePro, int cateId) {
         this._id = _id;
         this.prodId = prodId;
         this.owerId = owerId;
@@ -104,11 +106,11 @@ public class Product_Model {
         this.listPro = listPro;
     }
 
-    public String getImgPro() {
+    public List<String> getImgPro() {
         return imgPro;
     }
 
-    public void setImgPro(String imgPro) {
+    public void setImgPro(List<String> imgPro) {
         this.imgPro = imgPro;
     }
 

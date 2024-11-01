@@ -1,13 +1,11 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.os.Bundle;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.datn_toystoryshop.R;
 
 public class Popular_screen extends AppCompatActivity {

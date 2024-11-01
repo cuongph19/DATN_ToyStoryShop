@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
-
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +42,18 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
 
         holder.tvName.setText(product.getNamePro());
         holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
-        // Tải ảnh từ URL với Glide
-        Glide.with(context)
-                .load(product.getImgPro())
-                .placeholder(R.drawable.product1)
-                .into(holder.imgProduct);
+        // Kiểm tra danh sách ảnh của sản phẩm có ít nhất 1 ảnh, nếu có, chỉ hiển thị ảnh đầu tiên
+        List<String> images = product.getImgPro();
+        if (images != null && !images.isEmpty()) {
+            // Tải ảnh đầu tiên trong danh sách
+            Glide.with(context)
+                    .load(images.get(0)) // Chỉ lấy ảnh đầu tiên
+//                    .placeholder(R.drawable.product1)
+                    .into(holder.imgProduct);
+        } else {
+            // Nếu không có ảnh nào, sử dụng ảnh mặc định
+            holder.imgProduct.setImageResource(R.drawable.product1);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +62,7 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
                 intent.putExtra("productId", product.get_id());
                 intent.putExtra("productName", product.getNamePro());
                 intent.putExtra("productPrice", product.getPrice());
-                intent.putExtra("productImg", product.getImgPro());
+                intent.putStringArrayListExtra("productImg", new ArrayList<>(product.getImgPro()));
                 context.startActivity(intent);
             }
         });
