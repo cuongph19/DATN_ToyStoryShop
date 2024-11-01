@@ -10,14 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.datn_toystoryshop.R;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-
 import java.util.concurrent.TimeUnit;
 
 public class PhoneNumber_screen extends AppCompatActivity {

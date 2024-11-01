@@ -1,11 +1,7 @@
 package com.example.datn_toystoryshop.Profile;
 
-import static android.app.PendingIntent.getActivity;
-
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +9,8 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;

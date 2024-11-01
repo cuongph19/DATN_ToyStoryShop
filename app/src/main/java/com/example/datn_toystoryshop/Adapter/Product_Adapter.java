@@ -1,7 +1,7 @@
-// Product_Adapter.java
 package com.example.datn_toystoryshop.Adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +46,32 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
         holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
 
-        // Tải ảnh từ URL với Glide
-        Glide.with(context)
-                .load(product.getImgPro())
-                .placeholder(R.drawable.product1)
-                .into(holder.imgProduct);
+        List<String> images = product.getImgPro();
+        if (images != null && !images.isEmpty()) {
+            // Sử dụng Handler để thay đổi ảnh sau mỗi 3 giây
+            final int[] currentImageIndex = {0}; // Giữ vị trí ảnh hiện tại
+
+            // Tải ảnh đầu tiên
+            Glide.with(context)
+                    .load(images.get(currentImageIndex[0]))
+                    .placeholder(R.drawable.product1)
+                    .into(holder.imgProduct);
+
+            // Tạo Handler để thay đổi ảnh
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    currentImageIndex[0] = (currentImageIndex[0] + 1) % images.size(); // Tăng vị trí, quay lại đầu nếu hết
+                    Glide.with(context)
+                            .load(images.get(currentImageIndex[0]))
+                            .placeholder(R.drawable.product1)
+                            .into(holder.imgProduct);
+                    handler.postDelayed(this, 3000); // Tiếp tục sau 3 giây
+                }
+            };
+            handler.postDelayed(runnable, 3000); // Bắt đầu chạy sau 3 giây
+        }
     }
 
     @Override

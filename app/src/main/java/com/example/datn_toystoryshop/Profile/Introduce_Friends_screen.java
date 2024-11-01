@@ -6,12 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
-
 import java.util.Random;
 
 public class Introduce_Friends_screen extends AppCompatActivity {

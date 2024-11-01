@@ -24,10 +24,12 @@
 
             <!-- Nội dung cuộn của bạn ở đây -->
             <!-- Nút quay lại (Back Button) -->
+
             <ImageView
                 android:id="@+id/productImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/robo"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,22 +37,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:src="@drawable/ic_back"
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="Back"
+                android:padding="8dp"
+                android:src="@drawable/back_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@android:color/white" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <!-- Nút chia sẻ (Share Button) -->
-            <ImageButton
+            <ImageView
                 android:id="@+id/shareButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:src="@drawable/ic_share"
@@ -58,17 +61,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@android:color/white" />
 
-            <!-- Nút menu (Menu Button) -->
-            <ImageButton
-                android:id="@+id/menuButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:src="@drawable/ic_more"
-                app:layout_constraintEnd_toStartOf="@id/shareButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@android:color/white" />
 
             <LinearLayout
                 android:id="@+id/dotIndicatorLayout"
@@ -84,20 +76,23 @@
 
                 <!-- Dot Indicator 1 -->
                 <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/dot_inactive" />
-
-                <!-- Dot Indicator 2 -->
-                <View
+                    android:id="@+id/view_detail_1"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/dot_active" />
 
+                <!-- Dot Indicator 2 -->
+                <View
+                    android:id="@+id/view_detail_2"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/dot_inactive" />
+
                 <!-- Dot Indicator 3 -->
                 <View
+                    android:id="@+id/view_detail_3"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_margin="4dp"
@@ -130,12 +125,14 @@
 
             <!-- Like Icon -->
             <ImageView
-                android:id="@+id/likeIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/heart_icon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="Like Icon"
-                android:src="@drawable/img"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Heart Icon"
+                android:src="@drawable/ic_heart"
+                app:tint="#A09595"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/productTitle" />
 
@@ -265,7 +262,8 @@ Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempu
             android:orientation="vertical">
 
             <!-- Quantity Selection -->
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -284,7 +282,7 @@ Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempu
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Nguyên set 12 bộ" />
-            </LinearLayout>
+            </RadioGroup>
 
             <!-- Quantity Picker and Add to Cart Button -->
             <LinearLayout

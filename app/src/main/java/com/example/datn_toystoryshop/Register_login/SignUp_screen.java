@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.datn_toystoryshop.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
@@ -18,7 +16,6 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
