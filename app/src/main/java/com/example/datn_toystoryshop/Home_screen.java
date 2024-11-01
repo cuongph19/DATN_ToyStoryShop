@@ -1,6 +1,5 @@
 package com.example.datn_toystoryshop;
 
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,14 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.datn_toystoryshop.Fragment.Browse_Fragment;
 import com.example.datn_toystoryshop.Fragment.History_Fragment;
 import com.example.datn_toystoryshop.Fragment.Home_Fragment;

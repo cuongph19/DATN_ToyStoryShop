@@ -22,7 +22,7 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:background="@drawable/border_item"
-            android:src="@drawable/anhmau"/>
+            android:src="@drawable/ic_launcher_background"/>
 
         <!-- Product Name -->
         <TextView

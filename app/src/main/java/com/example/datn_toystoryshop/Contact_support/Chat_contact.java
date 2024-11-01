@@ -9,9 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.datn_toystoryshop.R;
 
 public class Chat_contact extends AppCompatActivity {

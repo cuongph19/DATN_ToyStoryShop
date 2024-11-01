@@ -32,7 +32,7 @@ const ProductSchema = mongoose.Schema({
         maxlength: 255
     },
     imgPro: {
-        type: String,
+        type: [String],
         maxlength: 255
     },
     namePro: {

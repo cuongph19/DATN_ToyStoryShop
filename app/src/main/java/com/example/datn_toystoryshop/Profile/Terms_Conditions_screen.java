@@ -1,6 +1,5 @@
 package com.example.datn_toystoryshop.Profile;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +9,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 
 public class Terms_Conditions_screen extends AppCompatActivity {

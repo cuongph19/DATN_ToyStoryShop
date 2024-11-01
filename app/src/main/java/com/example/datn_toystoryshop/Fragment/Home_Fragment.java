@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,7 +24,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
 import com.example.datn_toystoryshop.Home.All_new_screen;
@@ -41,7 +39,6 @@ import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Adapter.Image_Adapter;
 import com.example.datn_toystoryshop.Server.APIService;
-
 import java.util.Arrays;
 import java.util.List;
 import retrofit2.Call;

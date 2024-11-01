@@ -11,13 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
-
 import java.util.Locale;
 
 public class Currency_Language_screen extends AppCompatActivity {
