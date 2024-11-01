@@ -36,6 +36,33 @@
             android:textColorHint="@android:color/darker_gray"
            />
     </LinearLayout>
+        <TextView
+            android:id="@+id/recycler_textview_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm gợi ý"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@+id/header_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_textview_suggestions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -351,7 +378,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_search" />
+                            android:background="#95CACD"
+                            android:src="@drawable/bg_01_1" />
 
                         <!-- Circular ImageView in the center (Profile or Logo) -->
                         <ImageView
@@ -359,15 +387,17 @@
                             android:layout_height="64dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="-32dp"
-                            android:src="@drawable/ic_store"
+                            android:src="@drawable/bg_01"
                             android:background="@drawable/circle_background"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:clipToOutline="true" />
+
                     </FrameLayout>
                     <!-- Store Name -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hobiverse"
+                        android:text="ToyStation"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -401,7 +431,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_search" />
+                            android:background="#FDFDFE"
+                            android:src="@drawable/bg_02_1" />
 
                         <!-- Circular ImageView in the center (Profile or Logo) -->
                         <ImageView
@@ -409,15 +440,16 @@
                             android:layout_height="64dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="-32dp"
-                            android:src="@drawable/ic_store"
+                            android:src="@drawable/bg_02"
                             android:background="@drawable/circle_background"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:clipToOutline="true" />
                     </FrameLayout>
                     <!-- Store Name -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hobiverse"
+                        android:text="Đồ Chơi Thiếu Nhi"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -451,7 +483,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_search" />
+                            android:background="#33519B"
+                            android:src="@drawable/bg_03_1" />
 
                         <!-- Circular ImageView in the center (Profile or Logo) -->
                         <ImageView
@@ -459,15 +492,16 @@
                             android:layout_height="64dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="-32dp"
-                            android:src="@drawable/ic_store"
+                            android:src="@drawable/bg_03"
                             android:background="@drawable/circle_background"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:clipToOutline="true" />
                     </FrameLayout>
                     <!-- Store Name -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hobiverse"
+                        android:text="MYKINGDOM"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                         android:gravity="center"
@@ -501,7 +535,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_search" />
+                            android:background="#3DB197"
+                            android:src="@drawable/bg_04_1" />
 
                         <!-- Circular ImageView in the center (Profile or Logo) -->
                         <ImageView
@@ -509,9 +544,10 @@
                             android:layout_height="64dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="-32dp"
-                            android:src="@drawable/ic_store"
+                            android:src="@drawable/bg_04"
                             android:background="@drawable/circle_background"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:clipToOutline="true" />
                     </FrameLayout>
                     <!-- Store Name -->
                     <TextView
