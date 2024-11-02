@@ -39,8 +39,8 @@ public class Browse_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_products);
-        searchBar = view.findViewById(R.id.search_bar);
-        btnSort = view.findViewById(R.id.btnSort);
+//        searchBar = view.findViewById(R.id.search_bar);
+//        btnSort = view.findViewById(R.id.btnSort);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
@@ -52,42 +52,43 @@ public class Browse_Fragment extends Fragment {
         // Gọi API để lấy sản phẩm từ MongoDB
         getProductsFromApi();
 
-        // Thiết lập TextWatcher cho searchBar
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                productAdapter.filter(s.toString()); // Gọi hàm filter
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-
-        // Xử lý sự kiện nhấn nút sắp xếp (Giá)
-        btnSort.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(getContext(), btnSort);
-            popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
-
-            popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.menu_price_low_to_high) {
-                    productAdapter.sortByPriceAscending();
-                    return true;
-                } else if (item.getItemId() == R.id.menu_price_high_to_low) {
-                    productAdapter.sortByPriceDescending();
-                    return true;
-                }
-                return false;
-            });
-
-            popupMenu.show();
-        });
-
+//        // Thiết lập TextWatcher cho searchBar
+//        searchBar.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                productAdapter.filter(s.toString()); // Gọi hàm filter
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {}
+//        });
+//
+//
+//        // Xử lý sự kiện nhấn nút sắp xếp (Giá)
+//        btnSort.setOnClickListener(v -> {
+//            PopupMenu popupMenu = new PopupMenu(getContext(), btnSort);
+//            popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
+//
+//            popupMenu.setOnMenuItemClickListener(item -> {
+//                if (item.getItemId() == R.id.menu_price_low_to_high) {
+//                    productAdapter.sortByPriceAscending();
+//                    return true;
+//                } else if (item.getItemId() == R.id.menu_price_high_to_low) {
+//                    productAdapter.sortByPriceDescending();
+//                    return true;
+//                }
+//                return false;
+//            });
+//
+//            popupMenu.show();
+//        });
+//
         return view;
     }
+
 
     private void getProductsFromApi() {
         APIService apiService = RetrofitClient.getAPIService();
