@@ -58,11 +58,19 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Product_detail.class);
-                // Truyền dữ liệu sản phẩm vào Intent
-                intent.putExtra("productId", product.get_id());
-                intent.putExtra("productName", product.getNamePro());
-                intent.putExtra("productPrice", product.getPrice());
-                intent.putStringArrayListExtra("productImg", new ArrayList<>(product.getImgPro()));
+
+                intent.putExtra("productId", product.get_id());// Truyền mã ID của sản phẩm
+                intent.putExtra("prodId", product.getProdId());// Truyền mã sản phẩm (prodId)
+                intent.putExtra("owerId", product.getOwerId());// Truyền ID của chủ sở hữu sản phẩm
+                intent.putExtra("statusPro", product.isStatusPro());// Truyền trạng thái tồn kho của sản phẩm (true nếu còn hàng, false nếu hết hàng)
+                intent.putExtra("productPrice", product.getPrice());// Truyền giá của sản phẩm
+                intent.putExtra("desPro", product.getDesPro());// Truyền mô tả của sản phẩm
+                intent.putExtra("creatDatePro", product.getCreatDatePro());// Truyền ngày tạo sản phẩm
+                intent.putExtra("quantity", product.getQuantity());// Truyền số lượng sản phẩm có sẵn
+                intent.putExtra("listPro", product.getListPro());// Truyền danh sách trạng thái của sản phẩm (danh sách dưới dạng chuỗi)
+                intent.putStringArrayListExtra("productImg", new ArrayList<>(product.getImgPro()));// Truyền danh sách URL hình ảnh của sản phẩm
+                intent.putExtra("productName", product.getNamePro());// Truyền tên của sản phẩm
+                intent.putExtra("cateId", product.getCateId());// Truyền ID danh mục của sản phẩm
                 context.startActivity(intent);
             }
         });

@@ -11,21 +11,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Favorite_products extends AppCompatActivity {
+public class Add_address_screen extends AppCompatActivity {
 
     private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_products);
-
+        setContentView(R.layout.activity_add_address_screen);
         imgBack = findViewById(R.id.btnBack);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Favorite_products.this, Home_screen.class);
+                Intent intent = new Intent(Add_address_screen.this, My_cart_screen.class);
                 startActivity(intent);
                 finish();
             }});

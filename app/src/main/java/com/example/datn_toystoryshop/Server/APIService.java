@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 public interface APIService {
 
 
-    String DOMAIN = "http://192.168.16.101:3000/";// cương
+    String BASE_URL  = "http://192.168.16.101:3000/";// cương
    // String DOMAIN = "http://192.168.1.11:3000/";
 
 

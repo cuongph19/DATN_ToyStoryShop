@@ -181,12 +181,12 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="4dp">
 
-                    <!-- TextView cho nhãn SKU -->
+
                     <TextView
                         android:id="@+id/labelSku"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SKU: "
+                        android:text="Tồn kho:"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -195,8 +195,8 @@
                         android:id="@+id/productSkuValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="693157002879"
                         android:layout_marginLeft="10dp"
+                        android:text="30"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>

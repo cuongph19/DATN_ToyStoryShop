@@ -1,0 +1,112 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <!-- Back button -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_icon_1"
+        android:contentDescription="Back"
+        android:padding="8dp" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm địa chỉ"
+        android:textSize="24sp"
+        android:textColor="#001A61"
+        android:gravity="center"
+        android:paddingVertical="16dp" />
+
+    <!-- Use current location button -->
+    <Button
+        android:id="@+id/btnUseCurrentLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use current location"
+        android:textColor="#001A61"
+        android:drawableLeft="@drawable/ic_location"
+        android:backgroundTint="#FFFFFF"
+        android:paddingVertical="12dp"
+        android:gravity="center" />
+
+    <!-- Name input field -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ và tên"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- Phone input field -->
+    <EditText
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số điện thoại"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- Street address input field -->
+    <EditText
+        android:id="@+id/etStreetAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ đường phố"
+        android:inputType="textPostalAddress"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- City input field -->
+    <EditText
+        android:id="@+id/etCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Thành phố"
+        android:inputType="text"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- Country input field -->
+    <EditText
+        android:id="@+id/etCountry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Đất nước"
+        android:inputType="text"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- Zipcode input field -->
+    <EditText
+        android:id="@+id/etZipcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Zipcode"
+        android:inputType="number"
+        android:padding="12dp"
+        android:backgroundTint="#001A61" />
+
+    <!-- Save button -->
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#001A61"
+        android:paddingVertical="16dp"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,10 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
+
 public class Product_detail extends AppCompatActivity {
-    private TextView tvProductName, tvProductPrice, quantityText;
+    private TextView tvProductName, tvProductPrice, tvproductSkuValue, tvproductDescription, tvproductDetails,  quantityText;
     private ImageView imgProduct, btnBack, shareButton, heartIcon ;
-    private String productId, productName;
+    private double productPrice;
+    private boolean statusPro;
+    private int prodId, owerId, quantity, cateId;
+    private String productId, productName, desPro, creatDatePro, listPro;
     private Button decreaseButton , increaseButton;
     private RadioGroup radioGroup;
     private ArrayList<String> productImg; // Danh sách URL ảnh của sản phẩm
@@ -26,6 +31,7 @@ public class Product_detail extends AppCompatActivity {
     private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
     private Runnable imageSwitcherRunnable;
     private View viewDetail1, viewDetail2, viewDetail3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,9 @@ public class Product_detail extends AppCompatActivity {
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         tvProductPrice = findViewById(R.id.productPrice);
+        tvproductSkuValue = findViewById(R.id.productSkuValue);
+        tvproductDescription = findViewById(R.id.productDescription);
+        tvproductDetails = findViewById(R.id.productDetails);
         imgProduct = findViewById(R.id.productImage);
         btnBack = findViewById(R.id.btnBack);
         shareButton = findViewById(R.id.shareButton);
@@ -49,14 +58,28 @@ public class Product_detail extends AppCompatActivity {
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
-        productId = intent.getStringExtra("productId");
-        productName = intent.getStringExtra("productName");
-        double productPrice = intent.getDoubleExtra("productPrice", 0.0);
-        productImg = getIntent().getStringArrayListExtra("productImg"); // Lấy danh sách ảnh
+         productId = intent.getStringExtra("productId");
+         prodId = intent.getIntExtra("prodId", -1);
+         owerId = intent.getIntExtra("owerId", -1);
+         statusPro = intent.getBooleanExtra("statusPro", false);
+         productPrice = intent.getDoubleExtra("productPrice", 0.0);
+         desPro = intent.getStringExtra("desPro");
+         creatDatePro = intent.getStringExtra("creatDatePro");
+         quantity = intent.getIntExtra("quantity", 0);
+         listPro = intent.getStringExtra("listPro");
+         productImg = intent.getStringArrayListExtra("productImg");
+         productName = intent.getStringExtra("productName");
+         cateId = intent.getIntExtra("cateId", -1);
         Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
         // Hiển thị dữ liệu
+
         tvProductName.setText(productName);
         tvProductPrice.setText(String.format("%,.0fđ", productPrice));
+/// thiếu hãng đồ chơi
+        tvproductSkuValue.setText(String.valueOf(quantity));
+        tvproductDescription.setText(desPro);
+        tvproductDetails.setText(creatDatePro);
+
         // Tạo Runnable để tự động thay đổi ảnh sau 3 giây
         imageSwitcherRunnable = new Runnable() {
             @Override
@@ -108,16 +131,16 @@ public class Product_detail extends AppCompatActivity {
                 isRed = !isRed; // Đảo trạng thái
             }
         });
-        int[] quantity = {1}; // Khởi tạo giá trị tối thiểu là 1
-        quantityText.setText(String.valueOf(quantity[0])); // Cập nhật TextView ban đầu
+        int[] currentQuantity = {1}; // Khởi tạo giá trị tối thiểu là 1
+        quantityText.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView ban đầu
 
         decreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity[0] > 1) { // Kiểm tra để không giảm dưới 1
-                    quantity[0]--;
-                    quantityText.setText(String.valueOf(quantity[0]));
-                    Toast.makeText(getApplicationContext(), "Số lượng: " + quantity[0], Toast.LENGTH_SHORT).show();
+                if (currentQuantity[0] > 1) { // Kiểm tra để không giảm dưới 1
+                    currentQuantity[0]--;
+                    quantityText.setText(String.valueOf(currentQuantity[0]));
+                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -125,9 +148,9 @@ public class Product_detail extends AppCompatActivity {
         increaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quantity[0]++;
-                quantityText.setText(String.valueOf(quantity[0]));
-                Toast.makeText(getApplicationContext(), "Số lượng: " + quantity[0], Toast.LENGTH_SHORT).show();
+                currentQuantity[0]++;
+                quantityText.setText(String.valueOf(currentQuantity[0]));
+                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
             }
         });
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

@@ -95,7 +95,7 @@
                 @Override
                 public void onClick(View v) {
                     //////////////chua tao man gio hàng//////////////////////
-                    Intent intent = new Intent(Home_screen.this, Shopping_cart_screen.class);
+                    Intent intent = new Intent(Home_screen.this, My_cart_screen.class);
                     startActivity(intent);
                 }
             });

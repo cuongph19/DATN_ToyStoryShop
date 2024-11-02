@@ -108,7 +108,7 @@ public class Home_Fragment extends Fragment {
         });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(APIService.DOMAIN)
+                .baseUrl(APIService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
