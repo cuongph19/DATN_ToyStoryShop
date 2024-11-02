@@ -36,6 +36,8 @@
         private static final String CHANNEL_ID = "my_channel_id";
         private static final String PREFS_NAME = "MyPrefs";
         private static final String NOTIFICATION_SHOWN_KEY = "notificationShown";
+        private static final String NOTIFICATION_BLOCKED_KEY = "notificationBlocked";
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -45,14 +47,16 @@
 
             SharedPreferences shared = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
             boolean notificationShown = shared.getBoolean(NOTIFICATION_SHOWN_KEY, false);
+            boolean isNotificationBlocked = shared.getBoolean(NOTIFICATION_BLOCKED_KEY, false); // Kiểm tra trạng thái chặn thông báo
 
-            if (!notificationShown) {
+            if (!notificationShown && !isNotificationBlocked) {
                 showNotification("Thông báo mới", "Bạn có một tin nhắn mới!");
                 // Cập nhật trạng thái đã hiển thị thông báo
                 SharedPreferences.Editor editor = shared.edit();
                 editor.putBoolean(NOTIFICATION_SHOWN_KEY, true);
                 editor.apply();
             }
+
 
 
 
