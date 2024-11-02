@@ -5,7 +5,6 @@ import java.util.List;
 public class Product_Model {
 
     private String _id;          // Mã ID của sản phẩm
-    private int prodId;          // Mã sản phẩm
     private int owerId;          // ID chủ sở hữu
     private boolean statusPro;   // Tồn kho (true nếu còn hàng)
     private double price;        // Giá của sản phẩm
@@ -16,12 +15,12 @@ public class Product_Model {
     private List<String> imgPro;       // URL hình ảnh của sản phẩm
     private String namePro;      // Tên sản phẩm
     private int cateId;          // ID của danh mục sản phẩm
+    private String brand;
 
-    public Product_Model(String _id, int prodId, int owerId, boolean statusPro, double price,
+    public Product_Model(String _id, int owerId, boolean statusPro, double price,
                          String desPro, String creatDatePro, int quantity, String listPro,
-                         List<String> imgPro, String namePro, int cateId) {
+                         List<String> imgPro, String namePro, int cateId, String brand) {
         this._id = _id;
-        this.prodId = prodId;
         this.owerId = owerId;
         this.statusPro = statusPro;
         this.price = price;
@@ -32,6 +31,7 @@ public class Product_Model {
         this.imgPro = imgPro;
         this.namePro = namePro;
         this.cateId = cateId;
+        this.brand = brand;
     }
 
     public String get_id() {
@@ -40,14 +40,6 @@ public class Product_Model {
 
     public void set_id(String _id) {
         this._id = _id;
-    }
-
-    public int getProdId() {
-        return prodId;
-    }
-
-    public void setProdId(int prodId) {
-        this.prodId = prodId;
     }
 
     public int getOwerId() {
@@ -128,6 +120,14 @@ public class Product_Model {
 
     public void setCateId(int cateId) {
         this.cateId = cateId;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }
 
