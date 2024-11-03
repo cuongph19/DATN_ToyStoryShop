@@ -16,6 +16,7 @@ public class Product_Model {
     private List<String> imgPro;       // URL hình ảnh của sản phẩm
     private String namePro;      // Tên sản phẩm
     private int cateId;          // ID của danh mục sản phẩm
+    private String brand;
 
     public Product_Model(String _id, int prodId, int owerId, boolean statusPro, double price,
                          String desPro, String creatDatePro, int quantity, String listPro,
@@ -128,6 +129,14 @@ public class Product_Model {
 
     public void setCateId(int cateId) {
         this.cateId = cateId;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }
 
