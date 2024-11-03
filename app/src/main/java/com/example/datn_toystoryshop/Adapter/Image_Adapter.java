@@ -13,15 +13,18 @@ import java.util.List;
 public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder> {
 
     private List<Integer> imageList;
-    private List<String> textList; // Danh sách chứa các nội dung text tương ứng
+    private OnImageClickListener listener;
 
-    public Image_Adapter(List<Integer> imageList, List<String> texts) {
-        // Kiểm tra xem imageList và texts có giá trị null không
-        if (imageList == null || texts == null || imageList.size() != texts.size()) {
-            throw new IllegalArgumentException("Image list and text list must not be null and must have the same size");
+    public Image_Adapter(List<Integer> imageList, OnImageClickListener listener) {
+        if (imageList == null || imageList.isEmpty()) {
+            throw new IllegalArgumentException("Image list must not be null or empty");
         }
         this.imageList = imageList;
-        this.textList = texts;  // Khởi tạo danh sách text
+        this.listener = listener;
+    }
+
+    public interface OnImageClickListener {
+        void onImageClick(int position);
     }
 
     @NonNull
@@ -33,10 +36,15 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Hiển thị ảnh
-        holder.imageView.setImageResource(imageList.get(position));
-        // Hiển thị nội dung text tương ứng
-        holder.textView.setText(textList.get(position));
+        int imageResId = imageList.get(position);
+        holder.imageView.setImageResource(imageResId);
+
+        // Đặt sự kiện nhấp vào
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onImageClick(position);
+            }
+        });
     }
 
     @Override
@@ -46,12 +54,11 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView textView;  // TextView để hiển thị nội dung
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
-            textView = itemView.findViewById(R.id.text_view);  // Liên kết với TextView
         }
     }
 }
+
