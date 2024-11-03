@@ -45,7 +45,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
             holder.tvName.setText(product.getNamePro());
-            holder.tvSKU.setText("Mã SP: " + product.getProdId());
+            holder.tvSKU.setText("Mã SP: " + product.get_id());
             holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
 
