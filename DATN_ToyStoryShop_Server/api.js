@@ -22,7 +22,6 @@ router.get('/list', async (req, res) => {
         res.status(500).send({ error: "Có lỗi xảy ra khi lấy sản phẩm." });
     }
 });
-
 router.get('/brand-counts', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
@@ -32,7 +31,11 @@ router.get('/brand-counts', async (req, res) => {
 
         const counts = await Promise.all(
             brands.map(async (brand) => {
-                const count = await server.productModel.countDocuments({ brand: brand });
+                // Sử dụng $regex để tìm kiếm không phân biệt dấu cách và dấu câu
+                const count = await server.productModel.countDocuments({
+                    brand: { $regex: brand.trim(), $options: 'i' } // Sử dụng brand.trim() để loại bỏ khoảng trắng
+                });
+
                 return { brand, count };
             })
         );
@@ -43,6 +46,9 @@ router.get('/brand-counts', async (req, res) => {
         res.status(500).json({ error: "Có lỗi xảy ra khi lấy số lượng sản phẩm." });
     }
 });
+
+
+
 
 router.get('/new-arrivals', async (req, res) => {
     try {
