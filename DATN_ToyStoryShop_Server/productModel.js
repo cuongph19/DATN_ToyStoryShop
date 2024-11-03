@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = mongoose.Schema({
-    prodId: {
-        type: Number,
-        required: true
-    },
     owerId: {
         type: Number,
         required: true
@@ -42,6 +38,10 @@ const ProductSchema = mongoose.Schema({
     cateId: {
         type: Number,
         required: true
+    },
+    brand: {
+        type: String,
+        maxlength: 255
     }
 });
 

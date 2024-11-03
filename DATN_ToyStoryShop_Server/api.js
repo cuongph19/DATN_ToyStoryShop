@@ -26,7 +26,7 @@ router.get('/list', async (req, res) => {
 router.get('/new-arrivals', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: "Hàng mới nhập" });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^NEW_ARRIVALS$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
@@ -47,13 +47,32 @@ router.get('/new-arrivals', async (req, res) => {
 router.get('/limited', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: "Phiên bản giới hạn" });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^LIMITED_FIGURE$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
         }
 
-        // Xử lý tên sản phẩm không dấu
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro);
+        });
+
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+
+router.get('/figuring', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^FIGURING$", $options: "i" } });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
         newProducts.forEach(product => {
             product.namePro = removeDiacritics(product.namePro);
         });
@@ -68,13 +87,12 @@ router.get('/limited', async (req, res) => {
 router.get('/other', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: "Sản phẩm khác" });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^OTHER_PRODUCTS$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
         }
 
-        // Xử lý tên sản phẩm không dấu
         newProducts.forEach(product => {
             product.namePro = removeDiacritics(product.namePro);
         });
@@ -85,16 +103,16 @@ router.get('/other', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
-router.get('/art-story', async (req, res) => {
+
+router.get('/blind_box', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: "Sản phẩm nghệ thuật" });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^BLIND_BOX$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
         }
 
-        // Xử lý tên sản phẩm không dấu
         newProducts.forEach(product => {
             product.namePro = removeDiacritics(product.namePro);
         });
@@ -105,11 +123,9 @@ router.get('/art-story', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
-
 
 // Hàm chuyển đổi chuỗi có dấu thành không dấu
 function removeDiacritics(input) {
     const normalized = input.normalize("NFD");
     return normalized.replace(/[\u0300-\u036f]/g, "");
 }
-
