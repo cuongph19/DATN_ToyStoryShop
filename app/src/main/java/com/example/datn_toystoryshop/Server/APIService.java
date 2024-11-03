@@ -19,6 +19,10 @@ public interface APIService {
     Call<List<Product_Model>> getNewArrivals();
     @GET("/api/limited")
     Call<List<Product_Model>> getLimited();
+    @GET("/api/blind_box")
+    Call<List<Product_Model>> getBlindBox();
+    @GET("/api/figuring")
+    Call<List<Product_Model>> getFiguring();
     @GET("/api/other")
     Call<List<Product_Model>> getOther();
     @GET("/api/art-story")
