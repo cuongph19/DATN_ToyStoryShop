@@ -22,8 +22,8 @@ public class Product_detail extends AppCompatActivity {
     private ImageView imgProduct, btnBack, shareButton, heartIcon ;
     private double productPrice;
     private boolean statusPro;
-    private int prodId, owerId, quantity, cateId;
-    private String productId, productName, desPro, creatDatePro, listPro;
+    private int owerId, quantity, cateId;
+    private String productId, productName, desPro, creatDatePro, listPro, brand;
     private Button decreaseButton , increaseButton;
     private RadioGroup radioGroup;
     private ArrayList<String> productImg; // Danh sách URL ảnh của sản phẩm
@@ -59,7 +59,6 @@ public class Product_detail extends AppCompatActivity {
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
          productId = intent.getStringExtra("productId");
-         prodId = intent.getIntExtra("prodId", -1);
          owerId = intent.getIntExtra("owerId", -1);
          statusPro = intent.getBooleanExtra("statusPro", false);
          productPrice = intent.getDoubleExtra("productPrice", 0.0);
@@ -70,6 +69,7 @@ public class Product_detail extends AppCompatActivity {
          productImg = intent.getStringArrayListExtra("productImg");
          productName = intent.getStringExtra("productName");
          cateId = intent.getIntExtra("cateId", -1);
+        brand = intent.getStringExtra("brand");
         Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
         // Hiển thị dữ liệu
 

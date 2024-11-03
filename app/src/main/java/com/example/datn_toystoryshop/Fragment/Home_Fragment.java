@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
+import com.example.datn_toystoryshop.Add_address_screen;
 import com.example.datn_toystoryshop.Home.All_new_screen;
 import com.example.datn_toystoryshop.Home.ArtStory_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
@@ -35,6 +36,7 @@ import com.example.datn_toystoryshop.Home.NewArrivals_screen;
 import com.example.datn_toystoryshop.Home.OtherProducts_screen;
 import com.example.datn_toystoryshop.Home.Popular_screen;
 import com.example.datn_toystoryshop.Home.Store_follow_screen;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Adapter.Image_Adapter;
@@ -118,13 +120,41 @@ public class Home_Fragment extends Fragment {
         setupSearchBar(apiService);
 
         List<Integer> images = Arrays.asList(
-                R.drawable.ic_logo,
-                R.drawable.ic_google,
-                R.drawable.ic_search
+                R.drawable.viewpager1,
+                R.drawable.viewpager2,
+                R.drawable.viewpager3,
+                R.drawable.viewpager4,
+                R.drawable.viewpager5
         );
-        List<String> texts = Arrays.asList("aaaa", "bbbb", "cccc");
 
-        Image_Adapter adapter = new Image_Adapter(images, texts);
+        Image_Adapter adapter = new Image_Adapter(images, position -> {
+            Intent intent;
+            switch (position) {
+                case 0:
+                    intent = new Intent(getActivity(), Add_address_screen.class);
+                    break;
+                case 1:
+                    intent = new Intent(getActivity(), Figuring_screen.class);
+                    break;
+                case 2:
+                    intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    break;
+                case 3:
+                    intent = new Intent(getActivity(), ArtStory_screen.class);
+                    break;
+                case 4:
+                    intent = new Intent(getActivity(), LimitedFigure_screen.class);
+                    break;
+                case 5:
+                    intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    break;
+                // Thêm các case cho các hình ảnh khác
+                default:
+                    intent = new Intent(getActivity(), Home_screen.class); // Nếu có hình mặc định
+                    break;
+            }
+            startActivity(intent);
+        });
         viewPager.setAdapter(adapter);
 
         runnable = new Runnable() {
@@ -239,7 +269,7 @@ public class Home_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.youtube.com/@otocancaumayxuc"));
+                intent.setData(Uri.parse("https://www.youtube.com/@HOBIVERSEVIETNAM"));
                 startActivity(intent);
             }
         });
