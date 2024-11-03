@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
-    public List<Product_Model> productModelListFull; // List gốc để lọc
+    private List<Product_Model> productModelListFull; // List gốc để lọc
     private Context context;
 
     public Product_Adapter(Context context, List<Product_Model> productModelList) {
@@ -40,22 +40,26 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product_Model product = productModelList.get(position);
 
-        holder.tvName.setText(product.getNamePro());
-        holder.tvSKU.setText("Mã SP: " + product.get_id());
-        holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
-        holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
+        // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
+        if (position < productModelList.size()) {
+            Product_Model product = productModelList.get(position);
+            holder.tvName.setText(product.getNamePro());
+            holder.tvSKU.setText("Mã SP: " + product.getProdId());
+            holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
+            holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
 
-        List<String> images = product.getImgPro();
-        if (images != null && !images.isEmpty()) {
-            holder.setImageRotation(images);
+            List<String> images = product.getImgPro();
+            if (images != null && !images.isEmpty()) {
+                holder.setImageRotation(images);
+            }
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return productModelList.size();
+        return productModelList.size(); // Trả về kích thước của danh sách hiện tại
     }
 
     @Override
@@ -86,6 +90,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
             // Tải ảnh đầu tiên ngay lập tức
             if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
+                currentImageIndex = 0; // Đặt chỉ số hình ảnh về 0 trước khi tải hình
                 Glide.with(imgProduct.getContext())
                         .load(images.get(currentImageIndex))
                         .placeholder(R.drawable.product1)
@@ -96,7 +101,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    if (isValidContextForGlide(imgProduct.getContext())) {
+                    if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
                         currentImageIndex = (currentImageIndex + 1) % images.size(); // Cập nhật vị trí ảnh
                         Glide.with(imgProduct.getContext())
                                 .load(images.get(currentImageIndex))
@@ -115,11 +120,10 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
         public void stopImageRotation() {
             if (runnable != null) {
-                handler.removeCallbacks(runnable); // Hủy các tác vụ còn tồn đọng
+                handler.removeCallbacks(runnable);
             }
         }
 
-        // Kiểm tra Context có hợp lệ cho Glide hay không
         private boolean isValidContextForGlide(Context context) {
             if (context instanceof Activity) {
                 Activity activity = (Activity) context;
@@ -129,15 +133,21 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         }
     }
 
+    public void updateData(List<Product_Model> newProductList) {
+        productModelList.clear();
+        if (newProductList != null) {
+            productModelList.addAll(newProductList);
+        }
+        notifyDataSetChanged();
+    }
 
     // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
-        productModelList.clear(); // Xóa danh sách hiện tại
+        productModelList.clear();
         if (query.isEmpty()) {
             productModelList.addAll(productModelListFull); // Nếu không có từ khóa, thêm lại tất cả
         } else {
             for (Product_Model product : productModelListFull) {
-                // Kiểm tra xem tên sản phẩm có chứa từ khóa không
                 if (removeDiacritics(product.getNamePro().toLowerCase()).contains(query.toLowerCase())) {
                     productModelList.add(product); // Nếu có, thêm vào danh sách lọc
                 }
@@ -164,3 +174,4 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         return pattern.matcher(normalized).replaceAll("");
     }
 }
+

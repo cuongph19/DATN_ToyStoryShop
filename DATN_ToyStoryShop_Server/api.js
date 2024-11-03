@@ -23,6 +23,27 @@ router.get('/list', async (req, res) => {
     }
 });
 
+router.get('/brand-counts', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Các thương hiệu bạn muốn đếm
+        const brands = ["BANPRESTO", "POP MART", "FUNISM"];
+
+        const counts = await Promise.all(
+            brands.map(async (brand) => {
+                const count = await server.productModel.countDocuments({ brand: brand });
+                return { brand, count };
+            })
+        );
+
+        res.json(counts);
+    } catch (error) {
+        console.error("Lỗi khi lấy số lượng sản phẩm theo thương hiệu:", error);
+        res.status(500).json({ error: "Có lỗi xảy ra khi lấy số lượng sản phẩm." });
+    }
+});
+
 router.get('/new-arrivals', async (req, res) => {
     try {
         await mongoose.connect(server.uri);

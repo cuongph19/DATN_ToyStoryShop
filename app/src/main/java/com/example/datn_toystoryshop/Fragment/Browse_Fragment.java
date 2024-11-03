@@ -1,12 +1,15 @@
 package com.example.datn_toystoryshop.Fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
@@ -29,9 +32,11 @@ public class Browse_Fragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Product_Adapter productAdapter;
-    private List<Product_Model> productList;
+    private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
+    private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
     private EditText searchBar;
     private Button btnSort;
+    private Button btnFilter;
 
     @Nullable
     @Override
@@ -39,8 +44,9 @@ public class Browse_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_products);
-//        searchBar = view.findViewById(R.id.search_bar);
+        searchBar = view.findViewById(R.id.search_bar);
 //        btnSort = view.findViewById(R.id.btnSort);
+        btnFilter = view.findViewById(R.id.btnFilter);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
@@ -52,43 +58,25 @@ public class Browse_Fragment extends Fragment {
         // Gọi API để lấy sản phẩm từ MongoDB
         getProductsFromApi();
 
-//        // Thiết lập TextWatcher cho searchBar
+//        // Xử lý sự kiện tìm kiếm
 //        searchBar.addTextChangedListener(new TextWatcher() {
 //            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                productAdapter.filter(s.toString()); // Gọi hàm filter
+//                productAdapter.getFilter().filter(s.toString());
 //            }
 //
 //            @Override
-//            public void afterTextChanged(Editable s) {}
+//            public void afterTextChanged(Editable s) { }
 //        });
-//
-//
-//        // Xử lý sự kiện nhấn nút sắp xếp (Giá)
-//        btnSort.setOnClickListener(v -> {
-//            PopupMenu popupMenu = new PopupMenu(getContext(), btnSort);
-//            popupMenu.getMenuInflater().inflate(R.menu.sort_menu, popupMenu.getMenu());
-//
-//            popupMenu.setOnMenuItemClickListener(item -> {
-//                if (item.getItemId() == R.id.menu_price_low_to_high) {
-//                    productAdapter.sortByPriceAscending();
-//                    return true;
-//                } else if (item.getItemId() == R.id.menu_price_high_to_low) {
-//                    productAdapter.sortByPriceDescending();
-//                    return true;
-//                }
-//                return false;
-//            });
-//
-//            popupMenu.show();
-//        });
-//
+
+        // Xử lý sự kiện nhấn nút bộ lọc
+        btnFilter.setOnClickListener(v -> showFilterDialog());
+
         return view;
     }
-
 
     private void getProductsFromApi() {
         APIService apiService = RetrofitClient.getAPIService();
@@ -98,10 +86,10 @@ public class Browse_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    originalProductList = new ArrayList<>(response.body()); // Lưu toàn bộ sản phẩm vào originalProductList
                     productList.clear();
-                    productList.addAll(response.body()); // Thêm tất cả sản phẩm vào danh sách
+                    productList.addAll(originalProductList); // Sao chép originalProductList vào productList
                     productAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
-                    productAdapter.productModelListFull = new ArrayList<>(productList); // Khởi tạo danh sách đầy đủ
                 }
             }
 
@@ -110,6 +98,58 @@ public class Browse_Fragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.filter_dialog, null);
+
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        dialog.getWindow().setGravity(Gravity.START);
+        dialog.show();
+
+        CheckBox checkboxBrand1 = dialogView.findViewById(R.id.checkbox_brand_1);
+        CheckBox checkboxBrand2 = dialogView.findViewById(R.id.checkbox_brand_2);
+        CheckBox checkboxBrand3 = dialogView.findViewById(R.id.checkbox_brand_3);
+
+        Button btnApplyFilter = dialogView.findViewById(R.id.btn_apply_filter);
+        btnApplyFilter.setOnClickListener(v -> {
+            boolean isBrand1Selected = checkboxBrand1.isChecked();
+            boolean isBrand2Selected = checkboxBrand2.isChecked();
+            boolean isBrand3Selected = checkboxBrand3.isChecked();
+
+            applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected);
+            dialog.dismiss();
+        });
 
     }
+    private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected) {
+        List<Product_Model> filteredList = new ArrayList<>();
+
+        // Nếu không có CheckBox nào được chọn, hiển thị lại toàn bộ sản phẩm
+        if (!isBrand1Selected && !isBrand2Selected && !isBrand3Selected) {
+            filteredList.addAll(originalProductList);
+        } else {
+            // Lọc sản phẩm dựa trên CheckBox được chọn
+            for (Product_Model product : originalProductList) {
+                String brand = product.getBrand();
+                if ((isBrand1Selected && brand.equals("BANPRESTO")) ||
+                        (isBrand2Selected && brand.equals("POP MART")) ||
+                        (isBrand3Selected && brand.equals("FUNISM"))) {
+                    filteredList.add(product);
+                }
+            }
+        }
+
+        // Cập nhật Adapter với danh sách sản phẩm đã lọc
+        productAdapter.updateData(filteredList);
+    }
+
+
+
+
 }
