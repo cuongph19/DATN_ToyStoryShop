@@ -228,9 +228,9 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:background="#FFFFFF"
+                        android:background="#3DB197"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/bg_04_2" />
+                        android:src="@drawable/bg_04_1" />
 
                     <ImageView
                         android:layout_width="64dp"

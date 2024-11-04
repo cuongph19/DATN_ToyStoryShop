@@ -60,6 +60,7 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
                 Intent intent = new Intent(context, Product_detail.class);
 
                 intent.putExtra("productId", product.get_id());// Truyền mã ID của sản phẩm
+                intent.putExtra("prodId", product.getProdId());// Truyền mã sản phẩm (prodId)
                 intent.putExtra("owerId", product.getOwerId());// Truyền ID của chủ sở hữu sản phẩm
                 intent.putExtra("statusPro", product.isStatusPro());// Truyền trạng thái tồn kho của sản phẩm (true nếu còn hàng, false nếu hết hàng)
                 intent.putExtra("productPrice", product.getPrice());// Truyền giá của sản phẩm
@@ -70,7 +71,6 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
                 intent.putStringArrayListExtra("productImg", new ArrayList<>(product.getImgPro()));// Truyền danh sách URL hình ảnh của sản phẩm
                 intent.putExtra("productName", product.getNamePro());// Truyền tên của sản phẩm
                 intent.putExtra("cateId", product.getCateId());// Truyền ID danh mục của sản phẩm
-                intent.putExtra("brand", product.getBrand());
                 context.startActivity(intent);
             }
         });

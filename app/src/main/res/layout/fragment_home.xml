@@ -91,7 +91,7 @@
             android:id="@+id/new_arrivals"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout2"
+            android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="0"
@@ -116,7 +116,7 @@
             android:id="@+id/blind_box"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout6"
+            android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="1"
@@ -141,7 +141,7 @@
             android:id="@+id/figuring"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout5"
+            android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="2"
@@ -165,7 +165,7 @@
             android:id="@+id/other_products"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout1"
+            android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="0"
@@ -189,7 +189,7 @@
             android:id="@+id/art_story"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout4"
+            android:background="@drawable/ic_logo"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:layout_column="1"
@@ -213,7 +213,7 @@
             android:id="@+id/limited_figure"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/gridlayout3"
+            android:background="@drawable/ic_logo"
             app:layout_column="2"
             app:layout_columnWeight="1"
             app:layout_row="1"
@@ -358,59 +358,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <!-- Store 4 -->
-                <LinearLayout
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:background="@drawable/store_card_background"
-                    android:layout_marginRight="8dp">
 
-                    <!-- Main Image -->
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp">
-
-                        <!-- Store Image (Hobiverse) -->
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:scaleType="fitCenter"
-                            android:background="#FFFFFF"
-                            android:src="@drawable/bg_04_1" />
-
-                        <!-- Circular ImageView in the center (Profile or Logo) -->
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="-32dp"
-                            android:src="@drawable/bg_04"
-                            android:background="@drawable/circle_background"
-                            android:scaleType="centerCrop"
-                            android:clipToOutline="true" />
-                    </FrameLayout>
-                    <!-- Store Name -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="HOBIVERSE"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp" />
-                    <!-- Follow Button -->
-                    <Button
-                        android:id="@+id/btn_follow_store_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/follow_homefm"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#1A3B72"
-                        android:layout_marginTop="8dp" />
-                </LinearLayout>
-                <!-- You can add more stores here -->
                 <!-- Store 1 -->
                 <LinearLayout
                     android:layout_width="200dp"
@@ -568,7 +516,59 @@
                         android:backgroundTint="#1A3B72"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
+                <!-- Store 4 -->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:background="@drawable/store_card_background"
+                    android:layout_marginRight="8dp">
 
+                    <!-- Main Image -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <!-- Store Image (Hobiverse) -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:scaleType="fitCenter"
+                            android:background="#3DB197"
+                            android:src="@drawable/bg_04_1" />
+
+                        <!-- Circular ImageView in the center (Profile or Logo) -->
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-32dp"
+                            android:src="@drawable/bg_04"
+                            android:background="@drawable/circle_background"
+                            android:scaleType="centerCrop"
+                            android:clipToOutline="true" />
+                    </FrameLayout>
+                    <!-- Store Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hobiverse"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp" />
+                    <!-- Follow Button -->
+                    <Button
+                        android:id="@+id/btn_follow_store_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/follow_homefm"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#1A3B72"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- You can add more stores here -->
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

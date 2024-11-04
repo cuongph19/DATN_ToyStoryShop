@@ -40,7 +40,6 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
         // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
@@ -53,7 +52,6 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
             if (images != null && !images.isEmpty()) {
                 holder.setImageRotation(images);
             }
-
         }
     }
 
