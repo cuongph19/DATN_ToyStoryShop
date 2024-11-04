@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,6 +23,8 @@ public class ArtStory_screen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Product_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
     private List<Product_Model> productList;
+    private TextView headerTitle;
+    private ImageView backIcon;
 
 
     @Override
@@ -31,6 +34,8 @@ public class ArtStory_screen extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.ivBack); // Lấy đối tượng ImageView
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        headerTitle = findViewById(R.id.header_title);
+        headerTitle.setText("Art Story"); // Đặt tiêu đề là "Blind Box"
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getArtStory().enqueue(new Callback<List<Product_Model>>() {
@@ -55,10 +60,12 @@ public class ArtStory_screen extends AppCompatActivity {
             }
         });
 
-        ivBack.setOnClickListener(new View.OnClickListener() {
+        // Xử lý nút back
+        backIcon = findViewById(R.id.back_icon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed(); // Gọi phương thức quay lại activity trước đó
+                onBackPressed();
             }
         });
     }
@@ -68,4 +75,4 @@ public class ArtStory_screen extends AppCompatActivity {
         super.onBackPressed(); // Quay lại activity trước đó
     }
 
-    }
+}

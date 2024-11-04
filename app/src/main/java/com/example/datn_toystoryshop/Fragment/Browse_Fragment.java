@@ -38,7 +38,7 @@ public class Browse_Fragment extends Fragment {
     private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
     private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
     private Button btnFilter;
-    private int maxPriceLimit = 1000000;
+    private int maxPriceLimit = 10000000;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
 
     @Nullable
