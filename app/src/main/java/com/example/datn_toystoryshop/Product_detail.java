@@ -9,17 +9,25 @@ import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Adapter.ProductImageAdapter;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Product_detail extends AppCompatActivity {
-    private TextView tvProductName, tvProductPrice, tvproductSkuValue, tvproductDescription, tvproductDetails,  quantityText;
-    private ImageView imgProduct, btnBack, shareButton, heartIcon ;
+    private TextView tvProductName, tvProductPrice, tvproductDescription, productStockValue, quantityText, productBrandValue1, productBrandValue2;
+    private ImageView btnBack, shareButton, heartIcon ;
+    private LinearLayout dotIndicatorLayout;
+    private List<View> dotIndicators = new ArrayList<>();
     private double productPrice;
     private boolean statusPro;
     private int prodId, owerId, quantity, cateId;
@@ -40,11 +48,12 @@ public class Product_detail extends AppCompatActivity {
 
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
+        productStockValue = findViewById(R.id.productStockValue);
+        productBrandValue1 = findViewById(R.id.productBrandValue1);
+        productBrandValue2 = findViewById(R.id.productBrandValue2);
         tvProductPrice = findViewById(R.id.productPrice);
-        tvproductSkuValue = findViewById(R.id.productSkuValue);
         tvproductDescription = findViewById(R.id.productDescription);
-        tvproductDetails = findViewById(R.id.productDetails);
-        imgProduct = findViewById(R.id.productImage);
+        dotIndicatorLayout = findViewById(R.id.dotIndicatorLayout);
         btnBack = findViewById(R.id.btnBack);
         shareButton = findViewById(R.id.shareButton);
         heartIcon = findViewById(R.id.heart_icon);
@@ -75,24 +84,36 @@ public class Product_detail extends AppCompatActivity {
 
         tvProductName.setText(productName);
         tvProductPrice.setText(String.format("%,.0fđ", productPrice));
-/// thiếu hãng đồ chơi
-        tvproductSkuValue.setText(String.valueOf(quantity));
+        productStockValue.setText(String.valueOf(quantity));
         tvproductDescription.setText(desPro);
-        tvproductDetails.setText(creatDatePro);
+        productBrandValue1.setText(brand);
+        productBrandValue2.setText(brand);
+
+        ViewPager2 productImagePager = findViewById(R.id.productImage);
+        ProductImageAdapter adapter = new ProductImageAdapter(this, productImg);
+        productImagePager.setAdapter(adapter);
+        // Tạo dot indicator dựa trên số lượng ảnh
+        createDotIndicators(productImg.size());
+
+        // Cập nhật dot indicator khi vuốt ảnh
+        productImagePager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                currentImageIndex = position;
+                updateDotIndicator();
+            }
+        });
 
         // Tạo Runnable để tự động thay đổi ảnh sau 3 giây
         imageSwitcherRunnable = new Runnable() {
             @Override
             public void run() {
-                if (productImg != null && !productImg.isEmpty()) {
-                    // Cập nhật ảnh trên imgProduct
-                    Glide.with(Product_detail.this)
-                            .load(productImg.get(currentImageIndex))
-                            .placeholder(R.drawable.product1)
-                            .into(imgProduct);
-                    updateDotIndicator();
-                    // Tăng chỉ số ảnh, nếu đạt cuối danh sách thì quay lại đầu
-                    currentImageIndex = (currentImageIndex + 1) % productImg.size();
+                if (currentImageIndex < productImg.size()) {
+                    productImagePager.setCurrentItem(currentImageIndex++, true);
+                } else {
+                    currentImageIndex = 0;
+                    productImagePager.setCurrentItem(currentImageIndex, true);
                 }
 
                 // Lặp lại sau 3 giây
@@ -170,19 +191,33 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
-    private void updateDotIndicator() {
-        // Đặt tất cả các view thành màu xám
-        viewDetail1.setBackgroundResource(R.drawable.dot_inactive);
-        viewDetail2.setBackgroundResource(R.drawable.dot_inactive);
-        viewDetail3.setBackgroundResource(R.drawable.dot_inactive);
+    private void createDotIndicators(int count) {
+        dotIndicators.clear();
+        dotIndicatorLayout.removeAllViews();
 
-        // Đặt màu xanh cho dot indicator hiện tại
-        if (currentImageIndex == 0) {
-            viewDetail1.setBackgroundResource(R.drawable.dot_active);
-        } else if (currentImageIndex == 1) {
-            viewDetail2.setBackgroundResource(R.drawable.dot_active);
-        } else if (currentImageIndex == 2) {
-            viewDetail3.setBackgroundResource(R.drawable.dot_active);
+        for (int i = 0; i < count; i++) {
+            View dot = new View(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.width = 10;
+            params.height = 10;
+            params.setMargins(4, 0, 4, 0);
+
+            dot.setLayoutParams(params);
+            dot.setBackgroundResource(R.drawable.dot_inactive); // dot màu xám
+            dotIndicators.add(dot);
+            dotIndicatorLayout.addView(dot);
+        }
+
+        if (!dotIndicators.isEmpty()) {
+            dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
+        }
+    }
+    private void updateDotIndicator() {
+        for (int i = 0; i < dotIndicators.size(); i++) {
+            dotIndicators.get(i).setBackgroundResource(
+                    i == currentImageIndex ? R.drawable.dot_active : R.drawable.dot_inactive);
         }
     }
     private void shareApp(String productName) {

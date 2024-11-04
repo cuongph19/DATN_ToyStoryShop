@@ -25,7 +25,7 @@
             <!-- Nội dung cuộn của bạn ở đây -->
             <!-- Nút quay lại (Back Button) -->
 
-            <ImageView
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/productImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,8 +93,8 @@
                 <!-- Dot Indicator 3 -->
                 <View
                     android:id="@+id/view_detail_3"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/dot_inactive" />
             </LinearLayout>
@@ -126,15 +126,15 @@
             <!-- Like Icon -->
             <ImageView
                 android:id="@+id/heart_icon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="Heart Icon"
                 android:src="@drawable/ic_heart"
                 app:tint="#A09595"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/productTitle" />
+                app:layout_constraintTop_toTopOf="@id/productPrice" />
 
             <!-- Product Brand and SKU -->
 
@@ -166,55 +166,149 @@
 
                     <!-- TextView cho giá trị Thương hiệu -->
                     <TextView
-                        android:id="@+id/productBrandValue"
+                        android:id="@+id/productBrandValue1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Gundam"
                         android:textSize="14sp"
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
-
-                <!-- SKU: -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
-
-
-                    <TextView
-                        android:id="@+id/labelSku"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tồn kho:"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- TextView cho giá trị SKU -->
-                    <TextView
-                        android:id="@+id/productSkuValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="30"
-                        android:textSize="14sp" />
-                </LinearLayout>
             </LinearLayout>
 
 
-            <!-- Product Description -->
-            <TextView
-                android:id="@+id/productDescription"
+            <!-- Product Details -->
+            <LinearLayout
+                android:id="@+id/productDetailsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lobortis cras placerat diam ipsum ut. Nisi vel adipiscing massa bibendum diam. Suspendisse mattis dui maecenas duis mattis. Mattis aliquam at arcu, semper nunc, venenatis et pellentesque eu. Id tristique maecenas tristique habitasse eu elementum sed. Aliquam eget lacus, arcu, adipiscing eget feugiat in dolor sagittis.
-Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempus sed. Mi varius morbi egestas dictum tempor nisl. In "
-                android:textSize="14sp"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ln1" />
+                app:layout_constraintTop_toBottomOf="@id/ln1">
 
+                <!-- Item 1: Nhận hàng nhanh chóng -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon4"
+                        app:tint="#172A5C"  />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Nhận hàng nhanh chóng (không tính T7 - CN)"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Item 2: Hobiverse phân phối -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="4dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon3"
+                        app:tint="#172A5C" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="ToyStory Shop phân phối chính hãng từ thương hiệu "
+                        android:textSize="14sp" />
+                </LinearLayout>
+                    <TextView
+                        android:id="@+id/productBrandValue2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="52TOYS"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="28dp" />
+
+            </LinearLayout>
+
+                <!-- Item 3: Miễn phí giao hàng -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon1"
+                        app:tint="#172A5C" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Miễn phí giao hàng toàn quốc đơn trên 500k"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Item 4: Lưu ý về hoàn đổi trả -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="***Lưu ý: Sản phẩm được hoàn/đổi trong vòng 3 ngày sau khi nhận hàng, nếu là lỗi do nhà sản xuất và phải có video khui mở kiện hàng."
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="13sp" />
+
+                <!-- Item 5: Số lượng tồn kho -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Sắp hết hàng: Còn "
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/productStockValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textColor="@android:color/holo_orange_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" sản phẩm"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
             <!-- Details Section -->
             <TextView
                 android:id="@+id/detailsHeader"
@@ -226,16 +320,16 @@ Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempu
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productDescription" />
+                app:layout_constraintTop_toBottomOf="@id/productDetailsLayout" />
 
-            <!-- Product Details -->
+            <!-- Product Description -->
             <TextView
-                android:id="@+id/productDetails"
+                android:id="@+id/productDescription"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="• Nhận hàng nhanh chóng..."
+                android:text="aa "
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsHeader" />
