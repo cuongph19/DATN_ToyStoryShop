@@ -16,9 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
+import com.example.datn_toystoryshop.Model.Favorite_Model;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Product_detail extends AppCompatActivity {
@@ -37,7 +44,7 @@ public class Product_detail extends AppCompatActivity {
     private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
     private Runnable imageSwitcherRunnable;
     private View viewDetail1, viewDetail2, viewDetail3;
-
+    private String favoriteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,8 @@ public class Product_detail extends AppCompatActivity {
          productName = intent.getStringExtra("productName");
          cateId = intent.getIntExtra("cateId", -1);
         brand = intent.getStringExtra("brand");
+        //
+        favoriteId = intent.getStringExtra("favoriteId");
         Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
         // Hiển thị dữ liệu
 
@@ -143,9 +152,38 @@ public class Product_detail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isRed) {
-                    heartIcon.setColorFilter(Color.parseColor("#A09595")); // Màu xám ban đầu
+                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
+                    deleteFavorite(favoriteId);
+                    // Màu xám ban đầu
                 } else {
                     heartIcon.setColorFilter(Color.RED); // Đổi sang màu đỏ
+                    // Tạo đối tượng yêu thích
+                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId"); // Thay các giá trị bằng dữ liệu thực tế
+
+                    // Gửi yêu cầu tới API
+                    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+                    Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);
+                    call.enqueue(new Callback<Favorite_Model>() {
+                        @Override
+                        public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
+                            if (response.isSuccessful()) {
+                                favoriteId = response.body().get_id();
+                                Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
+                                Log.e("API Response", "Response code: " + response.code());
+                                Log.e("API Response", "Response body: " + response.errorBody());
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Favorite_Model> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                            Log.e("API Failure", "Error message: " + t.getMessage(), t);
+
+                        }
+                    });
                 }
                 isRed = !isRed; // Đảo trạng thái
             }
@@ -189,6 +227,7 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
+
     private void createDotIndicators(int count) {
         dotIndicators.clear();
         dotIndicatorLayout.removeAllViews();
@@ -212,6 +251,28 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
+    private void deleteFavorite(String favoriteId) {
+        // Gọi API xóa yêu thích
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Void> call = apiService.deleteFavorite(favoriteId); // Đảm bảo phương thức này đã được định nghĩa trong APIService
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show();
+                    Log.e("API Response", "Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                Log.e("API Failure", "Error message: " + t.getMessage(), t);
+            }
+        });
+        }
     private void updateDotIndicator() {
         for (int i = 0; i < dotIndicators.size(); i++) {
             dotIndicators.get(i).setBackgroundResource(
