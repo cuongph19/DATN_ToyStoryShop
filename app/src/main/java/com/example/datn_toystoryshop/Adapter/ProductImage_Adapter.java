@@ -14,11 +14,11 @@ import com.example.datn_toystoryshop.R;
 
 import java.util.List;
 
-public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapter.ImageViewHolder> {
+public class ProductImage_Adapter extends RecyclerView.Adapter<ProductImage_Adapter.ImageViewHolder> {
     private List<String> productImages;
     private Context context;
 
-    public ProductImageAdapter(Context context, List<String> productImages) {
+    public ProductImage_Adapter(Context context, List<String> productImages) {
         this.context = context;
         this.productImages = productImages;
     }

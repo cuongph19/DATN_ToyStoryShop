@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,8 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.Adapter.ProductImageAdapter;
+import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +88,7 @@ public class Product_detail extends AppCompatActivity {
         productBrandValue2.setText(brand);
 
         ViewPager2 productImagePager = findViewById(R.id.productImage);
-        ProductImageAdapter adapter = new ProductImageAdapter(this, productImg);
+        ProductImage_Adapter adapter = new ProductImage_Adapter(this, productImg);
         productImagePager.setAdapter(adapter);
         // Tạo dot indicator dựa trên số lượng ảnh
         createDotIndicators(productImg.size());
