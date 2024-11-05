@@ -2,8 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const mongoose = require('mongoose'); // Đảm bảo rằng dòng này có ở đây
-module.exports = router;
-
+const FavoriteModel = require('./FavoriteModel');
 const server = require('./server');
 
 router.get('/', (req, res) => {
@@ -46,9 +45,6 @@ router.get('/brand-counts', async (req, res) => {
         res.status(500).json({ error: "Có lỗi xảy ra khi lấy số lượng sản phẩm." });
     }
 });
-
-
-
 
 router.get('/new-arrivals', async (req, res) => {
     try {
@@ -155,4 +151,84 @@ router.get('/blind_box', async (req, res) => {
 function removeDiacritics(input) {
     const normalized = input.normalize("NFD");
     return normalized.replace(/[\u0300-\u036f]/g, "");
-}
+};
+
+// API thêm sản phẩm vào favorites
+router.post('/update/add-to-favorites', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { prodId, cusId } = req.body;
+        const newFavorite = new FavoriteModel({ prodId, cusId });
+        await newFavorite.save();
+        res.status(201).json({ message: 'Thêm vào yêu thích thành công!', data: newFavorite });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào yêu thích', error });
+    }
+});
+// API xóa sản phẩm vào favorites
+router.delete('/delete/:id', async (req, res) => {
+    const { id } = req.params; // Nhận _id từ đường dẫn
+
+    try {
+        await mongoose.connect(server.uri);
+
+        // Xóa sản phẩm trong collection 'favorites' dựa trên _id
+        const result = await FavoriteModel.deleteOne({ _id: id });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm yêu thích với ID đã cho.' });
+        }
+
+        res.status(200).json({ message: 'Sản phẩm yêu thích đã được xóa thành công.' });
+    } catch (error) {
+        console.error('Lỗi khi xóa sản phẩm yêu thích:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm yêu thích.' });
+    } finally {
+        mongoose.connection.close(); // Đảm bảo kết nối được đóng
+    }
+});
+
+
+router.get('/favorites', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'favorites'
+        const favorites = await FavoriteModel.find({}, '_id prodId cusId ');
+
+        if (favorites.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm yêu thích nào.' });
+        }
+
+        res.json(favorites);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm yêu thích:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm yêu thích.' });
+    }
+});
+router.get('/:prodId', async (req, res) => {
+    const { prodId } = req.params; // Lấy prodId từ tham số URL
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+        const product = await server.productModel.findOne({ _id: prodId });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm.' });
+        }
+
+        // Xử lý tên sản phẩm không dấu
+        product.namePro = removeDiacritics(product.namePro);
+        
+        res.json(product);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+
+
+module.exports = router;
+

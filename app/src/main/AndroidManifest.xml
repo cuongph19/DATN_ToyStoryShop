@@ -130,7 +130,7 @@
             android:name=".Product_detail"
             android:exported="false" />
         <activity
-            android:name=".Favorite_products"
+            android:name=".Favorite_screen"
             android:exported="false" />
         <activity
             android:name=".Home_screen"

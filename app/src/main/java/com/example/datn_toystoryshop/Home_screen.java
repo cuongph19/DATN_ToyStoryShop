@@ -106,7 +106,7 @@
             heart_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Home_screen.this, Favorite_products.class);
+                    Intent intent = new Intent(Home_screen.this, Favorite_screen.class);
                     startActivity(intent);
                 }
             });

@@ -1,9 +1,14 @@
 package com.example.datn_toystoryshop.Server;
 
+import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import java.util.List;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface APIService {
 
@@ -29,4 +34,13 @@ public interface APIService {
     Call<List<Product_Model>> getOther();
     @GET("/api/art-story")
     Call<List<Product_Model>> getArtStory();
+    ///
+    @GET("/api/favorites")
+    Call<List<Favorite_Model>> getFavorites();
+    @POST("/api/update/add-to-favorites")
+    Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
+    @GET("/api/{prodId}")
+    Call<Product_Model> getProductById(@Path("prodId") String prodId);
+    @DELETE("/api/delete/{id}")
+    Call<Void> deleteFavorite(@Path("id") String favoriteId);
 }

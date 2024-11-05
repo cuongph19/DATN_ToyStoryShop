@@ -4,13 +4,11 @@ public class Favorite_Model {
     private String _id;          // Mã ID của yeu thic
     private String prodId;           // Mã ID của sản phẩm
     private String cusId;   // id cua khach hang
-    private String imgFavPl;        // hinh anh yeu thich
 
-    public Favorite_Model(String _id, String prodId, String cusId, String imgFavPl) {
+    public Favorite_Model(String _id, String prodId, String cusId) {
         this._id = _id;
         this.prodId = prodId;
         this.cusId = cusId;
-        this.imgFavPl = imgFavPl;
     }
 
     public String get_id() {
@@ -37,11 +35,4 @@ public class Favorite_Model {
         this.cusId = cusId;
     }
 
-    public String getImgFavPl() {
-        return imgFavPl;
-    }
-
-    public void setImgFavPl(String imgFavPl) {
-        this.imgFavPl = imgFavPl;
-    }
 }
