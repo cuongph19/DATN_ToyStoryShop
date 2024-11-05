@@ -1,17 +1,15 @@
 const mongoose = require('mongoose');
 
 const FavoriteSchema = mongoose.Schema({
-    favId: {
-        type: Number,
+    //id ngẫu nhiên của mongo không cần khai báo
+    prodId: {
+        type: mongoose.Schema.Types.ObjectId, // Dùng ObjectId để liên kết đến sản phẩm
+        ref: 'product', // Tham chiếu đến collection 'product'
         required: true
     },
     cusId: {
-        type: Number,
-        required: true
-    },
-    prodId: {
-        type: Number,
-        required: true
+        type: String,
+        maxlength: 255
     },
     imgFavPl:{
         type: [String],

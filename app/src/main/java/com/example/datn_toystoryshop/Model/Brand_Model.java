@@ -1,10 +1,10 @@
 package com.example.datn_toystoryshop.Model;
 
-public class Brand {
+public class Brand_Model {
     private String _id;
     private int count;
 
-    public Brand(String _id, int count) {
+    public Brand_Model(String _id, int count) {
         this._id = _id;
         this.count = count;
     }
