@@ -137,38 +137,32 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     public void updateData(List<Product_Model> newProductList) {
         productModelList.clear();
+        productModelListFull.clear(); // Xóa dữ liệu cũ trong danh sách gốc
         if (newProductList != null) {
-            productModelList.addAll(newProductList);
+            productModelList.addAll(newProductList); // Cập nhật danh sách hiện tại
+            productModelListFull.addAll(newProductList); // Cập nhật danh sách đầy đủ để lọc
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Cập nhật RecyclerView
     }
+
 
     // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
         productModelList.clear();
         if (query.isEmpty()) {
-            productModelList.addAll(productModelListFull); // Nếu không có từ khóa, thêm lại tất cả
+            productModelList.addAll(productModelListFull);
         } else {
             for (Product_Model product : productModelListFull) {
                 if (removeDiacritics(product.getNamePro().toLowerCase()).contains(query.toLowerCase())) {
-                    productModelList.add(product); // Nếu có, thêm vào danh sách lọc
+                    productModelList.add(product);
                 }
             }
         }
-        notifyDataSetChanged(); // Cập nhật RecyclerView
-    }
-
-    // Sắp xếp theo giá cao đến thấp
-    public void sortByPriceDescending() {
-        Collections.sort(productModelList, (p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice()));
         notifyDataSetChanged();
     }
 
-    // Sắp xếp theo giá thấp đến cao
-    public void sortByPriceAscending() {
-        Collections.sort(productModelList, (p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
-        notifyDataSetChanged();
-    }
+
+
 
     private String removeDiacritics(String input) {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);

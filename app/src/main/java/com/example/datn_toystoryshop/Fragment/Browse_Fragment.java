@@ -2,6 +2,8 @@ package com.example.datn_toystoryshop.Fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ public class Browse_Fragment extends Fragment {
     private int maxPriceLimit = 10000000;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class Browse_Fragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view_products);
         btnFilter = view.findViewById(R.id.btnFilter);
+
 
         // Thiết lập LayoutManager cho RecyclerView
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -62,6 +66,21 @@ public class Browse_Fragment extends Fragment {
 
         // Xử lý sự kiện nhấn nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
+        // Tìm kiếm theo tên sản phẩm
+        EditText searchBar = view.findViewById(R.id.search_bar);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productAdapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
 
         return view;
     }
@@ -75,9 +94,7 @@ public class Browse_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     originalProductList = new ArrayList<>(response.body()); // Lưu toàn bộ sản phẩm vào originalProductList
-                    productList.clear();
-                    productList.addAll(originalProductList); // Sao chép originalProductList vào productList
-                    productAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+                    productAdapter.updateData(originalProductList); // Cập nhật Adapter với danh sách từ API
                 }
             }
 
@@ -87,6 +104,7 @@ public class Browse_Fragment extends Fragment {
             }
         });
     }
+
 
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
