@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose'); // Đảm bảo rằng dòng này có ở đây
 const FavoriteModel = require('./model/FavoriteModel');
+const FeebackModel = require('./model/FeebackModel');
+
 const server = require('./server');
 
 router.get('/', (req, res) => {
@@ -179,7 +181,7 @@ function removeDiacritics(input) {
 };
 
 // API thêm sản phẩm vào favorites
-router.post('/update/add-to-favorites', async (req, res) => {
+router.post('/add/add-to-favorites', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
@@ -254,8 +256,39 @@ router.get('/:prodId', async (req, res) => {
     }
 });
 
+router.get('/check-favorite/:prodId', async (req, res) => {
+    try {
+        const { prodId } = req.params;
+
+        // Kiểm tra xem prodId có tồn tại trong collection 'favorites' không
+        const favorite = await FavoriteModel.findOne({ prodId: prodId });
+
+        if (favorite) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Lỗi khi kiểm tra sản phẩm yêu thích:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi kiểm tra sản phẩm yêu thích.' });
+    }
+});
 
 
+// API thêm đáng giá
+router.post('/add/add-to-feeback', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { cusId, start, content, dateFeed } = req.body;
+        const newFeeback = new FeebackModel({ cusId, start, content, dateFeed });
+        await newFeeback.save();
+        res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeeback });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
+    }
+});
 
 
 

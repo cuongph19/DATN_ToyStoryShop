@@ -1,9 +1,11 @@
 package com.example.datn_toystoryshop.Server;
 
 import com.example.datn_toystoryshop.Model.Favorite_Model;
+import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,9 +17,9 @@ import retrofit2.http.Path;
 public interface APIService {
 
 
-    //    String BASE_URL  = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.15:3000/";// huy
-//    String BASE_URL = "http://192.168.101.10:3000/";
+      String BASE_URL  = "http://192.168.16.101:3000/";// cương
+     // String BASE_URL  = "http://192.168.1.15:3000/";// huy
+  // String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -45,7 +47,7 @@ public interface APIService {
     @GET("/api/favorites")
     Call<List<Favorite_Model>> getFavorites();
 
-    @POST("/api/update/add-to-favorites")
+    @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 
     @GET("/api/{prodId}")
@@ -56,4 +58,10 @@ public interface APIService {
 
     @GET("api/list-popular")
     Call<List<Product_Model>> getPopular();
+
+    @GET("/api/check-favorite/{prodId}")
+    Call<Map<String, Boolean>> checkFavorite(@Path("prodId") String productId);
+
+    @POST("/api/add/add-to-feeback")
+    Call<Feeback_Model> addToFeeback(@Body Feeback_Model feebackModel);
 }
