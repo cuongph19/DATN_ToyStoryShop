@@ -19,34 +19,31 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.ProductViewHolder> {
+public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
-    private List<Product_Model> productModelListFull; // List gốc để lọc
+    private List<Product_Model> productModelListFull;
     private Context context;
 
-    public Product_Adapter(Context context, List<Product_Model> productModelList) {
+    public ProductNewAdapter(Context context, List<Product_Model> productModelList) {
         this.context = context;
         this.productModelList = productModelList;
-        this.productModelListFull = new ArrayList<>(productModelList); // Khởi tạo bản sao cho danh sách đầy đủ
+        this.productModelListFull = new ArrayList<>(productModelList);
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_popular, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_new_product, parent, false);
         return new ProductViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
-        // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
             holder.tvName.setText(product.getNamePro());
             String shortId = product.get_id().substring(0, 6);
-//            holder.tvSKU.setText("Mã SP: " + product.get_id());
             holder.tvSKU.setText("Mã SP: " + shortId);
             holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
@@ -55,19 +52,18 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
             if (images != null && !images.isEmpty()) {
                 holder.setImageRotation(images);
             }
-
         }
     }
 
     @Override
     public int getItemCount() {
-        return productModelList.size(); // Trả về kích thước của danh sách hiện tại
+        return productModelList.size();
     }
 
     @Override
     public void onViewRecycled(@NonNull ProductViewHolder holder) {
         super.onViewRecycled(holder);
-        holder.stopImageRotation(); // Dừng Handler khi ViewHolder bị tái chế
+        holder.stopImageRotation();
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -87,38 +83,33 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         }
 
         public void setImageRotation(List<String> images) {
-            // Dừng runnable cũ nếu có
             stopImageRotation();
 
-            // Tải ảnh đầu tiên ngay lập tức
             if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                currentImageIndex = 0; // Đặt chỉ số hình ảnh về 0 trước khi tải hình
+                currentImageIndex = 0;
                 Glide.with(imgProduct.getContext())
                         .load(images.get(currentImageIndex))
                         .placeholder(R.drawable.product1)
                         .into(imgProduct);
             }
 
-            // Tạo runnable mới để thay đổi ảnh sau mỗi 3 giây
             runnable = new Runnable() {
                 @Override
                 public void run() {
                     if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                        currentImageIndex = (currentImageIndex + 1) % images.size(); // Cập nhật vị trí ảnh
+                        currentImageIndex = (currentImageIndex + 1) % images.size();
                         Glide.with(imgProduct.getContext())
                                 .load(images.get(currentImageIndex))
                                 .placeholder(R.drawable.product1)
                                 .into(imgProduct);
 
-                        handler.postDelayed(this, 3000); // Tiếp tục sau 3 giây
+                        handler.postDelayed(this, 3000);
                     }
                 }
             };
 
-            // Bắt đầu chạy runnable sau 3 giây
             handler.postDelayed(runnable, 3000);
         }
-
 
         public void stopImageRotation() {
             if (runnable != null) {
@@ -143,28 +134,25 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         notifyDataSetChanged();
     }
 
-    // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
         productModelList.clear();
         if (query.isEmpty()) {
-            productModelList.addAll(productModelListFull); // Nếu không có từ khóa, thêm lại tất cả
+            productModelList.addAll(productModelListFull);
         } else {
             for (Product_Model product : productModelListFull) {
                 if (removeDiacritics(product.getNamePro().toLowerCase()).contains(query.toLowerCase())) {
-                    productModelList.add(product); // Nếu có, thêm vào danh sách lọc
+                    productModelList.add(product);
                 }
             }
         }
-        notifyDataSetChanged(); // Cập nhật RecyclerView
+        notifyDataSetChanged();
     }
 
-    // Sắp xếp theo giá cao đến thấp
     public void sortByPriceDescending() {
         Collections.sort(productModelList, (p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice()));
         notifyDataSetChanged();
     }
 
-    // Sắp xếp theo giá thấp đến cao
     public void sortByPriceAscending() {
         Collections.sort(productModelList, (p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
         notifyDataSetChanged();
@@ -176,4 +164,3 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         return pattern.matcher(normalized).replaceAll("");
     }
 }
-

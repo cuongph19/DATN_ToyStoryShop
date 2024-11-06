@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const mongoose = require('mongoose'); // Đảm bảo rằng dòng này có ở đây
-const FavoriteModel = require('./FavoriteModel');
+const FavoriteModel = require('./model/FavoriteModel');
 const server = require('./server');
 
 router.get('/', (req, res) => {
@@ -147,6 +147,31 @@ router.get('/blind_box', async (req, res) => {
     }
 });
 
+router.get('/list-popular', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Lọc sản phẩm có listPro là BLIND_BOX hoặc FIGURING
+        const popularProducts = await server.productModel.find({
+            listPro: { $in: ["BLIND_BOX", "FIGURING"] }
+        });
+
+        if (popularProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm phổ biến.' });
+        }
+
+        // Xử lý tên sản phẩm không dấu
+        popularProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro);
+        });
+
+        res.json(popularProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm phổ biến:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm phổ biến.', details: error.message });
+    }
+});
+
 // Hàm chuyển đổi chuỗi có dấu thành không dấu
 function removeDiacritics(input) {
     const normalized = input.normalize("NFD");
@@ -221,7 +246,7 @@ router.get('/:prodId', async (req, res) => {
 
         // Xử lý tên sản phẩm không dấu
         product.namePro = removeDiacritics(product.namePro);
-        
+
         res.json(product);
     } catch (error) {
         console.error('Lỗi khi lấy sản phẩm:', error);
@@ -230,5 +255,10 @@ router.get('/:prodId', async (req, res) => {
 });
 
 
+
+
+
+
+  
 module.exports = router;
 

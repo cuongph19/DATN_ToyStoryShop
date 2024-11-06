@@ -24,6 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
 import com.example.datn_toystoryshop.Add_address_screen;
@@ -58,9 +60,10 @@ public class Home_Fragment extends Fragment {
     private Runnable runnable;
     private FrameLayout new_arrivals, blind_box, figuring, other_products, art_story, limited_figure;
     private int currentPage = 0;
-    private RecyclerView recyclerViewNew;
+    private RecyclerView recyclerViewNew, recyclerViewPopu;
     private RecyclerView recyclerViewSuggestions;
     private List<Product_Model> listProductModel;
+    private ProductNewAdapter productNewAdapter;
     private Product_Adapter productAdapter;
     private Suggestion_Adapter suggestionAdapter;
 
@@ -83,6 +86,7 @@ public class Home_Fragment extends Fragment {
         search_bar = view.findViewById(R.id.search_bar);
         recyclertextviewsuggestions = view.findViewById(R.id.recycler_textview_suggestions);
         recyclerViewSuggestions = view.findViewById(R.id.recycler_view_suggestions);
+
         viewPager = view.findViewById(R.id.view_pager);
         new_arrivals = view.findViewById(R.id.new_arrivals);
         blind_box = view.findViewById(R.id.blind_box);
@@ -91,8 +95,11 @@ public class Home_Fragment extends Fragment {
         art_story = view.findViewById(R.id.art_story);
         limited_figure = view.findViewById(R.id.limited_figure);
         recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
+        recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
 
         recyclerViewNew.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewPopu.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
         recyclerViewSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerViewSuggestions.setVisibility(View.GONE);
         recyclertextviewsuggestions.setVisibility(View.GONE);
@@ -117,6 +124,8 @@ public class Home_Fragment extends Fragment {
         APIService apiService = retrofit.create(APIService.class);
 
         loadProducts(apiService);
+        loadPopularProducts(apiService);
+
         setupSearchBar(apiService);
 
         List<Integer> images = Arrays.asList(
@@ -285,8 +294,8 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    productAdapter = new Product_Adapter(requireContext(), listProductModel);
-                    recyclerViewNew.setAdapter(productAdapter);
+                    productNewAdapter = new ProductNewAdapter(requireContext(), listProductModel);
+                    recyclerViewNew.setAdapter(productNewAdapter);
                 } else {
                     Log.e("ProductFragment", "Response unsuccessful or body is null");
                 }
@@ -298,6 +307,38 @@ public class Home_Fragment extends Fragment {
             }
         });
     }
+
+    private void loadPopularProducts(APIService apiService) {
+        Call<List<Product_Model>> call = apiService.getPopular();
+        call.enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                if (response.isSuccessful() && response.body() != null && isAdded()) {
+                    List<Product_Model> popularProducts = response.body();
+
+                    // Thêm log để kiểm tra dữ liệu
+                    Log.d("HomeFragment", "Popular products loaded: " + popularProducts.size() + " items");
+
+                    if (popularProducts.isEmpty()) {
+                        Log.d("HomeFragment", "No popular products available");
+                    } else {
+                        productAdapter = new Product_Adapter(requireContext(), popularProducts);
+                        recyclerViewPopu.setAdapter(productAdapter);
+                    }
+                } else {
+                    Log.e("HomeFragment", "Response unsuccessful or body is null for popular products");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                Log.e("HomeFragment", "API call failed for popular products: " + t.getMessage());
+            }
+        });
+    }
+
+
+
     private boolean isPointInsideView(float x, float y, View view) {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
