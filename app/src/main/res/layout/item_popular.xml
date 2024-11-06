@@ -17,13 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--             Hình ảnh ở góc trên bên phải-->
-            <ImageView
-                android:id="@+id/new_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="top|end"
-                android:src="@drawable/new_icon" /> <!-- Đổi thành hình ảnh của bạn -->
 
             <!-- Nội dung sản phẩm -->
             <LinearLayout
