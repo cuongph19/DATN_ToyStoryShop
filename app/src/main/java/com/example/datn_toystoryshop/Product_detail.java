@@ -22,6 +22,7 @@ import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +46,7 @@ public class Product_detail extends AppCompatActivity {
     private Runnable imageSwitcherRunnable;
     private View viewDetail1, viewDetail2, viewDetail3;
     private String favoriteId;
-
+    private boolean isFavorite = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +112,7 @@ public class Product_detail extends AppCompatActivity {
                 updateDotIndicator();
             }
         });
-
+      checkIfFavorite(productId);
         // Tạo Runnable để tự động thay đổi ảnh sau 3 giây
         imageSwitcherRunnable = new Runnable() {
             @Override
@@ -147,18 +148,19 @@ public class Product_detail extends AppCompatActivity {
             }
         });
         heartIcon.setOnClickListener(new View.OnClickListener() {
-            private boolean isRed = false; // trạng thái mặc định là màu xám
-
             @Override
             public void onClick(View v) {
-                if (isRed) {
+                if (isFavorite) {
+                    // Nếu đã yêu thích, xóa khỏi danh sách yêu thích và đổi màu xám
                     heartIcon.setColorFilter(Color.parseColor("#A09595"));
                     deleteFavorite(favoriteId);
-                    // Màu xám ban đầu
+                    isFavorite = false; // Cập nhật trạng thái
                 } else {
-                    heartIcon.setColorFilter(Color.RED); // Đổi sang màu đỏ
+                    // Nếu chưa yêu thích, thêm vào danh sách yêu thích và đổi màu đỏ
+                    heartIcon.setColorFilter(Color.RED);
+
                     // Tạo đối tượng yêu thích
-                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId"); // Thay các giá trị bằng dữ liệu thực tế
+                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
 
                     // Gửi yêu cầu tới API
                     APIService apiService = RetrofitClient.getInstance().create(APIService.class);
@@ -168,26 +170,24 @@ public class Product_detail extends AppCompatActivity {
                         public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
                             if (response.isSuccessful()) {
                                 favoriteId = response.body().get_id();
+                                isFavorite = true; // Cập nhật trạng thái yêu thích
                                 Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
                             } else {
+                                heartIcon.setColorFilter(Color.parseColor("#A09595"));
                                 Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
-                                Log.e("API Response", "Response code: " + response.code());
-                                Log.e("API Response", "Response body: " + response.errorBody());
-
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Favorite_Model> call, Throwable t) {
+                            heartIcon.setColorFilter(Color.parseColor("#A09595"));
                             Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
-                            Log.e("API Failure", "Error message: " + t.getMessage(), t);
-
                         }
                     });
                 }
-                isRed = !isRed; // Đảo trạng thái
             }
         });
+
         int[] currentQuantity = {1}; // Khởi tạo giá trị tối thiểu là 1
         quantityText.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView ban đầu
 
@@ -226,6 +226,34 @@ public class Product_detail extends AppCompatActivity {
         super.onDestroy();
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
+    }
+    private void checkIfFavorite(String productId) {
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Map<String, Boolean>> call = apiService.checkFavorite(productId);
+
+        call.enqueue(new Callback<Map<String, Boolean>>() {
+            @Override
+            public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Boolean exists = response.body().get("exists");
+
+                    if (Boolean.TRUE.equals(exists)) {
+                        isFavorite = true; // Cập nhật trạng thái yêu thích
+                        heartIcon.setColorFilter(Color.RED); // Đổi sang màu đỏ nếu đã yêu thích
+                    } else {
+                        isFavorite = false; // Đặt trạng thái không yêu thích
+                        heartIcon.setColorFilter(Color.parseColor("#A09595")); // Đổi sang màu xám nếu chưa yêu thích
+                    }
+                } else {
+                    Log.e("API_ERROR", "Không lấy được trạng thái yêu thích của sản phẩm.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi kết nối tới API", t);
+            }
+        });
     }
 
     private void createDotIndicators(int count) {
