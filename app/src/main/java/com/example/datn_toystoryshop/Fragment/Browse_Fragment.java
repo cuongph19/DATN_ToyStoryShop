@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -93,8 +95,9 @@ public class Browse_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    originalProductList = new ArrayList<>(response.body()); // Lưu toàn bộ sản phẩm vào originalProductList
-                    productAdapter.updateData(originalProductList); // Cập nhật Adapter với danh sách từ API
+                    originalProductList = new ArrayList<>(response.body());
+                    Log.d("API Response", "Loaded products: " + originalProductList.size()); // Debugging để kiểm tra số lượng sản phẩm
+                    productAdapter.updateData(originalProductList);
                 }
             }
 
@@ -104,6 +107,7 @@ public class Browse_Fragment extends Fragment {
             }
         });
     }
+
 
 
     private void showFilterDialog() {
@@ -119,6 +123,15 @@ public class Browse_Fragment extends Fragment {
         CheckBox checkboxBrand1 = dialogView.findViewById(R.id.checkbox_brand_1);
         CheckBox checkboxBrand2 = dialogView.findViewById(R.id.checkbox_brand_2);
         CheckBox checkboxBrand3 = dialogView.findViewById(R.id.checkbox_brand_3);
+        TextView tvCountBrand1 = dialogView.findViewById(R.id.tv_count_brand_1);
+        TextView tvCountBrand2 = dialogView.findViewById(R.id.tv_count_brand_2);
+        TextView tvCountBrand3 = dialogView.findViewById(R.id.tv_count_brand_3);
+
+        // Hiển thị số lượng sản phẩm theo từng thương hiệu
+        tvCountBrand1.setText(String.valueOf(countProductsByBrand("BANPRESTO")));
+        tvCountBrand2.setText(String.valueOf(countProductsByBrand("POP MART")));
+        tvCountBrand3.setText(String.valueOf(countProductsByBrand("FUNISM")));
+
         EditText dialogMaxPrice = dialogView.findViewById(R.id.et_max_price);
         EditText dialogMinPrice = dialogView.findViewById(R.id.et_min_price);
         SeekBar dialogSeekBarMax = dialogView.findViewById(R.id.seekBar_price_max);
@@ -130,12 +143,11 @@ public class Browse_Fragment extends Fragment {
         dialogSeekBarMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Kiểm tra nếu giá trị nhỏ hơn 100000
                 if (progress < 100000) {
-                    seekBar.setProgress(100000); // Đặt lại giá trị về 100000
-                    dialogMaxPrice.setText(100000 + "đ"); // Cập nhật giá hiển thị
+                    seekBar.setProgress(100000);
+                    dialogMaxPrice.setText(100000 + "đ");
                 } else {
-                    dialogMaxPrice.setText(progress + "đ"); // Cập nhật giá trị Max khi SeekBar thay đổi
+                    dialogMaxPrice.setText(progress + "đ");
                 }
             }
 
@@ -151,24 +163,23 @@ public class Browse_Fragment extends Fragment {
             boolean isBrand1Selected = checkboxBrand1.isChecked();
             boolean isBrand2Selected = checkboxBrand2.isChecked();
             boolean isBrand3Selected = checkboxBrand3.isChecked();
-            int maxPrice = dialogSeekBarMax.getProgress(); // Lấy giá trị từ SeekBar Max
+            int maxPrice = dialogSeekBarMax.getProgress();
 
-            // Kiểm tra điều kiện trước khi áp dụng bộ lọc
-            if ((isBrand1Selected || isBrand2Selected || isBrand3Selected) && maxPrice == 0) {
-                // Người dùng đã chọn ít nhất một checkbox nhưng chưa chọn giá
-                Toast.makeText(getContext(), "Vui lòng điều chỉnh giá!", Toast.LENGTH_SHORT).show();
-            } else if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected) && maxPrice > 0) {
-                // Người dùng đã chọn giá nhưng chưa chọn checkbox nào
+            // Kiểm tra xem có ít nhất một thương hiệu được chọn
+            if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected)) {
                 Toast.makeText(getContext(), "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
             } else {
-                // Nếu đã chọn cả checkbox và giá, áp dụng bộ lọc
-                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, maxPrice);
+                // Áp dụng bộ lọc với các thương hiệu đã chọn và giá tối đa (nếu có)
+                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, maxPrice > 0 ? maxPrice : Integer.MAX_VALUE);
                 dialog.dismiss();
             }
+
+
+
         });
 
-
     }
+
 
     private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected, int maxPrice) {
         List<Product_Model> filteredList = new ArrayList<>();
@@ -179,20 +190,44 @@ public class Browse_Fragment extends Fragment {
         } else {
             // Lọc sản phẩm dựa trên CheckBox được chọn và giá
             for (Product_Model product : originalProductList) {
-                String brand = product.getBrand();
+                String brand = product.getBrand().trim();
                 int price = (int) product.getPrice(); // Giả sử bạn có phương thức getPrice() trong Product_Model
 
                 if ((isBrand1Selected && brand.equals("BANPRESTO")) ||
                         (isBrand2Selected && brand.equals("POP MART")) ||
                         (isBrand3Selected && brand.equals("FUNISM"))) {
-                    if (price <= maxPrice) { // Chỉ kiểm tra giá tối đa
+                    if (maxPrice == 0 || price <= maxPrice) { // Kiểm tra nếu maxPrice là 0 hoặc sản phẩm dưới giá tối đa
                         filteredList.add(product);
                     }
                 }
+
             }
         }
 
         // Cập nhật Adapter với danh sách sản phẩm đã lọc
         productAdapter.updateData(filteredList);
+
+
     }
+    private int countProductsByBrand(String brandName) {
+        int count = 0;
+
+        if (originalProductList != null) {
+            for (Product_Model product : originalProductList) {
+                String brand = product.getBrand().trim(); // Loại bỏ khoảng trắng thừa
+                Log.d("Brand Count", "Checking product: " + brand);  // Debugging để xem brand hiện tại
+
+                if (brand.equalsIgnoreCase(brandName)) {
+                    count++;
+                }
+            }
+        } else {
+            Log.e("Brand Count", "originalProductList is null");
+        }
+
+        Log.d("Brand Count", "Total count for " + brandName + ": " + count); // Debugging tổng số
+        return count;
+    }
+
+
 }
