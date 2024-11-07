@@ -62,10 +62,10 @@ public class Notifications_screen extends AppCompatActivity {
 
             if (isChecked) {
                 // Chặn thông báo
-                Toast.makeText(this, "Thông báo đã bị chặn", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.notification) + " " + getString(R.string.ed) + " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
             } else {
                 // Bỏ chặn thông báo
-                Toast.makeText(this, "Thông báo được phép hiển thị", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.notification) + " " + getString(R.string.ed)+ " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
             }
         });
 

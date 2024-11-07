@@ -43,6 +43,8 @@ import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Adapter.Image_Adapter;
 import com.example.datn_toystoryshop.Server.APIService;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import retrofit2.Call;
@@ -66,6 +68,8 @@ public class Home_Fragment extends Fragment {
     private ProductNewAdapter productNewAdapter;
     private Product_Adapter productAdapter;
     private Suggestion_Adapter suggestionAdapter;
+    private List<Product_Model> popularProductList;
+
 
     @Nullable
     @Override
@@ -84,6 +88,7 @@ public class Home_Fragment extends Fragment {
         btn_see_all_popular = view.findViewById(R.id.btn_see_all_popular);
         btn_view_all_stores = view.findViewById(R.id.btn_view_all_stores);
         search_bar = view.findViewById(R.id.search_bar);
+
         recyclertextviewsuggestions = view.findViewById(R.id.recycler_textview_suggestions);
         recyclerViewSuggestions = view.findViewById(R.id.recycler_view_suggestions);
 
@@ -94,6 +99,7 @@ public class Home_Fragment extends Fragment {
         other_products = view.findViewById(R.id.other_products);
         art_story = view.findViewById(R.id.art_story);
         limited_figure = view.findViewById(R.id.limited_figure);
+
         recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
         recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
 
@@ -229,17 +235,19 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), All_new_screen.class);
+                intent.putExtra("productList", (Serializable) listProductModel); // truyền productModelList
                 startActivity(intent);
             }
         });
         btn_see_all_popular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), Popular_screen.class);
+                intent.putExtra("productListPopu", (Serializable) popularProductList); // truyền popularProductList
                 startActivity(intent);
             }
         });
+
         btn_view_all_stores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,15 +322,11 @@ public class Home_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
-                    List<Product_Model> popularProducts = response.body();
-
-                    // Thêm log để kiểm tra dữ liệu
-                    Log.d("HomeFragment", "Popular products loaded: " + popularProducts.size() + " items");
-
-                    if (popularProducts.isEmpty()) {
+                    popularProductList = response.body();
+                    if (popularProductList.isEmpty()) {
                         Log.d("HomeFragment", "No popular products available");
                     } else {
-                        productAdapter = new Product_Adapter(requireContext(), popularProducts);
+                        productAdapter = new Product_Adapter(requireContext(), popularProductList);
                         recyclerViewPopu.setAdapter(productAdapter);
                     }
                 } else {
@@ -336,6 +340,7 @@ public class Home_Fragment extends Fragment {
             }
         });
     }
+
 
 
 
