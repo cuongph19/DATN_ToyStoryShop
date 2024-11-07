@@ -1,8 +1,9 @@
 package com.example.datn_toystoryshop.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product_Model {
+public class Product_Model implements Serializable {
 
     private String _id;          // Mã ID của sản phẩm
     private int owerId;          // ID chủ sở hữu

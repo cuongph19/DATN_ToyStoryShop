@@ -21,12 +21,13 @@
             <!-- Nội dung sản phẩm -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <!-- ImageView for product image -->
                 <ImageView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/imgAvatar"
                     android:layout_width="190dp"
                     android:layout_height="150dp"
@@ -47,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tên sản phẩm"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
                         android:textColor="#000000"
                         android:textSize="18sp"
