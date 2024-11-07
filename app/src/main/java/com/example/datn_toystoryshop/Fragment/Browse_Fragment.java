@@ -137,18 +137,83 @@ public class Browse_Fragment extends Fragment {
         SeekBar dialogSeekBarMax = dialogView.findViewById(R.id.seekBar_price_max);
 
         // Thiết lập giá trị mặc định cho Max Price
-        dialogSeekBarMax.setMax(maxPriceLimit); // Đặt giá trị tối đa cho SeekBar Max
         dialogMinPrice.setText(minPriceLimit + "đ");
+        dialogMinPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Loại bỏ ký tự "đ" nếu đã có trong giá trị nhập
+                String input = s.toString().replace("đ", "").trim();
+
+                // Kiểm tra xem người dùng có nhập giá trị không
+                if (!input.isEmpty()) {
+                    try {
+                        // Chuyển đổi giá trị nhập thành số nguyên
+                        int minPrice = Integer.parseInt(input);
+
+                        // Đặt lại văn bản với ký tự "đ" ở cuối
+                        dialogMinPrice.removeTextChangedListener(this); // Ngăn chặn vòng lặp vô tận
+                        dialogMinPrice.setText(minPrice + "đ");
+                        dialogMinPrice.setSelection(dialogMinPrice.getText().length() - 1); // Đặt con trỏ trước ký tự "đ"
+                        dialogMinPrice.addTextChangedListener(this);
+
+                        // Kiểm tra điều kiện min > max và xử lý nếu cần
+                        int maxPrice = dialogSeekBarMax.getProgress();
+                        if (minPrice > maxPrice) {
+                            Toast.makeText(getContext(), "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (NumberFormatException e) {
+                        // Xử lý ngoại lệ nếu có lỗi khi chuyển đổi giá trị
+                        dialogMinPrice.setText("0đ");
+                    }
+                }
+            }
+        });
+
+        // TextWatcher để thêm ký tự "đ" cho maxPrice
+        dialogMaxPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString().replace("đ", "").trim();
+
+                if (!input.isEmpty()) {
+                    try {
+                        int maxPrice = Integer.parseInt(input);
+                        dialogMaxPrice.removeTextChangedListener(this);
+                        dialogMaxPrice.setText(maxPrice + "đ");
+                        dialogMaxPrice.setSelection(dialogMaxPrice.getText().length() - 1);
+                        dialogMaxPrice.addTextChangedListener(this);
+
+                        dialogSeekBarMax.setProgress(maxPrice);
+                        int minPrice = Integer.parseInt(dialogMinPrice.getText().toString().replace("đ", "").trim());
+                        if (minPrice > maxPrice) {
+                            Toast.makeText(getContext(), "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NumberFormatException e) {
+                        dialogMaxPrice.setText("1000000đ");
+                    }
+                }
+            }
+        });
+
 
         dialogSeekBarMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < 100000) {
-                    seekBar.setProgress(100000);
-                    dialogMaxPrice.setText(100000 + "đ");
-                } else {
+
                     dialogMaxPrice.setText(progress + "đ");
-                }
             }
 
             @Override
@@ -163,52 +228,60 @@ public class Browse_Fragment extends Fragment {
             boolean isBrand1Selected = checkboxBrand1.isChecked();
             boolean isBrand2Selected = checkboxBrand2.isChecked();
             boolean isBrand3Selected = checkboxBrand3.isChecked();
-            int maxPrice = dialogSeekBarMax.getProgress();
+
+            // Lấy giá trị từ EditText hoặc SeekBar cho minPrice và maxPrice
+            int minPrice = Integer.parseInt(dialogMinPrice.getText().toString().replace("đ", "").trim()); // Loại bỏ "đ" và khoảng trắng
+            int maxPrice = dialogSeekBarMax.getProgress(); // Giá trị từ SeekBar max
 
             // Kiểm tra xem có ít nhất một thương hiệu được chọn
             if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected)) {
                 Toast.makeText(getContext(), "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
             } else {
-                // Áp dụng bộ lọc với các thương hiệu đã chọn và giá tối đa (nếu có)
-                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, maxPrice > 0 ? maxPrice : Integer.MAX_VALUE);
+                // Áp dụng bộ lọc với các thương hiệu đã chọn và khoảng giá min-max
+                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, minPrice, maxPrice);
                 dialog.dismiss();
             }
-
-
-
         });
 
     }
 
 
-    private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected, int maxPrice) {
+    private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected, int minPrice, int maxPrice) {
         List<Product_Model> filteredList = new ArrayList<>();
 
         // Nếu không có CheckBox nào được chọn, hiển thị lại toàn bộ sản phẩm
         if (!isBrand1Selected && !isBrand2Selected && !isBrand3Selected) {
             filteredList.addAll(originalProductList);
         } else {
-            // Lọc sản phẩm dựa trên CheckBox được chọn và giá
+            // Lọc sản phẩm dựa trên CheckBox được chọn và khoảng giá
             for (Product_Model product : originalProductList) {
                 String brand = product.getBrand().trim();
-                int price = (int) product.getPrice(); // Giả sử bạn có phương thức getPrice() trong Product_Model
+                int price = (int) product.getPrice();
 
+                // Kiểm tra xem thương hiệu có được chọn và sản phẩm có trong khoảng giá không
                 if ((isBrand1Selected && brand.equals("BANPRESTO")) ||
                         (isBrand2Selected && brand.equals("POP MART")) ||
                         (isBrand3Selected && brand.equals("FUNISM"))) {
-                    if (maxPrice == 0 || price <= maxPrice) { // Kiểm tra nếu maxPrice là 0 hoặc sản phẩm dưới giá tối đa
+
+                    // Kiểm tra nếu sản phẩm nằm trong khoảng giá
+                    if ((minPrice == 0 || price >= minPrice) &&
+                            (maxPrice == 0 || price <= maxPrice)) {
                         filteredList.add(product);
                     }
                 }
-
             }
+        }
+
+        // Kiểm tra nếu không có sản phẩm nào phù hợp
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getContext(), "Không có sản phẩm phù hợp với bộ lọc giá.", Toast.LENGTH_SHORT).show();
         }
 
         // Cập nhật Adapter với danh sách sản phẩm đã lọc
         productAdapter.updateData(filteredList);
-
-
     }
+
+
     private int countProductsByBrand(String brandName) {
         int count = 0;
 
