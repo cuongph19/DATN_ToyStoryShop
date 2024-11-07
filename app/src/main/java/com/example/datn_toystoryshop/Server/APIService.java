@@ -54,7 +54,7 @@ public interface APIService {
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
 
     @DELETE("/api/delete/{id}")
-    Call<Void> deleteFavorite(@Path("id") String favoriteId);
+    Call<Void> deleteFavorite(@Path("id") String productId);
 
     @GET("api/list-popular")
     Call<List<Product_Model>> getPopular();

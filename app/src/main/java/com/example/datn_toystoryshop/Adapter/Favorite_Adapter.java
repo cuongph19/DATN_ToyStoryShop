@@ -90,7 +90,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
                 holder.heartIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteFavorite(favorite.get_id(), holder);
+                        deleteFavorite(favorite.getProdId(), holder);
 
                         holder.heartIcon.setColorFilter(Color.parseColor("#A09595"));
                         // Nếu bạn muốn thêm hiệu ứng thì có thể thêm logic ở đây
@@ -147,9 +147,9 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
         });
     }
 
-    private void deleteFavorite(String favoriteId, FavoriteViewHolder holder) {
+    private void deleteFavorite(String productId, FavoriteViewHolder holder) {
         // Giả sử bạn đã có một APIService đã được định nghĩa cho việc xóa yêu thích
-        Call<Void> call = APIService.deleteFavorite(favoriteId);
+        Call<Void> call = APIService.deleteFavorite(productId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
