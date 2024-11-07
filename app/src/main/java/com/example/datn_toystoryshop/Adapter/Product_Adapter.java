@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,10 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     @Override
     public int getItemCount() {
-        return productModelList.size(); // Trả về kích thước của danh sách hiện tại
+        Log.d("Product_Adapter", "Item count: " + productModelList.size());
+        return productModelList.size();
     }
+
 
     @Override
     public void onViewRecycled(@NonNull ProductViewHolder holder) {
@@ -137,13 +140,15 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     public void updateData(List<Product_Model> newProductList) {
         productModelList.clear();
-        productModelListFull.clear(); // Xóa dữ liệu cũ trong danh sách gốc
         if (newProductList != null) {
             productModelList.addAll(newProductList); // Cập nhật danh sách hiện tại
-            productModelListFull.addAll(newProductList); // Cập nhật danh sách đầy đủ để lọc
+            // Không cần phải xóa productModelListFull
+            productModelListFull = new ArrayList<>(newProductList); // Cập nhật lại bản sao danh sách gốc
         }
         notifyDataSetChanged(); // Cập nhật RecyclerView
+        Log.d("ApplyFilter", "Filtered product list size: " + productModelList.size());
     }
+
 
 
     // Hàm lọc sản phẩm theo tên không dấu
