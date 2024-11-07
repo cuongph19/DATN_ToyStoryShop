@@ -150,43 +150,60 @@ public class Product_detail extends AppCompatActivity {
         heartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFavorite) {
-                    // Nếu đã yêu thích, xóa khỏi danh sách yêu thích và đổi màu xám
-                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
-                    deleteFavorite(favoriteId);
-                    isFavorite = false; // Cập nhật trạng thái
-                } else {
-                    // Nếu chưa yêu thích, thêm vào danh sách yêu thích và đổi màu đỏ
+                if (isFavorite == false ) { // kiểm tra nếu đã yêu thích và có favoriteId
                     heartIcon.setColorFilter(Color.RED);
-
-                    // Tạo đối tượng yêu thích
-                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
-
-                    // Gửi yêu cầu tới API
-                    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-                    Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);
-                    call.enqueue(new Callback<Favorite_Model>() {
-                        @Override
-                        public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
-                            if (response.isSuccessful()) {
-                                favoriteId = response.body().get_id();
-                                isFavorite = true; // Cập nhật trạng thái yêu thích
-                                Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
-                            } else {
-                                heartIcon.setColorFilter(Color.parseColor("#A09595"));
-                                Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Favorite_Model> call, Throwable t) {
-                            heartIcon.setColorFilter(Color.parseColor("#A09595"));
-                            Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    addFavorite();
+                } else if (isFavorite == true) { // nếu chưa yêu thích
+                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
+                    Log.e("Product_detail", "aaaaaaaaaaaaaaaafavoriteId: " + favoriteId);
+                    Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
+                    deleteFavorite(productId);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Xóa yêu thích thất bại: favoriteId không hợp lệ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+//        heartIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if ( isFavorite = true) {
+//                    // Nếu đã yêu thích, xóa khỏi danh sách yêu thích và đổi màu xám
+//                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
+//                    deleteFavorite(favoriteId);
+//                  //  isFavorite = false; // Cập nhật trạng thái
+//                }
+//               else if (isFavorite = false ) {
+//                    // Nếu chưa yêu thích, thêm vào danh sách yêu thích và đổi màu đỏ
+//                    heartIcon.setColorFilter(Color.RED);
+//
+//                    // Tạo đối tượng yêu thích
+//                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
+//
+//                    // Gửi yêu cầu tới API
+//                    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+//                    Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);
+//                    call.enqueue(new Callback<Favorite_Model>() {
+//                        @Override
+//                        public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
+//                            if (response.isSuccessful()) {
+//                                favoriteId = response.body().get_id();
+//                                isFavorite = true; // Cập nhật trạng thái yêu thích
+//                                Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                heartIcon.setColorFilter(Color.parseColor("#A09595"));
+//                                Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Favorite_Model> call, Throwable t) {
+//                            heartIcon.setColorFilter(Color.parseColor("#A09595"));
+//                            Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
         int[] currentQuantity = {1}; // Khởi tạo giá trị tối thiểu là 1
         quantityText.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView ban đầu
@@ -279,17 +296,47 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
-    private void deleteFavorite(String favoriteId) {
+    private void addFavorite() {
+        Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
+
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);
+
+        call.enqueue(new Callback<Favorite_Model>() {
+            @Override
+            public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
+                if (response.isSuccessful()) {
+                    favoriteId = response.body().get_id(); // Cập nhật ID mới
+                    isFavorite = true;
+                    heartIcon.setColorFilter(Color.RED);
+                    Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                } else {
+                    // In lỗi chi tiết để xác định vấn đề
+                    Log.e("API_ERROR", "Thêm yêu thích thất bại, mã phản hồi: " + response.code());
+                    Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Favorite_Model> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
+                Log.e("API_ERROR", "Lỗi kết nối API khi thêm yêu thích", t);
+            }
+        });
+    }
+    private void deleteFavorite(String productId) {
         // Gọi API xóa yêu thích
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Void> call = apiService.deleteFavorite(favoriteId); // Đảm bảo phương thức này đã được định nghĩa trong APIService
+        Call<Void> call = apiService.deleteFavorite(productId); // Đảm bảo phương thức này đã được định nghĩa trong APIService
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
                     Toast.makeText(getApplicationContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show();
+                    addFavorite();
                     Log.e("API Response", "Response code: " + response.code());
                 }
             }

@@ -202,7 +202,7 @@ router.delete('/delete/:id', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Xóa sản phẩm trong collection 'favorites' dựa trên _id
-        const result = await FavoriteModel.deleteOne({ _id: id });
+        const result = await FavoriteModel.deleteOne({ prodId: id });
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm yêu thích với ID đã cho.' });
         }
