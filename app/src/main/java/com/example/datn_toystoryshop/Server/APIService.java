@@ -1,7 +1,10 @@
 package com.example.datn_toystoryshop.Server;
 
+import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
+import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
+import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 
 import java.util.List;
@@ -17,9 +20,9 @@ import retrofit2.http.Path;
 public interface APIService {
 
 
-    //    String BASE_URL  = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.15:3000/";// huy
-//    String BASE_URL = "http://192.168.101.10:3000/";
+        String BASE_URL  = "http://192.168.16.101:3000/";// cương
+//      String BASE_URL  = "http://192.168.1.15:3000/";// huy
+   // String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -47,6 +50,12 @@ public interface APIService {
     @GET("/api/favorites")
     Call<List<Favorite_Model>> getFavorites();
 
+    @GET("/api/carts")
+    Call<List<Cart_Model>> getCarts();
+
+    @GET("/api/orders")
+    Call<List<Order_Model>> getOrders();
+
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 
@@ -61,6 +70,10 @@ public interface APIService {
     @GET("/api/check-favorite/{prodId}")
     Call<Map<String, Boolean>> checkFavorite(@Path("prodId") String productId);
 
+    @POST("/api/add/add-to-app-feeback")
+    Call<FeebackApp_Model> addToFeebackApp(@Body FeebackApp_Model feebackAppModel);
+
     @POST("/api/add/add-to-feeback")
     Call<Feeback_Model> addToFeeback(@Body Feeback_Model feebackModel);
+
 }
