@@ -23,8 +23,8 @@ const uri = 'mongodb+srv://hoalacanh2508:FnXN4Z9PhHQdRbcv@cluster0.x6cjq.mongodb
 const productModel = require('./model/productModel');
 const mongoose = require('mongoose');
 mongoose.connect(uri, {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     connectTimeoutMS: 30000 // Thời gian chờ kết nối là 30 giây
 })
 .then(() => {

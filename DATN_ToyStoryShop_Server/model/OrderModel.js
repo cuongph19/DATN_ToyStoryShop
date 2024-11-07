@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const FeebackSchema = mongoose.Schema({
+const OrderSchema = mongoose.Schema({
     //id ngẫu nhiên của mongo không cần khai báo
     cusId: {
         type: String,
@@ -11,8 +11,7 @@ const FeebackSchema = mongoose.Schema({
         ref: 'product', // Tham chiếu đến collection 'product'
         required: true
     },
-
-    start: {
+    revenue: {
         type: Number,
         required: true
     },
@@ -20,11 +19,15 @@ const FeebackSchema = mongoose.Schema({
         type: String,
         maxlength: 255
     },
-    dateFeed: {
+    orderStatus: {
+        type: String,
+        maxlength: 255
+    },
+    orderDate: {
         type: Date
     },
 
 });
 
-const FeebackModel = mongoose.model('feeback', FeebackSchema);
-module.exports = FeebackModel;
+const OrderModel = mongoose.model('order', OrderSchema);
+module.exports = OrderModel;

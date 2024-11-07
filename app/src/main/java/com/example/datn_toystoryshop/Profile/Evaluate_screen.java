@@ -1,6 +1,5 @@
 package com.example.datn_toystoryshop.Profile;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +10,7 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.datn_toystoryshop.Model.Favorite_Model;
-import com.example.datn_toystoryshop.Model.Feeback_Model;
+import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -64,14 +62,14 @@ public class Evaluate_screen extends AppCompatActivity {
             return;
         }
 
-        Feeback_Model feebackModel = new Feeback_Model(null, "cusId", rating, feedback, new Date().toString());
+        FeebackApp_Model feebackAppModel = new FeebackApp_Model(null, "cusId", rating, feedback, new Date().toString());
 
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Feeback_Model> call = apiService.addToFeeback(feebackModel);
+        Call<FeebackApp_Model> call = apiService.addToFeebackApp(feebackAppModel);
 
-        call.enqueue(new Callback<Feeback_Model>() {
+        call.enqueue(new Callback<FeebackApp_Model>() {
             @Override
-            public void onResponse(Call<Feeback_Model> call, Response<Feeback_Model> response) {
+            public void onResponse(Call<FeebackApp_Model> call, Response<FeebackApp_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), getString(R.string.thank_review_eva), Toast.LENGTH_SHORT).show();
                 } else {
@@ -81,7 +79,7 @@ public class Evaluate_screen extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Feeback_Model> call, Throwable t) {
+            public void onFailure(Call<FeebackApp_Model> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm đánh giá", t);
             }

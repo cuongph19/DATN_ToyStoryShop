@@ -3,9 +3,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose'); // Đảm bảo rằng dòng này có ở đây
 const FavoriteModel = require('./model/FavoriteModel');
+const FeebackAppModel = require('./model/FeebackAppModel');
 const FeebackModel = require('./model/FeebackModel');
-
+const CartModel = require('./model/CartModel');
+const OrderModel = require('./model/OrderModel');
 const server = require('./server');
+
 
 router.get('/', (req, res) => {
     res.send('URI:' + app.uri);
@@ -216,7 +219,6 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
-
 router.get('/favorites', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
@@ -234,25 +236,40 @@ router.get('/favorites', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm yêu thích.' });
     }
 });
-router.get('/:prodId', async (req, res) => {
-    const { prodId } = req.params; // Lấy prodId từ tham số URL
-
+///////////////////////////////////
+router.get('/carts', async (req, res) => {
     try {
-        // Kết nối đến MongoDB
         await mongoose.connect(server.uri);
-        const product = await server.productModel.findOne({ _id: prodId });
 
-        if (!product) {
-            return res.status(404).json({ error: 'Không tìm thấy sản phẩm.' });
+        // Tìm tất cả các sản phẩm trong collection 'carts'
+        const carts = await CartModel.find({}, '_id prodId quantity cusId');
+
+        if (carts.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong giỏ hàng.' });
         }
 
-        // Xử lý tên sản phẩm không dấu
-        product.namePro = removeDiacritics(product.namePro);
-
-        res.json(product);
+        res.json(carts);
     } catch (error) {
-        console.error('Lỗi khi lấy sản phẩm:', error);
-        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+        console.error('Lỗi khi lấy sản phẩm trong giỏ hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong giỏ hàng.' });
+    }
+});
+///////////////////////////////////
+router.get('/orders', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'order'
+        const order = await OrderModel.find({}, '_id cusId prodId revenue content orderStatus orderDate ');
+
+        if (order.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
+        }
+
+        res.json(order);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
     }
 });
 
@@ -274,14 +291,30 @@ router.get('/check-favorite/:prodId', async (req, res) => {
     }
 });
 
+///////////////////////////////////
+// API thêm đáng giá
+router.post('/add/add-to-app-feeback', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
 
+    try {
+        const { cusId, start, content, dateFeed } = req.body;
+        const newFeebackApp = new FeebackAppModel({ cusId, start, content, dateFeed });
+        await newFeebackApp.save();
+        res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeebackApp });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
+    }
+});
+
+///////////////////////////////////
 // API thêm đáng giá
 router.post('/add/add-to-feeback', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { cusId, start, content, dateFeed } = req.body;
-        const newFeeback = new FeebackModel({ cusId, start, content, dateFeed });
+        const { cusId, prodId, start, content, dateFeed } = req.body;
+        const newFeeback = new FeebackModel({ cusId, prodId, start, content, dateFeed });
         await newFeeback.save();
         res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeeback });
     } catch (error) {
@@ -289,9 +322,27 @@ router.post('/add/add-to-feeback', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
     }
 });
+// bắt buộc nó phải ở cuối
+router.get('/:prodId', async (req, res) => {
+    const { prodId } = req.params; // Lấy prodId từ tham số URL
 
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+        const product = await server.productModel.findOne({ _id: prodId });
 
+        if (!product) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm.' });
+        }
 
-  
+        // Xử lý tên sản phẩm không dấu
+        product.namePro = removeDiacritics(product.namePro);
+
+        res.json(product);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
 module.exports = router;
 

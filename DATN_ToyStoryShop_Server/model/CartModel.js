@@ -14,8 +14,8 @@ const CartSchema = mongoose.Schema({
         required: true
     },
     cusId: {
-        type: String, // cusId ở đây là ID của khách hàng trong Firestore (ví dụ '8iPTPiB47jBO0EKMkn7K')
-        required: true
+        type: String,
+        maxlength: 255
     }
 });
 
