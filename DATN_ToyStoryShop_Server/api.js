@@ -255,7 +255,7 @@ router.get('/carts', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'carts'
-        const carts = await CartModel.find({}, '_id prodId quantity cusId');
+        const carts = await CartModel.find({}, '_id prodId quantity cusId prodSpecification ');
 
         if (carts.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong giỏ hàng.' });
@@ -398,8 +398,8 @@ router.post('/add/add-to-cart', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { prodId, quantity, cusId } = req.body;
-        const newCart = new CartModel({ prodId, quantity, cusId });
+        const { prodId, quantity, cusId, prodSpecification  } = req.body;
+        const newCart = new CartModel({ prodId, quantity, cusId, prodSpecification });
         await newCart.save();
         res.status(201).json({ message: 'Thêm vào giỏ hàng thành công!', data: newCart });
     } catch (error) {
