@@ -50,12 +50,6 @@ public interface APIService {
     @GET("/api/favorites")
     Call<List<Favorite_Model>> getFavorites();
 
-    @GET("/api/carts")
-    Call<List<Cart_Model>> getCarts();
-
-    @GET("/api/orders")
-    Call<List<Order_Model>> getOrders();
-
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 
@@ -75,5 +69,20 @@ public interface APIService {
 
     @POST("/api/add/add-to-feeback")
     Call<Feeback_Model> addToFeeback(@Body Feeback_Model feebackModel);
+
+    @POST("/api/add/add-to-cart")
+    Call<Cart_Model> addToCart(@Body Cart_Model cartModel);
+
+    @POST("/api/add/add-to-order")
+    Call<Order_Model> addToOrder(@Body Order_Model orderModel);
+
+    @GET("/api/carts")
+    Call<List<Cart_Model>> getCarts();
+
+    @GET("/api/orders")
+    Call<List<Order_Model>> getOrders();
+
+    @GET("/api/feebacks")
+    Call<List<Feeback_Model>> getFeeback();
 
 }
