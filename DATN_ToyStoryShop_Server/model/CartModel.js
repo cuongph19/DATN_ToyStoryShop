@@ -16,7 +16,12 @@ const CartSchema = mongoose.Schema({
     cusId: {
         type: String,
         maxlength: 255
-    }
+    },
+    prodSpecification : {
+        type: String,
+        enum: ['Mô hình riêng lẻ', 'Nguyên set 12 hộp'],
+        required: true
+    },
 });
 
 // Khởi tạo model cho Cart

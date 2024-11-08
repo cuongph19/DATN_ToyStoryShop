@@ -7,12 +7,14 @@ public class Cart_Model {
     private String prodId;          // Mã ID của sản phẩm
     private int quantity;        // Số lượng sản phẩm
     private String cusId;      // id cua khach hang
+    private String prodSpecification;
 
-    public Cart_Model(String _id, String prodId, int quantity, String cusId) {
+    public Cart_Model(String _id, String prodId, int quantity, String cusId, String prodSpecification) {
         this._id = _id;
         this.prodId = prodId;
         this.quantity = quantity;
         this.cusId = cusId;
+        this.prodSpecification = prodSpecification;
     }
 
     public String get_id() {
@@ -45,5 +47,13 @@ public class Cart_Model {
 
     public void setCusId(String cusId) {
         this.cusId = cusId;
+    }
+
+    public String getProdSpecification() {
+        return prodSpecification;
+    }
+
+    public void setProdSpecification(String prodSpecification) {
+        this.prodSpecification = prodSpecification;
     }
 }

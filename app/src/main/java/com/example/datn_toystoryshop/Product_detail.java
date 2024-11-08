@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
+import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -38,7 +39,7 @@ public class Product_detail extends AppCompatActivity {
     private boolean statusPro;
     private int owerId, quantity, cateId;
     private String productId, productName, desPro, creatDatePro, listPro, brand;
-    private Button decreaseButton , increaseButton;
+    private Button decreaseButton , increaseButton, OrderButton, addToCartButton;
     private RadioGroup radioGroup;
     private ArrayList<String> productImg; // Danh sách URL ảnh của sản phẩm
     private int currentImageIndex = 0; // Vị trí ảnh hiện tại
@@ -47,10 +48,16 @@ public class Product_detail extends AppCompatActivity {
     private View viewDetail1, viewDetail2, viewDetail3;
     private String favoriteId;
     private boolean isFavorite = false;
+    private APIService apiService;
+    private int[] currentQuantity = {1}; // Số lượng sản phẩm ban đầu là 1
+    private String productSpecification; // Quy cách mặc định
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+        // Khởi tạo APIService bằng RetrofitClient
+        apiService = RetrofitClient.getAPIService();
 
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
@@ -62,6 +69,8 @@ public class Product_detail extends AppCompatActivity {
         dotIndicatorLayout = findViewById(R.id.dotIndicatorLayout);
         btnBack = findViewById(R.id.btnBack);
         shareButton = findViewById(R.id.shareButton);
+        OrderButton = findViewById(R.id.OrderButton);
+        addToCartButton = findViewById(R.id.addToCartButton);
         heartIcon = findViewById(R.id.heart_icon);
         decreaseButton  = findViewById(R.id.decreaseQuantity);
         increaseButton  = findViewById(R.id.increaseQuantity);
@@ -163,49 +172,43 @@ public class Product_detail extends AppCompatActivity {
                 }
             }
         });
-//        heartIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if ( isFavorite = true) {
-//                    // Nếu đã yêu thích, xóa khỏi danh sách yêu thích và đổi màu xám
-//                    heartIcon.setColorFilter(Color.parseColor("#A09595"));
-//                    deleteFavorite(favoriteId);
-//                  //  isFavorite = false; // Cập nhật trạng thái
-//                }
-//               else if (isFavorite = false ) {
-//                    // Nếu chưa yêu thích, thêm vào danh sách yêu thích và đổi màu đỏ
-//                    heartIcon.setColorFilter(Color.RED);
-//
-//                    // Tạo đối tượng yêu thích
-//                    Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
-//
-//                    // Gửi yêu cầu tới API
-//                    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-//                    Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);
-//                    call.enqueue(new Callback<Favorite_Model>() {
-//                        @Override
-//                        public void onResponse(Call<Favorite_Model> call, Response<Favorite_Model> response) {
-//                            if (response.isSuccessful()) {
-//                                favoriteId = response.body().get_id();
-//                                isFavorite = true; // Cập nhật trạng thái yêu thích
-//                                Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                heartIcon.setColorFilter(Color.parseColor("#A09595"));
-//                                Toast.makeText(getApplicationContext(), "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Favorite_Model> call, Throwable t) {
-//                            heartIcon.setColorFilter(Color.parseColor("#A09595"));
-//                            Toast.makeText(getApplicationContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            }
-//        });
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCart();
+            }
+        });
+        OrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Product_detail.this, My_cart_screen.class);
 
-        int[] currentQuantity = {1}; // Khởi tạo giá trị tối thiểu là 1
+                // Truyền tất cả dữ liệu qua Intent
+                intent.putExtra("productId", productId);
+                intent.putExtra("owerId", owerId);
+                intent.putExtra("statusPro", statusPro);
+                intent.putExtra("productPrice", productPrice);
+                intent.putExtra("desPro", desPro);
+                intent.putExtra("creatDatePro", creatDatePro);
+                intent.putExtra("quantity", quantity);
+                intent.putExtra("listPro", listPro);
+                intent.putStringArrayListExtra("productImg", productImg);
+                intent.putExtra("productName", productName);
+                intent.putExtra("cateId", cateId);
+                intent.putExtra("brand", brand);
+                intent.putExtra("favoriteId", favoriteId);
+                // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
+                intent.putExtra("currentQuantity", currentQuantity[0]);
+                intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
+                intent.putExtra("productSpecification", productSpecification);
+
+                // Chuyển sang màn hình My_cart_screen
+                startActivity(intent);
+            }
+        });
+
+
+        // Khởi tạo giá trị tối thiểu là 1
         quantityText.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView ban đầu
 
         decreaseButton.setOnClickListener(new View.OnClickListener() {
@@ -227,12 +230,15 @@ public class Product_detail extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
             }
         });
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rbIndividual) {
+                    productSpecification = "Mô hình riêng lẻ";
                     Toast.makeText(getApplicationContext(), "Bạn đã chọn: Mô hình riêng lẻ", Toast.LENGTH_SHORT).show();
                 } else if (checkedId == R.id.rbSet) {
+                    productSpecification = "Nguyên set 12 hộp";
                     Toast.makeText(getApplicationContext(), "Bạn đã chọn: Nguyên set 12 bộ", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -272,7 +278,34 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+    private void addToCart() {
+        // Tạo đối tượng Cart_Model với dữ liệu cần thiết
+        Cart_Model cartModel = new Cart_Model(
+                null, // Để _id là null để MongoDB tự tạo
+                productId, // ID của sản phẩm
+                currentQuantity[0], // Số lượng sản phẩm
+                "8iPTPiB47jBO0EKMkn7K", // ID khách hàng
+                productSpecification  // Quy cách sản phẩm (ví dụ)
+        );
 
+        // Gọi API để thêm sản phẩm vào giỏ hàng
+        Call<Cart_Model> call = apiService.addToCart(cartModel);
+        call.enqueue(new Callback<Cart_Model>() {
+            @Override
+            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Product_detail.this, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Product_detail.this, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cart_Model> call, Throwable t) {
+                Toast.makeText(Product_detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void createDotIndicators(int count) {
         dotIndicators.clear();
         dotIndicatorLayout.removeAllViews();

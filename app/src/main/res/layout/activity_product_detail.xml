@@ -436,6 +436,15 @@
                 android:text="@string/add_cart"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/OrderButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF0000"
+                android:text="Mua Hàng"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
