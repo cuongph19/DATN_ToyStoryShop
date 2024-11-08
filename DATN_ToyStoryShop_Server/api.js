@@ -7,6 +7,7 @@ const FeebackAppModel = require('./model/FeebackAppModel');
 const FeebackModel = require('./model/FeebackModel');
 const CartModel = require('./model/CartModel');
 const OrderModel = require('./model/OrderModel');
+const ArtStory = require('./model/ArtStoryModel');
 const server = require('./server');
 
 
@@ -14,6 +15,59 @@ router.get('/', (req, res) => {
     res.send('URI:' + app.uri);
 });
 
+// Tạo bài viết (Create)
+router.post('/artstories', async (req, res) => {
+    try {
+        const artStory = new ArtStory(req.body);
+        await artStory.save();
+        res.status(201).json(artStory);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Lấy danh sách bài viết (Read All)
+router.get('/artstories', async (req, res) => {
+    try {
+        const artStories = await ArtStory.find();
+        res.json(artStories);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Lấy bài viết theo ID (Read One)
+router.get('/artstories/:id', async (req, res) => {
+    try {
+        const artStory = await ArtStory.findById(req.params.id);
+        if (!artStory) return res.status(404).json({ message: 'ArtStory not found' });
+        res.json(artStory);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Cập nhật bài viết theo ID (Update)
+router.put('/artstories/:id', async (req, res) => {
+    try {
+        const artStory = await ArtStory.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!artStory) return res.status(404).json({ message: 'ArtStory not found' });
+        res.json(artStory);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Xóa bài viết theo ID (Delete)
+router.delete('/artstories/:id', async (req, res) => {
+    try {
+        const artStory = await ArtStory.findByIdAndDelete(req.params.id);
+        if (!artStory) return res.status(404).json({ message: 'ArtStory not found' });
+        res.json({ message: 'ArtStory deleted' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 router.get('/list', async (req, res) => {
     await server.mongoose.connect(server.uri);
 
