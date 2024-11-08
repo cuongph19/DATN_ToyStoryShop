@@ -177,47 +177,6 @@ router.get('/list-popular', async (req, res) => {
     }
 });
 
-// Hàm chuyển đổi chuỗi có dấu thành không dấu
-function removeDiacritics(input) {
-    const normalized = input.normalize("NFD");
-    return normalized.replace(/[\u0300-\u036f]/g, "");
-};
-
-// API thêm sản phẩm vào favorites
-router.post('/add/add-to-favorites', async (req, res) => {
-    console.log(req.body); // Xem dữ liệu nhận được trong body
-
-    try {
-        const { prodId, cusId } = req.body;
-        const newFavorite = new FavoriteModel({ prodId, cusId });
-        await newFavorite.save();
-        res.status(201).json({ message: 'Thêm vào yêu thích thành công!', data: newFavorite });
-    } catch (error) {
-        console.error('Lỗi chi tiết:', error);
-        res.status(500).json({ message: 'Lỗi khi thêm vào yêu thích', error });
-    }
-});
-// API xóa sản phẩm vào favorites
-router.delete('/delete/:id', async (req, res) => {
-    const { id } = req.params; // Nhận _id từ đường dẫn
-
-    try {
-        await mongoose.connect(server.uri);
-
-        // Xóa sản phẩm trong collection 'favorites' dựa trên _id
-        const result = await FavoriteModel.deleteOne({ prodId: id });
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy sản phẩm yêu thích với ID đã cho.' });
-        }
-
-        res.status(200).json({ message: 'Sản phẩm yêu thích đã được xóa thành công.' });
-    } catch (error) {
-        console.error('Lỗi khi xóa sản phẩm yêu thích:', error);
-        res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm yêu thích.' });
-    } finally {
-        mongoose.connection.close(); // Đảm bảo kết nối được đóng
-    }
-});
 
 router.get('/favorites', async (req, res) => {
     try {
@@ -259,17 +218,62 @@ router.get('/orders', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
 
-        // Tìm tất cả các sản phẩm trong collection 'order'
-        const order = await OrderModel.find({}, '_id cusId prodId revenue content orderStatus orderDate ');
+        // Tìm tất cả các sản phẩm trong collection 'orders'
+        const orders = await OrderModel.find({}, '_id cusId prodId revenue content orderStatus orderDate ');
 
-        if (order.length === 0) {
+        if (orders.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
         }
 
-        res.json(order);
+        res.json(orders);
     } catch (error) {
         console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
+    }
+});
+router.get('/feebacks', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'feeback'
+        const feebacks = await FeebackModel.find({}, '_id cusId prodId start content dateFeed ');
+
+        if (feebacks.length === 0) {
+            return res.status(404).json({ error: 'Không có  đánh giá.' });
+        }
+
+        res.json(feebacks);
+    } catch (error) {
+        console.error('Lỗi khi lấy đánh giá.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
+    }
+});
+
+// Hàm chuyển đổi chuỗi có dấu thành không dấu
+function removeDiacritics(input) {
+    const normalized = input.normalize("NFD");
+    return normalized.replace(/[\u0300-\u036f]/g, "");
+};
+
+// API xóa sản phẩm vào favorites
+router.delete('/delete/:id', async (req, res) => {
+    const { id } = req.params; // Nhận _id từ đường dẫn
+
+    try {
+        await mongoose.connect(server.uri);
+
+        // Xóa sản phẩm trong collection 'favorites' dựa trên _id
+        const result = await FavoriteModel.deleteOne({ prodId: id });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm yêu thích với ID đã cho.' });
+        }
+
+        res.status(200).json({ message: 'Sản phẩm yêu thích đã được xóa thành công.' });
+    } catch (error) {
+        console.error('Lỗi khi xóa sản phẩm yêu thích:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm yêu thích.' });
+    } finally {
+        mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
 
@@ -306,7 +310,20 @@ router.post('/add/add-to-app-feeback', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
     }
 });
+// API thêm sản phẩm vào favorites
+router.post('/add/add-to-favorites', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
 
+    try {
+        const { prodId, cusId } = req.body;
+        const newFavorite = new FavoriteModel({ prodId, cusId });
+        await newFavorite.save();
+        res.status(201).json({ message: 'Thêm vào yêu thích thành công!', data: newFavorite });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào yêu thích', error });
+    }
+});
 ///////////////////////////////////
 // API thêm đáng giá
 router.post('/add/add-to-feeback', async (req, res) => {
@@ -320,6 +337,34 @@ router.post('/add/add-to-feeback', async (req, res) => {
     } catch (error) {
         console.error('Lỗi chi tiết:', error);
         res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
+    }
+});
+
+router.post('/add/add-to-cart', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { prodId, quantity, cusId } = req.body;
+        const newCart = new CartModel({ prodId, quantity, cusId });
+        await newCart.save();
+        res.status(201).json({ message: 'Thêm vào giỏ hàng thành công!', data: newCart });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào giỏ hàng', error });
+    }
+});
+
+router.post('/add/add-to-order', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { cusId, prodId, revenue, content, orderStatus, orderDate } = req.body;
+        const newOrder = new OrderModel({ cusId, prodId, revenue, content, orderStatus, orderDate });
+        await newOrder.save();
+        res.status(201).json({ message: 'Thêm vào lịch sửa mua thành công!', data: newOrder });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào lịch sửa mua', error });
     }
 });
 // bắt buộc nó phải ở cuối
