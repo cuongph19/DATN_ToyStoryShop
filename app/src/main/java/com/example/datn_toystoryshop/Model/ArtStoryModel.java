@@ -1,21 +1,24 @@
 package com.example.datn_toystoryshop.Model;
 
 import java.util.Date;
+import java.util.List;
 
 public class ArtStoryModel {
     private String title;
     private String author;
     private Date date;
     private String description;
-    private String imageUrl;
-    private  String content;
+    private List<String> imageUrl; // Chứa danh sách các URL ảnh
+    private List<String> caption;
+     private  String content;
 
-    public ArtStoryModel(String title, String author, Date date, String description, String imageUrl, String content) {
+    public ArtStoryModel(String title, String author, Date date, String description, List<String> imageUrl, List<String> caption, String content) {
         this.title = title;
         this.author = author;
         this.date = date;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.caption = caption;
         this.content = content;
     }
 
@@ -51,12 +54,20 @@ public class ArtStoryModel {
         this.description = description;
     }
 
-    public String getImageUrl() {
+    public List<String> getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(List<String> imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<String> getCaption() {
+        return caption;
+    }
+
+    public void setCaption(List<String> caption) {
+        this.caption = caption;
     }
 
     public String getContent() {

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <!-- Hình ảnh chính ở đầu trang -->
+        <ImageView
+            android:id="@+id/mainImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo" />
+
+        <!-- Tiêu đề bài viết -->
+        <TextView
+            android:id="@+id/detailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:text="Tiêu đề bài viết" />
+
+        <!-- Tác giả và ngày đăng -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/detailAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginEnd="8dp"
+                android:text="Tác giả" />
+
+            <TextView
+                android:id="@+id/detailDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:text="Ngày đăng" />
+        </LinearLayout>
+
+        <!-- Nội dung và các hình ảnh xen kẽ -->
+        <TextView
+            android:id="@+id/detailContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:paddingTop="16dp"
+            android:text="Nội dung chi tiết của bài viết" />
+
+        <!-- Ảnh xen kẽ 1 -->
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo" />
+
+        <!-- Chú thích ảnh 1 -->
+        <TextView
+            android:id="@+id/imageCaption1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chú thích ảnh 1"
+            android:textSize="14sp"
+            android:textColor="#777777"
+            android:paddingTop="4dp" />
+
+        <!-- Ảnh xen kẽ 2 -->
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo" />
+
+        <!-- Chú thích ảnh 2 -->
+        <TextView
+            android:id="@+id/imageCaption2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chú thích ảnh 2"
+            android:textSize="14sp"
+            android:textColor="#777777"
+            android:paddingTop="4dp" />
+
+        <!-- Ảnh xen kẽ 3 -->
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo" />
+
+        <!-- Chú thích ảnh 3 -->
+        <TextView
+            android:id="@+id/imageCaption3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chú thích ảnh 3"
+            android:textSize="14sp"
+            android:textColor="#777777"
+            android:paddingTop="4dp" />
+    </LinearLayout>
+</ScrollView>

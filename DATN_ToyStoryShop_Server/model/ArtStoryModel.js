@@ -7,7 +7,8 @@ const artStorySchema = new mongoose.Schema({
     date: { type: Date, default: Date.now },
     description: String,
     content: String,
-    imageUrl: { type: String }  // Trường URL của ảnh
+    caption: [{type:String}],
+    imageUrl: [{type:String}]   // Trường URL của ảnh
 });
 
 module.exports = mongoose.model('ArtStory', artStorySchema);
