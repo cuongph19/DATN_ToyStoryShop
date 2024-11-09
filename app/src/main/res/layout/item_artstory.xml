@@ -5,8 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:layout_marginBottom="8dp"
-    android:background="@drawable/item_border"
     android:elevation="4dp">
 
     <!-- Phần Hình ảnh và Nội dung Bài viết -->
@@ -42,15 +40,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- Mô tả ngắn -->
-            <TextView
-                android:id="@+id/articleDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="zzzzzzzzzzzzzzzzz"
-                android:textColor="#555555"
-                android:textSize="14sp"
-                android:paddingTop="4dp" />
+
 
             <!-- Phần tác giả và thời gian -->
             <LinearLayout

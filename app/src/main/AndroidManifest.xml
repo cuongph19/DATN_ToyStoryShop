@@ -30,6 +30,9 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
         <activity
+            android:name=".ArtStoryDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".Add_address_screen"
             android:exported="false" />
 
@@ -109,7 +112,7 @@
             android:name=".Home.OtherProducts_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.BlindBox_screen"
+            android:name=".Home.ArtStory_screen"
             android:exported="false" />
         <activity
             android:name=".Home.LimitedFigure_screen"
@@ -118,7 +121,7 @@
             android:name=".Home.Figuring_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.ArtStory_screen"
+            android:name=".Home.BlindBox_screen"
             android:exported="false" />
         <activity
             android:name=".Home.NewArrivals_screen"
