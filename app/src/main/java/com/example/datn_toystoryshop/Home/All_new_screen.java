@@ -32,7 +32,7 @@ public class All_new_screen extends AppCompatActivity {
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
 
         // Thiết lập Adapter
-        productNewAdapter = new ProductNewAdapter(this, productList);
+        productNewAdapter = new ProductNewAdapter(this, productList, false);
         recyclerViewAllNewProducts.setAdapter(productNewAdapter);
 
         // Thêm ItemDecoration để tạo khoảng cách dưới mỗi item
