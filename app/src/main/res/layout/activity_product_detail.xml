@@ -336,16 +336,123 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/cartSection1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            &lt;!&ndash; Quantity Selection &ndash;&gt;-->
+<!--            <RadioGroup-->
+<!--                android:id="@+id/radioGroup"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/rbIndividual"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Mô hình riêng lẻ" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/rbSet"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:text="Nguyên set 12 bộ" />-->
+<!--            </RadioGroup>-->
+
+<!--            &lt;!&ndash; Quantity Picker and Add to Cart Button &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                &lt;!&ndash; Decrease Button &ndash;&gt;-->
+<!--                <Button-->
+<!--                    android:id="@+id/decreaseQuantity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:backgroundTint="@android:color/white"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="-"-->
+<!--                    android:textColor="@android:color/black"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                &lt;!&ndash; Quantity Text &ndash;&gt;-->
+<!--                <TextView-->
+<!--                    android:id="@+id/quantityText"-->
+<!--                    android:layout_width="134dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/border_tv"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="1"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold"-->
+
+<!--                    />-->
+
+<!--                &lt;!&ndash; Increase Button &ndash;&gt;-->
+<!--                <Button-->
+<!--                    android:id="@+id/increaseQuantity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:backgroundTint="@android:color/white"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="+"-->
+<!--                    android:textColor="@android:color/black"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:textStyle="bold" />-->
+
+
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; Add to Cart Button &ndash;&gt;-->
+<!--            <Button-->
+<!--                android:id="@+id/addToCartButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:backgroundTint="#172A5C"-->
+<!--                android:text="@string/add_cart"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="#FFFFFF" />-->
+<!--            <Button-->
+<!--                android:id="@+id/OrderButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:backgroundTint="#FF0000"-->
+<!--                android:text="Mua Hàng"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="#FFFFFF" />-->
+
+
+<!--        </LinearLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
     <!-- Add to Cart Section -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cartSection"
+    <!-- Updated layout with dialog_quantity_picker.xml content -->
+    <LinearLayout
         android:layout_width="0dp"
+        android:id="@+id/cartSection"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="8dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -353,100 +460,86 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-            <!-- Quantity Selection -->
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <!-- Chat Icon Section with Border -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-                <RadioButton
-                    android:id="@+id/rbIndividual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mô hình riêng lẻ" />
-
-                <RadioButton
-                    android:id="@+id/rbSet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Nguyên set 12 bộ" />
-            </RadioGroup>
-
-            <!-- Quantity Picker and Add to Cart Button -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <!-- Decrease Button -->
-                <Button
-                    android:id="@+id/decreaseQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:backgroundTint="@android:color/white"
+                <LinearLayout
+                    android:id="@+id/chatIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="-"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:background="#009688"
+                    android:orientation="vertical">
 
-                <!-- Quantity Text -->
-                <TextView
-                    android:id="@+id/quantityText"
-                    android:layout_width="134dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_tv"
+                    <ImageView
+
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_logo" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Cart Icon Section with Border -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <LinearLayout
+                    android:id="@+id/cartIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:background="#009688"
+                    android:orientation="vertical">
 
-                    />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_cart" />
+                </LinearLayout>
+            </FrameLayout>
 
-                <!-- Increase Button -->
-                <Button
-                    android:id="@+id/increaseQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:backgroundTint="@android:color/white"
+            <!-- Voucher Button Section with Border -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <LinearLayout
+                    android:id="@+id/voucherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="+"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:background="#FF5722"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mua với voucher"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
 
-            </LinearLayout>
-
-            <!-- Add to Cart Button -->
-            <Button
-                android:id="@+id/addToCartButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#172A5C"
-                android:text="@string/add_cart"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
-            <Button
-                android:id="@+id/OrderButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FF0000"
-                android:text="Mua Hàng"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
-
-
+                    <TextView
+                        android:id="@+id/voucherAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₫0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

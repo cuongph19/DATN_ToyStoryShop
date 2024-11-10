@@ -18,9 +18,8 @@ public class Product_Model implements Serializable {
     private int cateId;          // ID của danh mục sản phẩm
     private String brand;
 
-    public Product_Model(String _id, int owerId, boolean statusPro, double price,
-                         String desPro, String creatDatePro, int quantity, String listPro,
-                         List<String> imgPro, String namePro, int cateId, String brand) {
+    public Product_Model(String _id,
+                         String desPro, String creatDatePro) {
         this._id = _id;
         this.owerId = owerId;
         this.statusPro = statusPro;

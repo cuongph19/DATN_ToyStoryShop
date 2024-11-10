@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="#FFFFFF">
+
+    <!-- CheckBox để chọn sản phẩm -->
+    <CheckBox
+        android:id="@+id/checkBoxSelectItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+    <!-- Hình ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_logo" />
+
+    <!-- Thông tin chi tiết sản phẩm -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ghế văn phòng ergonomic. Ghế l..."
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- Màu sắc lựa chọn -->
+        <Spinner
+            android:id="@+id/colorSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" />
+
+        <!-- Nút Trả hàng miễn phí -->
+        <TextView
+            android:id="@+id/freeReturn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="4dp"
+            android:background="@drawable/rounded_background"
+            android:text="Trả hàng miễn phí"
+            android:textSize="12sp"
+            android:textColor="#FF6600" />
+
+
+    </LinearLayout>
+
+    <!-- Thông tin giá và điều chỉnh số lượng -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <!-- Giá sản phẩm -->
+        <TextView
+            android:id="@+id/productPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₫759.000"
+            android:textColor="#D32F2F"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Giá cũ (bị gạch ngang) -->
+        <TextView
+            android:id="@+id/originalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₫1.300.000"
+            android:textColor="#A9A9A9"
+            android:textSize="12sp" />
+
+        <!-- Bộ điều chỉnh số lượng -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Nút giảm số lượng -->
+            <TextView
+                android:id="@+id/btnDecrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:background="#EEEEEE"
+                android:textColor="#333333"
+                android:gravity="center" />
+
+            <!-- Hiển thị số lượng -->
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#333333" />
+
+            <!-- Nút tăng số lượng -->
+            <TextView
+                android:id="@+id/btnIncrease"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:background="#EEEEEE"
+                android:textColor="#333333"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
