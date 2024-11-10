@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -24,11 +26,18 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
     private List<Product_Model> productModelList;
     private List<Product_Model> productModelListFull;
     private Context context;
+    private boolean isInHomeFragment;
 
     public ProductNewAdapter(Context context, List<Product_Model> productModelList) {
         this.context = context;
         this.productModelList = productModelList;
         this.productModelListFull = new ArrayList<>(productModelList);
+    }
+
+    public ProductNewAdapter(Context context, List<Product_Model> productModelList, boolean isInHomeFragment) {
+        this.context = context;
+        this.productModelList = productModelList;
+        this.isInHomeFragment = isInHomeFragment;
     }
 
     @NonNull
@@ -47,7 +56,31 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
             holder.tvSKU.setText("Mã SP: " + shortId);
             holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
+            if (isInHomeFragment) {
+                holder.newIcon.setVisibility(View.VISIBLE);
+            } else {
+                holder.newIcon.setVisibility(View.GONE);
+            }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, Product_detail.class);
 
+                    intent.putExtra("productId", product.get_id());// Truyền mã ID của sản phẩm
+                    intent.putExtra("owerId", product.getOwerId());// Truyền ID của chủ sở hữu sản phẩm
+                    intent.putExtra("statusPro", product.isStatusPro());// Truyền trạng thái tồn kho của sản phẩm (true nếu còn hàng, false nếu hết hàng)
+                    intent.putExtra("productPrice", product.getPrice());// Truyền giá của sản phẩm
+                    intent.putExtra("desPro", product.getDesPro());// Truyền mô tả của sản phẩm
+                    intent.putExtra("creatDatePro", product.getCreatDatePro());// Truyền ngày tạo sản phẩm
+                    intent.putExtra("quantity", product.getQuantity());// Truyền số lượng sản phẩm có sẵn
+                    intent.putExtra("listPro", product.getListPro());// Truyền danh sách trạng thái của sản phẩm (danh sách dưới dạng chuỗi)
+                    intent.putStringArrayListExtra("productImg", new ArrayList<>(product.getImgPro()));// Truyền danh sách URL hình ảnh của sản phẩm
+                    intent.putExtra("productName", product.getNamePro());// Truyền tên của sản phẩm
+                    intent.putExtra("cateId", product.getCateId());// Truyền ID danh mục của sản phẩm
+                    intent.putExtra("brand", product.getBrand());
+                    context.startActivity(intent);
+                }
+            });
             List<String> images = product.getImgPro();
             if (images != null && !images.isEmpty()) {
                 holder.setImageRotation(images);
@@ -68,7 +101,7 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvSKU, tvPrice, tvStatus;
-        ImageView imgProduct;
+        ImageView imgProduct, newIcon;
         private Handler handler = new Handler();
         private Runnable runnable;
         private int currentImageIndex = 0;
@@ -80,6 +113,7 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
             tvPrice = itemView.findViewById(R.id.tvGia);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             imgProduct = itemView.findViewById(R.id.imgAvatar);
+            newIcon = itemView.findViewById(R.id.new_icon);
         }
 
         public void setImageRotation(List<String> images) {

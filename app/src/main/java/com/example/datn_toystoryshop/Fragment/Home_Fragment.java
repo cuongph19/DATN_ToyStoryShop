@@ -302,7 +302,7 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    productNewAdapter = new ProductNewAdapter(requireContext(), listProductModel);
+                    productNewAdapter = new ProductNewAdapter(getContext(), listProductModel, true);
                     recyclerViewNew.setAdapter(productNewAdapter);
                 } else {
                     Log.e("ProductFragment", "Response unsuccessful or body is null");
