@@ -7,11 +7,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
+import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class My_cart_screen extends AppCompatActivity {
 
@@ -31,24 +36,20 @@ public class My_cart_screen extends AppCompatActivity {
     private int cateId;
     private String brand;
     private String favoriteId;
-
+    private List<Product_Model> productList;
     private int currentQuantity;
     private String customerId;
-    private String productSpecification;
+    private String selectedColor;
+    private RecyclerView recyclerViewCart;
+    private Cart_Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cart_screen);
 
-        // Tìm các view theo ID
-        btnIncrease = findViewById(R.id.btnIncrease);
-        btnDecrease = findViewById(R.id.btnDecrease);
-        tvQuantity = findViewById(R.id.tvQuantity);
-        add_address = findViewById(R.id.add_address);
         imgBack = findViewById(R.id.imgBack_cart);
-        ////test xem nhận được dữ liệu sang không
-        aaa = findViewById(R.id.aaa);
-
+        recyclerViewCart = findViewById(R.id.recyclerViewCart);
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
@@ -68,8 +69,8 @@ public class My_cart_screen extends AppCompatActivity {
         // Nhận thêm thuộc tính currentQuantity, customerId, và productSpecification
         currentQuantity = intent.getIntExtra("currentQuantity", 1);
         customerId = intent.getStringExtra("customerId");
-        productSpecification = intent.getStringExtra("productSpecification");
-        aaa.setText(productName);
+        selectedColor = intent.getStringExtra("selectedColor");
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,28 +78,14 @@ public class My_cart_screen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }});
+        // Initialize product list and add sample products
+        productList = new ArrayList<>();
+        productList.add(new Product_Model("Ghế văn phòng ergonomic", "759.000", "1.300.000"));
 
-        add_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang UpdateInfo_screen
-                Intent intent = new Intent(My_cart_screen.this, Add_address_screen.class);
-
-                startActivity(intent);
-            }
-        });
-        // Thiết lập hành động khi bấm nút tăng
-        btnIncrease.setOnClickListener(v -> {
-            quantity = Integer.parseInt(tvQuantity.getText().toString());
-            tvQuantity.setText(String.valueOf(quantity + 1));
-        });
-
-        // Thiết lập hành động khi bấm nút giảm
-        btnDecrease.setOnClickListener(v -> {
-            quantity = Integer.parseInt(tvQuantity.getText().toString());
-            if (quantity > 1) {
-                tvQuantity.setText(String.valueOf(quantity - 1));
-            }
-        });
+        // Set up RecyclerView with LinearLayoutManager and Adapter
+        recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Cart_Adapter(this, productList);
+        recyclerViewCart.setAdapter(adapter);
     }
-}
+    }
+

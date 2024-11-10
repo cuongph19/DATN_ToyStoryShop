@@ -33,6 +33,10 @@
     <string-array name="district_list_saigon">
         <item>Quận 12</item>
     </string-array>
+    <string-array name="color_options">
+        <item>Mô hình riêng lẻ</item>
+        <item>Nguyên set 12 hộp</item>
+    </string-array>
 
 
 </resources>
