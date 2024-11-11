@@ -43,15 +43,27 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#172A5C" />
+            <TextView
+                android:id="@+id/textDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xx/yy/zzzz"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#172A5C"
+                />
         </LinearLayout>
 
-        <Button
+        <TextView
             android:layout_gravity="center_vertical"
-            android:id="@+id/buttonBuy"
+            android:id="@+id/textSta"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:text="Trạng thái"
-            android:backgroundTint="#172A5C"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:background="@drawable/blue_background"
             android:textSize="10sp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,22 +1,26 @@
 package com.example.datn_toystoryshop.Model;
 
 public class Order_Model {
-    private String _id;          // Mã ID của yeu thic
+    private String _id;          // Mã ID của yeu thich
     private String cusId;
     private String prodId;
     private double revenue;
     private String content;
     private String orderStatus;
-    private String dateFeed;
+    private String orderDate;
 
-    public Order_Model(String _id, String cusId, String prodId, double revenue, String content, String orderStatus, String dateFeed) {
+
+    public Order_Model() {
+    }
+
+    public Order_Model(String _id, String cusId, String prodId, double revenue, String content, String orderStatus, String orderDate) {
         this._id = _id;
         this.cusId = cusId;
         this.prodId = prodId;
         this.revenue = revenue;
         this.content = content;
         this.orderStatus = orderStatus;
-        this.dateFeed = dateFeed;
+        this.orderDate = orderDate;
     }
 
     public String get_id() {
@@ -67,11 +71,11 @@ public class Order_Model {
         this.orderStatus = orderStatus;
     }
 
-    public String getDateFeed() {
-        return dateFeed;
+    public String getOrderDate() {
+        return orderDate;
     }
 
-    public void setDateFeed(String dateFeed) {
-        this.dateFeed = dateFeed;
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }
