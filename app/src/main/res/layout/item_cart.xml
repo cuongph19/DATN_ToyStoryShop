@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="2dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@id/addressLayout"
+            android:scaleType="centerCrop"
+            app:tint="#CACACA"
+            android:alpha="0.5"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_bgc"
+            android:contentDescription="Separator"/>
+
 <LinearLayout
+    android:id="@+id/itemContent"
     android:layout_width="match_parent"
     android:layout_height="110dp"
     android:orientation="horizontal"
@@ -37,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:text="Ghế văn phòng ergonomic. Ghế l..."
             android:textColor="#333333"
             android:textSize="14sp" />
@@ -49,6 +67,7 @@
 
             <!-- Thông tin chi tiết sản phẩm -->
             <LinearLayout
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -131,13 +150,16 @@
     </LinearLayout>
 
 </LinearLayout>
+    </LinearLayout>
     <TextView
         android:id="@+id/hiddenTextView"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="#FF0000"
-        android:visibility="gone"
+
         android:text="Ẩn"
-        android:textColor="#FFFFFF" android:layout_gravity="end|top"/>
+        android:textColor="#FFFFFF"
+        android:layout_gravity="end|top"/>
+<!--    android:visibility="gone"-->
 </FrameLayout>

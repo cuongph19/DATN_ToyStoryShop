@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
     private Context context;
     private List<Cart_Model> cartList;
+    private Cart_Model cart;
     private com.example.datn_toystoryshop.Server.APIService APIService;
 
     public Cart_Adapter(Context context, List<Cart_Model> cartList, APIService apiService) {
@@ -56,7 +58,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
     @Override
     public void onBindViewHolder(@NonNull Cart_Adapter.CartViewHolder holder, int position) {
-        Cart_Model cart = cartList.get(position);
+        cart = cartList.get(position);
         String cartId = cart.get_id();
         String prodId = cart.getProdId();
 
@@ -125,7 +127,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                     Glide.with(context).load(images.get(0)).into(holder.productImage);
                 }
                 // Thiết lập sự kiện click để mở màn hình chi tiết
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemContent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, Product_detail.class);
@@ -148,15 +150,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                         context.startActivity(intent);
                     }
                 });
-//                holder.heartIcon.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        deletecart(cart.getProdId(), holder);
-//
-//                        holder.heartIcon.setColorFilter(Color.parseColor("#A09595"));
-//                        // Nếu bạn muốn thêm hiệu ứng thì có thể thêm logic ở đây
-//                    }
-//                });
+                Log.d("CartAdapter", "hiddenTextView visibility: " + holder.hiddenTextView.getVisibility());
+
             }
 
             @Override
@@ -164,46 +159,11 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 Log.e("cartAdapter", "Failed to load product details: " + t.getMessage());
             }
         });
-//        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
-//            private float initialX = 0;
-//            private boolean isSwiped = false;
-//            private float moveDistance = convertDpToPx(holder.itemView, 100);
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        initialX = event.getX();
-//                        break;
-//
-//                    case MotionEvent.ACTION_MOVE:
-//                        float deltaX = event.getX() - initialX;
-//                        if (deltaX < -20) {
-//                            if (!isSwiped) {
-//                                isSwiped = true;
-//                                holder.hiddenTextView.setVisibility(View.VISIBLE);
-//                            }
-//                            holder.itemView.setTranslationX(Math.max(deltaX, -moveDistance));
-//                        }
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                    case MotionEvent.ACTION_CANCEL:
-//                        if (!isSwiped) {
-//                            holder.itemView.setTranslationX(0);
-//                        }
-//                        break;
-//                }
-//                return true;
-//            }
-//
-//            private float convertDpToPx(View v, float dp) {
-//                float density = v.getContext().getResources().getDisplayMetrics().density;
-//                return dp * density;
-//            }
-//        });
-//
 
+        holder.hiddenTextView.setOnClickListener(v -> {
+            Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
+            deletecart(cart.getProdId(), holder);
+        });
     }
 
     @Override
@@ -216,6 +176,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         ImageView productImage;
         TextView productName, freeReturn, productPrice, originalPrice, btnDecrease, tvQuantity, btnIncrease, hiddenTextView;
         Spinner colorSpinner;
+        LinearLayout itemContent;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -229,6 +190,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             btnIncrease = itemView.findViewById(R.id.btnIncrease);
+            itemContent = itemView.findViewById(R.id.itemContent);
         }
     }
     public ItemTouchHelper.SimpleCallback getItemTouchHelper() {
@@ -248,24 +210,43 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                                     float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     CartViewHolder cartViewHolder = (CartViewHolder) viewHolder;
-                    // Giới hạn khoảng trượt của itemContent (chỉ trượt tối đa khoảng trống của hiddenTextView)
-                    float maxSwipe = -cartViewHolder.hiddenTextView.getWidth(); // Giới hạn trượt
 
-                    // Xác định khoảng trượt hợp lý
-                    float translationX = Math.max(dX, maxSwipe);
+                    if (dX < 0) { // Vuốt từ phải sang trái
+                        // Giới hạn khoảng trượt của itemContent
+                        float maxSwipe = -cartViewHolder.hiddenTextView.getWidth();
+                        float translationX = Math.max(dX, maxSwipe);
 
-                    // Khi vuốt hết chiều dài, hiện thị hiddenTextView
-                    if (translationX == maxSwipe) {
-                        cartViewHolder.hiddenTextView.setVisibility(View.VISIBLE);
+                        // Di chuyển itemContent theo hướng vuốt
+                        cartViewHolder.itemContent.setTranslationX(translationX);
+
+                        // Hiển thị hiddenTextView khi người dùng vuốt đủ xa
+                        if (translationX == maxSwipe) {
+                            cartViewHolder.hiddenTextView.setVisibility(View.VISIBLE);
+
+                            // Đặt sự kiện click cho hiddenTextView chỉ khi hiển thị
+                            cartViewHolder.hiddenTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
+                                    Log.d("CartAdapter", "Attempting to delete product with ID: " );
+                                    deletecart(cart.getProdId(), cartViewHolder);
+                                }
+                            });
+                        }
                     } else {
+                        // Đặt lại vị trí và ẩn hiddenTextView khi không vuốt đủ xa
+                        cartViewHolder.itemContent.setTranslationX(0);
                         cartViewHolder.hiddenTextView.setVisibility(View.GONE);
                     }
-
-                    cartViewHolder.itemView.setTranslationX(translationX);
                 } else {
                     super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 }
             }
+
+
+
+
+
 
 
             @Override
@@ -297,14 +278,14 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     }
 
     private void deletecart(String productId, Cart_Adapter.CartViewHolder holder) {
+        Log.d("CartAdapter", "Attempting to delete product with ID: " + productId);
         // Giả sử bạn đã có một APIService đã được định nghĩa cho việc xóa yêu thích
-        Call<Void> call = APIService.deleteFavorite(productId);
+        Call<Void> call = APIService.deleteCart(productId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Xóa sản phẩm yêu thích thành công
-                  //  holder.heartIcon.setColorFilter(Color.parseColor("#A09595")); // Chỉnh màu trái tim
                     cartList.remove(holder.getAdapterPosition()); // Xóa sản phẩm khỏi danh sách hiển thị
                     notifyItemRemoved(holder.getAdapterPosition()); // Cập nhật RecyclerView
                     notifyItemRangeChanged(holder.getAdapterPosition(), cartList.size()); // Cập nhật lại vị trí của các item
