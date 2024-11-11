@@ -35,7 +35,7 @@
         private TextView header_title ;
         private ImageView heart_icon ;
         private RelativeLayout cart_full_icon;
-        private static final String CHANNEL_ID = "my_channel_id";
+        public static final String CHANNEL_ID = "notification_channel";
         private static final String PREFS_NAME = "MyPrefs";
         private static final String NOTIFICATION_SHOWN_KEY = "notificationShown";
         private static final String NOTIFICATION_BLOCKED_KEY = "notificationBlocked";
@@ -52,14 +52,19 @@
             boolean isNotificationBlocked = shared.getBoolean(NOTIFICATION_BLOCKED_KEY, false); // Kiểm tra trạng thái chặn thông báo
 
             if (!notificationShown && !isNotificationBlocked) {
-                showNotification("Thông báo mới", "Bạn có một tin nhắn mới!");
+                // Gọi thông báo khi màn hình được mở
+                showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
+
                 // Cập nhật trạng thái đã hiển thị thông báo
                 SharedPreferences.Editor editor = shared.edit();
                 editor.putBoolean(NOTIFICATION_SHOWN_KEY, true);
                 editor.apply();
             }
 
-
+//            if (!isNotificationBlocked) {
+//                // Gọi thông báo khi màn hình được mở
+//                showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
+//            }
 
 
             // Nhận dữ liệu từ Intent
@@ -148,6 +153,13 @@
             // Cập nhật tiêu đề dựa trên Fragment
             if (fragment instanceof Home_Fragment) {
                 header_title.setText(getString(R.string.app_name));
+//                SharedPreferences shared = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//                boolean isNotificationBlocked = shared.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
+//                boolean isSwitchChecked = !isNotificationBlocked; // Nếu thông báo không bị chặn thì switch được bật
+//
+//                if (isSwitchChecked) {
+//                    showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
+//                }
             } else if (fragment instanceof Browse_Fragment) {
                 header_title.setText(getString(R.string.browse_menu));
             } else if (fragment instanceof Store_Fragment) {
