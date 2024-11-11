@@ -25,13 +25,15 @@
     import com.example.datn_toystoryshop.Fragment.Home_Fragment;
     import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
     import com.example.datn_toystoryshop.Fragment.Store_Fragment;
+    import com.example.datn_toystoryshop.Shopping.Favorite_screen;
+    import com.example.datn_toystoryshop.Shopping.Cart_screen;
     import com.google.android.material.bottomnavigation.BottomNavigationView;
 
     public class Home_screen extends AppCompatActivity {
         private BottomNavigationView bottomNavigationView;
         private FrameLayout frameLayout ;
         private TextView header_title ;
-        private ImageView cart_icon,heart_icon ;
+        private ImageView heart_icon ;
         private RelativeLayout cart_full_icon;
         private static final String CHANNEL_ID = "my_channel_id";
         private static final String PREFS_NAME = "MyPrefs";
@@ -84,7 +86,6 @@
             bottomNavigationView =findViewById(R.id.bottomNaviView);
             frameLayout = findViewById(R.id.fragmentLayout);
             header_title = findViewById(R.id.header_title);
-            cart_icon = findViewById(R.id.cart_icon);
             cart_full_icon = findViewById(R.id.cart_full_icon);
             heart_icon = findViewById(R.id.heart_icon);
 
@@ -98,8 +99,7 @@
             cart_full_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //////////////chua tao man gio hàng//////////////////////
-                    Intent intent = new Intent(Home_screen.this, My_cart_screen.class);
+                    Intent intent = new Intent(Home_screen.this, Cart_screen.class);
                     startActivity(intent);
                 }
             });

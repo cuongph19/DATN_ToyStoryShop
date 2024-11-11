@@ -7,7 +7,9 @@ const FeebackAppModel = require('./model/FeebackAppModel');
 const FeebackModel = require('./model/FeebackModel');
 const CartModel = require('./model/CartModel');
 const OrderModel = require('./model/OrderModel');
+const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
+
 const server = require('./server');
 
 
@@ -300,6 +302,23 @@ router.get('/feebacks', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi lấy đánh giá.', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
+    }
+});
+router.get('/vouchers', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'feeback'
+        const vouchers = await VoucherModel.find({}, '_id price_reduced quantity_voucher discount_code');
+
+        if (vouchers.length === 0) {
+            return res.status(404).json({ error: 'Không có mã giảm giá.' });
+        }
+
+        res.json(vouchers);
+    } catch (error) {
+        console.error('Lỗi khi lấy mã giảm giá.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy mã giảm giá.' });
     }
 });
 

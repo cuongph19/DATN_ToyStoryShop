@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop;
+package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Favorite_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
+import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 
