@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,16 +6,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Product_detail">
+    <LinearLayout
+        android:id="@+id/topLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scrollView">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
+
+        <TextView
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Chi tiết sản phẩm"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/heart_icon1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="15dp"
+            android:gravity="center_horizontal"
+            android:contentDescription="Heart Icon"
+            android:src="@drawable/ic_heart"
+            app:tint="@color/gray" />
+
+        <RelativeLayout
+            android:id="@+id/cart_full_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical">
+
+            <ImageView
+                android:id="@+id/cart_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_cart"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:gravity="center_horizontal"
+                android:contentDescription="Cart Icon"
+                app:tint="@color/gray" />
+
+            <View
+                android:id="@+id/notification_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignTop="@id/cart_icon"
+                android:layout_alignEnd="@id/cart_icon"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/notification_dot"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 
     <!-- ScrollView cho nội dung cuộn -->
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/topLinearLayout"
         app:layout_constraintBottom_toTopOf="@id/cartSection"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,18 +104,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:contentDescription="Back"
-                android:padding="8dp"
-                android:src="@drawable/back_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
 
             <!-- Nút chia sẻ (Share Button) -->
             <ImageView
@@ -128,24 +184,24 @@
                 android:id="@+id/heart_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="Heart Icon"
                 android:src="@drawable/ic_heart"
-                app:tint="#A09595"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/productPrice" />
+                app:layout_constraintTop_toTopOf="@id/productPrice"
+                app:tint="#A09595" />
 
             <!-- Product Brand and SKU -->
 
             <!-- LinearLayout chứa TextView cho Thương hiệu và SKU -->
             <LinearLayout
+                android:id="@+id/ln1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:id="@+id/ln1"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/productPrice">
 
@@ -169,9 +225,9 @@
                         android:id="@+id/productBrandValue1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:text="Gundam"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="10dp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -197,7 +253,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/icon4"
-                        app:tint="#172A5C"  />
+                        app:tint="#172A5C" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -208,48 +264,50 @@
                 </LinearLayout>
 
                 <!-- Item 2: Hobiverse phân phối -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="4dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/icon3"
-                        app:tint="#172A5C" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="ToyStory Shop phân phối chính hãng từ thương hiệu "
-                        android:textSize="14sp" />
-                </LinearLayout>
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon3"
+                            app:tint="#172A5C" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="ToyStory Shop phân phối chính hãng từ thương hiệu "
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/productBrandValue2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
                         android:text="52TOYS"
                         android:textColor="@android:color/holo_red_dark"
                         android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="28dp" />
+                        android:textStyle="bold" />
 
-            </LinearLayout>
+                </LinearLayout>
 
                 <!-- Item 3: Miễn phí giao hàng -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -278,8 +336,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -336,117 +394,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/cartSection1"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        app:cardCornerRadius="8dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent">-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--            &lt;!&ndash; Quantity Selection &ndash;&gt;-->
-<!--            <RadioGroup-->
-<!--                android:id="@+id/radioGroup"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="16dp"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <RadioButton-->
-<!--                    android:id="@+id/rbIndividual"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Mô hình riêng lẻ" />-->
-
-<!--                <RadioButton-->
-<!--                    android:id="@+id/rbSet"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:text="Nguyên set 12 bộ" />-->
-<!--            </RadioGroup>-->
-
-<!--            &lt;!&ndash; Quantity Picker and Add to Cart Button &ndash;&gt;-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                &lt;!&ndash; Decrease Button &ndash;&gt;-->
-<!--                <Button-->
-<!--                    android:id="@+id/decreaseQuantity"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:backgroundTint="@android:color/white"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="-"-->
-<!--                    android:textColor="@android:color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                &lt;!&ndash; Quantity Text &ndash;&gt;-->
-<!--                <TextView-->
-<!--                    android:id="@+id/quantityText"-->
-<!--                    android:layout_width="134dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/border_tv"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="1"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold"-->
-
-<!--                    />-->
-
-<!--                &lt;!&ndash; Increase Button &ndash;&gt;-->
-<!--                <Button-->
-<!--                    android:id="@+id/increaseQuantity"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:backgroundTint="@android:color/white"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="+"-->
-<!--                    android:textColor="@android:color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold" />-->
-
-
-<!--            </LinearLayout>-->
-
-<!--            &lt;!&ndash; Add to Cart Button &ndash;&gt;-->
-<!--            <Button-->
-<!--                android:id="@+id/addToCartButton"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:backgroundTint="#172A5C"-->
-<!--                android:text="@string/add_cart"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="#FFFFFF" />-->
-<!--            <Button-->
-<!--                android:id="@+id/OrderButton"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:backgroundTint="#FF0000"-->
-<!--                android:text="Mua Hàng"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="#FFFFFF" />-->
-
-
-<!--        </LinearLayout>-->
-<!--    </androidx.cardview.widget.CardView>-->
-    <!-- Add to Cart Section -->
+  <!-- Add to Cart Section -->
     <!-- Updated layout with dialog_quantity_picker.xml content -->
     <LinearLayout
         android:layout_width="0dp"

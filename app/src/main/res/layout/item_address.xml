@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Tên và số điện thoại -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/address_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Trần Cương"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/address_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(+84) 382 200 084"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+    <!-- Địa chỉ chi tiết -->
+    <TextView
+        android:id="@+id/address_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Số Nhà 3, Ngách 21/1 Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:paddingTop="4dp"/>
+
+    <!-- Nút mặc định -->
+    <TextView
+        android:id="@+id/default_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mặc định"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:paddingTop="8dp"/>
+</LinearLayout>

@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class ArtStoryDetailActivity extends AppCompatActivity {
+public class ArtStory_detail extends AppCompatActivity {
     private TextView titleView, authorView, dateView, contentView;
     private ImageView mainImageView, imageView1, imageView2, imageView3;
     private TextView captionView1, captionView2, captionView3;
