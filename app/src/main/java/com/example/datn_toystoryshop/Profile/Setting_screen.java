@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
@@ -54,7 +56,7 @@ public class Setting_screen extends AppCompatActivity {
             switchDarkMode.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             btnBack.setImageResource(R.drawable.back_icon);
-        }else{
+        } else {
             btnBack.setImageResource(R.drawable.back_icon_1);
         }
 
@@ -65,12 +67,12 @@ public class Setting_screen extends AppCompatActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     editor.putBoolean("night", true);
                     nightMode = true;
-                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set)+ " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
-                }else {
+                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     editor.putBoolean("night", false);
                     nightMode = false;
-                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set)+ " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Setting_screen.this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
                 }
                 editor.apply();
             }
@@ -84,7 +86,8 @@ public class Setting_screen extends AppCompatActivity {
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
                 finish();
-            }});
+            }
+        });
 
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +111,9 @@ public class Setting_screen extends AppCompatActivity {
         tvNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Setting_screen.this, Notifications_screen.class));
+                Intent intent1 = new Intent(Setting_screen.this, Notifications_screen.class);
+                intent1.putExtra("nightMode", nightMode);
+                startActivity(intent1);
             }
         });
         tvContactSupport.setOnClickListener(new View.OnClickListener() {
