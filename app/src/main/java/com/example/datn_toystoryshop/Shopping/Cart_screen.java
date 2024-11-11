@@ -2,20 +2,31 @@ package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
+import com.example.datn_toystoryshop.Adapter.Favorite_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Model.Cart_Model;
+import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Cart_screen extends AppCompatActivity {
 
@@ -40,7 +51,7 @@ public class Cart_screen extends AppCompatActivity {
     private String customerId;
     private String selectedColor;
     private RecyclerView recyclerViewCart;
-    private Cart_Adapter adapter;
+    private Cart_Adapter cartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +94,37 @@ public class Cart_screen extends AppCompatActivity {
 
         // Set up RecyclerView with LinearLayoutManager and Adapter
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Cart_Adapter(this, productList);
-        recyclerViewCart.setAdapter(adapter);
+        loadCartProducts();
     }
+    private void loadCartProducts() {
+        APIService apiService = RetrofitClient.getAPIService();
+        apiService.getCarts().enqueue(new Callback<List<Cart_Model>>() {
+            @Override
+            public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
+
+                    // Tạo và thiết lập Cart_Adapter
+                    cartAdapter = new Cart_Adapter(Cart_screen.this, response.body(), apiService);
+                    recyclerViewCart.setAdapter(cartAdapter);
+
+                    // Thiết lập ItemTouchHelper cho RecyclerView
+                    setupItemTouchHelper();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
+                // Xử lý lỗi khi gọi API thất bại
+            }
+        });
     }
+
+    private void setupItemTouchHelper() {
+        // Tạo một ItemTouchHelper từ phương thức getItemTouchHelper() của Cart_Adapter
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cartAdapter.getItemTouchHelper());
+        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
+    }
+
+}
 

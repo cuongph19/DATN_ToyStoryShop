@@ -66,5 +66,4 @@ dependencies {
     implementation ("io.realm:realm-android-library:10.7.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
-
 }
