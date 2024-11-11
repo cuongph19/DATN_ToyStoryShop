@@ -328,8 +328,29 @@ function removeDiacritics(input) {
     return normalized.replace(/[\u0300-\u036f]/g, "");
 };
 
+// API xóa sản phẩm vào Cart
+router.delete('/deleteCart/:id', async (req, res) => {
+    const { id } = req.params; // Nhận _id từ đường dẫn
+
+    try {
+        await mongoose.connect(server.uri);
+
+        // Xóa sản phẩm trong collection 'Carts' dựa trên _id
+        const result = await CartModel.deleteOne({ prodId: id });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm trong giỏ hàng với ID đã cho.' });
+        }
+
+        res.status(200).json({ message: 'Sản phẩm trong giỏ hàng đã được xóa thành công.' });
+    } catch (error) {
+        console.error('Lỗi khi xóa sản phẩm trong giỏ hàng:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm trong giỏ hàng.' });
+    } finally {
+        mongoose.connection.close(); // Đảm bảo kết nối được đóng
+    }
+});
 // API xóa sản phẩm vào favorites
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/deleteFavorite/:id', async (req, res) => {
     const { id } = req.params; // Nhận _id từ đường dẫn
 
     try {
@@ -349,7 +370,6 @@ router.delete('/delete/:id', async (req, res) => {
         mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
-
 router.get('/check-favorite/:prodId', async (req, res) => {
     try {
         const { prodId } = req.params;
