@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +31,9 @@ import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.Shopping.Favorite_screen;
+import com.example.datn_toystoryshop.Shopping.Cart_screen;
+import com.example.datn_toystoryshop.Shopping.Oder_screen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +46,14 @@ import retrofit2.Response;
 
 public class Product_detail extends AppCompatActivity {
     private TextView tvProductName, tvProductPrice, tvproductDescription, productStockValue, productBrandValue1, productBrandValue2;
-    private ImageView btnBack, shareButton, heartIcon ;
+    private ImageView btnBack, shareButton, heartIcon, heart_icon1;
     private LinearLayout dotIndicatorLayout, chatIcon, cartIcon, voucherText;
     private List<View> dotIndicators = new ArrayList<>();
     private double productPrice;
     private boolean statusPro;
     private int owerId, quantity, cateId;
     private String productId, productName, desPro, creatDatePro, listPro, brand;
-
+    private RelativeLayout cart_full_icon;
     private ArrayList<String> productImg; // Danh sách URL ảnh của sản phẩm
     private int currentImageIndex = 0; // Vị trí ảnh hiện tại
     private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
@@ -82,10 +85,12 @@ public class Product_detail extends AppCompatActivity {
         chatIcon = findViewById(R.id.chatIcon);
         cartIcon = findViewById(R.id.cartIcon);
         voucherText = findViewById(R.id.voucherText);
-        heartIcon = findViewById(R.id.heart_icon);
+        heart_icon1 = findViewById(R.id.heart_icon1);
         viewDetail1 = findViewById(R.id.view_detail_1);
         viewDetail2 = findViewById(R.id.view_detail_2);
         viewDetail3 = findViewById(R.id.view_detail_3);
+        cart_full_icon = findViewById(R.id.cart_full_icon);
+        heartIcon = findViewById(R.id.heart_icon);
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
@@ -103,7 +108,7 @@ public class Product_detail extends AppCompatActivity {
         brand = intent.getStringExtra("brand");
         //
         favoriteId = intent.getStringExtra("favoriteId");
-        Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
+
         // Hiển thị dữ liệu
 
         tvProductName.setText(productName);
@@ -146,6 +151,20 @@ public class Product_detail extends AppCompatActivity {
         };
         // Bắt đầu tự động chuyển ảnh
         handler.postDelayed(imageSwitcherRunnable, 3000);
+        cart_full_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Product_detail.this, Cart_screen.class);
+                startActivity(intent);
+            }
+        });
+        heart_icon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Product_detail.this, Favorite_screen.class);
+                startActivity(intent);
+            }
+        });
 
         chatIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,7 +318,7 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Product_detail.this, My_cart_screen.class);
+                Intent intent = new Intent(Product_detail.this, Oder_screen.class);
 
                 // Truyền tất cả dữ liệu qua Intent
                 intent.putExtra("productId", productId);
@@ -320,7 +339,7 @@ public class Product_detail extends AppCompatActivity {
                 intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
                 intent.putExtra("selectedColor", selectedColor);
 
-                // Chuyển sang màn hình My_cart_screen
+                // Chuyển sang màn hình Oder_screen
                 startActivity(intent);
                 dialog.dismiss();
             }

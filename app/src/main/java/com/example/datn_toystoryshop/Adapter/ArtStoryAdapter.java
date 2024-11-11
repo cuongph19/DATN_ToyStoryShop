@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.ArtStoryDetailActivity;
+import com.example.datn_toystoryshop.ArtStory_detail;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
 import com.example.datn_toystoryshop.R;
 
@@ -70,7 +70,7 @@ public class ArtStoryAdapter extends RecyclerView.Adapter<ArtStoryAdapter.ViewHo
         }
         // Thiết lập sự kiện click để mở ArtStoryDetailActivity và truyền dữ liệu
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ArtStoryDetailActivity.class);
+            Intent intent = new Intent(context, ArtStory_detail.class);
             intent.putExtra("title", artStory.getTitle());
             intent.putExtra("author", artStory.getAuthor());
             intent.putExtra("date", artStory.getDate().getTime()); // truyền date dưới dạng milliseconds
