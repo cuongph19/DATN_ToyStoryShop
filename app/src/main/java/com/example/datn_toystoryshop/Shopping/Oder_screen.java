@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 
@@ -22,8 +23,8 @@ import java.util.ArrayList;
 public class Oder_screen extends AppCompatActivity {
 
     private ImageView imgBack, product_image;
-    private TextView product_name, product_price, product_quantity, btnOrder, product_type;
-    private LinearLayout addressLayout, ship, pay;
+    private TextView product_name, product_price, product_quantity, btnOrder, product_type, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail,clause;
+    private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
     private TextView shipDiscount, shipDiscountPrice, productDiscount, productDiscountPrice;
@@ -41,7 +42,7 @@ public class Oder_screen extends AppCompatActivity {
     private boolean isFavorite = false;
     private APIService apiService;
     private int currentQuantity; // Số lượng sản phẩm ban đầu là 1
-
+    private double totalAmount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +61,18 @@ public class Oder_screen extends AppCompatActivity {
         pay = findViewById(R.id.pay);
         voucher = findViewById(R.id.voucher);
         tvLeaveMessage = findViewById(R.id.tvLeaveMessage);
+        tvTotalAmount = findViewById(R.id.tvTotalAmount);
+        total_amount = findViewById(R.id.total_amount);
+        shipping_money = findViewById(R.id.shipping_money);
+        money_pay1 = findViewById(R.id.money_pay1);
+        money_pay = findViewById(R.id.money_pay);
+        tvPaymentDetail = findViewById(R.id.tvPaymentDetail);
+        productDiscounttv = findViewById(R.id.productDiscounttv);
+        shipDiscounttv = findViewById(R.id.shipDiscounttv);
+        clause = findViewById(R.id.clause);
 
         // Các TextView để hiển thị thông tin giảm giá
-        shipDiscount = findViewById(R.id.shipDiscount);
         shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
-        productDiscount = findViewById(R.id.productDiscount);
         productDiscountPrice = findViewById(R.id.productDiscountPrice);
 
         // Nhận dữ liệu từ Intent
@@ -88,11 +96,44 @@ public class Oder_screen extends AppCompatActivity {
         customerId = intent.getStringExtra("customerId");
         selectedColor = intent.getStringExtra("selectedColor");
 
+
         product_name.setText(productName);
         product_price.setText(String.format("%,.0fđ", productPrice));
-        product_quantity.setText(String.valueOf(quantity));
+        product_quantity.setText(String.format("x%d", currentQuantity));
         product_type.setText(selectedColor);
 
+        totalAmount = productPrice * currentQuantity;
+// Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
+        String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
+// Gán giá trị cho TextView tvTotalAmount
+        tvTotalAmount.setText(formattedTotalAmount);
+        total_amount.setText(formattedTotalAmount);
+        // Chi phí vận chuyển cố định
+        double shippingCost = 30000;
+        String shippingmoney = String.format("%,.0fđ", shippingCost);
+        shipping_money.setText(shippingmoney);
+// Kiểm tra null và tính toán moneyPay theo các trường hợp
+        double moneyPay;
+        if (totalProductDiscount == 0 && totalShipDiscount == 0) {
+            // Nếu cả hai đều là null, chỉ cộng thêm phí vận chuyển
+            moneyPay = totalAmount + shippingCost;
+        } else if (totalShipDiscount == 0) {
+            // Nếu chỉ totalShipDiscount là null
+            moneyPay = (totalAmount + shippingCost) - totalProductDiscount;
+        } else if (totalProductDiscount == 0) {
+            // Nếu chỉ totalProductDiscount là null
+            moneyPay = (totalAmount + shippingCost) - totalShipDiscount;
+        } else {
+            // Nếu cả hai đều không null
+            moneyPay = (totalAmount + shippingCost) - totalProductDiscount - totalShipDiscount;
+        }
+
+// Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
+        String formattedMoneyPay = String.format("%,.0fđ", moneyPay);
+
+// Gán giá trị cho TextView money_pay
+        money_pay.setText(formattedMoneyPay);
+        money_pay1.setText(formattedMoneyPay);
         if (!productImg.isEmpty()) {
             String firstImage = productImg.get(0);
             Glide.with(this)
@@ -103,19 +144,24 @@ public class Oder_screen extends AppCompatActivity {
         // Cài đặt hành động cho các nút
         btnOrder.setOnClickListener(v -> onBackPressed());
 
+
         voucher.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, Voucher_screen.class);
             startActivityForResult(intent1, 100);  // Sử dụng mã requestCode để nhận kết quả
         });
 
         pay.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, Add_address_screen.class);
-            startActivity(intent1);
-            finish();
+            Intent intent1 = new Intent(Oder_screen.this, payment_method_screen.class);
+            startActivityForResult(intent1, 100);
         });
 
         ship.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, Add_address_screen.class);
+            startActivity(intent1);
+            finish();
+        });
+        clause.setOnClickListener(v -> {
+            Intent intent1 = new Intent(Oder_screen.this, Terms_Conditions_screen.class);
             startActivity(intent1);
             finish();
         });
@@ -135,28 +181,43 @@ public class Oder_screen extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             // Nhận dữ liệu từ màn hình Voucher
-            double totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
-            double totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
-
+             totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
+             totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
+            String paytext = data.getStringExtra("paytext");
+            tvPaymentDetail.setText(paytext);
+            Log.d("OrderScreen", "paytextpaytextpaytext: " + paytext);
             // Log dữ liệu voucher nhận được
             Log.d("OrderScreen", "Received totalProductDiscount: " + totalProductDiscount);
             Log.d("OrderScreen", "Received totalShipDiscount: " + totalShipDiscount);
-
-            // Cập nhật giao diện với các giá trị voucher nhận được
-            updateDiscounts(totalProductDiscount, totalShipDiscount);
+            productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
+            shipDiscounttv.setVisibility(View.VISIBLE);
+            productDiscounttv.setVisibility(View.VISIBLE);
+            shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
+// Tính toán lại moneyPay sau khi nhận được giá trị mới
+            calculateMoneyPay();
         }
     }
-    private void updateDiscounts(double totalProductDiscount, double totalShipDiscount) {
-        // Cập nhật giao diện với giá trị giảm giá sản phẩm và vận chuyển
-        productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
-        shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
-        updateTotalPrice(totalProductDiscount, totalShipDiscount);
+    private void calculateMoneyPay() {
+        double shippingCost = 30000;
+        double moneyPay;
+
+        // Kiểm tra null và tính toán moneyPay theo các trường hợp
+        if (totalProductDiscount == 0 && totalShipDiscount == 0) {
+            moneyPay = totalAmount + shippingCost;
+        } else if (totalShipDiscount == 0) {
+            moneyPay = (totalAmount + shippingCost) - totalProductDiscount;
+        } else if (totalProductDiscount == 0) {
+            moneyPay = (totalAmount + shippingCost) - totalShipDiscount;
+        } else {
+            moneyPay = (totalAmount + shippingCost) - totalProductDiscount - totalShipDiscount;
+        }
+
+        // Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
+        String formattedMoneyPay = String.format("%,.0fđ", moneyPay);
+
+        // Gán giá trị cho TextView money_pay và money_pay1
+        money_pay.setText(formattedMoneyPay);
+        money_pay1.setText(formattedMoneyPay);
     }
 
-    // Hàm cập nhật giá trị tổng sau khi áp dụng voucher
-    private void updateTotalPrice(double totalProductDiscount, double totalShipDiscount) {
-        double finalProductPrice = productPrice * quantity - totalProductDiscount;
-        double finalTotalPrice = finalProductPrice - totalShipDiscount;
-        product_price.setText(String.format("%,.0fđ", finalTotalPrice));
-    }
 }

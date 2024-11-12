@@ -49,19 +49,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF">
 
         <!-- Voucher và phí vận chuyển -->
         <LinearLayout
+            android:id="@+id/tvVoucher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tvVoucher"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -78,27 +79,6 @@
                 android:textColor="#33A532" />
         </LinearLayout>
 
-        <!-- Sử dụng xu và công tắc bật/tắt -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/tvShopeeCoins"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Dùng 300 Shopee Xu"
-                android:textColor="#FFCC00" />
-
-            <Switch
-                android:id="@+id/switchUseCoins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
 
         <!-- Chọn tất cả, tổng thanh toán, và nút mua hàng -->
         <LinearLayout
@@ -113,31 +93,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tất cả" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvTotalPayment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tổng thanh toán ₫2.000"
-                android:textColor="#D32F2F"
-                android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvTotalPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Tổng thanh toán ₫2.000"
+        android:textColor="#D32F2F"
+        android:textStyle="bold" />
 
-            <TextView
+    <TextView
                 android:id="@+id/tvDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="Tiết kiệm ₫1k"
                 android:textColor="#009688" />
-
-            <Button
+</LinearLayout>
+            <TextView
                 android:id="@+id/btnCheckout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mua hàng (1)"
-                android:backgroundTint="#FF6600"
+                android:layout_marginStart="4dp"
+                android:background="#FF6600"
                 android:textColor="#FFFFFF"
-                android:padding="8dp" />
+                android:padding="15dp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

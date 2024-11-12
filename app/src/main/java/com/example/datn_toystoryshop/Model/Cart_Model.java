@@ -8,6 +8,7 @@ public class Cart_Model {
     private int quantity;        // Số lượng sản phẩm
     private String cusId;      // id cua khach hang
     private String prodSpecification;
+    private boolean selected;
 
     public Cart_Model(String _id, String prodId, int quantity, String cusId, String prodSpecification) {
         this._id = _id;
@@ -55,5 +56,12 @@ public class Cart_Model {
 
     public void setProdSpecification(String prodSpecification) {
         this.prodSpecification = prodSpecification;
+    }
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

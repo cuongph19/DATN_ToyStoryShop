@@ -153,13 +153,15 @@
     </LinearLayout>
     <TextView
         android:id="@+id/hiddenTextView"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:background="#FF0000"
-
-        android:text="Ẩn"
+        android:clickable="true"
+        android:text="Xóa"
         android:textColor="#FFFFFF"
         android:layout_gravity="end|top"/>
+
 <!--    android:visibility="gone"-->
+
 </FrameLayout>
