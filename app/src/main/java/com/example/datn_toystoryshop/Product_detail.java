@@ -112,7 +112,7 @@ public class Product_detail extends AppCompatActivity {
         // Hiển thị dữ liệu
 
         tvProductName.setText(productName);
-        tvProductPrice.setText(String.format("%,.0fđ", productPrice));
+        tvProductPrice.setText(String.format("%,.0fđ",productPrice));
         productStockValue.setText(String.valueOf(quantity));
         tvproductDescription.setText(desPro);
         productBrandValue1.setText(brand);
@@ -376,7 +376,7 @@ public class Product_detail extends AppCompatActivity {
         Button btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
 
         productTitle.setText(productName);
-        Price.setText("đ " + String.valueOf(productPrice));
+        Price.setText(String.format("%,.0fđ",productPrice));
         productStock.setText("Kho : " + String.valueOf(quantity));
         btnAddToCart.setText("Thêm vào Giỏ hàng");
         if (!productImg.isEmpty()) {
