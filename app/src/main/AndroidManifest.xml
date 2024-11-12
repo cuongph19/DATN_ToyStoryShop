@@ -140,6 +140,10 @@
             android:name=".Shopping.Voucher_screen"
             android:exported="false" />
         <activity
+            android:name=".Shopping.Oder_screen"
+            android:exported="false" />
+
+        <activity
             android:name=".Home_screen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">

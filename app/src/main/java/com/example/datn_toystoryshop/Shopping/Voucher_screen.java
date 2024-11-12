@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Shopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,9 +9,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +31,7 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     private List<Voucher> shipVoucherList = new ArrayList<>();
     private List<Voucher> productVoucherList = new ArrayList<>();
     private TextView seeMoreTextViewShip, seeMoreTextViewProduct;
-    private TextView selectedVoucherCountTextView;
+    private TextView selectedVoucherCountTextView, btnApplyVoucher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +44,12 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         seeMoreTextViewShip = findViewById(R.id.show_more_ship);
         seeMoreTextViewProduct = findViewById(R.id.show_more_product);
         selectedVoucherCountTextView = findViewById(R.id.countVoucher);
+        btnApplyVoucher = findViewById(R.id.confirm_button);
 
         recyclerViewShip.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
 
-        // Khởi tạo adapters với tham số phân biệt loại RecyclerView
-        adapterShip = new VoucherAdapter(shipVoucherList, this, false);  // false vì đây là RecyclerView vận chuyển
+        adapterShip = new VoucherAdapter(shipVoucherList, this, false); // false vì đây là RecyclerView vận chuyển
         adapterProduct = new VoucherAdapter(productVoucherList, this, true); // true vì đây là RecyclerView sản phẩm
 
         recyclerViewShip.setAdapter(adapterShip);
@@ -103,6 +101,32 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
             adapterProduct.toggleShowAll();
             seeMoreTextViewProduct.setVisibility(View.GONE);
         });
+
+        // Xử lý sự kiện áp dụng voucher
+        btnApplyVoucher.setOnClickListener(v -> {
+            List<Voucher> selectedVouchers = getSelectedVouchers();
+            if (selectedVouchers.isEmpty()) {
+                Toast.makeText(Voucher_screen.this, "Vui lòng chọn ít nhất một voucher.", Toast.LENGTH_SHORT).show();
+            } else {
+                // Tính toán tổng giá trị giảm giá từ các voucher đã chọn
+                double totalProductDiscount = 0;
+                double totalShipDiscount = 0;
+                for (Voucher voucher : selectedVouchers) {
+                    if ("giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
+                        totalProductDiscount += voucher.getPriceReduced();
+                    } else if ("giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
+                        totalShipDiscount += voucher.getPriceReduced();
+                    }
+                }
+
+                // Chuyển dữ liệu voucher đã chọn về màn hình Order
+                Intent intent = new Intent();
+                intent.putExtra("totalProductDiscount", totalProductDiscount);
+                intent.putExtra("totalShipDiscount", totalShipDiscount);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -127,6 +151,21 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         }
         return total;
     }
-}
 
+    private List<Voucher> getSelectedVouchers() {
+        List<Voucher> selectedVouchers = new ArrayList<>();
+        // Thêm các voucher đã chọn vào danh sách
+        for (Voucher voucher : productVoucherList) {
+            if (voucher.isSelected()) {
+                selectedVouchers.add(voucher);
+            }
+        }
+        for (Voucher voucher : shipVoucherList) {
+            if (voucher.isSelected()) {
+                selectedVouchers.add(voucher);
+            }
+        }
+        return selectedVouchers;
+    }
+}
 
