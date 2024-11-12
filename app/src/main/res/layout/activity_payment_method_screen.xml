@@ -1,0 +1,107 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phương thức thanh toán"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <!-- RadioGroup để đảm bảo chỉ chọn một RadioButton -->
+        <RadioGroup
+            android:id="@+id/radioGroupPaymentMethods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Phương thức thanh toán: Thanh toán khi nhận hàng -->
+            <LinearLayout
+                android:id="@+id/layoutCOD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="#F5F5F5"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/iconCOD"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_logo"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/tvCOD"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thanh toán khi nhận hàng"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioCOD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Phương thức thanh toán: Ví ShopeePay -->
+            <LinearLayout
+                android:id="@+id/layoutShopeePay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="#F5F5F5"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/iconShopeePay"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_logo"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/tvShopeePay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ví ShopeePay (Yêu thích)"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioShopeePay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvAgree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ĐỒNG Ý"
+            android:gravity="center"
+            android:background="#FF5722"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+</ScrollView>

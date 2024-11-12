@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -12,10 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
-import com.example.datn_toystoryshop.Adapter.Favorite_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Cart_Model;
-import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -30,8 +30,7 @@ import retrofit2.Response;
 
 public class Cart_screen extends AppCompatActivity {
 
-    private TextView btnIncrease, btnDecrease;
-    private TextView tvQuantity, add_address,aaa;
+
     private ImageView imgBack;
     private String productId;
     private int owerId;
@@ -52,6 +51,9 @@ public class Cart_screen extends AppCompatActivity {
     private String selectedColor;
     private RecyclerView recyclerViewCart;
     private Cart_Adapter cartAdapter;
+    private CheckBox checkBoxSelectAll ;
+    private TextView TotalPayment,btnCheckout ;
+    private LinearLayout tvVoucher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class Cart_screen extends AppCompatActivity {
 
         imgBack = findViewById(R.id.imgBack_cart);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
+        checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);
+        TotalPayment  = findViewById(R.id.tvTotalPayment);
+        btnCheckout  = findViewById(R.id.btnCheckout);
+        tvVoucher  = findViewById(R.id.tvVoucher);
+
+
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
@@ -88,13 +96,60 @@ public class Cart_screen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }});
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Cart_screen.this, Oder_screen.class);
+                // Truyền tất cả dữ liệu qua Intent
+                intent.putExtra("productId", productId);
+                intent.putExtra("owerId", owerId);
+                intent.putExtra("statusPro", statusPro);
+                intent.putExtra("productPrice", productPrice);
+                intent.putExtra("desPro", desPro);
+                intent.putExtra("creatDatePro", creatDatePro);
+                intent.putExtra("quantity", quantity);
+                intent.putExtra("listPro", listPro);
+                intent.putStringArrayListExtra("productImg", productImg);
+                intent.putExtra("productName", productName);
+                intent.putExtra("cateId", cateId);
+                intent.putExtra("brand", brand);
+                intent.putExtra("favoriteId", favoriteId);
+                // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
+                intent.putExtra("currentQuantity", currentQuantity);
+                intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
+                intent.putExtra("selectedColor", selectedColor);
+
+                startActivity(intent);
+            }});
+        tvVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Cart_screen.this, Voucher_screen.class);
+                startActivity(intent);
+            }});
+
         // Initialize product list and add sample products
         productList = new ArrayList<>();
         productList.add(new Product_Model("Ghế văn phòng ergonomic", "759.000", "1.300.000"));
 
         // Set up RecyclerView with LinearLayoutManager and Adapter
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
+        checkBoxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (cartAdapter != null) {
+                cartAdapter.updateTotalPayment(isChecked);
+
+                // Nếu bỏ chọn tất cả, đặt tổng thành 0
+                if (!isChecked) {
+                    // Gọi phương thức trong Adapter để bỏ chọn tất cả các sản phẩm
+                    cartAdapter.deselectAllItems();
+                    updateTotalPayment(0);
+                }
+            }
+        });
         loadCartProducts();
+    }
+    public void updateTotalPayment(double total) {
+        TotalPayment.setText(String.format("Tổng thanh toán: %.2f VNĐ", total));
     }
     private void loadCartProducts() {
         APIService apiService = RetrofitClient.getAPIService();
@@ -107,7 +162,6 @@ public class Cart_screen extends AppCompatActivity {
                     // Tạo và thiết lập Cart_Adapter
                     cartAdapter = new Cart_Adapter(Cart_screen.this, response.body(), apiService);
                     recyclerViewCart.setAdapter(cartAdapter);
-
                     // Thiết lập ItemTouchHelper cho RecyclerView
                     setupItemTouchHelper();
                 }

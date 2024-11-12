@@ -28,9 +28,12 @@ import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.ProductCallback;
+import com.example.datn_toystoryshop.Shopping.Cart_screen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +45,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     private List<Cart_Model> cartList;
     private Cart_Model cart;
     private com.example.datn_toystoryshop.Server.APIService APIService;
+    private boolean isHiddenTextViewVisible(CartViewHolder holder) {
+        return holder.hiddenTextView.getVisibility() == View.VISIBLE;
+    }
 
     public Cart_Adapter(Context context, List<Cart_Model> cartList, APIService apiService) {
         this.context = context;
@@ -58,11 +64,23 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
     @Override
     public void onBindViewHolder(@NonNull Cart_Adapter.CartViewHolder holder, int position) {
-        cart = cartList.get(position);
+        Cart_Model cart = cartList.get(position);
         String cartId = cart.get_id();
         String prodId = cart.getProdId();
-
         int quantity = cart.getQuantity();
+
+        Log.d("CartAdapter", "Attempting to delete product with ID: aaa" );
+        holder.hiddenTextView.setOnClickListener(v -> {
+            // Kiểm tra nếu hiddenTextView đang hiển thị
+            Log.d("CartAdapter", "Attempting to delete product with ID: ccccccc" );
+            if (isHiddenTextViewVisible(holder)) {
+                Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
+                deletecart(cart.getProdId(), holder);
+            } else {
+                Log.d("CartAdapter", "Attempting to delete product with ID:");
+            }
+        });
+
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
         // Sự kiện tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
@@ -71,6 +89,18 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             holder.tvQuantity.setText(String.valueOf(currentQuantity));
             Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
         });
+// Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
+        holder.checkBoxSelectItem.setOnCheckedChangeListener(null); // Xóa listener cũ để tránh gọi lại
+        holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
+
+// Đặt sự kiện khi CheckBox được chọn hoặc bỏ chọn
+        holder.checkBoxSelectItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            cart.setSelected(isChecked); // Cập nhật trạng thái của sản phẩm
+            Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
+            updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
+            holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
+        });
+
 
         // Sự kiện giảm số lượng với giá trị tối thiểu là 1
         holder.btnDecrease.setOnClickListener(v -> {
@@ -116,6 +146,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 // Không làm gì khi không có gì được chọn
             }
         });
+        //lấy giá để tính tổng
+                loadProductPrices();
+
         // Gọi phương thức lấy dữ liệu từ MongoDB với prodId
         loadProductById(APIService, prodId, new ProductCallback() {
             @Override
@@ -150,8 +183,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                         context.startActivity(intent);
                     }
                 });
-                Log.d("CartAdapter", "hiddenTextView visibility: " + holder.hiddenTextView.getVisibility());
-
             }
 
             @Override
@@ -160,10 +191,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
 
-        holder.hiddenTextView.setOnClickListener(v -> {
-            Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
-            deletecart(cart.getProdId(), holder);
-        });
     }
 
     @Override
@@ -218,20 +245,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
                         // Di chuyển itemContent theo hướng vuốt
                         cartViewHolder.itemContent.setTranslationX(translationX);
-
                         // Hiển thị hiddenTextView khi người dùng vuốt đủ xa
                         if (translationX == maxSwipe) {
                             cartViewHolder.hiddenTextView.setVisibility(View.VISIBLE);
-
-                            // Đặt sự kiện click cho hiddenTextView chỉ khi hiển thị
-                            cartViewHolder.hiddenTextView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
-                                    Log.d("CartAdapter", "Attempting to delete product with ID: " );
-                                    deletecart(cart.getProdId(), cartViewHolder);
-                                }
-                            });
                         }
                     } else {
                         // Đặt lại vị trí và ẩn hiddenTextView khi không vuốt đủ xa
@@ -276,6 +292,63 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
     }
+    private Map<String, Double> productPriceMap = new HashMap<>();
+
+    public void loadProductPrices() {
+        for (Cart_Model cart : cartList) {
+            String prodId = cart.getProdId();
+            loadProductById(APIService, prodId, new ProductCallback() {
+                @Override
+                public void onSuccess(Product_Model product) {
+                    productPriceMap.put(prodId, product.getPrice());
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.e("CartAdapter", "Failed to load product price: " + t.getMessage());
+                }
+            });
+        }
+    }
+    // Hàm tính tổng tiền thanh toán
+    public void updateTotalPayment(boolean isSelectAll) {
+        double totalPayment = 0;
+
+        // Duyệt qua từng sản phẩm trong giỏ hàng
+        for (Cart_Model cart : cartList) {
+            if (isSelectAll) {
+                cart.setSelected(true); // Chọn tất cả sản phẩm
+                Log.d("CartAdapter", "Selecting all products");
+            }
+
+            // Kiểm tra sản phẩm có được chọn và có giá không
+            if (cart.isSelected() && productPriceMap.containsKey(cart.getProdId())) {
+                double productPrice = productPriceMap.get(cart.getProdId());
+                totalPayment += productPrice * cart.getQuantity(); // Cộng tiền sản phẩm được chọn
+                Log.d("CartAdapter", "Adding product price: " + productPrice +
+                        " for product ID: " + cart.getProdId() +
+                        " Quantity: " + cart.getQuantity() +
+                        " Subtotal: " + (productPrice * cart.getQuantity()));
+            } else if (cart.isSelected()) {
+                // Ghi log nếu không tìm thấy giá sản phẩm
+                Log.d("CartAdapter", "Price not found for product ID: " + cart.getProdId());
+            }
+        }
+
+        // Cập nhật danh sách hiển thị lại
+        notifyDataSetChanged();
+
+        // Cập nhật tổng tiền trên Cart_screen
+        Log.d("CartAdapter", "Total Payment: " + totalPayment);
+        ((Cart_screen) context).updateTotalPayment(totalPayment);
+    }
+    public void deselectAllItems() {
+        for (Cart_Model cart : cartList) {
+            cart.setSelected(false); // Đặt tất cả sản phẩm là không chọn
+        }
+        notifyDataSetChanged(); // Cập nhật lại giao diện
+    }
+
 
     private void deletecart(String productId, Cart_Adapter.CartViewHolder holder) {
         Log.d("CartAdapter", "Attempting to delete product with ID: " + productId);

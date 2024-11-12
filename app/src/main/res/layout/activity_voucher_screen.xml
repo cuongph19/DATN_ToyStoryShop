@@ -93,6 +93,7 @@
             android:layout_marginBottom="8dp"/>
 
         <!-- RecyclerView cho danh sách voucher -->
+        <!-- TextView 'Xem thêm' dưới RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/voucher_recycler_view_ship"
             android:layout_width="match_parent"
@@ -100,9 +101,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_voucher"
-            tools:itemCount="2" />
-        <!-- TextView 'Xem thêm' dưới RecyclerView -->
+            tools:itemCount="2"
+            tools:listitem="@layout/item_voucher" />
+
         <TextView
             android:id="@+id/show_more_ship"
             android:layout_width="wrap_content"

@@ -30,6 +30,9 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
         <activity
+            android:name=".Shopping.payment_method_screen"
+            android:exported="false" />
+        <activity
             android:name=".ArtStory_detail"
             android:exported="false" />
         <activity
@@ -91,9 +94,6 @@
             android:name=".Register_login.ForgotOTP_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.SignUp_screen"
-            android:exported="false" />
-        <activity
             android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
@@ -135,14 +135,15 @@
         <activity
             android:name=".Shopping.Favorite_screen"
             android:exported="false" />
-
         <activity
             android:name=".Shopping.Voucher_screen"
             android:exported="false" />
         <activity
             android:name=".Shopping.Oder_screen"
             android:exported="false" />
-
+        <activity
+            android:name=".Register_login.SignUp_screen"
+            android:exported="false" />
         <activity
             android:name=".Home_screen"
             android:exported="true"
