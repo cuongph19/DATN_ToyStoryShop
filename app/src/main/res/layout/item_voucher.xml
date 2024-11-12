@@ -18,10 +18,10 @@
         android:background="#00A78E"> <!-- Màu nền cho icon -->
 
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_logo" />
-
 
     </LinearLayout>
 
@@ -44,29 +44,50 @@
             android:padding="2dp"
             android:layout_marginBottom="4dp" />
 
-        <!-- Mô tả Voucher -->
-        <TextView
+        <!-- Mô tả Voucher và Số tiền -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Giảm tối đa đ300k"
-            android:textColor="#000000"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <!-- Text "Giảm tối đa" -->
+            <TextView
+                android:id="@+id/voucher_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giảm tối đa"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <!-- Text số tiền "300k" -->
+            <TextView
+                android:id="@+id/voucher_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="đ300k"
+                android:textStyle="bold"
+                android:paddingStart="4dp" /> <!-- Khoảng cách giữa chữ và số tiền -->
+        </LinearLayout>
 
         <!-- Đơn hàng tối thiểu -->
         <TextView
+            android:id="@+id/minimunPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đơn tối thiểu đ0"
+            android:text="Đơn tối thiểu 0đ"
             android:textSize="12sp"
             android:textColor="#888888" />
 
     </LinearLayout>
-    <!-- Dấu kiểm tra (Checkmark) -->
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_checkmark"
-        android:layout_gravity="center_vertical" />
 
-
+    <!-- RadioButton (Dấu kiểm tra) -->
+    <RadioButton
+        android:id="@+id/radio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:checked="false"
+        android:layout_marginEnd="8dp"
+        android:focusable="false"
+        android:buttonTint="@color/colorPrimary" />
 </LinearLayout>

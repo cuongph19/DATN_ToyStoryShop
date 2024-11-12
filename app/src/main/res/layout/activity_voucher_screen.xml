@@ -160,19 +160,33 @@
 
     </LinearLayout>
     <!-- TextView để hiển thị trạng thái voucher đã chọn -->
-    <TextView
-        android:id="@+id/voucher_selected_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 Voucher đã được chọn. Đã áp dụng Ưu đãi phí vận chuyển"
-        android:textSize="14sp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:textColor="#666666" />
+
 
 
     <!-- TextView thay thế cho Confirm Button -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+    <!-- countVoucher -->
     <TextView
+        android:id="@+id/countVoucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_marginEnd="8dp"
+        android:textColor="#000000"/>
+
+
+
+</LinearLayout>
+
+<TextView
         android:id="@+id/confirm_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
