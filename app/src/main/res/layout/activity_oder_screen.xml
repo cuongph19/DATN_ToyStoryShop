@@ -279,17 +279,18 @@
                 android:id="@+id/old_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₫16.500"
+                android:text="₫40.000"
                 android:layout_marginStart="3dp"
                 android:textSize="14sp"
-                android:textColor="#888888" />
+                android:textColor="#888888"
+               />
 
             <!-- Giá mới -->
             <TextView
                 android:id="@+id/new_price"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₫6.500"
                 android:textSize="16sp"
                 android:textColor="#FF0000"
                 android:layout_marginStart="4dp"/>
@@ -330,7 +331,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
-            android:text="Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau ngày 12 Tháng 11 2024."
+            android:text="Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau "
             android:textColor="#888888"
             android:textSize="12sp" />
 
