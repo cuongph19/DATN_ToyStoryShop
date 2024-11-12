@@ -50,7 +50,8 @@ public class History_Fragment extends Fragment {
 
         // Khởi tạo RecyclerView và Adapter
         recyclerView = view.findViewById(R.id.rvOrderHistory);
-        adapter = new OrderHistoryAdapter(getContext(), filteredOrderList);
+        APIService apiService = RetrofitClient.getAPIService();
+        adapter = new OrderHistoryAdapter(getContext(), filteredOrderList, apiService);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
