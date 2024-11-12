@@ -53,7 +53,7 @@ public class Cart_screen extends AppCompatActivity {
     private Cart_Adapter cartAdapter;
     private CheckBox checkBoxSelectAll ;
     private TextView TotalPayment,btnCheckout,tvDiscount ;
-    private LinearLayout tvVoucher;
+    private LinearLayout tvVoucher,Lldiscount;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
 
@@ -62,13 +62,14 @@ public class Cart_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cart_screen);
 
-        imgBack = findViewById(R.id.imgBack_cart);
+        imgBack = findViewById(R.id.imgBack);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);
         TotalPayment  = findViewById(R.id.tvTotalPayment);
         btnCheckout  = findViewById(R.id.btnCheckout);
         tvVoucher  = findViewById(R.id.tvVoucher);
         tvDiscount  = findViewById(R.id.tvDiscount);
+        Lldiscount  = findViewById(R.id.Lldiscount);
 
 
 // Nhận dữ liệu từ Intent
@@ -186,10 +187,11 @@ public class Cart_screen extends AppCompatActivity {
                     // Nếu giá trị dưới 1000, hiển thị giá trị trực tiếp
                     formattedDiscount = String.format("₫%.0f", discountAmount);
                 }
-
+                Lldiscount.setVisibility(View.VISIBLE);
                 tvDiscount.setText(formattedDiscount);
             } else {
                 tvDiscount.setVisibility(View.GONE);  // Nếu không có giảm giá, ẩn TextView
+                Lldiscount.setVisibility(View.GONE);
             }
         }
     }

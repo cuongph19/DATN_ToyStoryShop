@@ -30,7 +30,10 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
         <activity
-            android:name=".Shopping.payment_method_screen"
+            android:name=".Shopping.ShippingUnit_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Shopping.Payment_method_screen"
             android:exported="false" />
         <activity
             android:name=".ArtStory_detail"

@@ -7,12 +7,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_toystoryshop.R;
 
-public class payment_method_screen extends AppCompatActivity {
+public class Payment_method_screen extends AppCompatActivity {
     private RadioButton radioCOD, radioShopeePay;
     private TextView tvAgree;
     private LinearLayout layoutShopeePay, layoutCOD;
