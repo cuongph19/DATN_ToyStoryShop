@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- Back Button và Title (sử dụng horizontal LinearLayout) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/back_icon_2"
+            />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chọn Voucher"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            />
+    </LinearLayout>
+
+    <!-- Voucher Input và Apply Button (sử dụng horizontal LinearLayout) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Voucher Input -->
+        <EditText
+            android:id="@+id/voucher_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nhập mã shopee voucher"
+            android:background="@drawable/bg_input_field"
+            android:padding="8dp"/>
+
+        <!-- Apply Button -->
+        <!-- TextView thay thế cho Apply Button -->
+        <TextView
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Áp dụng"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            android:background="@drawable/button_gray_background"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Voucher List Section Title -->
+        <TextView
+            android:id="@+id/shipping_voucher_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ưu đãi phí vận chuyển"
+            android:textStyle="bold"
+             />
+
+        <!-- Subtitle cho danh sách voucher -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Có thể chọn 1 Voucher"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- RecyclerView cho danh sách voucher -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/voucher_recycler_view_ship"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_voucher"
+            tools:itemCount="2" />
+        <!-- TextView 'Xem thêm' dưới RecyclerView -->
+        <TextView
+            android:id="@+id/show_more_ship"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem thêm"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+             />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Voucher List Section Title -->
+        <TextView
+            android:id="@+id/product_voucher_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã giảm giá"
+            android:textStyle="bold"
+            />
+
+        <!-- Subtitle cho danh sách voucher -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Có thể chọn 1 Voucher"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- RecyclerView cho danh sách voucher -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/voucher_recycler_view_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_voucher"
+            tools:itemCount="2" />
+        <!-- TextView 'Xem thêm' dưới RecyclerView -->
+        <TextView
+            android:id="@+id/show_more_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem thêm"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+           />
+
+    </LinearLayout>
+    <!-- TextView để hiển thị trạng thái voucher đã chọn -->
+    <TextView
+        android:id="@+id/voucher_selected_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 Voucher đã được chọn. Đã áp dụng Ưu đãi phí vận chuyển"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:textColor="#666666" />
+
+
+    <!-- TextView thay thế cho Confirm Button -->
+    <TextView
+        android:id="@+id/confirm_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đồng ý"
+        android:textSize="16dp"
+        android:background="@drawable/button_orange_background"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="12dp" />
+</LinearLayout>
