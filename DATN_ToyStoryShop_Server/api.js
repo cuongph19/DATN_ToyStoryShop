@@ -308,19 +308,27 @@ router.get('/vouchers', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
 
-        // Tìm tất cả các sản phẩm trong collection 'feeback'
+        // Lấy tất cả các voucher từ database và loại bỏ khoảng trắng ở đầu và cuối của trường `quantity_voucher`
         const vouchers = await VoucherModel.find({}, '_id price_reduced quantity_voucher discount_code');
 
-        if (vouchers.length === 0) {
+        // Loại bỏ khoảng trắng thừa trong trường `quantity_voucher` trước khi trả về
+        const cleanedVouchers = vouchers.map(voucher => {
+            // Trim khoảng trắng ở đầu và cuối của `quantity_voucher`
+            voucher.quantity_voucher = voucher.quantity_voucher.trim();
+            return voucher;
+        });
+
+        if (cleanedVouchers.length === 0) {
             return res.status(404).json({ error: 'Không có mã giảm giá.' });
         }
 
-        res.json(vouchers);
+        res.json(cleanedVouchers);
     } catch (error) {
         console.error('Lỗi khi lấy mã giảm giá.', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy mã giảm giá.' });
     }
 });
+
 
 // Hàm chuyển đổi chuỗi có dấu thành không dấu
 function removeDiacritics(input) {

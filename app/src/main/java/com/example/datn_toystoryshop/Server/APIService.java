@@ -7,6 +7,7 @@ import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.Model.Voucher;
 
 import java.util.List;
 import java.util.Map;
@@ -91,5 +92,7 @@ public interface APIService {
     Call<List<Feeback_Model>> getFeeback();
     @GET("/api/artstories")
     Call<List<ArtStoryModel>> getArtStories();
+    @GET("/api/vouchers")
+    Call<List<Voucher>> getVouchers();
 
 }

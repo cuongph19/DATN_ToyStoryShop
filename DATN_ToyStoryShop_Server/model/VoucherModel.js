@@ -7,11 +7,11 @@ const VoucherSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    quantity_voucher: {
+    discount_code: {
         type: Number,
         required: true
     },
-    discount_code : {
+    quantity_voucher : {
         type: String,
         enum: ['giảm giá vận chuyển', 'giảm giá sản phẩm'],
         required: true

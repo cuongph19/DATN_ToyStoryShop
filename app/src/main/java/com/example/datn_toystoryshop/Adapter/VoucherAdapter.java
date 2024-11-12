@@ -1,4 +1,119 @@
 package com.example.datn_toystoryshop.Adapter;
 
-public class VoucherAdapter {
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.datn_toystoryshop.Model.Voucher;
+import com.example.datn_toystoryshop.R;
+
+import java.util.List;
+
+public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherViewHolder> {
+
+    private List<Voucher> voucherList;
+    private boolean showAllItems = false;
+    private OnVoucherSelectedListener onVoucherSelectedListener;
+    private boolean isProductRecyclerView; // Thêm biến để phân biệt giữa ship và product
+
+    public VoucherAdapter(List<Voucher> voucherList, OnVoucherSelectedListener onVoucherSelectedListener, boolean isProductRecyclerView) {
+        this.voucherList = voucherList;
+        this.onVoucherSelectedListener = onVoucherSelectedListener;
+        this.isProductRecyclerView = isProductRecyclerView;  // Xác định đây là RecyclerView của sản phẩm hay vận chuyển
+    }
+
+    @NonNull
+    @Override
+    public VoucherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher, parent, false);
+        return new VoucherViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VoucherViewHolder holder, int position) {
+        int index = showAllItems ? position : Math.min(position, 1);  // Hiển thị tối đa 2 sản phẩm
+
+        Voucher voucher = voucherList.get(index);
+
+        holder.voucherPrice.setText("đ" + voucher.getPriceReduced() + "k");
+        holder.minimumPrice.setText("Đơn tối thiểu 0đ");
+        holder.voucherDescription.setText("Giảm tối đa");
+
+        if (voucher.getQuantityVoucher().equals("giảm giá sản phẩm")) {
+            holder.icon.setImageResource(R.drawable.ic_logo);
+        } else if (voucher.getQuantityVoucher().equals("giảm giá vận chuyển")) {
+            holder.icon.setImageResource(R.drawable.ic_logo);
+        }
+
+        holder.radioButton.setChecked(voucher.isSelected());
+
+        // Cập nhật sự kiện khi RadioButton được chọn
+        holder.radioButton.setOnClickListener(v -> {
+            // Nếu là RecyclerView sản phẩm, bỏ chọn tất cả các voucher sản phẩm
+            if (isProductRecyclerView) {
+                for (Voucher vItem : voucherList) {
+                    vItem.setSelected(false);
+                }
+            } else {
+                // Nếu là RecyclerView vận chuyển, bỏ chọn tất cả các voucher vận chuyển
+                for (Voucher vItem : voucherList) {
+                    vItem.setSelected(false);
+                }
+            }
+            voucher.setSelected(true);
+
+            notifyDataSetChanged();
+
+            // Gọi phương thức onVoucherSelectedListener để cập nhật số lượng voucher đã chọn
+            if (onVoucherSelectedListener != null) {
+                onVoucherSelectedListener.onVoucherSelected(getSelectedVoucherCount());
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return showAllItems ? voucherList.size() : Math.min(voucherList.size(), 2);
+    }
+
+    public void toggleShowAll() {
+        showAllItems = !showAllItems;
+        notifyDataSetChanged();
+    }
+
+    private int getSelectedVoucherCount() {
+        int count = 0;
+        for (Voucher voucher : voucherList) {
+            if (voucher.isSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    static class VoucherViewHolder extends RecyclerView.ViewHolder {
+        TextView voucherPrice, voucherDescription, minimumPrice;
+        ImageView icon;
+        RadioButton radioButton;
+
+        public VoucherViewHolder(@NonNull View itemView) {
+            super(itemView);
+            voucherPrice = itemView.findViewById(R.id.voucher_price);
+            voucherDescription = itemView.findViewById(R.id.voucher_description);
+            minimumPrice = itemView.findViewById(R.id.minimunPrice);
+            icon = itemView.findViewById(R.id.icon);
+            radioButton = itemView.findViewById(R.id.radio_button);
+        }
+    }
+
+    public interface OnVoucherSelectedListener {
+        void onVoucherSelected(int selectedCount);
+    }
 }
+

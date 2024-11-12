@@ -135,6 +135,10 @@
         <activity
             android:name=".Shopping.Favorite_screen"
             android:exported="false" />
+
+        <activity
+            android:name=".Shopping.Voucher_screen"
+            android:exported="false" />
         <activity
             android:name=".Home_screen"
             android:exported="true"
