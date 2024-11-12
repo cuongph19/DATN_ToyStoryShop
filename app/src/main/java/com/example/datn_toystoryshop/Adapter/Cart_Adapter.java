@@ -95,6 +95,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
 // Đặt sự kiện khi CheckBox được chọn hoặc bỏ chọn
         holder.checkBoxSelectItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            countSelectedItems();
             cart.setSelected(isChecked); // Cập nhật trạng thái của sản phẩm
             Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
             updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
@@ -154,7 +155,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             @Override
             public void onSuccess(Product_Model product) {
                 holder.productName.setText(product.getNamePro());
-                holder.productPrice.setText(String.valueOf(product.getPrice()));
+                holder.productPrice.setText(String.format("%,.0fđ",product.getPrice()));
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.productImage);
@@ -373,5 +374,19 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
     }
+    public int countSelectedItems() {
+        int selectedCount = 0;
+
+        // Duyệt qua từng sản phẩm trong giỏ hàng
+        for (Cart_Model cart : cartList) {
+            if (cart.isSelected()) { // Kiểm tra nếu sản phẩm được chọn
+                selectedCount++;
+            }
+        }
+        Log.e("FavoriteAdapter", "aaaaaaaaacccccc " + selectedCount);
+        // Hiển thị Toast với số lượng sản phẩm đã chọn
+        return selectedCount;
+    }
+
 }
 

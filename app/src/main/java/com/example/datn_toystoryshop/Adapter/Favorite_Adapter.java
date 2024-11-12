@@ -58,7 +58,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
             @Override
             public void onSuccess(Product_Model product) {
                 holder.tvTen.setText(product.getNamePro());
-                holder.tvGia.setText(String.valueOf(product.getPrice()));
+                holder.tvGia.setText(String.format("%,.0fđ",product.getPrice()));
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.imageViewFav);

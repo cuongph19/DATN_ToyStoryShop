@@ -52,8 +52,10 @@ public class Cart_screen extends AppCompatActivity {
     private RecyclerView recyclerViewCart;
     private Cart_Adapter cartAdapter;
     private CheckBox checkBoxSelectAll ;
-    private TextView TotalPayment,btnCheckout ;
+    private TextView TotalPayment,btnCheckout,tvDiscount ;
     private LinearLayout tvVoucher;
+    private double totalProductDiscount = 0;
+    private double totalShipDiscount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class Cart_screen extends AppCompatActivity {
         TotalPayment  = findViewById(R.id.tvTotalPayment);
         btnCheckout  = findViewById(R.id.btnCheckout);
         tvVoucher  = findViewById(R.id.tvVoucher);
+        tvDiscount  = findViewById(R.id.tvDiscount);
 
 
 // Nhận dữ liệu từ Intent
@@ -125,31 +128,74 @@ public class Cart_screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Cart_screen.this, Voucher_screen.class);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }});
 
         // Initialize product list and add sample products
         productList = new ArrayList<>();
-        productList.add(new Product_Model("Ghế văn phòng ergonomic", "759.000", "1.300.000"));
+
 
         // Set up RecyclerView with LinearLayoutManager and Adapter
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
         checkBoxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (cartAdapter != null) {
                 cartAdapter.updateTotalPayment(isChecked);
-
+                updateCheckoutButton();
                 // Nếu bỏ chọn tất cả, đặt tổng thành 0
                 if (!isChecked) {
                     // Gọi phương thức trong Adapter để bỏ chọn tất cả các sản phẩm
                     cartAdapter.deselectAllItems();
+                    updateCheckoutButton();
                     updateTotalPayment(0);
                 }
             }
         });
         loadCartProducts();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            // Nhận dữ liệu từ màn hình Voucher
+            totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
+            totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
+
+            // Kiểm tra và tính tổng giảm giá
+            double discountAmount = 0.0;
+
+            if (totalProductDiscount > 0 && totalShipDiscount > 0) {
+                // Nếu cả hai đều có giá trị
+                discountAmount = totalProductDiscount + totalShipDiscount;
+            } else if (totalProductDiscount > 0) {
+                // Nếu chỉ có sản phẩm giảm giá
+                discountAmount = totalProductDiscount;
+            } else if (totalShipDiscount > 0) {
+                // Nếu chỉ có giảm giá vận chuyển
+                discountAmount = totalShipDiscount;
+            }
+
+            // Cập nhật giá trị cho tvDiscount
+            if (discountAmount > 0) {
+                String formattedDiscount = "";
+                if (discountAmount >= 1000) {
+                    // Chia cho 1000 để hiển thị theo dạng nghìn đồng
+                    int thousands = (int) (discountAmount / 1000);
+                    formattedDiscount = String.format("₫%dk", thousands);
+                } else {
+                    // Nếu giá trị dưới 1000, hiển thị giá trị trực tiếp
+                    formattedDiscount = String.format("₫%.0f", discountAmount);
+                }
+
+                tvDiscount.setText(formattedDiscount);
+            } else {
+                tvDiscount.setVisibility(View.GONE);  // Nếu không có giảm giá, ẩn TextView
+            }
+        }
+    }
     public void updateTotalPayment(double total) {
-        TotalPayment.setText(String.format("Tổng thanh toán: %.2f VNĐ", total));
+        TotalPayment.setText(String.format("Tổng thanh toán: %,.0f VND", total));
+        updateCheckoutButton();
     }
     private void loadCartProducts() {
         APIService apiService = RetrofitClient.getAPIService();
@@ -179,6 +225,16 @@ public class Cart_screen extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cartAdapter.getItemTouchHelper());
         itemTouchHelper.attachToRecyclerView(recyclerViewCart);
     }
+    private void updateCheckoutButton() {
+        int selectedCount = cartAdapter.countSelectedItems();
+
+        if (selectedCount == 0) {
+            btnCheckout.setText("Mua Hàng");
+        } else {
+            btnCheckout.setText("Mua Hàng (" + selectedCount + ")");
+        }
+    }
+
 
 }
 

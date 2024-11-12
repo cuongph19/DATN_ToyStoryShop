@@ -402,7 +402,7 @@
                 android:textSize="16sp"/>
 
             <EditText
-                android:id="@+id/tvLeaveMessage"
+                android:id="@+id/tvLeaveMessage1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Để lại lời nhắn"
