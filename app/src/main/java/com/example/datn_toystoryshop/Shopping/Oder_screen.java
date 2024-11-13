@@ -1,10 +1,12 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +43,7 @@ public class Oder_screen extends AppCompatActivity {
     private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
-    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price;
+    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price,shipping_method_name;
 
     private double productPrice;
     private double totalProductDiscount = 0;
@@ -59,6 +61,16 @@ public class Oder_screen extends AppCompatActivity {
     private double totalAmount;
     private double moneyPay;
     private double shippingCost = 40000;
+    private String getFormattedDate(int daysToAdd, String format) {
+        // Khởi tạo Calendar với ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
+
+        // Định dạng ngày theo yêu cầu
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, new Locale("vi", "VN"));
+        return dateFormat.format(calendar.getTime());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +102,7 @@ public class Oder_screen extends AppCompatActivity {
         voucher_info = findViewById(R.id.voucher_info);
         old_price = findViewById(R.id.old_price);
         new_price = findViewById(R.id.new_price);
-
+        shipping_method_name = findViewById(R.id.shipping_method_name);
         // Các TextView để hiển thị thông tin giảm giá
         shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
         productDiscountPrice = findViewById(R.id.productDiscountPrice);
@@ -115,22 +127,11 @@ public class Oder_screen extends AppCompatActivity {
         selectedColor = intent.getStringExtra("selectedColor");
 
 
-// set ngày hiện tại cho vận chuyển
-        Date currentDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("'ngày' dd 'tháng' MM ", new Locale("vi", "VN"));
-        calendar.add(Calendar.DAY_OF_MONTH, 5);
-        Date estimatedDate = calendar.getTime();
-        String formattedDate = dateFormat.format(estimatedDate);
-        estimated_delivery.setText("Đảm bảo nhận hàng vào "+ formattedDate);
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.DAY_OF_MONTH, 7);
-        Date voucherDate = calendar.getTime();
-        SimpleDateFormat dateFormatVouche = new SimpleDateFormat("'ngày' dd 'tháng' MM 'năm' yyyy", new Locale("vi", "VN"));
-
-        String formattedVoucherDate = dateFormatVouche.format(voucherDate);
-        voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + formattedVoucherDate);
+        // Đặt ngày giao hàng dự kiến
+        String estimatedDeliveryDate = getFormattedDate(5, "'ngày' dd 'tháng' MM");
+        estimated_delivery.setText("Đảm bảo nhận hàng vào "+ estimatedDeliveryDate);
+        String voucherExpiryDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");
+        voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
 
         product_name.setText(productName);
         product_price.setText(String.format("%,.0fđ", productPrice));
@@ -188,12 +189,25 @@ public class Oder_screen extends AppCompatActivity {
 
         pay.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, Payment_method_screen.class);
-            startActivityForResult(intent1, 100);
+            String currentPayment = tvPaymentDetail.getText().toString();
+            if (!currentPayment.isEmpty()) {
+                intent1.putExtra("currentPayment", currentPayment);  // Chỉ truyền khi đã có lựa chọn
+            }
+            startActivityForResult(intent1, 101);
         });
 
         ship.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, ShippingUnit_screen.class);
-            startActivityForResult(intent1, 100);
+            String  shipDiscount1 = shipDiscountPrice.getText().toString();
+            if (!shipDiscount1.isEmpty()) {
+                intent1.putExtra("shipDiscount1", shipDiscount1);  // Truyền totalShipDiscount
+            }
+            String ShipDiscount = shipping_method_name.getText().toString();
+            if (!ShipDiscount.isEmpty()) {
+                intent1.putExtra("ShipDiscount", ShipDiscount);  // Chỉ truyền khi đã có lựa chọn
+            }
+
+            startActivityForResult(intent1, 102);
         });
         clause.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, Terms_Conditions_screen.class);
@@ -214,32 +228,66 @@ public class Oder_screen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            // Nhận dữ liệu từ màn hình Voucher
-             totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
-             totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
-            String paytext = data.getStringExtra("paytext");
-            tvPaymentDetail.setText(paytext);
+        if (resultCode == RESULT_OK && data != null) {
+            switch (requestCode) {
+                case 100:
+                    // Nhận dữ liệu từ màn hình Voucher
+                    totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
+                    totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
+                    //set gạch ngang cho giá cũ
+                    String text = String.format("%,.0fđ", shippingCost);
+                    SpannableString spannableString = new SpannableString(text);
+                    spannableString.setSpan(new StrikethroughSpan(), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    old_price.setText(spannableString);
+                    // Hiển thị các thông tin giảm giá
+                    shipDiscounttv.setVisibility(View.VISIBLE);
+                    productDiscounttv.setVisibility(View.VISIBLE);
+                    new_price.setVisibility(View.VISIBLE);
+                    productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
+                    shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
+                    // Tính giá mới và set cho new_price
+                    double newPriceValue = shippingCost - totalShipDiscount;
+                    new_price.setText(String.format("₫%,.0f", newPriceValue));
+                    // Tính toán lại moneyPay sau khi nhận được giá trị mới
+                    calculateMoneyPay();
+                    break;
 
-            //set gạch ngang cho giá cũ
-            String text = String.format("%,.0fđ", shippingCost);
-            SpannableString spannableString = new SpannableString(text);
-            spannableString.setSpan(new StrikethroughSpan(), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            old_price.setText(spannableString);
+                case 101:
+                    // Nhận dữ liệu từ màn hình phương thức thanh toán
+                    String paytext = data.getStringExtra("paytext");
+                    tvPaymentDetail.setText(paytext);
+                    break;
 
-// Hiển thị các thông tin giảm giá
-            shipDiscounttv.setVisibility(View.VISIBLE);
-            productDiscounttv.setVisibility(View.VISIBLE);
-            new_price.setVisibility(View.VISIBLE);
+                case 102:
+                    // Xử lý dữ liệu từ Shipping_method_screen
+                    // Nhận dữ liệu từ màn hình phương thức vận chuyển
+            String shipping_price = data.getStringExtra("shipping_price");
+            String shipping_method = data.getStringExtra("shipping_method");
+           old_price.setText(shipping_price);
+            shipping_method_name.setText(shipping_method);
+                    shippingCost = 80000;
+                    String shippingmoney = String.format("%,.0fđ", shippingCost);
+                    shipping_money.setText(shippingmoney);
+                    calculateMoneyPay();
+                    // Kiểm tra phương thức giao hàng và xử lý tương ứng
+                    if ("Nhanh".equals(shipping_method)) {
+                        String estimatedDeliveryDate = getFormattedDate(5, "'ngày' dd 'tháng' MM");
+                        estimated_delivery.setText("Đảm bảo nhận hàng vào " + estimatedDeliveryDate);
 
-            productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
-            shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
-            // Tính giá mới và set cho new_price
-            double newPriceValue = shippingCost - totalShipDiscount;
-            new_price.setText(String.format("₫%,.0f", newPriceValue));
-// Tính toán lại moneyPay sau khi nhận được giá trị mới
-            calculateMoneyPay();
-        }
+                        String voucherExpiryDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");
+                        voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
+
+                    } else if ("Hỏa Tốc".equals(shipping_method)) {
+                        // Xử lý cho phương thức Hỏa Tốc
+                        String estimatedDeliveryDate = getFormattedDate(2, "'ngày' dd 'tháng' MM");
+                        estimated_delivery.setText("Đảm bảo nhận hàng vào " + estimatedDeliveryDate);
+
+                        String voucherExpiryDate = getFormattedDate(3, "'ngày' dd 'tháng' MM 'năm' yyyy");
+                        voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
+                    }
+                    break;
+            }}
     }
     private void calculateMoneyPay() {
         double moneyPay;
@@ -286,5 +334,6 @@ public class Oder_screen extends AppCompatActivity {
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm đánh giá", t);
             }
         });
+
 }
 }

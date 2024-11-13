@@ -25,11 +25,26 @@ public class Payment_method_screen extends AppCompatActivity {
         tvAgree = findViewById(R.id.tvAgree);
         layoutShopeePay = findViewById(R.id.layoutShopeePay);
         layoutCOD = findViewById(R.id.layoutCOD);
+
+        Intent intent = getIntent();
+        String currentPayment = intent.getStringExtra("currentPayment");
+
+        // Thiết lập RadioButton theo giá trị hiện tại
+        if (currentPayment != null) {
+            if ("Thanh toán khi nhận hàng".equals(currentPayment)) {
+                radioCOD.setChecked(true);
+                radioShopeePay.setChecked(false);
+            } else if ("Ví ShopeePay (Yêu thích)".equals(currentPayment)) {
+                radioShopeePay.setChecked(true);
+                radioCOD.setChecked(false);
+            }
+        }
         layoutCOD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Khi click vào layout, đánh dấu RadioButton là checked
                 radioCOD.setChecked(true);
+                radioShopeePay.setChecked(false);
             }
         });
         layoutShopeePay.setOnClickListener(new View.OnClickListener() {
@@ -37,9 +52,17 @@ public class Payment_method_screen extends AppCompatActivity {
             public void onClick(View v) {
                 // Khi click vào layout, đánh dấu RadioButton là checked
                 radioShopeePay.setChecked(true);
+                radioCOD.setChecked(false);
             }
         });
-
+        radioCOD.setOnClickListener(v -> {
+            radioCOD.setChecked(true);
+            radioShopeePay.setChecked(false);
+        });
+        radioShopeePay.setOnClickListener(v -> {
+            radioShopeePay.setChecked(true);
+            radioCOD.setChecked(false);
+        });
 
         tvAgree.setOnClickListener(new View.OnClickListener() {
             @Override

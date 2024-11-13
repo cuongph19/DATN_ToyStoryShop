@@ -31,13 +31,6 @@
         </LinearLayout>
 
 
-        <!-- RadioGroup để đảm bảo chỉ chọn một RadioButton -->
-        <RadioGroup
-            android:id="@+id/radioGroupPaymentMethods"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
             <!-- Phương thức thanh toán: Thanh toán khi nhận hàng -->
             <LinearLayout
                 android:id="@+id/layoutCOD"
@@ -101,9 +94,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
-        </RadioGroup>
-
         <TextView
             android:id="@+id/tvAgree"
             android:layout_width="match_parent"
