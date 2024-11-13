@@ -282,7 +282,7 @@
                 android:text="₫40.000"
                 android:layout_marginStart="3dp"
                 android:textSize="14sp"
-                android:textColor="#888888"
+                android:textColor="#FF0000"
                />
 
             <!-- Giá mới -->
