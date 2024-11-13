@@ -271,5 +271,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
+    <string name="info_pro">Thông tin sản phẩm</string>
+    <string name="info_order">Thông tin đơn hàng</string>
+    <string name="feedback_order_his">Đánh giá</string>
 </resources>

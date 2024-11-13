@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.OrderHist_Detail;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -73,7 +74,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             public void onSuccess(Product_Model product) {
                 // Cập nhật thông tin sản phẩm vào view
                 holder.textProductName.setText(product.getNamePro());
-                holder.textPrice.setText(String.format("%,.0fĐ", product.getPrice()));
+//                holder.textPrice.setText(String.format("%,.0fĐ", product.getPrice()));
 
                 // Thiết lập ảnh sản phẩm bằng Glide
                 List<String> images = product.getImgPro();
@@ -81,13 +82,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     Glide.with(context).load(images.get(0)).into(holder.imageViewOr);
                 }
 
-                // Thiết lập sự kiện click để mở màn hình chi tiết sản phẩm
-//                holder.itemView.setOnClickListener(v -> {
-//                    // Chuyển đến màn hình chi tiết sản phẩm
-//                    Intent intent = new Intent(context, Product_detail.class);
-//                    intent.putExtra("productId", product.get_id());
-//                    context.startActivity(intent);
-//                });
+//                 Thiết lập sự kiện click để mở màn hình chi tiết sản phẩm
+                holder.itemView.setOnClickListener(v -> {
+                    // Chuyển đến màn hình chi tiết sản phẩm
+                    Intent intent = new Intent(context, OrderHist_Detail.class);
+                    intent.putExtra("prodId", order.getProdId());
+                    intent.putExtra("orderStatus", order.getOrderStatus());
+                    intent.putExtra("orderRevenue", order.getRevenue());
+                    intent.putExtra("orderContent", order.getContent());
+                    context.startActivity(intent);
+                });
             }
 
             @Override
