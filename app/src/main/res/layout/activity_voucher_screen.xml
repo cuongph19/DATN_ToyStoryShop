@@ -94,6 +94,7 @@
 
         <!-- RecyclerView cho danh sách voucher -->
         <!-- TextView 'Xem thêm' dưới RecyclerView -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/voucher_recycler_view_ship"
             android:layout_width="match_parent"

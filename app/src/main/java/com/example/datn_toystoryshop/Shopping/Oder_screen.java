@@ -184,6 +184,12 @@ public class Oder_screen extends AppCompatActivity {
 
         voucher.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, Voucher_screen.class);
+            if (totalShipDiscount != 0) {
+                intent1.putExtra("totalShipDiscount", totalShipDiscount);
+            }
+            if (totalProductDiscount != 0) {
+                intent1.putExtra("totalProductDiscount", totalProductDiscount);
+            }
             startActivityForResult(intent1, 100);  // Sử dụng mã requestCode để nhận kết quả
         });
 
@@ -198,9 +204,9 @@ public class Oder_screen extends AppCompatActivity {
 
         ship.setOnClickListener(v -> {
             Intent intent1 = new Intent(Oder_screen.this, ShippingUnit_screen.class);
-            String  shipDiscount1 = shipDiscountPrice.getText().toString();
-            if (!shipDiscount1.isEmpty()) {
-                intent1.putExtra("shipDiscount1", shipDiscount1);  // Truyền totalShipDiscount
+
+            if (totalShipDiscount != 0) {
+                intent1.putExtra("totalShipDiscount", totalShipDiscount);
             }
             String ShipDiscount = shipping_method_name.getText().toString();
             if (!ShipDiscount.isEmpty()) {
@@ -265,8 +271,19 @@ public class Oder_screen extends AppCompatActivity {
             String shipping_price = data.getStringExtra("shipping_price");
             String shipping_method = data.getStringExtra("shipping_method");
            old_price.setText(shipping_price);
-            shipping_method_name.setText(shipping_method);
-                    shippingCost = 80000;
+                    new_price.setVisibility(View.VISIBLE);
+                    // Tính giá mới và set cho new_price
+                    double shippingPriceValue = Double.parseDouble(shipping_price.replaceAll("[^\\d]", ""));
+                    double newPriceValue1 = shippingPriceValue - totalShipDiscount;
+                    new_price.setText(String.format("₫%,.0f", newPriceValue1));
+                    //set gạch ngang cho giá cũ
+                    String text1 = String.format("%,.0fđ", shippingCost);
+                    SpannableString spannableString1 = new SpannableString(text1);
+                    spannableString1.setSpan(new StrikethroughSpan(), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString1.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    old_price.setText(spannableString1);
+
+                    shipping_method_name.setText(shipping_method);
                     String shippingmoney = String.format("%,.0fđ", shippingCost);
                     shipping_money.setText(shippingmoney);
                     calculateMoneyPay();
