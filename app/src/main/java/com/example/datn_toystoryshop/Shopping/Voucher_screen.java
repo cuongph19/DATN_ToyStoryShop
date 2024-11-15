@@ -32,7 +32,8 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     private List<Voucher> productVoucherList = new ArrayList<>();
     private TextView seeMoreTextViewShip, seeMoreTextViewProduct;
     private TextView selectedVoucherCountTextView, btnApplyVoucher;
-
+    private double totalShipDiscount;
+    private double totalProductDiscount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,12 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
 
         recyclerViewShip.setAdapter(adapterShip);
         recyclerViewProduct.setAdapter(adapterProduct);
+
+        Intent intent1 = getIntent();
+        totalShipDiscount = intent1.getDoubleExtra("totalShipDiscount", 0);
+        totalProductDiscount = intent1.getDoubleExtra("totalProductDiscount", 0);
+        Log.e("API_ERROR", "bttttttttttttttttttttt" + totalShipDiscount);
+        Log.e("API_ERROR", "btttttttttttttttttttttff " + totalProductDiscount);
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getVouchers().enqueue(new Callback<List<Voucher>>() {
