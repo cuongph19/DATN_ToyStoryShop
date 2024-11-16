@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.datn_toystoryshop.R;
@@ -19,68 +19,77 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhoneOTP_screen extends AppCompatActivity {
-    private EditText otp1, otp2, otp3, otp4, otp5, otp6; // Các EditText cho OTP
-    private Button verifyButton;
+
+    private EditText otp1, otp2, otp3, otp4, otp5, otp6;
+    private String name, email, phoneNumber, password;
+    private TextView verifyButton;
+    private ImageView btnBack;
     private String verificationId;
     private FirebaseAuth mAuth;
-    private String name, email, phoneNumber, password;
-    private ImageView btnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_otp_screen);
 
-        // Liên kết các EditText từ file XML
+        // Liên kết các thành phần UI từ file XML
         otp1 = findViewById(R.id.otpEditText1);
         otp2 = findViewById(R.id.otpEditText2);
         otp3 = findViewById(R.id.otpEditText3);
         otp4 = findViewById(R.id.otpEditText4);
         otp5 = findViewById(R.id.otpEditText5);
         otp6 = findViewById(R.id.otpEditText6);
-        btnBack = findViewById(R.id.btnBack); // Khởi tạo nút quay lại
         verifyButton = findViewById(R.id.verifyButton);
+        btnBack = findViewById(R.id.btnBack);
+
+        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Nhận dữ liệu từ intent
+        // Nhận dữ liệu từ Intent
         verificationId = getIntent().getStringExtra("verificationId");
         name = getIntent().getStringExtra("name");
         email = getIntent().getStringExtra("email");
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         password = getIntent().getStringExtra("password");
 
-        // Thiết lập tính năng tự động chuyển tiếp giữa các ô nhập OTP
+        // Thiết lập tự động chuyển tiếp giữa các ô nhập OTP
+        setupOtpNavigation();
+
+        // Xử lý nút "Quay lại"
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
+            startActivity(intent);
+            finish(); // Kết thúc Activity hiện tại
+        });
+
+        // Xử lý khi nhấn nút "Xác minh"
+        verifyButton.setOnClickListener(v -> verifyOtp());
+    }
+
+    // Thiết lập tự động chuyển tiếp giữa các ô nhập OTP
+    private void setupOtpNavigation() {
         setOtpMoveListener(otp1, otp2);
         setOtpMoveListener(otp2, otp3);
         setOtpMoveListener(otp3, otp4);
         setOtpMoveListener(otp4, otp5);
         setOtpMoveListener(otp5, otp6);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển đến màn hình chính
-                Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
-                startActivity(intent);
-                finish(); // Kết thúc activity hiện tại nếu không cần quay lại
-            }
-        });
-        // Xử lý khi người dùng nhấn nút "Verify"
-        verifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String code = otp1.getText().toString().trim() +
-                        otp2.getText().toString().trim() +
-                        otp3.getText().toString().trim() +
-                        otp4.getText().toString().trim() +
-                        otp5.getText().toString().trim() +
-                        otp6.getText().toString().trim();
+    }
 
-                if (code.isEmpty() || code.length() < 6) {
-                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                verifyCode(code);
-            }
-        });
+    // Kiểm tra mã OTP và xác minh
+    private void verifyOtp() {
+        String code = otp1.getText().toString().trim() +
+                otp2.getText().toString().trim() +
+                otp3.getText().toString().trim() +
+                otp4.getText().toString().trim() +
+                otp5.getText().toString().trim() +
+                otp6.getText().toString().trim();
+
+        if (code.isEmpty() || code.length() < 6) {
+            Toast.makeText(this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        verifyCode(code);
     }
 
     // Xác minh mã OTP
@@ -89,15 +98,14 @@ public class PhoneOTP_screen extends AppCompatActivity {
         signInWithCredential(credential);
     }
 
-    // Đăng nhập hoặc tạo tài khoản với OTP đã xác minh
+    // Đăng nhập và lưu thông tin người dùng vào Firestore sau khi xác minh thành công
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Sau khi xác minh thành công, lưu dữ liệu người dùng vào Firestore
                         saveUserDataToFirestore();
                     } else {
-                        Toast.makeText(PhoneOTP_screen.this, getString(R.string.otp_fail), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.otp_fail), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -105,7 +113,8 @@ public class PhoneOTP_screen extends AppCompatActivity {
     // Lưu thông tin người dùng vào Firestore
     private void saveUserDataToFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Kiểm tra và chuyển đổi số điện thoại về định dạng +84 nếu nó bắt đầu bằng 0
+
+        // Chuyển số điện thoại về định dạng +84 nếu cần
         if (phoneNumber.startsWith("0")) {
             phoneNumber = phoneNumber.replaceFirst("0", "+84");
         }
@@ -113,26 +122,29 @@ public class PhoneOTP_screen extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("phoneNumber", phoneNumber);
-        user.put("password", password); // Thay thế bằng biến mật khẩu của bạn
+        user.put("password", password);
         user.put("name", name);
 
-        // Sử dụng email làm Collection ID và số điện thoại làm Document ID
+        // Thêm thông tin người dùng vào Firestore
         db.collection("users")
                 .add(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(PhoneOTP_screen.this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
-                    // Chuyển sang màn hình chính sau khi xác minh thành công
-                    Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
-                    intent.putExtra("phoneNumber", phoneNumber);
-                    intent.putExtra("password", password);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    Toast.makeText(this, getString(R.string.Toast_success_sign), Toast.LENGTH_SHORT).show();
+                    navigateToSignIn();
                 })
-                .addOnFailureListener(e -> {
-                });
+                .addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    // Thiết lập tự động chuyển tiếp giữa các EditText
+    // Chuyển đến màn hình đăng nhập sau khi xác minh thành công
+    private void navigateToSignIn() {
+        Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
+        intent.putExtra("phoneNumber", phoneNumber);
+        intent.putExtra("password", password);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    // Thiết lập tự động chuyển focus giữa các EditText nhập OTP
     private void setOtpMoveListener(final EditText currentOtp, final EditText nextOtp) {
         currentOtp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -143,7 +155,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 1) {
-                    nextOtp.requestFocus(); // Chuyển focus sang EditText tiếp theo
+                    nextOtp.requestFocus(); // Chuyển focus sang ô tiếp theo
                 }
             }
 
@@ -151,15 +163,6 @@ public class PhoneOTP_screen extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 // Không cần xử lý
             }
-        });
-
-        currentOtp.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == android.view.KeyEvent.KEYCODE_DEL && currentOtp.getText().length() == 0) {
-                currentOtp.clearFocus(); // Xóa focus khỏi EditText hiện tại
-                nextOtp.requestFocus();  // Trở lại EditText trước đó
-                return true;
-            }
-            return false;
         });
     }
 }

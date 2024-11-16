@@ -74,16 +74,17 @@ app.post("/login", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error logging in" });
   }
 });
-
+///////////////////////////////////cuong đã fix////////////////
 app.get("/product", async (req: Request, res: Response) => {
   try {
-    const products = await Product.find().populate("category", "name");
+    const products = await Product.find();
     res.json(products);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Lỗi khi lấy thông tin sản phẩm" });
   }
 });
+///////////////////////////////////cuong đã fix////////////////
 
 app.get("/category", async (req: Request, res: Response) => {
   try {
@@ -94,17 +95,18 @@ app.get("/category", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Lỗi khi lấy thông tin danh mục" });
   }
 });
-
+///////////////////////////////////cuong đã fix////////////////
 app.get("/product/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id).populate("category", "name");
+    const product = await Product.findById(id);
     res.json(product);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Lỗi khi lấy thông tin sản phẩm" });
   }
 });
+///////////////////////////////////cuong đã fix////////////////
 
 app.get("/category/:id", async (req: Request, res: Response) => {
   try {
@@ -147,23 +149,11 @@ app.post("/register", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Lỗi khi tạo người dùng mới" });
   }
 });
-
+///////////////////////////////////cuong đã fix////////////////
 app.post("/product/add", async (req: Request, res: Response) => {
   try {
-    const { name, price, img, categoryID } = req.body;
-    console.log(categoryID);
-  
-    // console.log("Request Body:", req.body);
-
-    const Category = await category.findById(categoryID);
-    // console.log("Found Category:", category);
-
-    
-
-    if (!Category) {
-      return res.status(404).json({ message: "Không tìm thấy danh mục" });
-    }
-    const newProduct = new Product({ name, price, img, category: categoryID });
+    const { owerId, statusPro, price, desPro, creatDatePro, quantity, listPro, imgPro, namePro, cateId, brand } = req.body;
+    const newProduct = new Product({owerId, statusPro, price, desPro, creatDatePro, quantity, listPro, imgPro, namePro, cateId, brand });
     await newProduct.save();
     res.status(201).json({
       message: "Thêm sản phẩm thành công",
@@ -175,6 +165,7 @@ app.post("/product/add", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Lỗi thêm mới" });
   }
 });
+///////////////////////////////////cuong đã fix////////////////
 
 app.post("/addcategory", async (req: Request, res: Response) => {
   try {
@@ -232,7 +223,7 @@ app.put("/user/:id", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Lỗi khi cập nhật thông tin người dùng" });
   }
 });
-
+///////////////////////////////////cuong đã fix////////////////
 app.put("/update/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -245,6 +236,8 @@ app.put("/update/:id", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Lỗi khi cập nhật sản phẩm" });
   }
 });
+///////////////////////////////////cuong đã fix////////////////
+
 
 // Endpoint DELETE
 app.delete("/user/:id", async (req: Request, res: Response) => {
@@ -273,7 +266,7 @@ app.delete("/category/:id", async (req: Request, res: Response) => {
     res.status(500).json({ message: "lỗi khi xóa danh mục" });
   }
 });
-
+///////////////////////////////////cuong đã fix////////////////
 app.delete("/product/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -289,6 +282,7 @@ app.delete("/product/:id", async (req: Request, res: Response) => {
     res.status(500).json({ message: "lỗi khi xóa sản phẩm" });
   }
 });
+///////////////////////////////////cuong đã fix////////////////
 
 
 

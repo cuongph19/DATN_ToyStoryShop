@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,26 +20,28 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+
 import java.util.concurrent.TimeUnit;
 
 public class Forgot_pass extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ImageView btnBack;
-    private String verificationId;  // Lưu mã xác thực OTP
     private EditText edmail;
+    private TextView btnsenemail;
+    private String verificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pass);
 
-        Button btnsenemail = findViewById(R.id.btnsenemail);
-        edmail = findViewById(R.id.edmail); // EditText cho email hoặc số điện thoại
+        btnsenemail = findViewById(R.id.btnsenemail);
+        edmail = findViewById(R.id.edmail);
         btnBack = findViewById(R.id.btnBack);
-
+        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Nút quay lại đăng nhập
+        // Xử lý sự kiện cho nút quay lại
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +51,7 @@ public class Forgot_pass extends AppCompatActivity {
             }
         });
 
-        // Nút gửi email hoặc OTP
+        // Xử lý sự kiện cho nút gửi email hoặc OTP
         btnsenemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,11 +62,11 @@ public class Forgot_pass extends AppCompatActivity {
                     return;
                 }
 
-                // Kiểm tra xem người dùng nhập email hay số điện thoại
+                // Phân biệt giữa email và số điện thoại
                 if (Patterns.EMAIL_ADDRESS.matcher(input).matches()) {
-                    sendPasswordResetEmail(input);  // Gửi email reset password
-                } else if (input.matches("\\d+")) {  // Trường hợp nhập số điện thoại
-                    sendVerificationCode(input);  // Gửi mã OTP cho số điện thoại
+                    sendPasswordResetEmail(input); // Gửi email reset mật khẩu
+                } else if (input.matches("\\d+")) { // Trường hợp nhập số điện thoại
+                    sendVerificationCode(input);   // Gửi mã OTP
                 } else {
                     Toast.makeText(Forgot_pass.this, getString(R.string.Toast_failure), Toast.LENGTH_SHORT).show();
                 }
@@ -77,6 +81,8 @@ public class Forgot_pass extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send) + email, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send_error), Toast.LENGTH_SHORT).show();
                 }
@@ -84,14 +90,14 @@ public class Forgot_pass extends AppCompatActivity {
         });
     }
 
-    // Hàm gửi mã OTP cho số điện thoại
+    // Hàm gửi mã OTP qua số điện thoại
     private void sendVerificationCode(String phoneNumber) {
-        // Thêm mã quốc gia (ví dụ mã quốc gia Việt Nam là +84)
+        // Thêm mã quốc gia (Việt Nam: +84)
         String countryCode = "+84";
         if (phoneNumber.startsWith("0")) {
-            phoneNumber = phoneNumber.substring(1); // Bỏ số 0 đầu
+            phoneNumber = phoneNumber.substring(1); // Loại bỏ số 0 đầu
         }
-        String fullPhoneNumber = countryCode + phoneNumber;  // Ghép mã quốc gia và số điện thoại
+        String fullPhoneNumber = countryCode + phoneNumber;
 
         // Kiểm tra định dạng số điện thoại
         if (!fullPhoneNumber.matches("^\\+[1-9]\\d{1,14}$")) {
@@ -99,21 +105,23 @@ public class Forgot_pass extends AppCompatActivity {
             return;
         }
 
-        // Gửi mã OTP qua Firebase
+        // Cấu hình gửi mã OTP
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-                .setPhoneNumber(fullPhoneNumber)  // Số điện thoại phải ở định dạng E.164
-                .setTimeout(60L, TimeUnit.SECONDS)
-                .setActivity(this)
-                .setCallbacks(mCallbacks)
+                .setPhoneNumber(fullPhoneNumber)  // Số điện thoại E.164
+                .setTimeout(60L, TimeUnit.SECONDS) // Thời gian timeout
+                .setActivity(this)                // Activity hiện tại
+                .setCallbacks(mCallbacks)         // Callback xử lý kết quả
                 .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);  // Gửi yêu cầu OTP
+
+        // Gửi mã OTP
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    // Xử lý callback khi mã OTP được gửi
+    // Callback xử lý khi gửi mã OTP
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
-            // Không cần nhập OTP vì đã xác minh tự động
+            // Xác minh tự động thành công, không cần nhập mã OTP
         }
 
         @Override
@@ -124,9 +132,10 @@ public class Forgot_pass extends AppCompatActivity {
         @Override
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
 
-            // Chuyển tới màn hình nhập OTP
+            verificationId = s; // Lưu mã OTP
+
+            // Chuyển sang màn hình nhập OTP
             Intent intent = new Intent(Forgot_pass.this, ForgotOTP_screen.class);
             intent.putExtra("verificationId", verificationId);
             intent.putExtra("phoneNumber", edmail.getText().toString().trim());

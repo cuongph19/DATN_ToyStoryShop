@@ -149,29 +149,24 @@
 
     <!-- Register_login -->
     <!-- forgot_pass -->
+    <string name="Toast_email">Vui lòng nhập địa chỉ email hợp lệ!</string>
+    <string name="Toast_failure">Đăng nhập thất bại!</string>
+    <string name="Toast_send">Chúng tôi đã gửi mail đến hộp thư của bạn để đổi mật khẩu!</string>
+    <string name="Toast_send_error">Không thể gửi mail. Hãy kiểm tra lại địa chỉ email.</string>
+    <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
+    <string name="send_otp_error">"Gửi OTP thất bại:</string>
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
     <string name="send_button">Gửi yêu cầu</string>
-    <string name="Toast_send">Chúng tôi đã gửi mail đến hộp thư của bạn để đổi mật khẩu!</string>
-    <string name="Toast_send_error">Không thể gửi mail. Hãy kiểm tra lại địa chỉ email.</string>
-
-    <!-- forgotOTP -->
     <string name="forgot_otp_pass">Vui lòng nhập mật khẩu mới</string>
     <string name="forgot_otp_success">Cập nhập mật khẩu thành công!</string>
     <string name="forgot_otp_error">Cập nhập mật khẩu thất bại!</string>
     <string name="forgot_otp_title">Cập nhập mật khẩu !</string>
-
-    <!-- phone number -->
     <string name="send_sdt">Xác minh số điện thoại của bạn</string>
     <string name="send_text_phone">Chúng tôi đã gửi cho bạn một tin nhắn SMS kèm theo mã để nhập số</string>
-    <string name="send_otp_error">"Gửi OTP thất bại:</string>
-
-    <!-- phone otp -->
     <string name="no_otp">"Bạn không nhận được mã nào à? Gửi lại mã mới</string>
     <string name="otp_verify">"Vui lòng nhập mã OTP hợp lệ.</string>
     <string name="otp_fail">"Xác minh thất bại!</string>
-
-    <!-- signin -->
     <string name="welcome_text">Chào mừng đến ToyStory Shop !</string>
     <string name="signin_account">Đăng nhập vào tài khoản của bạn</string>
     <string name="email_hint">Email/Số điện thoại</string>
@@ -181,8 +176,6 @@
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="signup_prompt">Bạn chưa có tài khoản?</string>
     <string name="signup_now">Đăng ký ngay</string>
-
-    <!-- signup -->
     <string name="signup_account">Đăng ký tài khoản của bạn</string>
     <string name="name_hint">Họ và tên</string>
     <string name="re_password_hint">Nhập Lại Mật khẩu</string>
@@ -190,21 +183,16 @@
     <string name="signin_prompt">Bạn đã có tài khoản?</string>
     <string name="signin_now">Đăng nhập ngay</string>
     <string name="signup_sdt">Đăng ký thành công! Vui lòng nhập số điện thoại.</string>
-
-    <!-- Toast Register_login -->
     <string name="Toast_infor">Vui lòng nhập đủ thông tin!</string>
-    <string name="Toast_email">Vui lòng nhập địa chỉ email hợp lệ!</string>
     <string name="Toast_format">Vui lòng nhập đúng định dạng!</string>
     <string name="Toast_google">Đăng nhập Google thất bại!</string>
     <string name="Toast_success">Đăng Nhập Thành công</string>
-    <string name="Toast_failure">Đăng nhập thất bại!</string>
     <string name="Toast_success_sign">Đăng Ký Thành công !</string>
     <string name="Toast_failure_signup">Đăng Ký thất bại!</string>
     <string name="Toast_wrong_password">Mật khẩu không đúng!</string>
     <string name="Toast_donot_pass">Mật khẩu không khớp!</string>
     <string name="Toast_wrong_sdt">Số điện thoại không tồn tại!</string>
     <string name="Toast_pass">Mật khẩu phải có ít nhất 6 ký tự, bao gồm ít nhất 1 ký tự viết hoa!</string>
-    <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
 
     <!-- menu -->
     <string name="home_menu">Trang Chủ</string>
