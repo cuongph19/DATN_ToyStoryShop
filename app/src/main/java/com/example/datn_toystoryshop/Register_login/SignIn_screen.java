@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignIn_screen extends AppCompatActivity {
@@ -76,6 +77,7 @@ public class SignIn_screen extends AppCompatActivity {
         // Truyền dữ liệu từ ForgotOTP_screen
         Intent intent = getIntent();
         if (intent != null) {
+            String email = intent.getStringExtra("email");
             String phoneNumber = intent.getStringExtra("phoneNumber");
             String password = intent.getStringExtra("password");
             String newPassword = intent.getStringExtra("newPassword");
@@ -83,6 +85,9 @@ public class SignIn_screen extends AppCompatActivity {
                 phoneNumber = phoneNumber.replaceFirst("\\+84", "0");
             }
             // Gán dữ liệu vào các TextInputEditText
+            if (email != null) {
+                edInput.setText(email);
+            }
             if (phoneNumber != null) {
                 edInput.setText(phoneNumber);
             }
@@ -204,23 +209,28 @@ public class SignIn_screen extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                        String storedPassword = document.getString("password");
-                        if (storedPassword != null && storedPassword.equals(password)) {
-                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
-                            String documentId = document.getId();
-                          //  Log.d("aaaaaaa", "aaaaaaa: " + documentId);
-                            intent.putExtra("documentId", documentId);
-                            startActivity(intent);
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        if (!documents.isEmpty()) {
+                            DocumentSnapshot document = documents.get(0);
+                            String storedPassword = document.getString("password");
+                            if (storedPassword != null && storedPassword.equals(password)) {
+                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                String documentId = document.getId();
+                                intent.putExtra("documentId", documentId);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
     // Đăng nhập bằng email
     private void loginWithEmail(String email, String password) {
