@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
     android:background="#172A5C"
     android:weightSum="1">
-
 
     <ImageView
         android:id="@+id/btnBack"
@@ -17,78 +17,76 @@
         android:contentDescription="Back"
         android:padding="8dp"
         android:src="@drawable/back_icon" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_gravity="center_horizontal">
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/send_button"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:layout_marginBottom="16dp" />
 
-    <!-- Nội dung hướng dẫn -->
-    <TextView
-        android:id="@+id/tvInstruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/send_text_phone"
-        android:textColor="#B0BEC5"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:layout_marginBottom="32dp" />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_button"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp" />
 
-    <!-- Ô nhập số điện thoại với mã quốc gia -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/phone_input_background"
-    android:padding="8dp"
-    android:layout_marginBottom="24dp">
+        <TextView
+            android:id="@+id/tvInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_text_phone"
+            android:textColor="#B0BEC5"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
 
-    <!-- Dropdown cho mã quốc gia -->
-    <Spinner
-        android:id="@+id/spinnerCountryCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:entries="@array/country_codes"
-    android:popupBackground="#172A5C"
-    android:textColor="#FFFFFF"
-    android:layout_gravity="center_vertical"
-    android:paddingRight="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/phone_input_background"
+            android:padding="8dp"
+            android:layout_marginBottom="24dp">
 
-    <!-- Ô nhập số điện thoại -->
-    <EditText
-        android:id="@+id/edtPhoneNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="9876543210"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#B0BEC5"
-        android:background="@android:color/transparent"
-        android:inputType="phone"
-        android:textSize="18sp"
-        android:paddingLeft="8dp" />
-</LinearLayout>
+            <Spinner
+                android:id="@+id/spinnerCountryCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:entries="@array/country_codes"
+                android:popupBackground="#172A5C"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_vertical"
+                android:paddingRight="8dp" />
 
+            <EditText
+                android:id="@+id/edtPhoneNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="9876543210"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#B0BEC5"
+                android:background="@android:color/transparent"
+                android:inputType="phone"
+                android:textSize="18sp"
+                android:paddingLeft="8dp" />
+        </LinearLayout>
 
-    <!-- Nút Next -->
-<Button
-android:id="@+id/btnNext"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="@string/send_button"
-android:textColor="#13B48B"
-android:backgroundTint="#FFFFFF"
-android:padding="12dp"
-android:layout_gravity="center" />
+        <TextView
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_button"
+            android:background="@drawable/rounded_border"
+            android:layout_margin="10dp"
+            android:textColor="#13B48B"
+            android:padding="20dp"
+            android:gravity="center"
+            android:layout_gravity="center" />
     </LinearLayout>
 </LinearLayout>

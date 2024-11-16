@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.datn_toystoryshop.R;
 
 public class Welcome_screen extends AppCompatActivity {
+
     private static final int SPLASH_SCREEN_TIME_OUT = 3000; // 3 giây
 
     @Override

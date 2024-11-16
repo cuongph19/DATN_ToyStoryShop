@@ -1,7 +1,7 @@
 <!-- res/drawable/custtomedit.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Góc bo của hình dạng -->
-    <corners android:radius="8dp" />
+    <corners android:radius="20dp" />
     <!-- Màu nền của TextInputLayout -->
     <solid android:color="#172A5C" />
     <!-- Đường viền TextInputLayout (nếu cần) -->

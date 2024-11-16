@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
@@ -16,32 +18,45 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SignUp_screen extends AppCompatActivity {
+
     private TextInputEditText edemail, edname, edpassword, edrppassword;
-    private Button btnsignup;
+    private TextView btnsignup, txtLogin;
+    private ImageView btnBack;
+
     private FirebaseAuth mAuth;
     private String verificationId;
-    private TextView txtLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // Khởi tạo các thành phần trong giao diện
         edname = findViewById(R.id.edname);
         edemail = findViewById(R.id.edemail);
         edpassword = findViewById(R.id.edpassword);
         edrppassword = findViewById(R.id.edrppassword);
         btnsignup = findViewById(R.id.btnsignup);
+        btnBack = findViewById(R.id.btnBack);
         txtLogin = findViewById(R.id.txtLogin);
         mAuth = FirebaseAuth.getInstance();
 
-        // Xử lý khi nhấn nút đăng ký
+        // Xử lý sự kiện nhấn nút quay lại
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUp_screen.this, SignIn_screen.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        // Xử lý sự kiện nhấn nút đăng ký
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,12 +74,12 @@ public class SignUp_screen extends AppCompatActivity {
                     Toast.makeText(SignUp_screen.this, getString(R.string.Toast_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if (!password.equals(rppassword)) {
                     Toast.makeText(SignUp_screen.this, getString(R.string.Toast_wrong_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Kiểm tra nếu là số điện thoại hay email
                 if (isPhoneNumber(input)) {
                     // Đăng ký qua số điện thoại
                     sendVerificationCode(input);
@@ -77,7 +92,7 @@ public class SignUp_screen extends AppCompatActivity {
             }
         });
 
-        // Điều hướng sang màn hình đăng nhập khi nhấn nút "Sign In Now"
+        // Điều hướng sang màn hình đăng nhập
         txtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,16 +111,18 @@ public class SignUp_screen extends AppCompatActivity {
     private boolean isPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^0[3|5|7|8|9][0-9]{8}$");
     }
+
+    // Kiểm tra độ mạnh mật khẩu
     private boolean isPasswordValid(String password) {
         return password.length() >= 6 && password.chars().anyMatch(Character::isUpperCase);
     }
+
     // Đăng ký bằng email
     private void registerWithEmail(String email, String password, String name) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(SignUp_screen.this, getString(R.string.signup_sdt), Toast.LENGTH_SHORT).show();
-                        // Chuyển tới màn hình nhập số điện thoại
                         Intent intent = new Intent(SignUp_screen.this, PhoneNumber_screen.class);
                         intent.putExtra("email", email);
                         intent.putExtra("password", password);
@@ -120,8 +137,9 @@ public class SignUp_screen extends AppCompatActivity {
     // Gửi mã OTP tới số điện thoại
     private void sendVerificationCode(String phoneNumber) {
         if (!phoneNumber.startsWith("+84")) {
-            phoneNumber = "+84" + phoneNumber.substring(1); // Bỏ số 0 đầu và thêm +84
+            phoneNumber = "+84" + phoneNumber.substring(1);
         }
+
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(phoneNumber)
                 .setTimeout(60L, TimeUnit.SECONDS)
@@ -131,7 +149,7 @@ public class SignUp_screen extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    // Callbacks để xử lý OTP
+    // Callbacks xử lý OTP
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
@@ -143,13 +161,14 @@ public class SignUp_screen extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(SignUp_screen.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        //    Toast.makeText(SignUp_screen.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
+
             Intent intent = new Intent(SignUp_screen.this, PhoneOTP_screen.class);
             intent.putExtra("verificationId", verificationId);
             intent.putExtra("name", edname.getText().toString().trim());
@@ -165,7 +184,7 @@ public class SignUp_screen extends AppCompatActivity {
         signInWithCredential(credential);
     }
 
-    // Đăng nhập bằng OTP đã xác minh
+    // Đăng nhập bằng OTP
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
@@ -173,28 +192,27 @@ public class SignUp_screen extends AppCompatActivity {
                         String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
                         String password = getIntent().getStringExtra("password");
                         String name = getIntent().getStringExtra("name");
-                        savePasswordToFirestore(phoneNumber, password, name); // Lưu mật khẩu
+                        savePasswordToFirestore(phoneNumber, password, name);
                     } else {
                         Toast.makeText(SignUp_screen.this, getString(R.string.otp_verify), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    // Lưu mật khẩu vào Firestore
+    // Lưu thông tin người dùng vào Firestore
     private void savePasswordToFirestore(String phoneNumber, String password, String name) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Map<String, Object> user = new HashMap<>();
         user.put("phoneNumber", phoneNumber);
         user.put("password", password);
         user.put("name", name);
 
-        // Thêm tài liệu với ID ngẫu nhiên
         db.collection("users")
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
-                    String randomID = documentReference.getId(); // Lấy ID ngẫu nhiên được tạo
-                    Log.d("SignUp_screen", "ID ngẫu nhiên: " + randomID);
-                    // Gọi hàm kiểm tra với ID ngẫu nhiên vừa tạo
+                    String randomID = documentReference.getId();
+                   // Log.d("SignUp_screen", "ID ngẫu nhiên: " + randomID);
                     checkUserPasswordInFirestore(randomID);
                 })
                 .addOnFailureListener(e -> {
@@ -202,24 +220,22 @@ public class SignUp_screen extends AppCompatActivity {
                 });
     }
 
-
-    // Kiểm tra dữ liệu đã lưu trong Firestore
+    // Kiểm tra dữ liệu trong Firestore
     private void checkUserPasswordInFirestore(String documentId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         db.collection("users").document(documentId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String password = documentSnapshot.getString("password");
                         String name = documentSnapshot.getString("name");
-                        // Xử lý dữ liệu đã lấy từ Firestore ở đây
+                        // Xử lý dữ liệu
                     } else {
-                        Log.d("CheckUser", "Tài liệu không tồn tại");
+                      //  Log.d("CheckUser", "Tài liệu không tồn tại");
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.d("CheckUser", "Lỗi khi kiểm tra dữ liệu: " + e.getMessage());
-                    // Toast.makeText(SignUp_screen.this, "Lỗi khi kiểm tra dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                  //  Log.d("CheckUser", "Lỗi khi kiểm tra dữ liệu: " + e.getMessage());
                 });
     }
-
 }
