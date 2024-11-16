@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -64,7 +65,11 @@ public class Forgot_pass extends AppCompatActivity {
 
                 // Phân biệt giữa email và số điện thoại
                 if (Patterns.EMAIL_ADDRESS.matcher(input).matches()) {
-                    sendPasswordResetEmail(input); // Gửi email reset mật khẩu
+                    if (isValidEmail(input)) {
+                        sendPasswordResetEmail(input); // Gửi email reset mật khẩu
+                    } else {
+                        Toast.makeText(Forgot_pass.this, getString(R.string.Toast_format), Toast.LENGTH_SHORT).show();
+                    }
                 } else if (input.matches("\\d+")) { // Trường hợp nhập số điện thoại
                     sendVerificationCode(input);   // Gửi mã OTP
                 } else {
@@ -76,19 +81,37 @@ public class Forgot_pass extends AppCompatActivity {
 
     // Hàm gửi email đặt lại mật khẩu
     private void sendPasswordResetEmail(String email) {
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send) + email, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send_error), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Kiểm tra xem email có tồn tại trong Firestore hay không
+        db.collection("users") // Thay "users" bằng tên collection của bạn
+                .whereEqualTo("email", email) // Kiểm tra trường email
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // Email tồn tại trong Firestore
+                        mAuth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
+                                        intent.putExtra("email", email);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send_error), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        // Email không tồn tại trong Firestore
+                        Toast.makeText(Forgot_pass.this, getString(R.string.Toast_send_error), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Lỗi khi truy vấn Firestore
+                 //   Toast.makeText(Forgot_pass.this, getString(R.string.Toast_firestore_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
+
 
     // Hàm gửi mã OTP qua số điện thoại
     private void sendVerificationCode(String phoneNumber) {
@@ -126,7 +149,9 @@ public class Forgot_pass extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(Forgot_pass.this, getString(R.string.send_otp_error) + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(Forgot_pass.this, getString(R.string.Toast_wrong_sdt) , Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
+            startActivity(intent);
         }
 
         @Override
@@ -142,4 +167,8 @@ public class Forgot_pass extends AppCompatActivity {
             startActivity(intent);
         }
     };
+    // Kiểm tra định dạng email
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 }

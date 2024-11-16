@@ -104,8 +104,10 @@ public class SignUp_screen extends AppCompatActivity {
 
     // Kiểm tra định dạng email
     private boolean isValidEmail(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailPattern);
     }
+
 
     // Kiểm tra định dạng số điện thoại
     private boolean isPhoneNumber(String phoneNumber) {
@@ -129,7 +131,7 @@ public class SignUp_screen extends AppCompatActivity {
                         intent.putExtra("name", name);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) , Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -216,7 +218,7 @@ public class SignUp_screen extends AppCompatActivity {
                     checkUserPasswordInFirestore(randomID);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup), Toast.LENGTH_SHORT).show();
                 });
     }
 

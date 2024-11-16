@@ -154,7 +154,7 @@
     <string name="Toast_send">Chúng tôi đã gửi mail đến hộp thư của bạn để đổi mật khẩu!</string>
     <string name="Toast_send_error">Không thể gửi mail. Hãy kiểm tra lại địa chỉ email.</string>
     <string name="Toast_wrong">Thông tin hiện không đúng, Hãy kiểm tra lại !</string>
-    <string name="send_otp_error">"Gửi OTP thất bại:</string>
+    <string name="send_otp_error">"Gửi OTP thất bại</string>
     <string name="forgot_text">Xác minh thông tin của bạn</string>
     <string name="forgot_text1">Vui lòng nhập thông tin để đổi mật khẩu</string>
     <string name="send_button">Gửi yêu cầu</string>

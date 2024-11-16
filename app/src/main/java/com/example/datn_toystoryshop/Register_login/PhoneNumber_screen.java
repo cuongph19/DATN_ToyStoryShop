@@ -119,7 +119,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
                 // Gửi OTP thất bại
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
-                    Toast.makeText(PhoneNumber_screen.this, getString(R.string.send_otp_error) + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PhoneNumber_screen.this, getString(R.string.send_otp_error), Toast.LENGTH_LONG).show();
                 }
 
                 // OTP đã được gửi thành công
