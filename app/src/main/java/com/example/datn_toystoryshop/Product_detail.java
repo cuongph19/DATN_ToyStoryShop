@@ -33,7 +33,7 @@ import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.Shopping.Favorite_screen;
 import com.example.datn_toystoryshop.Shopping.Cart_screen;
-import com.example.datn_toystoryshop.Shopping.Oder_screen;
+import com.example.datn_toystoryshop.Shopping.Order_screen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -318,28 +318,17 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Product_detail.this, Oder_screen.class);
+                Intent intent = new Intent(Product_detail.this, Order_screen.class);
 
                 // Truyền tất cả dữ liệu qua Intent
                 intent.putExtra("productId", productId);
-                intent.putExtra("owerId", owerId);
-                intent.putExtra("statusPro", statusPro);
-                intent.putExtra("productPrice", productPrice);
-                intent.putExtra("desPro", desPro);
-                intent.putExtra("creatDatePro", creatDatePro);
-                intent.putExtra("quantity", quantity);
-                intent.putExtra("listPro", listPro);
-                intent.putStringArrayListExtra("productImg", productImg);
-                intent.putExtra("productName", productName);
-                intent.putExtra("cateId", cateId);
-                intent.putExtra("brand", brand);
-                intent.putExtra("favoriteId", favoriteId);
                 // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
+
                 intent.putExtra("currentQuantity", currentQuantity[0]);
                 intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
                 intent.putExtra("selectedColor", selectedColor);
-
-                // Chuyển sang màn hình Oder_screen
+                String firstProductImage = productImg.get(0);
+                intent.putExtra("productImg", firstProductImage);                // Chuyển sang màn hình Oder_screen
                 startActivity(intent);
                 dialog.dismiss();
             }

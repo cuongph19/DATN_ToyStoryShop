@@ -469,7 +469,8 @@ router.post('/add/add-to-order', async (req, res) => {
     }
 });
 // bắt buộc nó phải ở cuối
-router.get('/:prodId', async (req, res) => {
+// hiển thị thông tin dựa vào id sản phẩm 
+router.get('/product-by/:prodId', async (req, res) => {
     const { prodId } = req.params; // Lấy prodId từ tham số URL
 
     try {
@@ -485,6 +486,24 @@ router.get('/:prodId', async (req, res) => {
         product.namePro = removeDiacritics(product.namePro);
 
         res.json(product);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/cart-by/:cartId', async (req, res) => {
+    const { cartId } = req.params; // Lấy prodId từ tham số URL
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+
+        const cart = await CartModel.findOne({ _id: cartId });
+        if (!cart) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm.' });
+        }
+
+        res.json(cart);
     } catch (error) {
         console.error('Lỗi khi lấy sản phẩm:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });

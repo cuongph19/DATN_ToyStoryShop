@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,7 +58,7 @@ public class Cart_screen extends AppCompatActivity {
     private LinearLayout tvVoucher,Lldiscount;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
-
+    private List<Cart_Model> cartList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,28 +105,27 @@ public class Cart_screen extends AppCompatActivity {
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Cart_screen.this, Oder_screen.class);
-                // Truyền tất cả dữ liệu qua Intent
-                intent.putExtra("productId", productId);
-                intent.putExtra("owerId", owerId);
-                intent.putExtra("statusPro", statusPro);
-                intent.putExtra("productPrice", productPrice);
-                intent.putExtra("desPro", desPro);
-                intent.putExtra("creatDatePro", creatDatePro);
-                intent.putExtra("quantity", quantity);
-                intent.putExtra("listPro", listPro);
-                intent.putStringArrayListExtra("productImg", productImg);
-                intent.putExtra("productName", productName);
-                intent.putExtra("cateId", cateId);
-                intent.putExtra("brand", brand);
-                intent.putExtra("favoriteId", favoriteId);
-                // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
-                intent.putExtra("currentQuantity", currentQuantity);
-                intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
-                intent.putExtra("selectedColor", selectedColor);
+                List<Cart_Model> selectedItems = cartAdapter.getSelectedItems();
+                ArrayList<String> productIds = new ArrayList<>();
 
-                startActivity(intent);
-            }});
+                // Duyệt qua danh sách sản phẩm đã chọn
+                for (Cart_Model cart : selectedItems) {
+                    productIds.add(cart.get_id());
+                }
+                if (productIds.isEmpty()) {
+                    Toast.makeText(Cart_screen.this, "Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("CartScreen", "aaaaaaaaaaaa productIds: " + productIds.toString());
+
+                    // Chuyển dữ liệu qua Oder_screen
+                    Intent intent = new Intent(Cart_screen.this, Order_screen.class);
+                    intent.putStringArrayListExtra("productIds", productIds);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
         tvVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +142,7 @@ public class Cart_screen extends AppCompatActivity {
         checkBoxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (cartAdapter != null) {
                 cartAdapter.updateTotalPayment(isChecked);
+
                 updateCheckoutButton();
                 // Nếu bỏ chọn tất cả, đặt tổng thành 0
                 if (!isChecked) {
@@ -239,4 +241,3 @@ public class Cart_screen extends AppCompatActivity {
 
 
 }
-

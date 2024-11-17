@@ -54,7 +54,15 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         this.cartList = cartList;
         this.APIService = apiService;
     }
-
+    public List<Cart_Model> getSelectedItems() {
+        List<Cart_Model> selectedItems = new ArrayList<>();
+        for (Cart_Model cart : cartList) {
+            if (cart.isSelected()) {
+                selectedItems.add(cart);
+            }
+        }
+        return selectedItems;
+    }
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -99,7 +107,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             cart.setSelected(isChecked); // Cập nhật trạng thái của sản phẩm
             Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
             updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
-            holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
+            holder.checkBoxSelectItem.setChecked(cart.isSelected());
+            notifyDataSetChanged();// Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
         });
 
 
@@ -148,7 +157,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
         //lấy giá để tính tổng
-                loadProductPrices();
+        loadProductPrices();
 
         // Gọi phương thức lấy dữ liệu từ MongoDB với prodId
         loadProductById(APIService, prodId, new ProductCallback() {
@@ -389,4 +398,3 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     }
 
 }
-

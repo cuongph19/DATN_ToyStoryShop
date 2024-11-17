@@ -1,7 +1,5 @@
 package com.example.datn_toystoryshop.Model;
 
-import java.util.List;
-
 public class Cart_Model {
     private String _id;          // Mã ID của gio hang
     private String prodId;          // Mã ID của sản phẩm
@@ -16,6 +14,7 @@ public class Cart_Model {
         this.quantity = quantity;
         this.cusId = cusId;
         this.prodSpecification = prodSpecification;
+        this.selected = false;
     }
 
     public String get_id() {
@@ -57,6 +56,7 @@ public class Cart_Model {
     public void setProdSpecification(String prodSpecification) {
         this.prodSpecification = prodSpecification;
     }
+
     public boolean isSelected() {
         return selected;
     }

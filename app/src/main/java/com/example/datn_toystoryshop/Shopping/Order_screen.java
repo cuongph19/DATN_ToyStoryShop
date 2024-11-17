@@ -18,8 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Adapter.Order_Adapter_Cart;
+import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
+import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
@@ -30,20 +34,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Oder_screen extends AppCompatActivity {
+public class Order_screen extends AppCompatActivity {
 
-    private ImageView imgBack, product_image;
-    private TextView product_name, product_price, product_quantity, btnOrder, product_type, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail,clause;
+    private ImageView imgBack;
+    private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail,clause;
     private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
-    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price,shipping_method_name;
+    private RecyclerView recycler_view_oder;
+    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price,shipping_method_name,show_more_oder;
 
     private double productPrice;
     private double totalProductDiscount = 0;
@@ -51,7 +57,7 @@ public class Oder_screen extends AppCompatActivity {
     private boolean statusPro;
     private int owerId, quantity, cateId;
     private String productId, productName, desPro, creatDatePro, listPro, brand, selectedColor, customerId;
-    private ArrayList<String> productImg; // Danh sách URL ảnh của sản phẩm
+    private String productImg; // Danh sách URL ảnh của sản phẩm
     private int currentImageIndex = 0; // Vị trí ảnh hiện tại
     private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
     private String favoriteId,content;
@@ -78,11 +84,6 @@ public class Oder_screen extends AppCompatActivity {
 
         // Khởi tạo các view trong layout
         imgBack = findViewById(R.id.imgBack);
-        product_image = findViewById(R.id.product_image);
-        product_name = findViewById(R.id.product_name);
-        product_type = findViewById(R.id.product_type);
-        product_price = findViewById(R.id.product_price);
-        product_quantity = findViewById(R.id.product_quantity);
         btnOrder = findViewById(R.id.btnOrder);
         addressLayout = findViewById(R.id.addressLayout);
         ship = findViewById(R.id.ship);
@@ -106,37 +107,51 @@ public class Oder_screen extends AppCompatActivity {
         // Các TextView để hiển thị thông tin giảm giá
         shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
         productDiscountPrice = findViewById(R.id.productDiscountPrice);
+        show_more_oder = findViewById(R.id.show_more_oder);
+        recycler_view_oder = findViewById(R.id.recycler_view_oder);
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+
+        ArrayList<String> productIds = intent.getStringArrayListExtra("productIds");
         productId = intent.getStringExtra("productId");
-        owerId = intent.getIntExtra("owerId", -1);
-        statusPro = intent.getBooleanExtra("statusPro", false);
-        productPrice = intent.getDoubleExtra("productPrice", 0.0);
-        desPro = intent.getStringExtra("desPro");
-        creatDatePro = intent.getStringExtra("creatDatePro");
-        quantity = intent.getIntExtra("quantity", 0);
-        listPro = intent.getStringExtra("listPro");
-        productImg = intent.getStringArrayListExtra("productImg");
-        productName = intent.getStringExtra("productName");
-        cateId = intent.getIntExtra("cateId", -1);
-        brand = intent.getStringExtra("brand");
-        favoriteId = intent.getStringExtra("favoriteId");
         currentQuantity = intent.getIntExtra("currentQuantity", 0);
         customerId = intent.getStringExtra("customerId");
         selectedColor = intent.getStringExtra("selectedColor");
+        productImg = intent.getStringExtra("productImg");
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
 
+        if (productIds != null && !productIds.isEmpty()) {
+            // Sử dụng Oder_Adapter_Cart
+            Order_Adapter_Cart adapter = new Order_Adapter_Cart(productIds, apiService);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            // Hiển thị nút "Xem thêm" nếu danh sách có hơn 2 sản phẩm
+            if (productIds.size() > 2) {
+                show_more_oder.setVisibility(View.VISIBLE);
+            }
+
+            // Xử lý sự kiện nhấn "Xem thêm"
+            show_more_oder.setOnClickListener(v -> {
+                adapter.toggleShowAll(); // Gọi phương thức trong adapter để hiển thị tất cả
+                show_more_oder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" sau khi nhấn
+            });
+        } else {
+            List<Order_Detail_Model> productList = new ArrayList<>();
+            productList.add(new Order_Detail_Model(productId, currentQuantity, customerId, selectedColor, productImg));
+            // Sử dụng Oder_Adapter_Detail
+            Order_Adapter_Detail adapter = new Order_Adapter_Detail(productList, apiService);
+            recyclerView.setAdapter(adapter);
+        }
 
         // Đặt ngày giao hàng dự kiến
         String estimatedDeliveryDate = getFormattedDate(5, "'ngày' dd 'tháng' MM");
         estimated_delivery.setText("Đảm bảo nhận hàng vào "+ estimatedDeliveryDate);
         String voucherExpiryDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");
         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
-
-        product_name.setText(productName);
-        product_price.setText(String.format("%,.0fđ", productPrice));
-        product_quantity.setText(String.format("x%d", currentQuantity));
-        product_type.setText(selectedColor);
 
         totalAmount = productPrice * currentQuantity;
 // Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
@@ -163,18 +178,13 @@ public class Oder_screen extends AppCompatActivity {
             moneyPay = (totalAmount + shippingCost) - totalProductDiscount - totalShipDiscount;
         }
 
+
 // Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
         String formattedMoneyPay = String.format("%,.0fđ", moneyPay);
 
 // Gán giá trị cho TextView money_pay
         money_pay.setText(formattedMoneyPay);
         money_pay1.setText(formattedMoneyPay);
-        if (!productImg.isEmpty()) {
-            String firstImage = productImg.get(0);
-            Glide.with(this)
-                    .load(firstImage)
-                    .into(product_image);
-        }
 
         // Cài đặt hành động cho các nút
         btnOrder.setOnClickListener(v -> {
@@ -183,7 +193,7 @@ public class Oder_screen extends AppCompatActivity {
         });
 
         voucher.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, Voucher_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, Voucher_screen.class);
             if (totalShipDiscount != 0) {
                 intent1.putExtra("totalShipDiscount", totalShipDiscount);
             }
@@ -194,7 +204,7 @@ public class Oder_screen extends AppCompatActivity {
         });
 
         pay.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, Payment_method_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, Payment_method_screen.class);
             String currentPayment = tvPaymentDetail.getText().toString();
             if (!currentPayment.isEmpty()) {
                 intent1.putExtra("currentPayment", currentPayment);  // Chỉ truyền khi đã có lựa chọn
@@ -203,7 +213,7 @@ public class Oder_screen extends AppCompatActivity {
         });
 
         ship.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, ShippingUnit_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, ShippingUnit_screen.class);
 
             if (totalShipDiscount != 0) {
                 intent1.putExtra("totalShipDiscount", totalShipDiscount);
@@ -216,13 +226,13 @@ public class Oder_screen extends AppCompatActivity {
             startActivityForResult(intent1, 102);
         });
         clause.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, Terms_Conditions_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, Terms_Conditions_screen.class);
             startActivity(intent1);
             finish();
         });
 
         addressLayout.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Oder_screen.this, Add_address_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, Add_address_screen.class);
             startActivity(intent1);
             finish();
         });

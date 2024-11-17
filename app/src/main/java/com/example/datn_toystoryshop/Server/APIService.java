@@ -56,8 +56,11 @@ public interface APIService {
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 
-    @GET("/api/{prodId}")
+    @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
+
+    @GET("/api/cart-by/{cartId}")
+    Call<Cart_Model> getCartById(@Path("cartId") String cartId);
 
     @DELETE("/api/deleteFavorite/{id}")
     Call<Void> deleteFavorite(@Path("id") String productId);
