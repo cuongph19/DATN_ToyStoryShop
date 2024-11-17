@@ -145,7 +145,7 @@
             android:name=".Shopping.Voucher_screen"
             android:exported="false" />
         <activity
-            android:name=".Shopping.Oder_screen"
+            android:name=".Shopping.Order_screen"
             android:exported="false" />
         <activity
             android:name=".Register_login.SignUp_screen"
