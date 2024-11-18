@@ -17,15 +17,15 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface APIService {
 
 
-
-//   String BASE_URL  = "http://192.168.16.101:3000/";// cương
+    String BASE_URL  = "http://192.168.16.101:3000/";// cương
     //  String BASE_URL  = "http://192.168.1.11:3000/";// huy
-    String BASE_URL = "http://192.168.101.10:3000/";
+  //  String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -58,6 +58,9 @@ public interface APIService {
 
     @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
+
+    @PUT("/api/update/cart/{cartId}")
+    Call<Cart_Model> putCartUpdate(@Path("cartId") String cartId);
 
     @GET("/api/cart-by/{cartId}")
     Call<Cart_Model> getCartById(@Path("cartId") String cartId);

@@ -41,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Order_screen extends AppCompatActivity {
+public class Order_screen extends AppCompatActivity implements Order_Adapter_Detail.TotalAmountCallback {
 
     private ImageView imgBack;
     private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail,clause;
@@ -51,18 +51,14 @@ public class Order_screen extends AppCompatActivity {
     private RecyclerView recycler_view_oder;
     private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price,shipping_method_name,show_more_oder;
 
-    private double productPrice;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
-    private boolean statusPro;
-    private int owerId, quantity, cateId;
-    private String productId, productName, desPro, creatDatePro, listPro, brand, selectedColor, customerId;
+    private String productId, selectedColor, customerId;
     private String productImg; // Danh sách URL ảnh của sản phẩm
     private int currentImageIndex = 0; // Vị trí ảnh hiện tại
     private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
-    private String favoriteId,content;
+    private String content;
     private boolean isFavorite = false;
-    private APIService apiService;
     private int currentQuantity; // Số lượng sản phẩm ban đầu là 1
     private double totalAmount;
     private double moneyPay;
@@ -122,10 +118,22 @@ public class Order_screen extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-
+        Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 1 " + totalAmount);
         if (productIds != null && !productIds.isEmpty()) {
             // Sử dụng Oder_Adapter_Cart
-            Order_Adapter_Cart adapter = new Order_Adapter_Cart(productIds, apiService);
+            Order_Adapter_Cart adapter = new Order_Adapter_Cart(productIds, apiService, new Order_Adapter_Cart.OnTotalAmountChangeListener() {
+                @Override
+                public void onTotalAmountChanged(double totalAmount) {
+                    // Định dạng chuỗi để hiển thị
+                    String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
+
+                    // Gán vào TextView
+                    Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 2 " + totalAmount);
+                    tvTotalAmount.setText(formattedTotalAmount);
+                    total_amount.setText(formattedTotalAmount);
+                }
+            });
+
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -143,8 +151,10 @@ public class Order_screen extends AppCompatActivity {
             List<Order_Detail_Model> productList = new ArrayList<>();
             productList.add(new Order_Detail_Model(productId, currentQuantity, customerId, selectedColor, productImg));
             // Sử dụng Oder_Adapter_Detail
-            Order_Adapter_Detail adapter = new Order_Adapter_Detail(productList, apiService);
+            Order_Adapter_Detail adapter = new Order_Adapter_Detail(productList, apiService, this);
             recyclerView.setAdapter(adapter);
+
+
         }
 
         // Đặt ngày giao hàng dự kiến
@@ -153,13 +163,6 @@ public class Order_screen extends AppCompatActivity {
         String voucherExpiryDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");
         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
 
-        totalAmount = productPrice * currentQuantity;
-// Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
-        String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
-// Gán giá trị cho TextView tvTotalAmount
-        tvTotalAmount.setText(formattedTotalAmount);
-        total_amount.setText(formattedTotalAmount);
-        // Chi phí vận chuyển cố định
         String shippingmoney = String.format("%,.0fđ", shippingCost);
         shipping_money.setText(shippingmoney);
 // Kiểm tra null và tính toán moneyPay theo các trường hợp
@@ -188,7 +191,7 @@ public class Order_screen extends AppCompatActivity {
 
         // Cài đặt hành động cho các nút
         btnOrder.setOnClickListener(v -> {
-          sumitOrder();
+            sumitOrder();
             finish();
         });
 
@@ -239,7 +242,13 @@ public class Order_screen extends AppCompatActivity {
 
         imgBack.setOnClickListener(v -> onBackPressed());
     }
-
+    @Override
+    public void onTotalAmountCalculated(double totalAmount) {
+        String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
+        Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 3 " + totalAmount);
+        tvTotalAmount.setText(formattedTotalAmount);
+        total_amount.setText(formattedTotalAmount);
+    }
     // Hàm nhận kết quả từ màn hình Voucher
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -278,9 +287,9 @@ public class Order_screen extends AppCompatActivity {
                 case 102:
                     // Xử lý dữ liệu từ Shipping_method_screen
                     // Nhận dữ liệu từ màn hình phương thức vận chuyển
-            String shipping_price = data.getStringExtra("shipping_price");
-            String shipping_method = data.getStringExtra("shipping_method");
-           old_price.setText(shipping_price);
+                    String shipping_price = data.getStringExtra("shipping_price");
+                    String shipping_method = data.getStringExtra("shipping_method");
+                    old_price.setText(shipping_price);
                     new_price.setVisibility(View.VISIBLE);
                     // Tính giá mới và set cho new_price
                     double shippingPriceValue = Double.parseDouble(shipping_price.replaceAll("[^\\d]", ""));
@@ -362,5 +371,6 @@ public class Order_screen extends AppCompatActivity {
             }
         });
 
-}
+    }
+
 }
