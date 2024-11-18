@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderHist_Detail extends AppCompatActivity {
-    private TextView tvProductName, tvOrderStatus, tvOrderRevenue, tvOrderContent;
+    private TextView tvProductName, tvOrderStatus, tvOrderRevenue;
     private ImageView ivProductImage, imgBack;
 
     private APIService apiService;
@@ -49,13 +49,13 @@ public class OrderHist_Detail extends AppCompatActivity {
         tvProductName = findViewById(R.id.tvProductName);
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
         tvOrderRevenue = findViewById(R.id.tvProductPrice);
-        tvOrderContent = findViewById(R.id.tvProductContent);
+//        tvOrderContent = findViewById(R.id.tvProductContent);
         ivProductImage = findViewById(R.id.tvProductImage);
 
 
         tvOrderStatus.setText(orderStatus);
         tvOrderRevenue.setText(String.format("%,.0fĐ", orderRevenue));
-        tvOrderContent.setText(orderContent);
+//        tvOrderContent.setText(orderContent);
         loadProductDetails(prodId);
 
 

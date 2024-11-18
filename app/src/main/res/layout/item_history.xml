@@ -42,9 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="359.000Đ"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="#172A5C" />
+                android:textColor="#FF0000" />
             <TextView
                 android:id="@+id/textDate"
                 android:layout_width="wrap_content"

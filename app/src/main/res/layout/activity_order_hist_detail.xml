@@ -53,17 +53,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLinearLayout" />
-    <!-- First Additional TextView -->
+
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardOrderAddress"
+        android:id="@+id/cardPaymentMethod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOrderStatus">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+
+            <!-- Payment Method Icon (Left) -->
+            <ImageView
+                android:id="@+id/ivPaymentMethodIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/pay"
+                android:contentDescription="Payment Method Icon"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Payment Method Text -->
+            <TextView
+                android:id="@+id/tvPaymentMethod"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Phương thức thanh toán: Ví điện tử"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Additional Icon (Right) -->
+            <ImageView
+                android:id="@+id/ivAdditionalIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/next_icon"
+                android:contentDescription="Additional Icon"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+    <!-- First Additional TextView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardOrderAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardPaymentMethod">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +137,7 @@
             <TextView
                 android:id="@+id/tvOrderAddressContent"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:text="..."
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -97,7 +150,7 @@
         android:id="@+id/cardProductInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="5dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
@@ -136,15 +189,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- Product Description TextView -->
-                <TextView
-                    android:id="@+id/tvProductContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mô tả sản phẩm ngắn gọn và đầy đủ"
-                    android:textColor="#666666"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp" />
+
 
                 <!-- Product Price TextView -->
                 <TextView
@@ -169,6 +214,107 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardSupport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardProductInfo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvSupportTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bạn cần hỗ trợ?"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Contact Shop -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/ivContactShop"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/contact"
+                    android:contentDescription="Contact Shop"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/tvContactShop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Liên hệ Shop"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivContactShopArrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/next_icon"
+                    android:contentDescription="Arrow" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+            <!-- Support Center -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/ivSupportCenter"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/center_sp"
+                    android:contentDescription="Support Center"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/tvSupportCenter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Trung tâm Hỗ trợ"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSupportCenterArrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/next_icon"
+                    android:contentDescription="Arrow" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
     <!-- Button to rate product -->
     <Button
         android:id="@+id/btnRateProduct"
