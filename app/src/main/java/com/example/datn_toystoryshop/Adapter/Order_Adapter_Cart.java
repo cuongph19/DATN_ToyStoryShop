@@ -26,10 +26,17 @@ public class Order_Adapter_Cart extends RecyclerView.Adapter<Order_Adapter_Cart.
 private List<String> productIds;
 private APIService apiService;
     private boolean showAll = false; // Trạng thái hiển thị
+    private double totalAmount = 0; // Tổng tiền
+    private OnTotalAmountChangeListener totalAmountChangeListener;
 
-    public Order_Adapter_Cart(List<String> productIds, APIService apiService) {
+    public interface OnTotalAmountChangeListener {
+        void onTotalAmountChanged(double totalAmount);
+    }
+
+    public Order_Adapter_Cart(List<String> productIds, APIService apiService, OnTotalAmountChangeListener listener) {
         this.productIds = productIds;
         this.apiService = apiService;
+        this.totalAmountChangeListener = listener;
     }
     // Thay đổi trạng thái hiển thị
     public void toggleShowAll() {
@@ -56,7 +63,7 @@ public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
                 Cart_Model cartModel = response.body();
 
                 // Set dữ liệu vào các view
-                holder.productName.setText(cartModel.getProdId());
+              //  holder.productName.setText(cartModel.getProdId());
               //  holder.productPrice.setText(String.format("%,.0fđ", cartModel.getPrice()));
                // holder.productQuantity.setText(cartModel.getQuantity()); // Số lượng mặc định
                 holder.productQuantity.setText("x" + cartModel.getQuantity());
@@ -66,6 +73,13 @@ public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
                 loadProductById(apiService, cartModel.getProdId(), new ProductCallback() {
                     @Override
                     public void onSuccess(Product_Model product) {
+                        double itemTotal = product.getPrice() * cartModel.getQuantity();
+                        totalAmount += itemTotal;
+
+                        // Gửi tổng tiền về Activity/Fragment
+                        if (totalAmountChangeListener != null) {
+                            totalAmountChangeListener.onTotalAmountChanged(totalAmount);
+                        }
                         holder.productName.setText(product.getNamePro());
                         holder.productPrice.setText(String.format("%,.0fđ",product.getPrice()));
                         List<String> images = product.getImgPro();

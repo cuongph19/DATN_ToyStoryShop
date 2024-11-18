@@ -26,10 +26,15 @@ import retrofit2.Response;
 public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Detail.ProductViewHolder> {
     private List<Order_Detail_Model> productList;
     private APIService apiService;
+    private TotalAmountCallback totalAmountCallback;
 
-    public Order_Adapter_Detail(List<Order_Detail_Model> productList, APIService apiService) {
+    public interface TotalAmountCallback {
+        void onTotalAmountCalculated(double totalAmount);
+    }
+    public Order_Adapter_Detail(List<Order_Detail_Model> productList, APIService apiService, TotalAmountCallback totalAmountCallback) {
         this.productList = productList;
         this.apiService = apiService;
+        this.totalAmountCallback = totalAmountCallback;
     }
 
     @NonNull
@@ -55,6 +60,15 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
             public void onSuccess(Product_Model productModel) {
                 holder.productName.setText(productModel.getNamePro()); // Cập nhật tên sản phẩm
                 holder.productPrice.setText(String.format("%,.0fđ",productModel.getPrice())); // Cập nhật tên sản phẩm
+                double Price = productModel.getPrice();
+                int quantity = product.getCurrentQuantity();
+
+                double totalAmount = Price * quantity;
+                Log.e("Oder_Adapter", "aaaaaaaaaaaaaaaaaaaaaavdv: " + totalAmount);
+                // Truyền totalAmount về màn hình chính
+                if (totalAmountCallback != null) {
+                    totalAmountCallback.onTotalAmountCalculated(totalAmount);
+                }
             }
 
             @Override

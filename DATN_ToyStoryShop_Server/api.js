@@ -454,6 +454,32 @@ router.post('/add/add-to-cart', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi thêm vào giỏ hàng', error });
     }
 });
+router.put('/update/cart/:cartId', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { cartId } = req.params; // Lấy id từ URL
+        const { quantity, prodSpecification } = req.body; // Lấy các thông tin cập nhật từ body
+
+        // Tìm sản phẩm theo id
+        const cartItem = await CartModel.findById({ _id: cartId});
+        if (!cartItem) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại trong giỏ hàng!' });
+        }
+
+        // Cập nhật các trường
+        if (quantity !== undefined) cartItem.quantity = quantity;
+        if (prodSpecification !== undefined) cartItem.prodSpecification = prodSpecification;
+
+        await cartItem.save(); // Lưu cập nhật
+
+        res.status(200).json({ message: 'Cập nhật sản phẩm trong giỏ hàng thành công!', data: cartItem });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong giỏ hàng', error });
+    }
+});
+
 
 router.post('/add/add-to-order', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
