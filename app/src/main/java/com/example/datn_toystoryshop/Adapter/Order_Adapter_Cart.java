@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Cart_Model;
+import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.ProductCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,9 +30,11 @@ private APIService apiService;
     private boolean showAll = false; // Trạng thái hiển thị
     private double totalAmount = 0; // Tổng tiền
     private OnTotalAmountChangeListener totalAmountChangeListener;
+    private List<OderProductDetail_Model> productDetails = new ArrayList<>();
+
 
     public interface OnTotalAmountChangeListener {
-        void onTotalAmountChanged(double totalAmount);
+        void onTotalAmountChanged(double totalAmount, List<OderProductDetail_Model> productDetails);
     }
 
     public Order_Adapter_Cart(List<String> productIds, APIService apiService, OnTotalAmountChangeListener listener) {
@@ -62,10 +66,6 @@ public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
             if (response.isSuccessful() && response.body() != null) {
                 Cart_Model cartModel = response.body();
 
-                // Set dữ liệu vào các view
-              //  holder.productName.setText(cartModel.getProdId());
-              //  holder.productPrice.setText(String.format("%,.0fđ", cartModel.getPrice()));
-               // holder.productQuantity.setText(cartModel.getQuantity()); // Số lượng mặc định
                 holder.productQuantity.setText("x" + cartModel.getQuantity());
                 holder.productType.setText(cartModel.getProdSpecification());
                 // Gọi phương thức lấy dữ liệu từ MongoDB với prodId
@@ -75,10 +75,10 @@ public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
                     public void onSuccess(Product_Model product) {
                         double itemTotal = product.getPrice() * cartModel.getQuantity();
                         totalAmount += itemTotal;
-
+                        productDetails.add(new OderProductDetail_Model(cartModel.getProdId(), itemTotal, cartModel.getQuantity(), cartModel.getProdSpecification()));
                         // Gửi tổng tiền về Activity/Fragment
                         if (totalAmountChangeListener != null) {
-                            totalAmountChangeListener.onTotalAmountChanged(totalAmount);
+                            totalAmountChangeListener.onTotalAmountChanged(totalAmount, productDetails);
                         }
                         holder.productName.setText(product.getNamePro());
                         holder.productPrice.setText(String.format("%,.0fđ",product.getPrice()));

@@ -27,9 +27,9 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
     private List<Order_Detail_Model> productList;
     private APIService apiService;
     private TotalAmountCallback totalAmountCallback;
-
+    private String ProductType;
     public interface TotalAmountCallback {
-        void onTotalAmountCalculated(double totalAmount);
+        void onTotalAmountCalculated(double totalAmount, int quantity, String productType);
     }
     public Order_Adapter_Detail(List<Order_Detail_Model> productList, APIService apiService, TotalAmountCallback totalAmountCallback) {
         this.productList = productList;
@@ -51,7 +51,7 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
         holder.productName.setText(product.getProductId());  // Hiển thị mã sản phẩm
         holder.productQuantity.setText("x" + product.getCurrentQuantity());  // Hiển thị số lượng
         holder.productType.setText( product.getSelectedColor());  // Hiển thị màu sắc
-
+        ProductType = product.getSelectedColor();
         // Nếu cần hiển thị ảnh sản phẩm, bạn có thể sử dụng thư viện Glide hoặc Picasso để tải ảnh từ URL
          Glide.with(holder.productImage.getContext()).load(product.getProductImg()).into(holder.productImage);
         // Gọi API để lấy tên sản phẩm
@@ -62,12 +62,11 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
                 holder.productPrice.setText(String.format("%,.0fđ",productModel.getPrice())); // Cập nhật tên sản phẩm
                 double Price = productModel.getPrice();
                 int quantity = product.getCurrentQuantity();
-
                 double totalAmount = Price * quantity;
                 Log.e("Oder_Adapter", "aaaaaaaaaaaaaaaaaaaaaavdv: " + totalAmount);
                 // Truyền totalAmount về màn hình chính
                 if (totalAmountCallback != null) {
-                    totalAmountCallback.onTotalAmountCalculated(totalAmount);
+                    totalAmountCallback.onTotalAmountCalculated(totalAmount,quantity, ProductType );
                 }
             }
 

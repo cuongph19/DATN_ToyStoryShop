@@ -485,15 +485,29 @@ router.post('/add/add-to-order', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { cusId, prodId, revenue, content, orderStatus, orderDate } = req.body;
-        const newOrder = new OrderModel({ cusId, prodId, revenue, content, orderStatus, orderDate });
+        const { cusId, prodDetails, content, orderStatus, orderDate } = req.body;
+
+        // Kiểm tra prodDetails có phải là mảng không
+        if (!Array.isArray(prodDetails)) {
+            return res.status(400).json({ message: 'prodDetails phải là một mảng!' });
+        }
+
+        // Kiểm tra từng phần tử trong prodDetails
+        for (let item of prodDetails) {
+            if (!item.prodId || !item.revenue || !item.quantity || !item.prodSpecification) {
+                return res.status(400).json({ message: 'Mỗi sản phẩm phải có prodId và revenue!' });
+            }
+        }
+
+        const newOrder = new OrderModel({ cusId, prodDetails, content, orderStatus, orderDate });
         await newOrder.save();
-        res.status(201).json({ message: 'Thêm vào lịch sửa mua thành công!', data: newOrder });
+        res.status(201).json({ message: 'Thêm vào lịch sử mua thành công!', data: newOrder });
     } catch (error) {
         console.error('Lỗi chi tiết:', error);
-        res.status(500).json({ message: 'Lỗi khi thêm vào lịch sửa mua', error });
+        res.status(500).json({ message: 'Lỗi khi thêm vào lịch sử mua', error });
     }
 });
+
 // bắt buộc nó phải ở cuối
 // hiển thị thông tin dựa vào id sản phẩm 
 router.get('/product-by/:prodId', async (req, res) => {

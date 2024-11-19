@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Cart;
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
+import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
@@ -61,7 +62,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private boolean isFavorite = false;
     private int currentQuantity; // Số lượng sản phẩm ban đầu là 1
     private double totalAmount;
+    private int quantity;
+    private String productType;
+
     private double moneyPay;
+    private ArrayList<String> productIds;
     private double shippingCost = 40000;
     private String getFormattedDate(int daysToAdd, String format) {
         // Khởi tạo Calendar với ngày hiện tại
@@ -109,7 +114,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
 
-        ArrayList<String> productIds = intent.getStringArrayListExtra("productIds");
+        productIds = intent.getStringArrayListExtra("productIds");
         productId = intent.getStringExtra("productId");
         currentQuantity = intent.getIntExtra("currentQuantity", 0);
         customerId = intent.getStringExtra("customerId");
@@ -118,19 +123,38 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 1 " + totalAmount);
+
         if (productIds != null && !productIds.isEmpty()) {
             // Sử dụng Oder_Adapter_Cart
             Order_Adapter_Cart adapter = new Order_Adapter_Cart(productIds, apiService, new Order_Adapter_Cart.OnTotalAmountChangeListener() {
                 @Override
-                public void onTotalAmountChanged(double totalAmount) {
+                public void onTotalAmountChanged(double totalAmount1, List<OderProductDetail_Model> productSummaries) {
+                    totalAmount = totalAmount1;
                     // Định dạng chuỗi để hiển thị
-                    String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
+                    String formattedTotalAmount = String.format("%,.0fđ", totalAmount1);
+                    List<Order_Model.ProductDetail> productDetails = new ArrayList<>();
+                    for (OderProductDetail_Model oderProductDetailModel : productSummaries) {
+                        String productId = oderProductDetailModel.getId();
+                        double totalAmount = oderProductDetailModel.getTotalPrice();
+                        int quantity = oderProductDetailModel.getQuantity();
+                        String productType = oderProductDetailModel.getProdSpecification();
 
+
+                        // Thêm sản phẩm vào danh sách productDetails
+                          productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
+
+                        Log.d("MainActivity", "aaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhh " + productId + ", Total Price: " + moneyPay);
+                    }
                     // Gán vào TextView
-                    Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 2 " + totalAmount);
+                    Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 2 " + totalAmount1);
                     tvTotalAmount.setText(formattedTotalAmount);
                     total_amount.setText(formattedTotalAmount);
+                    calculateMoneyPay();
+                    Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 2 " + totalAmount1);
+                    btnOrder.setOnClickListener(v -> {
+                        submitOrder_Cart(productDetails, totalAmount1);
+
+                    });
                 }
             });
 
@@ -146,6 +170,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             show_more_oder.setOnClickListener(v -> {
                 adapter.toggleShowAll(); // Gọi phương thức trong adapter để hiển thị tất cả
                 show_more_oder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" sau khi nhấn
+
             });
         } else {
             List<Order_Detail_Model> productList = new ArrayList<>();
@@ -156,7 +181,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
 
         }
-
         // Đặt ngày giao hàng dự kiến
         String estimatedDeliveryDate = getFormattedDate(5, "'ngày' dd 'tháng' MM");
         estimated_delivery.setText("Đảm bảo nhận hàng vào "+ estimatedDeliveryDate);
@@ -167,33 +191,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         shipping_money.setText(shippingmoney);
 // Kiểm tra null và tính toán moneyPay theo các trường hợp
 
-        if (totalProductDiscount == 0 && totalShipDiscount == 0) {
-            // Nếu cả hai đều là null, chỉ cộng thêm phí vận chuyển
-            moneyPay = totalAmount + shippingCost;
-        } else if (totalShipDiscount == 0) {
-            // Nếu chỉ totalShipDiscount là null
-            moneyPay = (totalAmount + shippingCost) - totalProductDiscount;
-        } else if (totalProductDiscount == 0) {
-            // Nếu chỉ totalProductDiscount là null
-            moneyPay = (totalAmount + shippingCost) - totalShipDiscount;
-        } else {
-            // Nếu cả hai đều không null
-            moneyPay = (totalAmount + shippingCost) - totalProductDiscount - totalShipDiscount;
-        }
-
-
-// Định dạng chuỗi để hiển thị với dấu phân cách hàng nghìn và đơn vị "đ"
-        String formattedMoneyPay = String.format("%,.0fđ", moneyPay);
-
-// Gán giá trị cho TextView money_pay
-        money_pay.setText(formattedMoneyPay);
-        money_pay1.setText(formattedMoneyPay);
 
         // Cài đặt hành động cho các nút
-        btnOrder.setOnClickListener(v -> {
-            sumitOrder();
-            finish();
-        });
 
         voucher.setOnClickListener(v -> {
             Intent intent1 = new Intent(Order_screen.this, Voucher_screen.class);
@@ -243,11 +242,23 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         imgBack.setOnClickListener(v -> onBackPressed());
     }
     @Override
-    public void onTotalAmountCalculated(double totalAmount) {
-        String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
-        Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 3 " + totalAmount);
+    public void onTotalAmountCalculated(double totalAmount2, int quantity2, String productType2) {
+        totalAmount = totalAmount2;
+        quantity = quantity2;
+        productType = productType2;
+
+        String formattedTotalAmount = String.format("%,.0fđ", totalAmount2);
+        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh " + totalAmount);
+        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh" + quantity);
+        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh" + productType);
         tvTotalAmount.setText(formattedTotalAmount);
         total_amount.setText(formattedTotalAmount);
+
+        calculateMoneyPay();
+        btnOrder.setOnClickListener(v -> {
+            sumitOrder_Detail();
+            finish();
+        });
     }
     // Hàm nhận kết quả từ màn hình Voucher
     @Override
@@ -326,7 +337,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }}
     }
     private void calculateMoneyPay() {
-        double moneyPay;
 
         // Kiểm tra null và tính toán moneyPay theo các trường hợp
         if (totalProductDiscount == 0 && totalShipDiscount == 0) {
@@ -346,10 +356,27 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         money_pay.setText(formattedMoneyPay);
         money_pay1.setText(formattedMoneyPay);
     }
-    private void sumitOrder() {
+    private void sumitOrder_Detail() {
         content = tvLeaveMessage.getText().toString();
-        Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: " + content);
-        Order_Model orderModel = new Order_Model(null, "cusId", productId, moneyPay,content,"Đang chờ xác nhận", new Date().toString());
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:1 " + content);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:2 " + productId);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:3 " + totalAmount);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:4 " + quantity);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:5 " + productType);
+        // Tạo một danh sách các sản phẩm trong đơn hàng
+        List<Order_Model.ProductDetail> productDetails = new ArrayList<>();
+        productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
+
+        // Tạo đối tượng Order_Model với danh sách sản phẩm
+        Order_Model orderModel = new Order_Model(
+                null,                // _id
+                "cusId",             // cusId
+                productDetails,      // prodDetails (danh sách sản phẩm)
+                content,             // content (nội dung đơn hàng)
+                "Đang chờ xác nhận", // orderStatus
+                new Date().toString()// orderDate
+        );
+
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
         Call<Order_Model> call = apiService.addToOrder(orderModel);
 
@@ -359,8 +386,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: " + response.code());
-                    Toast.makeText(getApplicationContext(), "Thêm oder thất bại", Toast.LENGTH_SHORT).show();
+                    Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
+                    Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -370,7 +397,45 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm đánh giá", t);
             }
         });
-
     }
+private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
+    String content = tvLeaveMessage.getText().toString();
+
+    Log.e("API_ERROR", "Content: " + content);
+    Log.e("API_ERROR", "Product Details: " + productDetails.toString());
+    Log.e("API_ERROR", "Total Amount: " + totalAmount);
+
+    // Tạo đối tượng Order_Model với danh sách sản phẩm
+    Order_Model orderModel = new Order_Model(
+            null,                // _id
+            "cusId",             // cusId
+            productDetails,      // prodDetails (danh sách sản phẩm)
+            content,             // content (nội dung đơn hàng)
+            "Đang chờ xác nhận", // orderStatus
+            new Date().toString()// orderDate
+    );
+
+    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+    Call<Order_Model> call = apiService.addToOrder(orderModel);
+
+    call.enqueue(new Callback<Order_Model>() {
+        @Override
+        public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+            if (response.isSuccessful()) {
+                Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
+                Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onFailure(Call<Order_Model> call, Throwable t) {
+            Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
+            Log.e("API_ERROR", "Lỗi kết nối API khi thêm order", t);
+        }
+    });
+}
+
 
 }
