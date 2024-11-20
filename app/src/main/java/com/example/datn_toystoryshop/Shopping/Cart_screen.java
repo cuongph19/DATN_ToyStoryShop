@@ -154,8 +154,10 @@ public class Cart_screen extends AppCompatActivity {
 
         // Set up RecyclerView with LinearLayoutManager and Adapter
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
+
         checkBoxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (cartAdapter != null) {
+
                 cartAdapter.updateTotalPayment(isChecked);
 
                 updateCheckoutButton();
@@ -216,7 +218,7 @@ public class Cart_screen extends AppCompatActivity {
         TotalPayment.setText(String.format("Tổng thanh toán: %,.0f VND", total));
         updateCheckoutButton();
     }
-    private void loadCartProducts() {
+    public void loadCartProducts() {
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getCarts().enqueue(new Callback<List<Cart_Model>>() {
             @Override
@@ -245,6 +247,7 @@ public class Cart_screen extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerViewCart);
     }
     private void updateCheckoutButton() {
+
         int selectedCount = cartAdapter.countSelectedItems();
 
         if (selectedCount == 0) {

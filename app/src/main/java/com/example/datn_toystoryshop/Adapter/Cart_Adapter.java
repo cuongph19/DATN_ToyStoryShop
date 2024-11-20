@@ -95,6 +95,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
              currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             currentQuantity++;
             holder.tvQuantity.setText(String.valueOf(currentQuantity));
+            Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
             updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
             Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
 
@@ -110,7 +111,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
             updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
             holder.checkBoxSelectItem.setChecked(cart.isSelected());
-            notifyDataSetChanged();// Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
         });
 
         // Sự kiện giảm số lượng với giá trị tối thiểu là 1
@@ -120,6 +120,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 currentQuantity--;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
                 updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
                 Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
@@ -152,7 +153,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 selectedItem = parent.getItemAtPosition(position).toString();
 
 
-                updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
+                updateCartItem(APIService, cart.get_id(), selectedItem, quantity);
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy11  " + quantity);
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy11  " + currentQuantity);
                 Toast.makeText(context, "Bạn đã chọn: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
@@ -300,6 +303,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(context, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -385,6 +389,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         ((Cart_screen) context).updateTotalPayment(totalPayment);
     }
     public void deselectAllItems() {
+
         for (Cart_Model cart : cartList) {
             cart.setSelected(false); // Đặt tất cả sản phẩm là không chọn
         }
@@ -415,6 +420,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
     }
+
     public int countSelectedItems() {
         int selectedCount = 0;
 
