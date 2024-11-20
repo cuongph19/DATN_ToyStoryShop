@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ public class Cart_screen extends AppCompatActivity {
     private RecyclerView recyclerViewCart;
     private Cart_Adapter cartAdapter;
     private CheckBox checkBoxSelectAll ;
-    private TextView TotalPayment,btnCheckout,tvDiscount ;
+    private TextView TotalPayment,btnCheckout,tvDiscount,tvFreeShipping ;
     private LinearLayout tvVoucher,Lldiscount;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
@@ -72,7 +73,7 @@ public class Cart_screen extends AppCompatActivity {
         tvVoucher  = findViewById(R.id.tvVoucher);
         tvDiscount  = findViewById(R.id.tvDiscount);
         Lldiscount  = findViewById(R.id.Lldiscount);
-
+        tvFreeShipping  = findViewById(R.id.tvFreeShipping);
 
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
@@ -105,6 +106,7 @@ public class Cart_screen extends AppCompatActivity {
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 List<Cart_Model> selectedItems = cartAdapter.getSelectedItems();
                 ArrayList<String> productIds = new ArrayList<>();
 
@@ -114,12 +116,19 @@ public class Cart_screen extends AppCompatActivity {
                 }
                 if (productIds.isEmpty()) {
                     Toast.makeText(Cart_screen.this, "Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán!", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Log.d("CartScreen", "aaaaaaaaaaaa productIds: " + productIds.toString());
 
                     // Chuyển dữ liệu qua Oder_screen
                     Intent intent = new Intent(Cart_screen.this, Order_screen.class);
                     intent.putStringArrayListExtra("productIds", productIds);
+                    if (totalShipDiscount != 0) {
+                        intent.putExtra("totalShipDiscount", totalShipDiscount);
+                    }
+                    if (totalProductDiscount != 0) {
+                        intent.putExtra("totalProductDiscount", totalProductDiscount);
+                    }
                     startActivity(intent);
                 }
             }
@@ -129,8 +138,14 @@ public class Cart_screen extends AppCompatActivity {
         tvVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Cart_screen.this, Voucher_screen.class);
-                startActivityForResult(intent, 100);
+                int selectedCount1 = cartAdapter.countSelectedItems();
+                if (selectedCount1 != 0) {
+                    Intent intent = new Intent(Cart_screen.this, Voucher_screen.class);
+                    startActivityForResult(intent, 100);
+                    return;
+                }else{
+                    Toast.makeText(getApplicationContext(), "Vui lòng chọn sản phẩm", Toast.LENGTH_SHORT).show();
+                }
             }});
 
         // Initialize product list and add sample products
@@ -234,7 +249,13 @@ public class Cart_screen extends AppCompatActivity {
 
         if (selectedCount == 0) {
             btnCheckout.setText("Mua Hàng");
+            tvFreeShipping.setText("Chọn hoặc nhập mã");
+            tvFreeShipping.setBackground(null);
+            tvFreeShipping.setTextColor(Color.parseColor("#D1D1D1"));
         } else {
+            tvFreeShipping.setText("Miễn Phí Vận Chuyển");
+            tvFreeShipping.setBackgroundResource(R.drawable.bg_free_shipping);
+            tvFreeShipping.setTextColor(Color.parseColor("#00C853"));
             btnCheckout.setText("Mua Hàng (" + selectedCount + ")");
         }
     }

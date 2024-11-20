@@ -468,11 +468,11 @@ public class Product_detail extends AppCompatActivity {
     private void addToCart() {
         // Tạo đối tượng Cart_Model với dữ liệu cần thiết
         Cart_Model cartModel = new Cart_Model(
-                null, // Để _id là null để MongoDB tự tạo
-                productId, // ID của sản phẩm
-                currentQuantity[0], // Số lượng sản phẩm
-                "8iPTPiB47jBO0EKMkn7K", // ID khách hàng
-                selectedColor  // Quy cách sản phẩm (ví dụ)
+                // Để _id là null để MongoDB tự tạo
+                // ID của sản phẩm
+                // Số lượng sản phẩm
+                // ID khách hàng
+                // Quy cách sản phẩm (ví dụ)
         );
 
         // Gọi API để thêm sản phẩm vào giỏ hàng

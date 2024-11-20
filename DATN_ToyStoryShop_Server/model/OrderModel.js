@@ -6,6 +6,10 @@ const OrderSchema = mongoose.Schema({
         type: String,
         maxlength: 255
     },
+    revenue_all: {
+        type: Number,
+        required: true
+    },
     prodDetails: [{
         prodId: {
             type: mongoose.Schema.Types.ObjectId, // Dùng ObjectId để liên kết đến sản phẩm

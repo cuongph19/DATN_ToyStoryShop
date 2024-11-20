@@ -47,6 +47,13 @@ public class ShippingUnit_screen extends AppCompatActivity {
     }
 
     private void updateShippingPrice() {
+        if (totalShipDiscount == 0) {
+            tvFastShippingOldPrice.setText("₫40.000"); // Hiển thị giá cũ mặc định
+            tvExpressShippingPrice.setText("₫80.000"); // Hiển thị giá cũ mặc định
+            tvFastShippingNewPrice.setVisibility(View.GONE); // Ẩn giá mới nếu không có giảm giá
+            tvExpressShippingNewPrice.setVisibility(View.GONE); // Ẩn giá mới nếu không có giảm giá
+            return;
+        }
         if (radiofast.isChecked()) {
             // Tính toán giá mới cho giao hàng nhanh
             double newPriceFast = 40000.0 - totalShipDiscount;
