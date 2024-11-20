@@ -2,10 +2,8 @@ package com.example.datn_toystoryshop.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +42,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     private Context context;
     private List<Cart_Model> cartList;
     private Cart_Model cart;
+    private  String selectedItem;
+    private  int currentQuantity ;
     private com.example.datn_toystoryshop.Server.APIService APIService;
     private boolean isHiddenTextViewVisible(CartViewHolder holder) {
         return holder.hiddenTextView.getVisibility() == View.VISIBLE;
@@ -92,10 +92,12 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
         // Sự kiện tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+             currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             currentQuantity++;
             holder.tvQuantity.setText(String.valueOf(currentQuantity));
+            updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
             Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
+
         });
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
         holder.checkBoxSelectItem.setOnCheckedChangeListener(null); // Xóa listener cũ để tránh gọi lại
@@ -111,13 +113,13 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             notifyDataSetChanged();// Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
         });
 
-
         // Sự kiện giảm số lượng với giá trị tối thiểu là 1
         holder.btnDecrease.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             if (currentQuantity > 1) {
                 currentQuantity--;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
+                updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
                 Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
@@ -147,7 +149,10 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Hiển thị Toast với giá trị được chọn khi người dùng chọn item
-                String selectedItem = parent.getItemAtPosition(position).toString();
+                selectedItem = parent.getItemAtPosition(position).toString();
+
+
+                updateCartItem(APIService, cart.get_id(), selectedItem, currentQuantity);
                 Toast.makeText(context, "Bạn đã chọn: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
@@ -281,6 +286,33 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         };
     }
+    public void updateCartItem(APIService apiService, String cartId, String selectedItem, int currentQuantity) {
+        // Chuẩn bị dữ liệu cập nhật
+        Cart_Model cartModel = new Cart_Model();
+        cartModel.set_id(cartId);
+        cartModel.setProdSpecification(selectedItem);
+        cartModel.setQuantity(currentQuantity); // Cập nhật số lượng
+
+        // Gọi API
+        Call<Cart_Model> call = apiService.putCartUpdate(cartId, cartModel);
+        call.enqueue(new Callback<Cart_Model>() {
+            @Override
+            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cart_Model> call, Throwable t) {
+                Toast.makeText(context, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void loadProductById(APIService apiService, String prodId, ProductCallback callback) {
         Call<Product_Model> call = apiService.getProductById(prodId);
         call.enqueue(new Callback<Product_Model>() {

@@ -8,7 +8,7 @@ public class Cart_Model {
     private String prodSpecification;
     private boolean selected;
 
-    public Cart_Model(String _id, String prodId, int quantity, String cusId, String prodSpecification) {
+    public Cart_Model() {
         this._id = _id;
         this.prodId = prodId;
         this.quantity = quantity;

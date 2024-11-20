@@ -245,6 +245,7 @@
 
             <!-- Contact Shop -->
             <LinearLayout
+                android:id="@+id/ivContactShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -252,7 +253,6 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/ivContactShop"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/contact"
@@ -281,6 +281,7 @@
                 android:background="#CCCCCC" />
             <!-- Support Center -->
             <LinearLayout
+                android:id="@+id/ivSupportCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -288,7 +289,6 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/ivSupportCenter"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/center_sp"

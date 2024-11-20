@@ -275,7 +275,7 @@ router.get('/orders', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'orders'
-        const orders = await OrderModel.find({}, '_id cusId prodId revenue content orderStatus orderDate ');
+        const orders = await OrderModel.find({}, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
 
         if (orders.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
@@ -485,7 +485,7 @@ router.post('/add/add-to-order', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { cusId, prodDetails, content, orderStatus, orderDate } = req.body;
+        const { cusId, revenue_all, prodDetails, content, orderStatus, orderDate } = req.body;
 
         // Kiểm tra prodDetails có phải là mảng không
         if (!Array.isArray(prodDetails)) {
@@ -499,7 +499,7 @@ router.post('/add/add-to-order', async (req, res) => {
             }
         }
 
-        const newOrder = new OrderModel({ cusId, prodDetails, content, orderStatus, orderDate });
+        const newOrder = new OrderModel({ cusId, revenue_all, prodDetails, content, orderStatus, orderDate });
         await newOrder.save();
         res.status(201).json({ message: 'Thêm vào lịch sử mua thành công!', data: newOrder });
     } catch (error) {

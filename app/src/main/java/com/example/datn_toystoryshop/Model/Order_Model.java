@@ -5,6 +5,7 @@ import java.util.List;
 public class Order_Model {
     private String _id;          // Mã ID của đơn hàng
     private String cusId;        // ID khách hàng
+    private int revenue_all;        // ID khách hàng
     private List<ProductDetail> prodDetails; // Danh sách các sản phẩm trong đơn hàng
     private String content;      // Nội dung đơn hàng
     private String orderStatus;  // Trạng thái đơn hàng
@@ -62,9 +63,11 @@ public class Order_Model {
     }
 
     // Constructor với tất cả các tham số
-    public Order_Model(String _id, String cusId, List<ProductDetail> prodDetails, String content, String orderStatus, String orderDate) {
+
+    public Order_Model(String _id, String cusId, int revenue_all, List<ProductDetail> prodDetails, String content, String orderStatus, String orderDate) {
         this._id = _id;
         this.cusId = cusId;
+        this.revenue_all = revenue_all;
         this.prodDetails = prodDetails;
         this.content = content;
         this.orderStatus = orderStatus;
@@ -85,6 +88,14 @@ public class Order_Model {
 
     public void setCusId(String cusId) {
         this.cusId = cusId;
+    }
+
+    public int getRevenue_all() {
+        return revenue_all;
+    }
+
+    public void setRevenue_all(int revenue_all) {
+        this.revenue_all = revenue_all;
     }
 
     public List<ProductDetail> getProdDetails() {
