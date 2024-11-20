@@ -35,6 +35,7 @@ import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.Shopping.Favorite_screen;
 import com.example.datn_toystoryshop.Shopping.Cart_screen;
 import com.example.datn_toystoryshop.Shopping.Order_screen;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class Product_detail extends AppCompatActivity {
     private String favoriteId;
     private boolean isFavorite = false;
     private APIService apiService;
-    private int[] currentQuantity = {1}; // Số lượng sản phẩm ban đầu là 1
+    private int currentQuantity = 1; // Số lượng sản phẩm ban đầu là 1
     private String selectedColor; // Quy cách mặc định
 
     @Override
@@ -267,16 +268,17 @@ public class Product_detail extends AppCompatActivity {
         }
 
         // Thiết lập giá trị ban đầu
-        quantityText.setText(String.valueOf(currentQuantity[0]));
+        quantityText.setText(String.valueOf(currentQuantity));
+
 
         // Sự kiện giảm số lượng
         btnDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentQuantity[0] > 1) { // Kiểm tra để không giảm dưới 1
-                    currentQuantity[0]--;
-                    quantityText.setText(String.valueOf(currentQuantity[0]));
-                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
+                if (currentQuantity > 1) { // Kiểm tra để không giảm dưới 1
+                    currentQuantity--;
+                    quantityText.setText(String.valueOf(currentQuantity));
+                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -285,9 +287,9 @@ public class Product_detail extends AppCompatActivity {
         btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentQuantity[0]++;
-                quantityText.setText(String.valueOf(currentQuantity[0]));
-                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
+                currentQuantity++;
+                quantityText.setText(String.valueOf(currentQuantity));
+                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
             }
         });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.color_options, android.R.layout.simple_spinner_item);
@@ -328,7 +330,7 @@ public class Product_detail extends AppCompatActivity {
                 intent.putExtra("productId", productId);
                 // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
 
-                intent.putExtra("currentQuantity", currentQuantity[0]);
+                intent.putExtra("currentQuantity", currentQuantity);
                 intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
                 intent.putExtra("selectedColor", selectedColor);
                 String firstProductImage = productImg.get(0);
@@ -380,16 +382,18 @@ public class Product_detail extends AppCompatActivity {
         }
 
         // Thiết lập giá trị ban đầu
-        quantityText.setText(String.valueOf(currentQuantity[0]));
+        quantityText.setText(String.valueOf(currentQuantity));
+
 
         // Sự kiện giảm số lượng
         btnDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentQuantity[0] > 1) { // Kiểm tra để không giảm dưới 1
-                    currentQuantity[0]--;
-                    quantityText.setText(String.valueOf(currentQuantity[0]));
-                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
+                if (currentQuantity > 1) { // Kiểm tra để không giảm dưới 1
+                    currentQuantity--;
+                    quantityText.setText(String.valueOf(currentQuantity));
+
+                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -398,9 +402,10 @@ public class Product_detail extends AppCompatActivity {
         btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentQuantity[0]++;
-                quantityText.setText(String.valueOf(currentQuantity[0]));
-                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity[0], Toast.LENGTH_SHORT).show();
+                currentQuantity++;
+                quantityText.setText(String.valueOf(currentQuantity));
+
+                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
             }
         });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.color_options, android.R.layout.simple_spinner_item);
@@ -435,7 +440,8 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addToCart();
+                checkAndAddToCart(productId,"cusId");
+
                 dialog.dismiss();
             }
         });
@@ -472,40 +478,12 @@ public class Product_detail extends AppCompatActivity {
         });
     }
 
-    //    private void addToCart() {
-//        // Tạo đối tượng Cart_Model với dữ liệu cần thiết
-//        Cart_Model cartModel = new Cart_Model(
-//                // Để _id là null để MongoDB tự tạo
-//                // ID của sản phẩm
-//                // Số lượng sản phẩm
-//                // ID khách hàng
-//                // Quy cách sản phẩm (ví dụ)
-//        );
-//
-//        // Gọi API để thêm sản phẩm vào giỏ hàng
-//        Call<Cart_Model> call = apiService.addToCart(cartModel);
-//        call.enqueue(new Callback<Cart_Model>() {
-//            @Override
-//            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(Product_detail.this, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(Product_detail.this, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Cart_Model> call, Throwable t) {
-//                Toast.makeText(Product_detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
     private void addToCart() {
         // Giả sử bạn đã có ID của khách hàng trong biến "cusId"
         // Cùng với các thông tin từ UI như prodId, số lượng, và thông số sản phẩm
         Cart_Model cartModel = new Cart_Model(
                 productId,                 // ID của sản phẩm
-                currentQuantity[0],        // Số lượng sản phẩm
+                currentQuantity,        // Số lượng sản phẩm
                 "cusId",                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
                 selectedColor              // Thông số sản phẩm (ví dụ: màu sắc đã chọn)
         );
@@ -552,6 +530,77 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
+    private void checkAndAddToCart(String prodId, String cusId) {
+        Call<JsonObject> call = apiService.checkProductInCart(prodId, cusId);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject jsonResponse = response.body();
+                    boolean isInCart = jsonResponse.get("exists").getAsBoolean();
+
+                    if (isInCart) {
+                        fetchCartId(prodId, "cusId");
+                        Log.d("CartCheck", "Sản phẩm đã có trong giỏ hàng!");
+                    } else {
+                        addToCart(); // Gọi hàm thêm sản phẩm vào giỏ
+                    }
+                } else {
+
+                    Toast.makeText(Product_detail.this, "Không thể kiểm tra sản phẩm!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("CartCheck", "Sản phẩm đã có trong giỏ hàng! " + t.getMessage(), t);
+                Toast.makeText(Product_detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void fetchCartId(String prodId, String cusId) {
+        Call<JsonObject> call = apiService.getCartId(prodId, cusId);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject jsonResponse = response.body();
+                    String cartId = jsonResponse.get("cartId").getAsString();
+                    String prodSpecification = jsonResponse.get("prodSpecification").getAsString();
+                    int quantity = Integer.parseInt(jsonResponse.get("quantity").getAsString());
+                    // Xử lý với _id của cart
+                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp " + cartId);
+                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp11 " + prodSpecification);
+                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp12 " + quantity);
+                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp13 " + selectedColor);
+                    if (!prodSpecification.equals(selectedColor)) {
+                        // Gọi hàm addToCart() nếu khác nhau
+                        addToCart();
+                        Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp14 ");
+                    } else {
+
+
+
+
+                        ///////////chua fix xong
+
+
+                        // updateCartItem(apiService, cartId, prodSpecification, quantity );
+                        Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp15 ");
+                    }
+                } else {
+                    Log.e("CartCheck", "Không thể lấy _id của cart! Response: " + response.code());
+                    Toast.makeText(Product_detail.this, "Không thể lấy _id của cart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("CartCheck", "Lỗi kết nối khi lấy _id: " + t.getMessage(), t);
+                Toast.makeText(Product_detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void addFavorite() {
         Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
@@ -581,7 +630,32 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+    public void updateCartItem(APIService apiService, String cartId, String selectedItem, int currentQuantity) {
+        // Chuẩn bị dữ liệu cập nhật
+        Cart_Model cartModel = new Cart_Model();
+        cartModel.set_id(cartId);
+        cartModel.setProdSpecification(selectedItem);
+        cartModel.setQuantity(currentQuantity); // Cập nhật số lượng
 
+        // Gọi API
+        Call<Cart_Model> call = apiService.putCartUpdate(cartId, cartModel);
+        call.enqueue(new Callback<Cart_Model>() {
+            @Override
+            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cart_Model> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void deleteFavorite(String productId) {
         // Gọi API xóa yêu thích
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);

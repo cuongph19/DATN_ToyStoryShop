@@ -520,6 +520,27 @@ router.get('/addresses', async (req, res) => {
       res.status(500).json({ error: 'Có lỗi xảy ra khi lấy tất cả địa chỉ.' });
     }
   });
+  router.get('/cart/check-product', async (req, res) => {
+    const { prodId, cusId } = req.query; // Lấy productId và customerId từ query
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+
+        // Tìm sản phẩm trong giỏ hàng
+        const cartItem = await CartModel.findOne({ prodId, cusId });
+
+        if (!cartItem) {
+            return res.json({ exists: false }); // Sản phẩm không tồn tại trong giỏ hàng
+        }
+
+        res.json({ exists: true }); // Sản phẩm đã tồn tại trong giỏ hàng
+    } catch (error) {
+        console.error('Lỗi khi kiểm tra sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi kiểm tra sản phẩm.', details: error.message });
+    }
+});
+
 
 // bắt buộc nó phải ở cuối
 // hiển thị thông tin dựa vào id sản phẩm 
@@ -562,5 +583,29 @@ router.get('/cart-by/:cartId', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
+router.get('/cart/get-cart-id', async (req, res) => {
+    const { prodId, cusId } = req.query;
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+
+        // Tìm sản phẩm trong giỏ hàng
+        const cartItem = await CartModel.findOne({ prodId, cusId }).select('_id quantity prodSpecification'); // Chỉ lấy trường _id
+
+        if (!cartItem) {
+            return res.status(404).json({ message: 'Không tìm thấy sản phẩm trong giỏ hàng.' });
+        }
+
+        res.json({ cartId: cartItem._id,
+            prodSpecification: cartItem.prodSpecification,
+            quantity: cartItem.quantity,
+         }); // Trả về _id của cart
+    } catch (error) {
+        console.error('Lỗi khi lấy _id và prodSpecification  của sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi truy vấn _id của sản phẩm.', details: error.message });
+    }
+});
+
 module.exports = router;
 
