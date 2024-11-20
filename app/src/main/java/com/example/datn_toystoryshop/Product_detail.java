@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -112,7 +113,7 @@ public class Product_detail extends AppCompatActivity {
         // Hiển thị dữ liệu
 
         tvProductName.setText(productName);
-        tvProductPrice.setText(String.format("%,.0fđ",productPrice));
+        tvProductPrice.setText(String.format("%,.0fđ", productPrice));
         productStockValue.setText(String.valueOf(quantity));
         tvproductDescription.setText(desPro);
         productBrandValue1.setText(brand);
@@ -204,7 +205,7 @@ public class Product_detail extends AppCompatActivity {
         heartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFavorite == false ) { // kiểm tra nếu đã yêu thích và có favoriteId
+                if (isFavorite == false) { // kiểm tra nếu đã yêu thích và có favoriteId
                     heartIcon.setColorFilter(Color.RED);
                     addFavorite();
                 } else if (isFavorite == true) { // nếu chưa yêu thích
@@ -219,12 +220,14 @@ public class Product_detail extends AppCompatActivity {
         });
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
+
     private void showAddTopayDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -307,6 +310,7 @@ public class Product_detail extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bạn đã chọn: " + selectedColor, Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Thực hiện nếu không có lựa chọn nào
@@ -365,7 +369,7 @@ public class Product_detail extends AppCompatActivity {
         Button btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
 
         productTitle.setText(productName);
-        Price.setText(String.format("%,.0fđ",productPrice));
+        Price.setText(String.format("%,.0fđ", productPrice));
         productStock.setText("Kho : " + String.valueOf(quantity));
         btnAddToCart.setText("Thêm vào Giỏ hàng");
         if (!productImg.isEmpty()) {
@@ -408,17 +412,18 @@ public class Product_detail extends AppCompatActivity {
         colorSpinner.setSelection(0);// Chọn mục đầu tiên trong Spinner
 // Thiết lập OnItemSelectedListener cho Spinner
         colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                   @Override
-                                                   public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                                                       // Lấy giá trị được chọn từ Spinner
-                                                       selectedColor = parentView.getItemAtPosition(position).toString();
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Lấy giá trị được chọn từ Spinner
+                selectedColor = parentView.getItemAtPosition(position).toString();
 
-                                                       // Kiểm tra xem giá trị đã chọn có phải là một trong hai giá trị cứng không
-                                                       if (selectedColor.equals("Giá trị 1") || selectedColor.equals("Giá trị 2")) {
-                                                           // Hiển thị Toast
-                                                           Toast.makeText(getApplicationContext(), "Bạn đã chọn: " + selectedColor, Toast.LENGTH_SHORT).show();
-                                                       }
-                                                   }
+                // Kiểm tra xem giá trị đã chọn có phải là một trong hai giá trị cứng không
+                if (selectedColor.equals("Giá trị 1") || selectedColor.equals("Giá trị 2")) {
+                    // Hiển thị Toast
+                    Toast.makeText(getApplicationContext(), "Bạn đã chọn: " + selectedColor, Toast.LENGTH_SHORT).show();
+                }
+            }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Thực hiện nếu không có lựa chọn nào
@@ -437,6 +442,7 @@ public class Product_detail extends AppCompatActivity {
 
         dialog.show();
     }
+
     private void checkIfFavorite(String productId) {
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
         Call<Map<String, Boolean>> call = apiService.checkFavorite(productId);
@@ -465,14 +471,43 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
+    //    private void addToCart() {
+//        // Tạo đối tượng Cart_Model với dữ liệu cần thiết
+//        Cart_Model cartModel = new Cart_Model(
+//                // Để _id là null để MongoDB tự tạo
+//                // ID của sản phẩm
+//                // Số lượng sản phẩm
+//                // ID khách hàng
+//                // Quy cách sản phẩm (ví dụ)
+//        );
+//
+//        // Gọi API để thêm sản phẩm vào giỏ hàng
+//        Call<Cart_Model> call = apiService.addToCart(cartModel);
+//        call.enqueue(new Callback<Cart_Model>() {
+//            @Override
+//            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(Product_detail.this, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(Product_detail.this, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Cart_Model> call, Throwable t) {
+//                Toast.makeText(Product_detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
     private void addToCart() {
-        // Tạo đối tượng Cart_Model với dữ liệu cần thiết
+        // Giả sử bạn đã có ID của khách hàng trong biến "cusId"
+        // Cùng với các thông tin từ UI như prodId, số lượng, và thông số sản phẩm
         Cart_Model cartModel = new Cart_Model(
-                // Để _id là null để MongoDB tự tạo
-                // ID của sản phẩm
-                // Số lượng sản phẩm
-                // ID khách hàng
-                // Quy cách sản phẩm (ví dụ)
+                productId,                 // ID của sản phẩm
+                currentQuantity[0],        // Số lượng sản phẩm
+                "cusId",                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
+                selectedColor              // Thông số sản phẩm (ví dụ: màu sắc đã chọn)
         );
 
         // Gọi API để thêm sản phẩm vào giỏ hàng
@@ -493,6 +528,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     private void createDotIndicators(int count) {
         dotIndicators.clear();
         dotIndicatorLayout.removeAllViews();
@@ -516,6 +552,7 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
+
     private void addFavorite() {
         Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
 
@@ -544,6 +581,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     private void deleteFavorite(String productId) {
         // Gọi API xóa yêu thích
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
@@ -568,12 +606,14 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     private void updateDotIndicator() {
         for (int i = 0; i < dotIndicators.size(); i++) {
             dotIndicators.get(i).setBackgroundResource(
                     i == currentImageIndex ? R.drawable.dot_active : R.drawable.dot_inactive);
         }
     }
+
     private void shareApp(String productName) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);

@@ -8,13 +8,24 @@ public class Cart_Model {
     private String prodSpecification;
     private boolean selected;
 
+    //    public Cart_Model() {
+//        this._id = _id;
+//        this.prodId = prodId;
+//        this.quantity = quantity;
+//        this.cusId = cusId;
+//        this.prodSpecification = prodSpecification;
+//        this.selected = false;
+//    }
     public Cart_Model() {
-        this._id = _id;
+        this.selected = false;
+    }
+
+    public Cart_Model(String prodId, int quantity, String cusId, String prodSpecification) {
         this.prodId = prodId;
         this.quantity = quantity;
         this.cusId = cusId;
         this.prodSpecification = prodSpecification;
-        this.selected = false;
+        this.selected = false;  // Mặc định là chưa chọn
     }
 
     public String get_id() {
