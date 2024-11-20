@@ -261,7 +261,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         });
 
         addressLayout.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Order_screen.this, Add_address_screen.class);
+            Intent intent1 = new Intent(Order_screen.this, AddressList_Screen.class);
             startActivity(intent1);
             finish();
         });

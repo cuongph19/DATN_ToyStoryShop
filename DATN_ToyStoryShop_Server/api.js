@@ -9,6 +9,7 @@ const CartModel = require('./model/CartModel');
 const OrderModel = require('./model/OrderModel');
 const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
+const Address = require('./model/AddressModel');
 
 const server = require('./server');
 
@@ -507,6 +508,18 @@ router.post('/add/add-to-order', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi thêm vào lịch sử mua', error });
     }
 });
+
+
+router.get('/addresses', async (req, res) => {
+    try {
+      // Lấy tất cả các địa chỉ trong database
+      const addresses = await Address.find();
+      res.json(addresses);
+    } catch (error) {
+      console.error('Lỗi khi lấy tất cả địa chỉ:', error);
+      res.status(500).json({ error: 'Có lỗi xảy ra khi lấy tất cả địa chỉ.' });
+    }
+  });
 
 // bắt buộc nó phải ở cuối
 // hiển thị thông tin dựa vào id sản phẩm 

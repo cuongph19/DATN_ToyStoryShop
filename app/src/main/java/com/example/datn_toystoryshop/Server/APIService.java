@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Server;
 
+import com.example.datn_toystoryshop.Model.Address;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
@@ -23,9 +24,9 @@ import retrofit2.http.Path;
 public interface APIService {
 
 
-    String BASE_URL  = "http://192.168.16.101:3000/";// cương
+//    String BASE_URL  = "http://192.168.16.101:3000/";// cương
     //  String BASE_URL  = "http://192.168.1.11:3000/";// huy
-  //  String BASE_URL = "http://192.168.101.10:3000/";
+    String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -101,4 +102,6 @@ public interface APIService {
     @GET("/api/vouchers")
     Call<List<Voucher>> getVouchers();
 
+    @GET("/api/addresses")
+    Call<List<Address>> getAllAddresses();
 }

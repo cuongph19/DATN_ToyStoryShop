@@ -30,6 +30,9 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
         <activity
+            android:name=".Home_screen"
+            android:exported="false" />
+        <activity
             android:name=".OrderHist_Detail"
             android:exported="false" />
         <activity
@@ -151,7 +154,7 @@
             android:name=".Register_login.SignUp_screen"
             android:exported="false" />
         <activity
-            android:name=".Home_screen"
+            android:name=".Shopping.AddressList_Screen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
