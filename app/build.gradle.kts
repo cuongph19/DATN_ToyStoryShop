@@ -65,5 +65,6 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("io.realm:realm-android-library:10.7.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
 
 }
