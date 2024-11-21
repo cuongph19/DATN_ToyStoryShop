@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
     private List<Product_Model> productList;
     private TextView headerTitle;
     private ImageView backIcon;
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,11 @@ public class LimitedFigure_screen extends AppCompatActivity {
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Limited Figure"); // Đặt tiêu đề là "Blind Box"
 
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888LimitedFigure_screen" + documentId);
+
+
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getLimited().enqueue(new Callback<List<Product_Model>>() {
             @Override
@@ -44,7 +50,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
                     List<Product_Model> products = response.body();
                     Log.d("API_RESPONSE", "Dữ liệu nhận được: " + products.toString()); // Kiểm tra dữ liệu trả về
 
-                    adapter = new Product_Adapter(LimitedFigure_screen.this, products);
+                    adapter = new Product_Adapter(LimitedFigure_screen.this, products, documentId);
                     recyclerView.setAdapter(adapter);
                 } else {
                     Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());

@@ -27,11 +27,14 @@ public class Favorite_screen extends AppCompatActivity {
     private RecyclerView recyclerViewFavorites;
     private Favorite_Adapter favoriteAdapter;
     private ImageView imgBack;
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_products);
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_screen" + documentId);
 
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
@@ -53,7 +56,7 @@ public class Favorite_screen extends AppCompatActivity {
             public void onResponse(Call<List<Favorite_Model>> call, Response<List<Favorite_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("FavoriteScreen", "Favorites retrieved: " + response.body().size());
-                    favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService);
+                    favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService, documentId);
                     recyclerViewFavorites.setAdapter(favoriteAdapter);
                 }
             }

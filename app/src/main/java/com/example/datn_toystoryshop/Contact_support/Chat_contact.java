@@ -1,7 +1,9 @@
 package com.example.datn_toystoryshop.Contact_support;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +19,7 @@ public class Chat_contact extends AppCompatActivity {
     private EditText editTextMessage;
     private Button buttonSend;
     private LinearLayout chatContainer;
-
+    private String documentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,9 @@ public class Chat_contact extends AppCompatActivity {
          editTextMessage = findViewById(R.id.editTextMessage);
          buttonSend = findViewById(R.id.buttonSend);
          chatContainer = findViewById(R.id.chatContainer);
-
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Chat_contact" + documentId);
         // Tạo phản hồi tự động sau 2 giây
         new Handler().postDelayed(new Runnable() {
             @Override

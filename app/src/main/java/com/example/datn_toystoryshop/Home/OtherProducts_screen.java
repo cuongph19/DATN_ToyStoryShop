@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,7 @@ public class OtherProducts_screen extends AppCompatActivity {
     private List<Product_Model> productList;
     private TextView headerTitle;
     private ImageView backIcon;
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,9 @@ public class OtherProducts_screen extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Other Products");
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888OtherProducts_screen" + documentId);
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getOther().enqueue(new Callback<List<Product_Model>>() {
@@ -43,7 +47,7 @@ public class OtherProducts_screen extends AppCompatActivity {
                     List<Product_Model> products = response.body();
                     Log.d("API_RESPONSE", "Dữ liệu nhận được: " + products.toString()); // Kiểm tra dữ liệu trả về
 
-                    adapter = new Product_Adapter(OtherProducts_screen.this, products);
+                    adapter = new Product_Adapter(OtherProducts_screen.this, products, documentId);
                     recyclerView.setAdapter(adapter);
                 } else {
                     Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());

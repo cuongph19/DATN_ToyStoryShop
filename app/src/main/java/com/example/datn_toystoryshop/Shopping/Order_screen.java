@@ -64,7 +64,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private double totalAmount;
     private int quantity;
     private String productType;
-
+    private String documentId;
     private double moneyPay;
     private ArrayList<String> productIds;
     private double shippingCost = 40000;
@@ -113,6 +113,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen" + documentId);
         ///dulieunhanCart
         productIds = intent.getStringArrayListExtra("productIds");
          totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
@@ -141,7 +143,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         ///dulieunhanDetail
         productId = intent.getStringExtra("productId");
         currentQuantity = intent.getIntExtra("currentQuantity", 0);
-        customerId = intent.getStringExtra("customerId");
         selectedColor = intent.getStringExtra("selectedColor");
         productImg = intent.getStringExtra("productImg");
         RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
@@ -416,7 +417,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         // Tạo đối tượng Order_Model với danh sách sản phẩm
         Order_Model orderModel = new Order_Model(
                 null,                // _id
-                "cusId",             // cusId
+                documentId,             // cusId
                 (int) moneyPay,
                 productDetails,      // prodDetails (danh sách sản phẩm)
                 content,             // content (nội dung đơn hàng)
@@ -455,7 +456,7 @@ private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, do
     // Tạo đối tượng Order_Model với danh sách sản phẩm
     Order_Model orderModel = new Order_Model(
             null,                // _id
-            "cusId",             // cusId
+            documentId,             // cusId
             (int) moneyPay,
             productDetails,      // prodDetails (danh sách sản phẩm)
             content,             // content (nội dung đơn hàng)

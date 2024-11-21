@@ -44,7 +44,7 @@ public class Browse_Fragment extends Fragment {
     private Button btnFilter;
     private int maxPriceLimit = 10000000;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
-
+    private String documentId;
 
     @Nullable
     @Override
@@ -60,7 +60,7 @@ public class Browse_Fragment extends Fragment {
 
         // Khởi tạo danh sách sản phẩm
         productList = new ArrayList<>();
-        productAdapter = new Product_Adapter(getContext(), productList);
+        productAdapter = new Product_Adapter(getContext(), productList, documentId);
         recyclerView.setAdapter(productAdapter);
 
         // Gọi API để lấy sản phẩm từ MongoDB

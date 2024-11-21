@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class BlindBox_screen extends AppCompatActivity {
     private Product_Adapter adapter;
     private TextView headerTitle;
     private ImageView backIcon;
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,9 @@ public class BlindBox_screen extends AppCompatActivity {
 
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Blind Box"); // Đặt tiêu đề là "Blind Box"
-
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888BlindBox_screen" + documentId);
         // Gọi API và xử lý dữ liệu
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getBlindBox().enqueue(new Callback<List<Product_Model>>() {
@@ -47,7 +50,7 @@ public class BlindBox_screen extends AppCompatActivity {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Product_Model> products = response.body();
-                    adapter = new Product_Adapter(BlindBox_screen.this, products);
+                    adapter = new Product_Adapter(BlindBox_screen.this, products, documentId);
                     recyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(BlindBox_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();

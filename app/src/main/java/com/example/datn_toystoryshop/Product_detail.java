@@ -66,7 +66,7 @@ public class Product_detail extends AppCompatActivity {
     private APIService apiService;
     private int currentQuantity = 1; // Số lượng sản phẩm ban đầu là 1
     private String selectedColor; // Quy cách mặc định
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +96,8 @@ public class Product_detail extends AppCompatActivity {
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Product_detail" + documentId);
         productId = intent.getStringExtra("productId");
         owerId = intent.getIntExtra("owerId", -1);
         statusPro = intent.getBooleanExtra("statusPro", false);
@@ -157,6 +159,7 @@ public class Product_detail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Product_detail.this, Cart_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -164,6 +167,7 @@ public class Product_detail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Product_detail.this, Favorite_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -172,6 +176,7 @@ public class Product_detail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Product_detail.this, Chat_contact.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -331,7 +336,7 @@ public class Product_detail extends AppCompatActivity {
                 // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
 
                 intent.putExtra("currentQuantity", currentQuantity);
-                intent.putExtra("customerId", "8iPTPiB47jBO0EKMkn7K"); // ID khách hàng
+                intent.putExtra("documentId", documentId); // ID khách hàng
                 intent.putExtra("selectedColor", selectedColor);
                 String firstProductImage = productImg.get(0);
                 intent.putExtra("productImg", firstProductImage);                // Chuyển sang màn hình Oder_screen
@@ -440,7 +445,7 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAndAddToCart(productId,"cusId");
+                checkAndAddToCart(productId,documentId);
 
                 dialog.dismiss();
             }
@@ -479,12 +484,11 @@ public class Product_detail extends AppCompatActivity {
     }
 
     private void addToCart() {
-        // Giả sử bạn đã có ID của khách hàng trong biến "cusId"
-        // Cùng với các thông tin từ UI như prodId, số lượng, và thông số sản phẩm
+
         Cart_Model cartModel = new Cart_Model(
                 productId,                 // ID của sản phẩm
                 currentQuantity,        // Số lượng sản phẩm
-                "cusId",                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
+                documentId,                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
                 selectedColor              // Thông số sản phẩm (ví dụ: màu sắc đã chọn)
         );
 
@@ -530,8 +534,9 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
-    private void checkAndAddToCart(String prodId, String cusId) {
-        Call<JsonObject> call = apiService.checkProductInCart(prodId, cusId);
+    private void checkAndAddToCart(String prodId, String documentId) {
+        Log.e("OrderHistoryAdapter", "j66666666666666666aaaaaa1" + documentId);
+        Call<JsonObject> call = apiService.checkProductInCart(prodId, documentId);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -540,7 +545,8 @@ public class Product_detail extends AppCompatActivity {
                     boolean isInCart = jsonResponse.get("exists").getAsBoolean();
 
                     if (isInCart) {
-                        fetchCartId(prodId, "cusId");
+                        fetchCartId(prodId, documentId);
+                        Log.e("OrderHistoryAdapter", "j66666666666666666aaaaaaa" + documentId);
                         Log.d("CartCheck", "Sản phẩm đã có trong giỏ hàng!");
                     } else {
                         addToCart(); // Gọi hàm thêm sản phẩm vào giỏ
@@ -558,8 +564,8 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
-    private void fetchCartId(String prodId, String cusId) {
-        Call<JsonObject> call = apiService.getCartId(prodId, cusId);
+    private void fetchCartId(String prodId, String documentId) {
+        Call<JsonObject> call = apiService.getCartId(prodId, documentId);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -593,7 +599,7 @@ public class Product_detail extends AppCompatActivity {
     }
 
     private void addFavorite() {
-        Favorite_Model favoriteModel = new Favorite_Model(null, productId, "cusId");
+        Favorite_Model favoriteModel = new Favorite_Model(null, productId, documentId);
 
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
         Call<Favorite_Model> call = apiService.addToFavorites(favoriteModel);

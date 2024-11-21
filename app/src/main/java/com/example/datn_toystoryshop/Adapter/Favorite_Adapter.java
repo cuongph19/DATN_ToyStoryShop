@@ -33,11 +33,13 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
     private Context context;
     private List<Favorite_Model> favoriteList;
     private com.example.datn_toystoryshop.Server.APIService APIService;
+    private String documentId;
 
-    public Favorite_Adapter(Context context, List<Favorite_Model> favoriteList, APIService apiService) {
+    public Favorite_Adapter(Context context, List<Favorite_Model> favoriteList, APIService apiService, String documentId) {
         this.context = context;
         this.favoriteList = favoriteList;
         this.APIService = apiService;
+        this.documentId = documentId;
     }
 
     @NonNull
@@ -49,6 +51,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
 
     @Override
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
+        Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_Adapter" + documentId);
         Favorite_Model favorite = favoriteList.get(position);
         String favoriteId = favorite.get_id();
 
@@ -70,6 +73,8 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
                         Intent intent = new Intent(context, Product_detail.class);
 
                         // Truyền các thuộc tính sản phẩm qua Intent
+                        intent.putExtra("documentId", documentId);
+
                         intent.putExtra("productId", product.get_id());
                         intent.putExtra("owerId", product.getOwerId());
                         intent.putExtra("statusPro", product.isStatusPro());
