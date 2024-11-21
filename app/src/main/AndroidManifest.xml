@@ -108,9 +108,7 @@
         <activity
             android:name=".Register_login.ForgotOTP_screen"
             android:exported="false" />
-        <activity
-            android:name=".Register_login.SignIn_screen"
-            android:exported="false" />
+
         <activity
             android:name=".Setting.ContactSupport_screen"
             android:exported="false" />
@@ -158,6 +156,9 @@
             android:exported="false" />
         <activity
             android:name=".Register_login.SignUp_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
             android:name=".Home_screen"

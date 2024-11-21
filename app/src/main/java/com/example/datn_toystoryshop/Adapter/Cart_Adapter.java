@@ -43,6 +43,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     private List<Cart_Model> cartList;
     private Cart_Model cart;
     private  String selectedItem;
+    private String documentId;
     private  int quantity;
     private APIService apiService;
     private boolean isDefaultSelected = true; // Biến trạng thái để theo dõi giá trị mặc định
@@ -51,10 +52,11 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         return holder.hiddenTextView.getVisibility() == View.VISIBLE;
     }
 
-    public Cart_Adapter(Context context, List<Cart_Model> cartList, APIService apiService) {
+    public Cart_Adapter(Context context, List<Cart_Model> cartList, APIService apiService, String documentId) {
         this.context = context;
         this.cartList = cartList;
         this.apiService = apiService;
+        this.documentId = documentId;
     }
     public List<Cart_Model> getSelectedItems() {
         List<Cart_Model> selectedItems = new ArrayList<>();
@@ -74,7 +76,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
     @Override
     public void onBindViewHolder(@NonNull Cart_Adapter.CartViewHolder holder, int position) {
-
+        Log.e("OrderHistoryAdapter", "j66666666666666666Cart_Adapter" + documentId);
         Cart_Model cart = cartList.get(position);
         String cartId = cart.get_id();
         String prodId = cart.getProdId();
@@ -194,6 +196,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                         Intent intent = new Intent(context, Product_detail.class);
 
                         // Truyền các thuộc tính sản phẩm qua Intent
+                        intent.putExtra("documentId", documentId);
                         intent.putExtra("productId", product.get_id());
                         intent.putExtra("owerId", product.getOwerId());
                         intent.putExtra("statusPro", product.isStatusPro());

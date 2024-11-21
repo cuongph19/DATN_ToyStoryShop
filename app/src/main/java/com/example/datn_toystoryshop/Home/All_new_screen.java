@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop.Home;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,18 +22,24 @@ public class All_new_screen extends AppCompatActivity {
     private RecyclerView recyclerViewAllNewProducts;
     private ProductNewAdapter productNewAdapter;
     private List<Product_Model> productList;
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_new_screen);
         // Khởi tạo RecyclerView
+
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888All_new_screen" + documentId);
+
         recyclerViewAllNewProducts = findViewById(R.id.recyclerViewAllNewProducts);
         recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
         ImageView imgBack = findViewById(R.id.ivBack);
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
 
         // Thiết lập Adapter
-        productNewAdapter = new ProductNewAdapter(this, productList, false);
+        productNewAdapter = new ProductNewAdapter(this, productList, false, documentId);
         recyclerViewAllNewProducts.setAdapter(productNewAdapter);
 
         // Thêm ItemDecoration để tạo khoảng cách dưới mỗi item

@@ -73,7 +73,7 @@ public class Profile_Fragment extends Fragment {
         if (bundle != null) {
             documentId = bundle.getString("documentId");
 
-
+            Log.e("OrderHistoryAdapter", "j66666666666666666Profile_Fragment" + documentId);
              if (documentId != null && !documentId.isEmpty()) {
                  loadUserDataByDocumentId(documentId);
             }

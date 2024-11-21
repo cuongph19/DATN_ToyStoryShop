@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
     private List<Product_Model> suggestionList;
     private List<Product_Model> originalList;
     private Context context;
+    private String documentId;
 
-    public Suggestion_Adapter(Context context, List<Product_Model> suggestionList) {
+    public Suggestion_Adapter(Context context, List<Product_Model> suggestionList, String documentId) {
         this.context = context;
         this.suggestionList = suggestionList;
         this.originalList = new ArrayList<>(suggestionList); // Sao chép danh sách ban đầu
+        this.documentId = documentId;
     }
 
     @NonNull
@@ -38,6 +41,7 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
 
     @Override
     public void onBindViewHolder(@NonNull SuggestionViewHolder holder, int position) {
+        Log.e("OrderHistoryAdapter", "j66666666666666666Suggestion_Adapter" + documentId);
         Product_Model product = suggestionList.get(position);
 
         holder.tvName.setText(product.getNamePro());
@@ -58,7 +62,7 @@ public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Product_detail.class);
-
+                intent.putExtra("documentId", documentId);
                 intent.putExtra("productId", product.get_id());// Truyền mã ID của sản phẩm
                 intent.putExtra("owerId", product.getOwerId());// Truyền ID của chủ sở hữu sản phẩm
                 intent.putExtra("statusPro", product.isStatusPro());// Truyền trạng thái tồn kho của sản phẩm (true nếu còn hàng, false nếu hết hàng)

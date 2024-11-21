@@ -3,6 +3,7 @@ package com.example.datn_toystoryshop.Home;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,25 +27,25 @@ public class Popular_screen extends AppCompatActivity {
     private RecyclerView recyclerViewPopular;
     private Product_Adapter productAdapter;
     private List<Product_Model> productList;
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_popular_screen);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         // Khởi tạo RecyclerView
         recyclerViewPopular = findViewById(R.id.recyPopuPro);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
         ImageView imgBack = findViewById(R.id.ivBack);
+
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888Popular_screen" + documentId);
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productListPopu");
 
 
         // Thiết lập Adapter
-        productAdapter = new Product_Adapter(this, productList);
+        productAdapter = new Product_Adapter(this, productList, documentId);
         recyclerViewPopular.setAdapter(productAdapter);
 
         // Thêm ItemDecoration để tạo khoảng cách dưới mỗi item

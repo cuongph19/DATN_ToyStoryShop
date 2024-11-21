@@ -51,6 +51,7 @@ public class Cart_screen extends AppCompatActivity {
     private List<Product_Model> productList;
     private int currentQuantity;
     private String customerId;
+    private String documentId;
     private String selectedColor;
     private RecyclerView recyclerViewCart;
     private Cart_Adapter cartAdapter;
@@ -77,6 +78,8 @@ public class Cart_screen extends AppCompatActivity {
 
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Cart_screen" + documentId);
         productId = intent.getStringExtra("productId");
         owerId = intent.getIntExtra("owerId", -1);
         statusPro = intent.getBooleanExtra("statusPro", false);
@@ -123,6 +126,8 @@ public class Cart_screen extends AppCompatActivity {
                     // Chuyển dữ liệu qua Oder_screen
                     Intent intent = new Intent(Cart_screen.this, Order_screen.class);
                     intent.putStringArrayListExtra("productIds", productIds);
+                    intent.putExtra("documentId", documentId);
+
                     if (totalShipDiscount != 0) {
                         intent.putExtra("totalShipDiscount", totalShipDiscount);
                     }
@@ -227,7 +232,7 @@ public class Cart_screen extends AppCompatActivity {
                     Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
 
                     // Tạo và thiết lập Cart_Adapter
-                    cartAdapter = new Cart_Adapter(Cart_screen.this, response.body(), apiService);
+                    cartAdapter = new Cart_Adapter(Cart_screen.this, response.body(), apiService, documentId);
                     recyclerViewCart.setAdapter(cartAdapter);
                     // Thiết lập ItemTouchHelper cho RecyclerView
                     setupItemTouchHelper();

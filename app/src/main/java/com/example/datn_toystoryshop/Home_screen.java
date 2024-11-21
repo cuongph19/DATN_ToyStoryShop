@@ -70,22 +70,27 @@
             // Nhận dữ liệu từ Intent
             Intent intent = getIntent();
             String documentId = intent.getStringExtra("documentId");
-
+            Log.e("OrderHistoryAdapter", "j66666666666666666Home_screen" + documentId);
 
             // Truyền dữ liệu cho Fragment
             Profile_Fragment profileFragment = new Profile_Fragment();
+            Home_Fragment homeFragment = new Home_Fragment();
             Bundle bundle = new Bundle();
             // Chỉ thêm vào Bundle nếu không null
             if (documentId != null) {
                 bundle.putString("documentId", documentId);
-                Log.d("Profile_Fragment", "aaaaaaa: " + documentId);
+
             }
 
-            profileFragment.setArguments(bundle);
+        //    profileFragment.setArguments(bundle);
+            homeFragment.setArguments(bundle);
 
             // Hiển thị Fragment
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.fragmentLayout, profileFragment)
+//                    .commit();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentLayout, profileFragment)
+                    .replace(R.id.fragmentLayout, homeFragment)
                     .commit();
 
             bottomNavigationView =findViewById(R.id.bottomNaviView);
@@ -105,6 +110,7 @@
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Home_screen.this, Cart_screen.class);
+                    intent.putExtra("documentId", documentId);
                     startActivity(intent);
                 }
             });
@@ -112,18 +118,19 @@
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Home_screen.this, Favorite_screen.class);
+                    intent.putExtra("documentId", documentId);
                     startActivity(intent);
                 }
             });
 
             // Hiển thị Home_Fragment ngay khi vào màn hình Home
-            loadFragment(new Home_Fragment(), null);
+            loadFragment(new Home_Fragment(), bundle);
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     int itemId = item.getItemId();
                     if(itemId == R.id.nav_home){
-                        loadFragment(new Home_Fragment(),null);
+                        loadFragment(new Home_Fragment(),bundle);
                     } else if (itemId == R.id.nav_browse){
                         loadFragment(new Browse_Fragment(),null);
                         //loadFragment(new Browse_Fragment(),null);

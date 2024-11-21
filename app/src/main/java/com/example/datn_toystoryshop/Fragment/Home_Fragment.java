@@ -69,7 +69,7 @@ public class Home_Fragment extends Fragment {
     private Product_Adapter productAdapter;
     private Suggestion_Adapter suggestionAdapter;
     private List<Product_Model> popularProductList;
-
+    private String documentId;
 
     @Nullable
     @Override
@@ -99,6 +99,18 @@ public class Home_Fragment extends Fragment {
         other_products = view.findViewById(R.id.other_products);
         art_story = view.findViewById(R.id.art_story);
         limited_figure = view.findViewById(R.id.limited_figure);
+
+
+
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            documentId = bundle.getString("documentId");
+            Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragmentbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" + documentId);
+
+        }
+        Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragmentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + documentId);
 
         recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
         recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
@@ -147,21 +159,27 @@ public class Home_Fragment extends Fragment {
             switch (position) {
                 case 0:
                     intent = new Intent(getActivity(), Add_address_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 case 1:
                     intent = new Intent(getActivity(), Figuring_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 case 2:
                     intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 case 3:
                     intent = new Intent(getActivity(), ArtStory_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 case 4:
                     intent = new Intent(getActivity(), LimitedFigure_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 case 5:
                     intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    intent.putExtra("documentId", documentId);
                     break;
                 // Thêm các case cho các hình ảnh khác
                 default:
@@ -186,6 +204,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), NewArrivals_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -194,6 +213,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), BlindBox_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -202,6 +222,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), Figuring_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -210,6 +231,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), OtherProducts_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -218,6 +240,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), ArtStory_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -226,6 +249,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), LimitedFigure_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
@@ -235,6 +259,7 @@ public class Home_Fragment extends Fragment {
             public void onClick(View v) {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(getActivity(), All_new_screen.class);
+                intent.putExtra("documentId", documentId);
                 intent.putExtra("productList", (Serializable) listProductModel); // truyền productModelList
                 startActivity(intent);
             }
@@ -243,6 +268,7 @@ public class Home_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Popular_screen.class);
+                intent.putExtra("documentId", documentId);
                 intent.putExtra("productListPopu", (Serializable) popularProductList); // truyền popularProductList
                 startActivity(intent);
             }
@@ -302,7 +328,7 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    productNewAdapter = new ProductNewAdapter(getContext(), listProductModel, true);
+                    productNewAdapter = new ProductNewAdapter(getContext(), listProductModel, true, documentId);
                     recyclerViewNew.setAdapter(productNewAdapter);
                 } else {
                     Log.e("ProductFragment", "Response unsuccessful or body is null");
@@ -326,7 +352,7 @@ public class Home_Fragment extends Fragment {
                     if (popularProductList.isEmpty()) {
                         Log.d("HomeFragment", "No popular products available");
                     } else {
-                        productAdapter = new Product_Adapter(requireContext(), popularProductList);
+                        productAdapter = new Product_Adapter(requireContext(), popularProductList, documentId);
                         recyclerViewPopu.setAdapter(productAdapter);
                     }
                 } else {
@@ -360,7 +386,8 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    suggestionAdapter = new Suggestion_Adapter(requireContext(), listProductModel);
+                    suggestionAdapter = new Suggestion_Adapter(requireContext(), listProductModel, documentId);
+
                     recyclerViewSuggestions.setAdapter(suggestionAdapter);
 
                     search_bar.addTextChangedListener(new TextWatcher() {

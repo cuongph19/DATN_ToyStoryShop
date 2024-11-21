@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,7 @@ public class ArtStory_screen extends AppCompatActivity {
     private ArtStoryAdapter adapter;
     private TextView headerTitle;
     private ImageView backIcon;
-
+    private String documentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,11 @@ public class ArtStory_screen extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Art Story"); // Đặt tiêu đề là "Blind Box"
+
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888ArtStory_screen" + documentId);
+
         fetchArtStories();
 
 

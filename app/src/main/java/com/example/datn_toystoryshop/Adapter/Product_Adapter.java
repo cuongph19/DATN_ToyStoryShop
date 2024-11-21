@@ -27,11 +27,13 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
     private List<Product_Model> productModelList;
     private List<Product_Model> productModelListFull; // List gốc để lọc
     private Context context;
+    private String documentId;
 
-    public Product_Adapter(Context context, List<Product_Model> productModelList) {
+    public Product_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
         this.context = context;
         this.productModelList = productModelList;
         this.productModelListFull = new ArrayList<>(productModelList); // Khởi tạo bản sao cho danh sách đầy đủ
+        this.documentId = documentId;
     }
 
     @NonNull
@@ -43,7 +45,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
+        Log.e("OrderHistoryAdapter", "j66666666666666666Product_Adapter" + documentId);
         // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
@@ -57,7 +59,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, Product_detail.class);
-
+                    intent.putExtra("documentId", documentId);
                     intent.putExtra("productId", product.get_id());// Truyền mã ID của sản phẩm
                     intent.putExtra("owerId", product.getOwerId());// Truyền ID của chủ sở hữu sản phẩm
                     intent.putExtra("statusPro", product.isStatusPro());// Truyền trạng thái tồn kho của sản phẩm (true nếu còn hàng, false nếu hết hàng)
