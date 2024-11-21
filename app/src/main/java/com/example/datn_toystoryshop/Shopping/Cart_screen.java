@@ -159,7 +159,7 @@ public class Cart_screen extends AppCompatActivity {
             if (cartAdapter != null) {
 
                 cartAdapter.updateTotalPayment(isChecked);
-
+                cartAdapter.notifyDataSetChanged();
                 updateCheckoutButton();
                 // Nếu bỏ chọn tất cả, đặt tổng thành 0
                 if (!isChecked) {

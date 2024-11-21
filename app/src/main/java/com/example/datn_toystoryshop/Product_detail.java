@@ -569,24 +569,14 @@ public class Product_detail extends AppCompatActivity {
                     String prodSpecification = jsonResponse.get("prodSpecification").getAsString();
                     int quantity = Integer.parseInt(jsonResponse.get("quantity").getAsString());
                     // Xử lý với _id của cart
-                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp " + cartId);
-                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp11 " + prodSpecification);
-                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp12 " + quantity);
-                    Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp13 " + selectedColor);
                     if (!prodSpecification.equals(selectedColor)) {
                         // Gọi hàm addToCart() nếu khác nhau
                         addToCart();
-                        Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp14 ");
+
                     } else {
-
-
-
-
-                        ///////////chua fix xong
-
-
-                        // updateCartItem(apiService, cartId, prodSpecification, quantity );
-                        Log.d("CartCheck", "aaaaaaaaaaaaaaaaaaaaaaapppp15 ");
+                        int updatedQuantity = currentQuantity + quantity;
+                         updateCartItem(apiService, cartId, prodSpecification, updatedQuantity );
+                        // cộng tổng số lượng sản phẩm và cập nhâp
                     }
                 } else {
                     Log.e("CartCheck", "Không thể lấy _id của cart! Response: " + response.code());
