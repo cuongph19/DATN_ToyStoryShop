@@ -10,6 +10,8 @@ const OrderModel = require('./model/OrderModel');
 const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
 const Address = require('./model/AddressModel');
+const Chat = require('./model/ChatModel'); 
+
 
 const server = require('./server');
 
@@ -563,6 +565,73 @@ router.get('/addresses', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi kiểm tra sản phẩm:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi kiểm tra sản phẩm.', details: error.message });
+    }
+});
+
+
+
+
+const supportIds = ['support1', 'support2', 'support3']; // Danh sách ID hỗ trợ
+
+router.get('/chat/history', async (req, res) => {
+    try {
+        const { user1, user2 } = req.query;
+
+        if (!user1) {
+            return res.status(400).json({ error: 'Thiếu thông tin người dùng!' });
+        }
+
+        // Nếu user2 không được truyền, giả định đây là chat với bộ phận hỗ trợ
+        const realUser2 = user2 || supportIds.find(id => id !== user1);
+
+        if (!realUser2) {
+            return res.status(404).json({ error: 'Không tìm thấy bộ phận hỗ trợ!' });
+        }
+
+        const chatHistory = await Chat.find({
+            $or: [
+                { senderId: user1, receiverId: realUser2 },
+                { senderId: realUser2, receiverId: user1 },
+            ],
+        }).sort({ timestamp: 1 });
+
+        res.status(200).json({ data: chatHistory });
+    } catch (error) {
+        res.status(500).json({ error: 'Lỗi khi lấy lịch sử tin nhắn', details: error.message });
+    }
+});
+router.post('/chat/send', async (req, res) => {
+    try {
+        const { senderId, receiverId, message, chatType } = req.body;
+
+        if (!senderId || !message || !chatType) {
+            return res.status(400).json({ error: 'Thiếu thông tin cần thiết!' });
+        }
+
+        let realReceiverId = receiverId;
+
+        // Nếu không truyền receiverId, giả định người gửi là khách hàng và gửi tới bộ phận hỗ trợ
+        if (!receiverId) {
+            const supportIds = ['support1', 'support2', 'support3'];
+            realReceiverId = supportIds.find(id => id !== senderId);
+
+            if (!realReceiverId) {
+                return res.status(404).json({ error: 'Không tìm thấy bộ phận hỗ trợ!' });
+            }
+        }
+
+        const newMessage = new Chat({
+            senderId,
+            receiverId: realReceiverId,
+            message,
+            chatType,
+            timestamp: Date.now(),
+        });
+
+        const savedMessage = await newMessage.save();
+        res.status(200).json({ message: 'Gửi tin nhắn thành công!', data: savedMessage });
+    } catch (error) {
+        res.status(500).json({ error: 'Lỗi khi gửi tin nhắn', details: error.message });
     }
 });
 

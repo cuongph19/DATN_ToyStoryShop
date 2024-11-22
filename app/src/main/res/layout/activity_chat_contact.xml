@@ -1,24 +1,51 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:padding="16dp">
+    <LinearLayout
+        android:id="@+id/topLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="#001A61"
+            android:gravity="center"
+            android:text="Chat"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:scaleType="centerCrop"
+        app:tint="#CACACA"
+        android:alpha="0.5"
+        android:src="@drawable/ic_bgc"
+        android:contentDescription="Separator"/>
     <!-- Phần hiển thị tin nhắn -->
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FFFFFF"
-        android:padding="8dp">
-
-        <LinearLayout
-            android:id="@+id/chatContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        android:padding="8dp" />
 
     <!-- Phần nhập và gửi tin nhắn -->
     <LinearLayout
@@ -26,7 +53,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="#F0F0F0"
         android:padding="8dp">
 
         <EditText
@@ -35,6 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Nhập tin nhắn"
+            android:textColor="#000000"
+            android:textColorHint="#FFA726"
             android:background="@drawable/edittext_background"
             android:padding="10dp" />
 
@@ -42,6 +70,7 @@
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="Gửi"
             android:backgroundTint="#FFA726"
             android:textColor="#FFFFFF"/>
