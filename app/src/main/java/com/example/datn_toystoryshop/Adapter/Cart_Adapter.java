@@ -474,7 +474,13 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         return selectedCount;
     }
     public void refreshCart() {
-        apiService.getCarts().enqueue(new Callback<List<Cart_Model>>() {
+        String cusId = documentId;
+
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
+            return;
+        }
+        apiService.getCarts(cusId).enqueue(new Callback<List<Cart_Model>>() {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {

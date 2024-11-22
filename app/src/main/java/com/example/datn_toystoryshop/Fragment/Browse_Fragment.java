@@ -53,7 +53,12 @@ public class Browse_Fragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view_products);
         btnFilter = view.findViewById(R.id.btnFilter);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            documentId = bundle.getString("documentId");
+            Log.e("OrderHistoryAdapter", "j66666666666666666Browse_Fragment" + documentId);
 
+        }
 
         // Thiết lập LayoutManager cho RecyclerView
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

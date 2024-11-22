@@ -96,7 +96,6 @@ public class Cart_screen extends AppCompatActivity {
 
         // Nhận thêm thuộc tính currentQuantity, customerId, và productSpecification
         currentQuantity = intent.getIntExtra("currentQuantity", 1);
-        customerId = intent.getStringExtra("customerId");
         selectedColor = intent.getStringExtra("selectedColor");
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -224,8 +223,14 @@ public class Cart_screen extends AppCompatActivity {
         updateCheckoutButton();
     }
     public void loadCartProducts() {
+        String cusId = documentId;
+
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
+            return;
+        }
         APIService apiService = RetrofitClient.getAPIService();
-        apiService.getCarts().enqueue(new Callback<List<Cart_Model>>() {
+        apiService.getCarts(cusId).enqueue(new Callback<List<Cart_Model>>() {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {

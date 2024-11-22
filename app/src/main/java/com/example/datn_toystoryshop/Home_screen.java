@@ -132,12 +132,12 @@
                     if(itemId == R.id.nav_home){
                         loadFragment(new Home_Fragment(),bundle);
                     } else if (itemId == R.id.nav_browse){
-                        loadFragment(new Browse_Fragment(),null);
+                        loadFragment(new Browse_Fragment(),bundle);
                         //loadFragment(new Browse_Fragment(),null);
                     } else if (itemId == R.id.nav_store){
                         loadFragment(new Store_Fragment(),null);
                     } else if (itemId == R.id.nav_history){
-                        loadFragment(new History_Fragment(),null);
+                        loadFragment(new History_Fragment(),bundle);
                     } else{
                         loadFragment(new Profile_Fragment(), bundle);
                     }

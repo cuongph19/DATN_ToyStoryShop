@@ -50,8 +50,15 @@ public class Favorite_screen extends AppCompatActivity {
             }});
     }
     private void loadFavoriteProducts() {
+        String cusId = documentId;
+
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
+            return;
+        }
+
         APIService apiService = RetrofitClient.getAPIService();
-        apiService.getFavorites().enqueue(new Callback<List<Favorite_Model>>() {
+        apiService.getFavorites(cusId).enqueue(new Callback<List<Favorite_Model>>() {
             @Override
             public void onResponse(Call<List<Favorite_Model>> call, Response<List<Favorite_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
