@@ -26,6 +26,15 @@
         android:layout_gravity="center_horizontal">
         <!-- TextView để chọn ngôn ngữ -->
         <TextView
+            android:id="@+id/tvCurrencyValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40.000đ"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
             android:id="@+id/textViewLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

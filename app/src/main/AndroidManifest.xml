@@ -114,9 +114,6 @@
             android:name=".Setting.ContactSupport_screen"
             android:exported="false" />
         <activity
-            android:name=".Setting.Notifications_screen"
-            android:exported="false" />
-        <activity
             android:name=".Setting.ChangePassword_screen"
             android:exported="false" />
         <activity
