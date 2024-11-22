@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.CurrencyConverter;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
@@ -114,28 +116,28 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
 
 // Đặt sự kiện khi CheckBox được chọn hoặc bỏ chọn
-//        holder.checkBoxSelectItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            countSelectedItems();
-//            cart.setSelected(isChecked); // Cập nhật trạng thái của sản phẩm
-//            Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
-//            updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
-//            holder.checkBoxSelectItem.setChecked(cart.isSelected());
-//        });
-//
-//        // Sự kiện giảm số lượng với giá trị tối thiểu là 1
-//        holder.btnDecrease.setOnClickListener(v -> {
-//            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-//            if (currentQuantity > 1) {
-//                currentQuantity--;
-//                holder.tvQuantity.setText(String.valueOf(currentQuantity));
-////                updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
-////                refreshCart();
-//                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
-//                Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        holder.checkBoxSelectItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            countSelectedItems();
+            cart.setSelected(isChecked); // Cập nhật trạng thái của sản phẩm
+            Log.d("CartAdapter", "Product ID: " + cart.getProdId() + " selected: " + isChecked);
+            updateTotalPayment(false); // Tính toán lại tổng tiền khi trạng thái thay đổi
+            holder.checkBoxSelectItem.setChecked(cart.isSelected());
+        });
+
+        // Sự kiện giảm số lượng với giá trị tối thiểu là 1
+        holder.btnDecrease.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                holder.tvQuantity.setText(String.valueOf(currentQuantity));
+                updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
+                quantity = currentQuantity;
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
+                Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
+            }
+        });
         // Thiết lập Spinner với dữ liệu từ arrays
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
                 R.array.color_options, android.R.layout.simple_spinner_item);
@@ -156,26 +158,26 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         }
 
         // Thiết lập onItemSelectedListener cho colorSpinner
-//        holder.colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String newItem = parent.getItemAtPosition(position).toString();
-//                if (isDefaultSelected) {
-//                    isDefaultSelected = false; // Đánh dấu đã vượt qua giá trị mặc định
-//                    return;
-//                }
-//                if (!newItem.equals(selectedItem)) { // Kiểm tra nếu giá trị đã thay đổi
-//                    selectedItem = newItem;
-//                   // updateCartItem(apiService, cart.get_id(), selectedItem, quantity);
-//                  //  refreshCart();
-//                 //   Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + selectedItem);
-//                }
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Không làm gì khi không có gì được chọn
-//            }
-//        });
+        holder.colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String newItem = parent.getItemAtPosition(position).toString();
+                if (isDefaultSelected) {
+                    isDefaultSelected = false; // Đánh dấu đã vượt qua giá trị mặc định
+                    return;
+                }
+                if (!newItem.equals(selectedItem)) { // Kiểm tra nếu giá trị đã thay đổi
+                    selectedItem = newItem;
+                    updateCartItem(apiService, cart.get_id(), selectedItem, quantity);
+                  //  refreshCart();
+                    Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + selectedItem);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Không làm gì khi không có gì được chọn
+            }
+        });
         //lấy giá để tính tổng
         loadProductPrices();
 
@@ -183,8 +185,14 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
             public void onSuccess(Product_Model product) {
+                //////////////////code test chức năng đổi tiền
+                SharedPreferences prefs = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+                String currency = prefs.getString("current_currency", "VND"); // Mặc định là VND
+                String formattedPrice = CurrencyConverter.convertAndFormat(product.getPrice(), currency);
+                Log.e("cartAdapter", "aaaaaaaaaaaaaaaaaaaaa" + formattedPrice);
+                ///////////////
                 holder.productName.setText(product.getNamePro());
-                holder.productPrice.setText(String.format("%,.0fđ",product.getPrice()));
+                holder.productPrice.setText(String.format(formattedPrice));
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.productImage);
