@@ -52,7 +52,7 @@ public class ContactSupport_screen extends AppCompatActivity {
         imgBackSp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ContactSupport_screen.this, Setting_screen.class));
+                onBackPressed();
             }
         });
 

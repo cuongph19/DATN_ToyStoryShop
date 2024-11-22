@@ -3,6 +3,8 @@ package com.example.datn_toystoryshop.Server;
 import com.example.datn_toystoryshop.Model.Address;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
 import com.example.datn_toystoryshop.Model.Cart_Model;
+import com.example.datn_toystoryshop.Model.ChatHistoryResponse_Model;
+import com.example.datn_toystoryshop.Model.ChatMessage_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
@@ -14,6 +16,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -26,8 +29,8 @@ import retrofit2.http.Query;
 public interface APIService {
 
 
-//    String BASE_URL  = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.10:3000/";// huy
+    String BASE_URL  = "http://192.168.16.101:3000/";// cương
+     // String BASE_URL  = "http://192.168.1.10:3000/";// huy
    // String BASE_URL = "http://192.168.101.10:3000/";
 
 
@@ -112,4 +115,10 @@ public interface APIService {
     @GET("/api/cart/get-cart-id")
     Call<JsonObject> getCartId(@Query("prodId") String prodId, @Query("cusId") String cusId);
 
+    @POST("/api/chat/send")
+    Call<ResponseBody> sendMessage(@Body ChatMessage_Model chatMessage);
+
+    // Lấy lịch sử tin nhắn
+    @GET("/api/chat/history")
+    Call<ChatHistoryResponse_Model> getChatHistory(@Query("user1") String user1, @Query("user2") String user2);
 }

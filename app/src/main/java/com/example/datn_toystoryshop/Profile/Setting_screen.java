@@ -26,6 +26,7 @@ public class Setting_screen extends AppCompatActivity {
     private ImageView btnBack;
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
+    private String documentId;
     private SharedPreferences.Editor editor;
     boolean nightMode;
 
@@ -43,7 +44,7 @@ public class Setting_screen extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
 
         Intent intent = getIntent();
-        String documentId = intent.getStringExtra("documentId");
+        documentId = intent.getStringExtra("documentId");
 
 
         // SharedPreferences setup for dark mode toggle
@@ -81,10 +82,7 @@ public class Setting_screen extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Setting_screen.this, Home_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 

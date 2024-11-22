@@ -101,9 +101,7 @@ public class Cart_screen extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Cart_screen.this, Home_screen.class);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }});
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override

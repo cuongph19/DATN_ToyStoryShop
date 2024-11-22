@@ -2,111 +2,142 @@ package com.example.datn_toystoryshop.Contact_support;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.example.datn_toystoryshop.Adapter.Chat_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Model.ChatHistoryResponse_Model;
+import com.example.datn_toystoryshop.Model.ChatMessage_Model;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.Shopping.Cart_screen;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Chat_contact extends AppCompatActivity {
 
-    private EditText editTextMessage;
-    private Button buttonSend;
-    private LinearLayout chatContainer;
-    private String documentId;
+    private RecyclerView chatRecyclerView;
+    private EditText messageInput;
+    private Button sendButton;
+    private Chat_Adapter chatAdapter;
+    private List<ChatMessage_Model> chatMessageList;
+    private ImageView imgBack;
+    private String documentId;// ID của khách hàng
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_contact);
+        documentId = getIntent().getStringExtra("documentId");
+        Log.d("ContactSupport_screen", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkfffffff " + documentId);
+
 
         // Khởi tạo các thành phần giao diện
-         editTextMessage = findViewById(R.id.editTextMessage);
-         buttonSend = findViewById(R.id.buttonSend);
-         chatContainer = findViewById(R.id.chatContainer);
-        Intent intent = getIntent();
-        documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Chat_contact" + documentId);
-        // Tạo phản hồi tự động sau 2 giây
-        new Handler().postDelayed(new Runnable() {
+        chatRecyclerView = findViewById(R.id.recyclerViewChat);
+        messageInput = findViewById(R.id.editTextMessage);
+        sendButton = findViewById(R.id.buttonSend);
+        imgBack = findViewById(R.id.imgBack);
+        chatMessageList = new ArrayList<>();
+        chatAdapter = new Chat_Adapter(chatMessageList, documentId);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        chatRecyclerView.setAdapter(chatAdapter);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }});
+        // Gọi API để lấy lịch sử tin nhắn
+        getChatHistory();
+        // Tự động hiển thị tin nhắn hỗ trợ sau 2 giây
+        new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 addSupportMessage("Chào bạn, bạn cần tôi hỗ trợ gì nào?");
             }
-        }, 2000); // 2000 milliseconds = 2 seconds
-
-        // Xử lý sự kiện khi nhấn nút "Gửi"
-        buttonSend.setOnClickListener(new View.OnClickListener() {
+        }, 1000); // 2000 milliseconds = 2 seconds
+        // Xử lý sự kiện gửi tin nhắn
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = editTextMessage.getText().toString().trim();
-
+                String message = messageInput.getText().toString().trim();
                 if (!message.isEmpty()) {
-                    addUserMessage(message);
-
-                    // Hiển thị tin nhắn đã gửi bằng Toast
-                    Toast.makeText(Chat_contact.this, "Bạn đã gửi: " + message, Toast.LENGTH_SHORT).show();
-
-                    // Xóa nội dung trong EditText sau khi gửi
-                    editTextMessage.setText("");
-
-                    // Tạo phản hồi của nhân viên hỗ trợ sau khi người dùng gửi tin nhắn
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            addSupportMessage("Đây là phản hồi từ nhân viên hỗ trợ.");
-                        }
-                    }, 2000);
+                    sendMessage(message);
+                    getChatHistory();
                 } else {
-                    Toast.makeText(Chat_contact.this, "Vui lòng nhập tin nhắn", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Chat_contact.this, "Vui lòng nhập tin nhắn!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+    private void addSupportMessage(String message) {
+        ChatMessage_Model supportMessage = new ChatMessage_Model(null, documentId, message, "Văn bản");
+        chatMessageList.add(supportMessage);
+        chatAdapter.notifyItemInserted(chatMessageList.size() - 1);
+        chatRecyclerView.scrollToPosition(chatMessageList.size() - 1);
+    }
+    private void getChatHistory() {
+        APIService apiService = RetrofitClient.getAPIService();
+        apiService.getChatHistory(documentId, null).enqueue(new Callback<ChatHistoryResponse_Model>() {
+            @Override
+            public void onResponse(Call<ChatHistoryResponse_Model> call, Response<ChatHistoryResponse_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    chatMessageList.clear();
+                    chatMessageList.addAll(response.body().getData());
+                    chatAdapter.notifyDataSetChanged();
+                } else {
+                    Log.e("Chat", "Lỗi khi lấy lịch sử tin nhắn: " + response.code());
+                }
+            }
 
-    private void addUserMessage(String message) {
-        TextView messageView = new TextView(Chat_contact.this);
-        messageView.setText(message);
-        messageView.setBackgroundResource(R.drawable.user_message_background);
-        messageView.setPadding(16, 8, 16, 8);
-        messageView.setTextColor(getResources().getColor(android.R.color.white));
-
-        // Thiết lập khoảng cách bên trên 10dp
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 15, 0, 0);
-        params.gravity = Gravity.START; // Tin nhắn người dùng nằm bên phải
-        messageView.setLayoutParams(params);
-
-        // Thêm tin nhắn vào `chatContainer`
-        chatContainer.addView(messageView);
+            @Override
+            public void onFailure(Call<ChatHistoryResponse_Model> call, Throwable t) {
+                Log.e("Chat", "Lỗi mạng: " + t.getMessage());
+            }
+        });
     }
 
-    private void addSupportMessage(String message) {
-        TextView messageView = new TextView(Chat_contact.this);
-        messageView.setText(message);
-        messageView.setBackgroundResource(R.drawable.support_message_background);
-        messageView.setPadding(16, 8, 16, 8);
-        messageView.setTextColor(getResources().getColor(android.R.color.black));
+    private void sendMessage(String message) {
+        ChatMessage_Model chatMessage = new ChatMessage_Model(documentId, null, message, "Văn bản");
+        APIService apiService = RetrofitClient.getAPIService();
+        apiService.sendMessage(chatMessage).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    chatMessageList.add(chatMessage);
+                    chatAdapter.notifyItemInserted(chatMessageList.size() - 1);
+                    chatRecyclerView.scrollToPosition(chatMessageList.size() - 1);
+                    messageInput.setText("");
+                } else {
+                    Log.e("Chat", "Lỗi khi gửi tin nhắn: " + response.code());
+                }
+            }
 
-        // Thiết lập khoảng cách bên trên 10dp
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 15, 0, 0);
-        params.gravity = Gravity.END; // Tin nhắn nhân viên hỗ trợ nằm bên trái
-        messageView.setLayoutParams(params);
-
-        // Thêm tin nhắn vào `chatContainer`
-        chatContainer.addView(messageView);
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Chat", "Lỗi mạng: " + t.getMessage());
+            }
+        });
     }
 }
+
