@@ -2,11 +2,15 @@ package com.example.datn_toystoryshop.Contact_support;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,20 +31,19 @@ public class Email_contact extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;;
     private String documentId, email;
-    private TextView etEmail;
+    private TextView etEmail,tvAttachmentLabel;
+    private  Uri imageUri ;
     private FirebaseFirestore db;
+    private Button btnSend, btnAttachFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_email_contact);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         imgBackEmail = findViewById(R.id.imgBackEm);
         etEmail = findViewById(R.id.etEmail);
+        btnAttachFile = findViewById(R.id.btnAttachFile);
+        btnSend = findViewById(R.id.btnSend);
+        tvAttachmentLabel = findViewById(R.id.tvAttachmentLabel);
 /////////////code set cứng maill////////////////////
         db = FirebaseFirestore.getInstance();
         documentId = getIntent().getStringExtra("documentId");
@@ -90,6 +93,53 @@ public class Email_contact extends AppCompatActivity {
                 startActivity(new Intent(Email_contact.this, ContactSupport_screen.class));
             }
         });
+        btnAttachFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở trình chọn ảnh
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");  // Chỉ chọn ảnh
+                startActivityForResult(intent, 1);  // Yêu cầu trả kết quả từ Activity này
+            }
+        });
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy dữ liệu từ màn hình
+                String senderEmail = etEmail.getText().toString().trim();
+                String selectedService = ((Spinner) findViewById(R.id.spService)).getSelectedItem().toString();
+                String subject = ((TextView) findViewById(R.id.etSubject)).getText().toString().trim();
+                String description = ((TextView) findViewById(R.id.etDescription)).getText().toString().trim();
+
+                // Kiểm tra dữ liệu hợp lệ
+                if (senderEmail.isEmpty() || subject.isEmpty() || description.isEmpty() || selectedService.equals(" - Chọn loại - ")) {
+                    Toast.makeText(Email_contact.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Tạo nội dung email
+                String emailBody = "Người gửi: " + senderEmail + "\n"
+                        + "Dịch vụ: " + selectedService + "\n\n"
+                        + "Nội dung:\n" + description;
+
+                // Tạo Intent gửi email
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822"); // Chỉ định ứng dụng email
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"trancuong.alok@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
+                if (imageUri != null) {
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, imageUri);  // Đính kèm ảnh
+                }
+                try {
+                    // Bắt đầu Intent
+                    startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng email:"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    // Trường hợp không có ứng dụng email
+                    Toast.makeText(Email_contact.this, "Không tìm thấy ứng dụng email.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     private void loadUserDataByDocumentId(String documentId) {
         DocumentReference docRef = db.collection("users").document(documentId);
@@ -110,4 +160,36 @@ public class Email_contact extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (data != null) {
+                 imageUri = data.getData();  // Lấy URI của ảnh đã chọn
+
+                // Bạn có thể sử dụng imageUri để đính kèm ảnh vào email
+                // Nếu muốn, bạn có thể lưu URI này hoặc lấy đường dẫn thực tế từ URI
+                String imagePath = getPathFromURI(imageUri);
+                tvAttachmentLabel.setText(imagePath);
+                // Bạn có thể hiển thị hoặc xử lý ảnh ở đây (nếu muốn) trước khi gửi
+                Log.d("Selected Image", "Image URI: " + imageUri.toString());
+
+            }
+        }
+    }
+
+    private String getPathFromURI(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        String path = null;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            path = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return path;
+    }
+
 }
