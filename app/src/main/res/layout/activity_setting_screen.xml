@@ -62,19 +62,43 @@
         android:drawableStart="@drawable/ic_password"
         android:drawablePadding="8dp" />
 
-    <!-- Cài đặt thông báo -->
-    <TextView
-        android:id="@+id/tv_notifications"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/notification_set"
-        android:textColor="#001A61"
-        android:textSize="16sp"
-        android:padding="12dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_corners_background"
-        android:drawableStart="@drawable/ic_notifications"
-        android:drawablePadding="8dp" />
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tv_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/noti_block"
+            android:textColor="#001A61"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switch_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FFFFFF"
+            android:trackTint="#001A61" />
+    </LinearLayout>
+    <!-- Cài đặt thông báo -->
+<!--    <TextView-->
+<!--        android:id="@+id/tv_notifications"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/notification_set"-->
+<!--        android:textColor="#001A61"-->
+<!--        android:textSize="16sp"-->
+<!--        android:padding="12dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:background="@drawable/rounded_corners_background"-->
+<!--        android:drawableStart="@drawable/ic_notifications"-->
+<!--        android:drawablePadding="8dp" />-->
 
     <!-- Bật/tắt chế độ tối -->
     <LinearLayout

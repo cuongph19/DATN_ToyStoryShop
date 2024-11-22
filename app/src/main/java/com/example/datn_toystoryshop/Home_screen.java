@@ -1,10 +1,13 @@
     package com.example.datn_toystoryshop;
 
+    import android.app.Notification;
     import android.app.NotificationChannel;
     import android.app.NotificationManager;
     import android.app.PendingIntent;
+    import android.content.Context;
     import android.content.Intent;
     import android.content.SharedPreferences;
+    import android.content.pm.PackageManager;
     import android.os.Build;
     import android.os.Bundle;
     import android.util.Log;
@@ -14,6 +17,8 @@
     import android.widget.ImageView;
     import android.widget.RelativeLayout;
     import android.widget.TextView;
+    import android.widget.Toast;
+
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.AppCompatActivity;
     import androidx.core.app.NotificationCompat;
@@ -36,36 +41,27 @@
         private ImageView heart_icon ;
         private RelativeLayout cart_full_icon;
         public static final String CHANNEL_ID = "notification_channel";
-        private static final String PREFS_NAME = "MyPrefs";
-        private static final String NOTIFICATION_SHOWN_KEY = "notificationShown";
-        private static final String NOTIFICATION_BLOCKED_KEY = "notificationBlocked";
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_home);
 
-            createNotificationChannel();
 
-            SharedPreferences shared = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-            boolean notificationShown = shared.getBoolean(NOTIFICATION_SHOWN_KEY, false);
-            boolean isNotificationBlocked = shared.getBoolean(NOTIFICATION_BLOCKED_KEY, false); // Kiểm tra trạng thái chặn thông báo
-
-            if (!notificationShown && !isNotificationBlocked) {
-                // Gọi thông báo khi màn hình được mở
-                showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
-
-                // Cập nhật trạng thái đã hiển thị thông báo
-                SharedPreferences.Editor editor = shared.edit();
-                editor.putBoolean(NOTIFICATION_SHOWN_KEY, true);
-                editor.apply();
+            // Kiểm tra và yêu cầu quyền thông báo nếu đang trên Android 13 hoặc cao hơn
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+                } else {
+                    // Nếu đã có quyền, tạo thông báo ngay lập tức
+                    createNotificationChannel();
+                    showNotification();
+                }
+            } else {
+                // Nếu phiên bản thấp hơn Android 13, không cần yêu cầu quyền
+                createNotificationChannel();
+                showNotification();
             }
-
-//            if (!isNotificationBlocked) {
-//                // Gọi thông báo khi màn hình được mở
-//                showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
-//            }
-
 
             // Nhận dữ liệu từ Intent
             Intent intent = getIntent();
@@ -82,13 +78,8 @@
 
             }
 
-        //    profileFragment.setArguments(bundle);
             homeFragment.setArguments(bundle);
 
-            // Hiển thị Fragment
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.fragmentLayout, profileFragment)
-//                    .commit();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentLayout, homeFragment)
                     .commit();
@@ -160,13 +151,6 @@
             // Cập nhật tiêu đề dựa trên Fragment
             if (fragment instanceof Home_Fragment) {
                 header_title.setText(getString(R.string.app_name));
-//                SharedPreferences shared = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//                boolean isNotificationBlocked = shared.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
-//                boolean isSwitchChecked = !isNotificationBlocked; // Nếu thông báo không bị chặn thì switch được bật
-//
-//                if (isSwitchChecked) {
-//                    showNotification("Chào mừng bạn đến với Toy Story Shop!", "Chúc bạn một ngày tốt lành!");
-//                }
             } else if (fragment instanceof Browse_Fragment) {
                 header_title.setText(getString(R.string.browse_menu));
             } else if (fragment instanceof Store_Fragment) {
@@ -177,37 +161,48 @@
                 header_title.setText(getString(R.string.profile_menu));
             }
         }
-
-
+        // Tạo Notification Channel (dành cho Android 8.0 trở lên)
         private void createNotificationChannel() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                CharSequence name = "My Notification Channel";
-                String description = "Channel for app notifications";
+                CharSequence name = "My Channel";
+                String description = "Channel for notifications";
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
                 channel.setDescription(description);
 
-                // Đăng ký kênh thông báo với hệ thống
+                // Đăng ký channel với hệ thống
                 NotificationManager notificationManager = getSystemService(NotificationManager.class);
                 notificationManager.createNotificationChannel(channel);
             }
         }
 
-        private void showNotification(String title, String message) {
-            Intent intent = new Intent(this, Home_screen.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        // Hiển thị thông báo
+        private void showNotification() {
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_logo)  // Icon mặc định của Android
+                    .setContentTitle("Chào mừng bạn!")
+                    .setContentText("Bạn đã vào màn hình chính của ứng dụng.")
+                    .setPriority(Notification.PRIORITY_DEFAULT);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.bell) // Biểu tượng thông báo
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent) // Thiết lập intent
-                    .setAutoCancel(true);
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            // Hiển thị thông báo
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(1, builder.build());
         }
+
+        @Override
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (requestCode == 1) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Nếu quyền đã được cấp, tạo thông báo
+                    createNotificationChannel();
+                    showNotification();
+                } else {
+                    // Nếu quyền bị từ chối, thông báo cho người dùng
+                    Toast.makeText(this, "Bạn cần cấp quyền thông báo để sử dụng tính năng này.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
 
     }
