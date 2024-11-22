@@ -1,4 +1,5 @@
 package com.example.datn_toystoryshop.Adapter;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -78,20 +79,20 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     public void onBindViewHolder(@NonNull Cart_Adapter.CartViewHolder holder, int position) {
         Log.e("OrderHistoryAdapter", "j66666666666666666Cart_Adapter" + documentId);
         Cart_Model cart = cartList.get(position);
+        // Mặc định ẩn hiddenTextView
+        holder.hiddenTextView.setVisibility(View.GONE);
         String cartId = cart.get_id();
         String prodId = cart.getProdId();
          quantity = cart.getQuantity();
 
         Log.d("CartAdapter", "Attempting to delete product with ID: aaa" );
+        // Xử lý sự kiện nhấn vào nút xóa
         holder.hiddenTextView.setOnClickListener(v -> {
-            // Kiểm tra nếu hiddenTextView đang hiển thị
-            Log.d("CartAdapter", "Attempting to delete product with ID: ccccccc" );
-            if (isHiddenTextViewVisible(holder)) {
-                Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
-                deletecart(cart.getProdId(), holder);
-            } else {
-                Log.d("CartAdapter", "Attempting to delete product with ID:");
-            }
+            // Khi nhấn vào nút xóa, xóa sản phẩm khỏi giỏ hàng
+            Log.d("CartAdapter", "Attempting to delete product with ID: " + cart.getProdId());
+            deletecart(cart.getProdId(), holder);
+            // Dừng hành động vuốt sau khi xóa
+            notifyItemRemoved(holder.getAdapterPosition());
         });
 
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
@@ -260,28 +261,45 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // Xử lý khi vuốt hoàn tất, ví dụ: xóa sản phẩm
+                CartViewHolder cartViewHolder = (CartViewHolder) viewHolder;
+
+                // Khi vuốt sang trái, hiển thị dialog xác nhận
+                String productId = cartList.get(viewHolder.getAdapterPosition()).getProdId();
+                Log.d("CartAdapter", "Swipe action triggered. Product ID: " + productId);
+
+                // Hiển thị dialog xác nhận
+                new AlertDialog.Builder(context)
+                        .setTitle("Xóa sản phẩm")
+                        .setMessage("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Khi nhấn "Yes", xóa sản phẩm
+                            deletecart(productId, cartViewHolder);
+                            cartViewHolder.hiddenTextView.setVisibility(View.GONE); // Ẩn nút xóa
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            // Khi nhấn "No", hoàn tác hành động vuốt
+                            notifyItemChanged(viewHolder.getAdapterPosition());
+                            cartViewHolder.hiddenTextView.setVisibility(View.GONE); // Ẩn nút xóa
+                        })
+                        .create()
+                        .show();
             }
+
+
+
 
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                                     float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                CartViewHolder cartViewHolder = (CartViewHolder) viewHolder;
+
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    CartViewHolder cartViewHolder = (CartViewHolder) viewHolder;
-
-                    if (dX < 0) { // Vuốt từ phải sang trái
-                        // Giới hạn khoảng trượt của itemContent
-                        float maxSwipe = -cartViewHolder.hiddenTextView.getWidth();
+                    if (dX < 0) { // Vuốt sang trái
+                        float maxSwipe = -cartViewHolder.hiddenTextView.getWidth(); // Chiều rộng của nút xóa
                         float translationX = Math.max(dX, maxSwipe);
-
-                        // Di chuyển itemContent theo hướng vuốt
                         cartViewHolder.itemContent.setTranslationX(translationX);
-                        // Hiển thị hiddenTextView khi người dùng vuốt đủ xa
-                        if (translationX == maxSwipe) {
-                            cartViewHolder.hiddenTextView.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        // Đặt lại vị trí và ẩn hiddenTextView khi không vuốt đủ xa
+
+                    } else { // Reset trạng thái
                         cartViewHolder.itemContent.setTranslationX(0);
                         cartViewHolder.hiddenTextView.setVisibility(View.GONE);
                     }
@@ -289,11 +307,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                     super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 }
             }
-
-
-
-
-
 
 
             @Override
@@ -412,28 +425,40 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 
 
     private void deletecart(String productId, Cart_Adapter.CartViewHolder holder) {
-        Log.d("CartAdapter", "Attempting to delete product with ID: " + productId);
-        // Giả sử bạn đã có một APIService đã được định nghĩa cho việc xóa yêu thích
+        int position = holder.getAdapterPosition();
+        if (position == RecyclerView.NO_POSITION) {
+            Log.e("CartAdapter", "Invalid position, cannot delete item.");
+            return;
+        }
+
+        Log.d("CartAdapter", "Deleting item at position: " + position + ", product ID: " + productId);
+
         Call<Void> call = apiService.deleteCart(productId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Xóa sản phẩm yêu thích thành công
-                    cartList.remove(holder.getAdapterPosition()); // Xóa sản phẩm khỏi danh sách hiển thị
-                    notifyItemRemoved(holder.getAdapterPosition()); // Cập nhật RecyclerView
-                    notifyItemRangeChanged(holder.getAdapterPosition(), cartList.size()); // Cập nhật lại vị trí của các item
+                    cartList.remove(position);  // Xóa sản phẩm khỏi danh sách
+                    notifyItemRemoved(position); // Cập nhật giao diện
+                    Log.d("CartAdapter", "Item deleted successfully.");
+                    Toast.makeText(context, "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e("FavoriteAdapter", "Failed to delete favorite: " + response.message());
+                    Log.e("CartAdapter", "Failed to delete product: " + response.message());
+                    Toast.makeText(context, "Xóa sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("FavoriteAdapter", "API call failed: " + t.getMessage());
+                Log.e("CartAdapter", "API call failed: " + t.getMessage());
+                Toast.makeText(context, "Lỗi mạng: Không thể xóa sản phẩm!", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+
+
 
     public int countSelectedItems() {
         int selectedCount = 0;

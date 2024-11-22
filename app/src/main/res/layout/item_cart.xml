@@ -157,11 +157,19 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:background="#FF0000"
+        android:focusable="true"
         android:clickable="true"
         android:text="Xóa"
         android:textColor="#FFFFFF"
-        android:layout_gravity="end|top"/>
+        android:layout_gravity="end|top"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:padding="8dp"
+        >
 
-<!--    android:visibility="gone"-->
+    </TextView>
+
+
+
 
 </FrameLayout>
