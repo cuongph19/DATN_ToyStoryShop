@@ -1,5 +1,6 @@
 package com.example.datn_toystoryshop.Profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ public class Evaluate_screen extends AppCompatActivity {
     private ImageView btnBack;
     private String feedback;
     private float rating;
+    private String documentId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,9 @@ public class Evaluate_screen extends AppCompatActivity {
         etFeedback = findViewById(R.id.etFeedback);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_screen" + documentId);
 
         // Nút quay lại đăng nhập
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +68,7 @@ public class Evaluate_screen extends AppCompatActivity {
             return;
         }
 
-        FeebackApp_Model feebackAppModel = new FeebackApp_Model(null, "cusId", rating, feedback, new Date().toString());
+        FeebackApp_Model feebackAppModel = new FeebackApp_Model(null, documentId, rating, feedback, new Date().toString());
 
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
         Call<FeebackApp_Model> call = apiService.addToFeebackApp(feebackAppModel);

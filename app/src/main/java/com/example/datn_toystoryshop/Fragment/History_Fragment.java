@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class History_Fragment extends Fragment {
     private OrderHistoryAdapter adapter;
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
+    private String documentId;
 
     public History_Fragment() {
         // Required empty public constructor
@@ -47,7 +49,12 @@ public class History_Fragment extends Fragment {
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         setUpSpinners();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            documentId = bundle.getString("documentId");
+            Log.e("OrderHistoryAdapter", "j66666666666666666History_Fragment" + documentId);
 
+        }
         // Khởi tạo RecyclerView và Adapter
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         APIService apiService = RetrofitClient.getAPIService();
@@ -101,8 +108,14 @@ public class History_Fragment extends Fragment {
     }
 
     private void fetchOrders() {
+        String cusId = documentId;
+
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
+            return;
+        }
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders();
+        Call<List<Order_Model>> call = apiService.getOrders(cusId);
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {

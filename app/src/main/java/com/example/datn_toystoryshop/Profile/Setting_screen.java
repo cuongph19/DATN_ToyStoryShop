@@ -44,7 +44,6 @@ public class Setting_screen extends AppCompatActivity {
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
-        Log.d("Setting_screen", "Document ID received: " + documentId);
 
 
         // SharedPreferences setup for dark mode toggle

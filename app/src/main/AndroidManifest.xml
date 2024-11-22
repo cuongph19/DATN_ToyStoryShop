@@ -158,10 +158,10 @@
             android:name=".Register_login.SignUp_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.SignIn_screen"
+            android:name=".Home_screen"
             android:exported="false" />
         <activity
-            android:name=".Home_screen"
+            android:name=".Register_login.SignIn_screen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

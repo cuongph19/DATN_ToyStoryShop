@@ -97,6 +97,7 @@ public class Profile_Fragment extends Fragment {
         // Xử lý sự kiện cho mục "Đánh giá"
         tvRate.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Evaluate_screen.class);
+            intent.putExtra("documentId", documentId);
             startActivity(intent);
         });
 

@@ -237,10 +237,15 @@ router.get('/list-popular', async (req, res) => {
 
 router.get('/favorites', async (req, res) => {
     try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'favorites'
-        const favorites = await FavoriteModel.find({}, '_id prodId cusId ');
+        const favorites = await FavoriteModel.find({cusId}, '_id prodId cusId ');
 
         if (favorites.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm yêu thích nào.' });
@@ -255,11 +260,17 @@ router.get('/favorites', async (req, res) => {
 ///////////////////////////////////
 router.get('/carts', async (req, res) => {
     try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+        console.log('cusId truyền vào:', cusId);
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'carts'
-        const carts = await CartModel.find({}, '_id prodId quantity cusId prodSpecification ');
-
+        const carts = await CartModel.find({cusId}, '_id prodId quantity cusId prodSpecification ');
+        console.log('Kết quả truy vấn:', carts);
         if (carts.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong giỏ hàng.' });
         }
@@ -273,10 +284,16 @@ router.get('/carts', async (req, res) => {
 ///////////////////////////////////
 router.get('/orders', async (req, res) => {
     try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'orders'
-        const orders = await OrderModel.find({}, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+        const orders = await OrderModel.find({cusId}, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
 
         if (orders.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
@@ -290,10 +307,16 @@ router.get('/orders', async (req, res) => {
 });
 router.get('/feebacks', async (req, res) => {
     try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'feeback'
-        const feebacks = await FeebackModel.find({}, '_id cusId prodId start content dateFeed ');
+        const feebacks = await FeebackModel.find({cusId }, '_id cusId prodId start content dateFeed ');
 
         if (feebacks.length === 0) {
             return res.status(404).json({ error: 'Không có  đánh giá.' });

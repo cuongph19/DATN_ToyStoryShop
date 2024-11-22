@@ -107,10 +107,9 @@ public class Home_Fragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-            Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragmentbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" + documentId);
+            Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragment" + documentId);
 
         }
-        Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragmentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + documentId);
 
         recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
         recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
