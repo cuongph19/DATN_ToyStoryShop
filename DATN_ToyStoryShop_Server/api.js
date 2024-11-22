@@ -600,6 +600,51 @@ router.post('/addresses', async (req, res) => {
     }
 });
 
+router.patch('/addresses/:id', async (req, res) => {
+    try {
+      const addressId = req.params.id;
+      const { name, phone, address, addressDetail } = req.body;
+  
+      // Kiểm tra xem ít nhất một trong các trường cần cập nhật có được cung cấp không
+      if (!name && !phone && !address && !addressDetail) {
+        return res.status(400).json({
+          success: false,
+          message: 'Cần cung cấp ít nhất một trường để cập nhật',
+        });
+      }
+  
+      // Tạo đối tượng cập nhật chỉ với các trường cần thay đổi
+      const updateData = {};
+      if (name) updateData.name = name;
+      if (phone) updateData.phone = phone;
+      if (address) updateData.address = address;
+      if (addressDetail) updateData.addressDetail = addressDetail;
+  
+      // Cập nhật địa chỉ trong cơ sở dữ liệu
+      const updatedAddress = await Address.findByIdAndUpdate(addressId, updateData, { new: true });
+  
+      // Kiểm tra nếu không tìm thấy địa chỉ
+      if (!updatedAddress) {
+        return res.status(404).json({ message: 'Địa chỉ không tìm thấy' });
+      }
+  
+      // Trả về địa chỉ đã được cập nhật
+      res.status(200).json({
+        success: true,
+        message: 'Cập nhật địa chỉ thành công',
+        data: updatedAddress,
+      });
+    } catch (error) {
+      console.error('Lỗi khi cập nhật địa chỉ:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Không thể cập nhật địa chỉ',
+        error: error.message,
+      });
+    }
+  });
+  
+
 router.get('/cart/check-product', async (req, res) => {
     const { prodId, cusId } = req.query; // Lấy productId và customerId từ query
 

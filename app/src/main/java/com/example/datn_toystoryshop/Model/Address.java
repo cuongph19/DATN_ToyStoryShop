@@ -15,6 +15,14 @@ public class Address {
     public Address() {
     }
 
+    public Address(String name, String phone, String address, String addressDetail, boolean isDefault) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.addressDetail = addressDetail;
+        this.isDefault = isDefault;
+    }
+
     public Address(String _id, String userId, String name, String phone, String address, String addressDetail, boolean isDefault) {
         this._id = _id;
         this.userId = userId;
