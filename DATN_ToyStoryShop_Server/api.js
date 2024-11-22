@@ -10,7 +10,7 @@ const OrderModel = require('./model/OrderModel');
 const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
 const Address = require('./model/AddressModel');
-const Chat = require('./model/ChatModel'); 
+const Chat = require('./model/ChatModel');
 
 
 const server = require('./server');
@@ -276,7 +276,7 @@ router.get('/carts', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'carts'
-        const carts = await CartModel.find({cusId}, '_id prodId quantity cusId prodSpecification ');
+        const carts = await CartModel.find({ cusId }, '_id prodId quantity cusId prodSpecification ');
         console.log('Kết quả truy vấn:', carts);
         if (carts.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong giỏ hàng.' });
@@ -300,7 +300,7 @@ router.get('/orders', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'orders'
-        const orders = await OrderModel.find({cusId}, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+        const orders = await OrderModel.find({ cusId }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
 
         if (orders.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
@@ -323,7 +323,7 @@ router.get('/feebacks', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'feeback'
-        const feebacks = await FeebackModel.find({cusId }, '_id cusId prodId start content dateFeed ');
+        const feebacks = await FeebackModel.find({ cusId }, '_id cusId prodId start content dateFeed ');
 
         if (feebacks.length === 0) {
             return res.status(404).json({ error: 'Không có  đánh giá.' });
@@ -473,7 +473,7 @@ router.post('/add/add-to-cart', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { prodId, quantity, cusId, prodSpecification  } = req.body;
+        const { prodId, quantity, cusId, prodSpecification } = req.body;
         const newCart = new CartModel({ prodId, quantity, cusId, prodSpecification });
         await newCart.save();
         res.status(201).json({ message: 'Thêm vào giỏ hàng thành công!', data: newCart });
@@ -490,7 +490,7 @@ router.put('/update/cart/:cartId', async (req, res) => {
         const { quantity, prodSpecification } = req.body; // Lấy các thông tin cập nhật từ body
 
         // Tìm sản phẩm theo id
-        const cartItem = await CartModel.findById({ _id: cartId});
+        const cartItem = await CartModel.findById({ _id: cartId });
         if (!cartItem) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại trong giỏ hàng!' });
         }
@@ -539,15 +539,68 @@ router.post('/add/add-to-order', async (req, res) => {
 
 router.get('/addresses', async (req, res) => {
     try {
-      // Lấy tất cả các địa chỉ trong database
-      const addresses = await Address.find();
-      res.json(addresses);
+        // Lấy tất cả các địa chỉ trong database
+        const addresses = await Address.find();
+        res.json(addresses);
     } catch (error) {
-      console.error('Lỗi khi lấy tất cả địa chỉ:', error);
-      res.status(500).json({ error: 'Có lỗi xảy ra khi lấy tất cả địa chỉ.' });
+        console.error('Lỗi khi lấy tất cả địa chỉ:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy tất cả địa chỉ.' });
+    }
+});
+
+router.get('/addresses/:id', async (req, res) => {
+    try {
+      const addressId = req.params.id;
+  
+      // Tìm địa chỉ theo ID
+      const address = await Address.findById(addressId);
+  
+      // Kiểm tra nếu không tìm thấy địa chỉ
+      if (!address) {
+        return res.status(404).json({ message: "Address not found" });
+      }
+  
+      // Trả về địa chỉ tìm thấy
+      res.status(200).json(address);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
     }
   });
-  router.get('/cart/check-product', async (req, res) => {
+
+  
+router.post('/addresses', async (req, res) => {
+    try {
+        const { name, phone, address, addressDetail, isDefault } = req.body;
+
+        // Tạo đối tượng Address mới
+        const newAddress = new Address({
+            userId: "defaultUserId", // Giá trị mặc định tạm thời
+            name,
+            phone,
+            address,
+            addressDetail,
+            isDefault: isDefault || false, // Mặc định là `false` nếu không được truyền
+        });
+
+        // Lưu địa chỉ vào cơ sở dữ liệu
+        const savedAddress = await newAddress.save();
+        res.status(201).json({
+            success: true,
+            message: "Địa chỉ đã được thêm thành công",
+            data: savedAddress,
+        });
+    } catch (error) {
+        console.error("Lỗi khi thêm địa chỉ:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không thể thêm địa chỉ",
+            error: error.message,
+        });
+    }
+});
+
+router.get('/cart/check-product', async (req, res) => {
     const { prodId, cusId } = req.query; // Lấy productId và customerId từ query
 
     try {
@@ -691,10 +744,11 @@ router.get('/cart/get-cart-id', async (req, res) => {
             return res.status(404).json({ message: 'Không tìm thấy sản phẩm trong giỏ hàng.' });
         }
 
-        res.json({ cartId: cartItem._id,
+        res.json({
+            cartId: cartItem._id,
             prodSpecification: cartItem.prodSpecification,
             quantity: cartItem.quantity,
-         }); // Trả về _id của cart
+        }); // Trả về _id của cart
     } catch (error) {
         console.error('Lỗi khi lấy _id và prodSpecification  của sản phẩm:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi truy vấn _id của sản phẩm.', details: error.message });

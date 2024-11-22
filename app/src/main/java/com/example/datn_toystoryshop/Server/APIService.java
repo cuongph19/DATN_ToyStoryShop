@@ -29,9 +29,9 @@ import retrofit2.http.Query;
 public interface APIService {
 
 
-    String BASE_URL  = "http://192.168.16.101:3000/";// cương
+//    String BASE_URL  = "http://192.168.16.101:3000/";// cương
      // String BASE_URL  = "http://192.168.1.10:3000/";// huy
-   // String BASE_URL = "http://192.168.101.10:3000/";
+    String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -110,6 +110,11 @@ public interface APIService {
 
     @GET("/api/addresses")
     Call<List<Address>> getAllAddresses();
+
+    @GET("/api/addresses/{id}")
+    Call<Address> getAddressById(@Path("id") String addressId);
+
+
     @GET("/api/cart/check-product")
     Call<JsonObject> checkProductInCart(@Query("prodId") String prodId, @Query("cusId") String cusId);
     @GET("/api/cart/get-cart-id")

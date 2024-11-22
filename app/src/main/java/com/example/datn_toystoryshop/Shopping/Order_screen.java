@@ -111,8 +111,27 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         show_more_oder = findViewById(R.id.show_more_oder);
         recycler_view_oder = findViewById(R.id.recycler_view_oder);
         tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
+
+        TextView addressName = findViewById(R.id.address_name);
+        TextView addressPhone = findViewById(R.id.address_phone);
+        TextView addressDetail = findViewById(R.id.address_detail);
+
+
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+
+        String name = intent.getStringExtra("selectedAddressName");
+        String phone = intent.getStringExtra("selectedAddressPhone");
+        String address = intent.getStringExtra("selectedAddress");
+        String detail = intent.getStringExtra("selectedAddressDetail");
+
+        // Hiển thị dữ liệu lên giao diện
+        String fullAddress = (address != null ? address : "") +
+                (detail != null ? ", " + detail : "");
+        addressName.setText(name != null ? name : "");
+        addressPhone.setText(phone != null ? phone : "");
+        addressDetail.setText(!fullAddress.trim().isEmpty() ? fullAddress : "Chưa chọn thông tin người nhận!");
+
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen" + documentId);
         ///dulieunhanCart
