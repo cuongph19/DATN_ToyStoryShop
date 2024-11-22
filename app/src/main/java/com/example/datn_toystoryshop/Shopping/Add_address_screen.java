@@ -22,7 +22,7 @@ public class Add_address_screen extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Add_address_screen.this, Cart_screen.class);
+                Intent intent = new Intent(Add_address_screen.this, AddressList_Screen.class);
                 startActivity(intent);
                 finish();
             }});

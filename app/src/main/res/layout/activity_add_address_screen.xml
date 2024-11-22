@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:background="#FFFFFF">
 
-    <!-- Back button -->
+    <!-- Nút quay lại -->
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         android:contentDescription="Back"
         android:padding="8dp" />
 
-    <!-- Title -->
+    <!-- Tiêu đề -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
@@ -26,19 +26,7 @@
         android:gravity="center"
         android:paddingVertical="16dp" />
 
-    <!-- Use current location button -->
-    <Button
-        android:id="@+id/btnUseCurrentLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Use current location"
-        android:textColor="#001A61"
-        android:drawableLeft="@drawable/ic_location"
-        android:backgroundTint="#FFFFFF"
-        android:paddingVertical="12dp"
-        android:gravity="center" />
-
-    <!-- Name input field -->
+    <!-- Tên người nhận -->
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
@@ -48,7 +36,7 @@
         android:padding="12dp"
         android:backgroundTint="#001A61" />
 
-    <!-- Phone input field -->
+    <!-- Số điện thoại -->
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
@@ -58,52 +46,41 @@
         android:padding="12dp"
         android:backgroundTint="#001A61" />
 
-    <!-- Street address input field -->
+    <!-- Địa chỉ -->
     <EditText
-        android:id="@+id/etStreetAddress"
+        android:id="@+id/etAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Địa chỉ đường phố"
+        android:hint="Địa chỉ"
         android:inputType="textPostalAddress"
         android:padding="12dp"
         android:backgroundTint="#001A61" />
 
-    <!-- City input field -->
+    <!-- Chi tiết địa chỉ -->
     <EditText
-        android:id="@+id/etCity"
+        android:id="@+id/etAddressDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Thành phố"
+        android:hint="Chi tiết địa chỉ"
         android:inputType="text"
         android:padding="12dp"
         android:backgroundTint="#001A61" />
 
-    <!-- Country input field -->
-    <EditText
-        android:id="@+id/etCountry"
+    <!-- Checkbox đặt làm mặc định -->
+    <CheckBox
+        android:id="@+id/cbDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Đất nước"
-        android:inputType="text"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        android:text="Đặt làm địa chỉ mặc định"
+        android:paddingVertical="8dp"
+        android:textColor="#001A61" />
 
-    <!-- Zipcode input field -->
-    <EditText
-        android:id="@+id/etZipcode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Zipcode"
-        android:inputType="number"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
-
-    <!-- Save button -->
+    <!-- Nút lưu -->
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="Lưu"
         android:textColor="#FFFFFF"
         android:backgroundTint="#001A61"
         android:paddingVertical="16dp"
