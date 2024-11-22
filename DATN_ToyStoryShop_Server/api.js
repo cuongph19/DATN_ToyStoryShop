@@ -235,6 +235,7 @@ router.get('/list-popular', async (req, res) => {
 });
 
 
+// Lấy sản phẩm yêu thích
 router.get('/favorites', async (req, res) => {
     try {
         const { cusId } = req.query;
@@ -242,10 +243,14 @@ router.get('/favorites', async (req, res) => {
         if (!cusId) {
             return res.status(400).json({ error: 'cusId không được để trống.' });
         }
-        await mongoose.connect(server.uri);
+
+        // Kiểm tra kết nối MongoDB đã thành công trước khi thực hiện query
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(500).json({ error: 'Kết nối MongoDB chưa thành công.' });
+        }
 
         // Tìm tất cả các sản phẩm trong collection 'favorites'
-        const favorites = await FavoriteModel.find({cusId}, '_id prodId cusId ');
+        const favorites = await FavoriteModel.find({ cusId }, '_id prodId cusId');
 
         if (favorites.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm yêu thích nào.' });
@@ -381,14 +386,15 @@ router.delete('/deleteCart/:id', async (req, res) => {
         mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
-// API xóa sản phẩm vào favorites
+// Xóa sản phẩm khỏi favorites
 router.delete('/deleteFavorite/:id', async (req, res) => {
-    const { id } = req.params; // Nhận _id từ đường dẫn
-
+    const { id } = req.params;
     try {
-        await mongoose.connect(server.uri);
+        // Kiểm tra kết nối MongoDB đã thành công
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(500).json({ error: 'Kết nối MongoDB chưa thành công.' });
+        }
 
-        // Xóa sản phẩm trong collection 'favorites' dựa trên _id
         const result = await FavoriteModel.deleteOne({ prodId: id });
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm yêu thích với ID đã cho.' });
@@ -398,8 +404,6 @@ router.delete('/deleteFavorite/:id', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi xóa sản phẩm yêu thích:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm yêu thích.' });
-    } finally {
-        mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
 router.get('/check-favorite/:prodId', async (req, res) => {
@@ -435,10 +439,8 @@ router.post('/add/add-to-app-feeback', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
     }
 });
-// API thêm sản phẩm vào favorites
+// Thêm sản phẩm vào favorites
 router.post('/add/add-to-favorites', async (req, res) => {
-    console.log(req.body); // Xem dữ liệu nhận được trong body
-
     try {
         const { prodId, cusId } = req.body;
         const newFavorite = new FavoriteModel({ prodId, cusId });

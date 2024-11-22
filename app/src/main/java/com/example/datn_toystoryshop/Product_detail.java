@@ -211,19 +211,16 @@ public class Product_detail extends AppCompatActivity {
         heartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFavorite == false) { // kiểm tra nếu đã yêu thích và có favoriteId
+                if (!isFavorite) { // Nếu chưa yêu thích
                     heartIcon.setColorFilter(Color.RED);
                     addFavorite();
-                } else if (isFavorite == true) { // nếu chưa yêu thích
+                } else { // Nếu đã yêu thích
                     heartIcon.setColorFilter(Color.parseColor("#A09595"));
-                    Log.e("Product_detail", "aaaaaaaaaaaaaaaafavoriteId: " + favoriteId);
-                    Log.e("Product_detail", "aaaaaaaaaaaaaaaa: " + productId);
-                    deleteFavorite(productId);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Xóa yêu thích thất bại: favoriteId không hợp lệ", Toast.LENGTH_SHORT).show();
+                    deleteFavorite(productId); // Xóa khỏi yêu thích trước khi thêm lại
                 }
             }
         });
+
 
     }
 
@@ -655,16 +652,16 @@ public class Product_detail extends AppCompatActivity {
     private void deleteFavorite(String productId) {
         // Gọi API xóa yêu thích
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Void> call = apiService.deleteFavorite(productId); // Đảm bảo phương thức này đã được định nghĩa trong APIService
+        Call<Void> call = apiService.deleteFavorite(productId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     heartIcon.setColorFilter(Color.parseColor("#A09595"));
+                    isFavorite = false; // Reset trạng thái sau khi xóa
                     Toast.makeText(getApplicationContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show();
-                    addFavorite();
                     Log.e("API Response", "Response code: " + response.code());
                 }
             }
@@ -676,6 +673,8 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void updateDotIndicator() {
         for (int i = 0; i < dotIndicators.size(); i++) {
