@@ -99,14 +99,13 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         holder.btnIncrease.setOnClickListener(v -> {
           int   currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             currentQuantity++;
+            holder.tvQuantity.setText(String.valueOf(currentQuantity));
             updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
             quantity = currentQuantity;
-            holder.tvQuantity.setText(String.valueOf(currentQuantity));
             Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + currentQuantity);
             Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + quantity);
 
           //  gặp lỗi tvQuantity không cập nhập lên ngay mà phải click 2 lần thì mới cập nhập, mặc dù khi click 1 lần dữ liệu đã lên đc mongo
-            refreshCart();
 
         });
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
