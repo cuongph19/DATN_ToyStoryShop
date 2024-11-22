@@ -20,6 +20,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -114,6 +116,20 @@ public interface APIService {
     @GET("/api/addresses/{id}")
     Call<Address> getAddressById(@Path("id") String addressId);
 
+    @POST("/api/addresses")
+    Call<Address> addAddress(@Body Address address);
+
+
+
+//    @FormUrlEncoded  // Chỉ định bạn sử dụng form URL encoding
+//    @PUT("api/addresses/{id}")  // Sử dụng PUT để cập nhật tài nguyên
+//    Call<Address> updateAddress(
+//            @Field("id") String id,
+//            @Field("name") String name,
+//            @Field("phone") String phone,
+//            @Field("address") String address,
+//            @Field("addressDetail") String addressDetail
+//    );
 
     @GET("/api/cart/check-product")
     Call<JsonObject> checkProductInCart(@Query("prodId") String prodId, @Query("cusId") String cusId);

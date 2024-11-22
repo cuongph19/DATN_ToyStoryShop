@@ -27,6 +27,17 @@ public class AddressList_Screen extends AppCompatActivity {
     ImageView imgBack;
     LinearLayout linAdd;
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Kiểm tra mã yêu cầu và mã kết quả
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Gọi lại API để tải lại danh sách địa chỉ sau khi thêm mới
+            getAddressesFromAPI();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list_screen);  // Đảm bảo layout này là layout của bạn
@@ -62,10 +73,12 @@ public class AddressList_Screen extends AppCompatActivity {
         linAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sử dụng startActivityForResult() thay vì startActivity()
                 Intent intent = new Intent(AddressList_Screen.this, Add_address_screen.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);  // Request code 1
             }
         });
+
     }
 
     private void getAddressesFromAPI() {
