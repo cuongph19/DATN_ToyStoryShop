@@ -8,7 +8,7 @@
     <string name="blind_box_homefm">Hộp mù</string>
     <string name="figuring_homefm">Hình dung</string>
     <string name="other_products_homefm">Sản phẩm khác</string>
-    <string name="art_story_homefm">Câu chuyện </string>
+    <string name="sale_homefm">Giảm giá</string>
     <string name="limited_figure_homefm">Phiên bản giới hạn</string>
     <string name="new_product_homefm">Sản phẩm mới</string>
     <string name="see_all_homefm">Xem tất cả</string>
@@ -17,13 +17,14 @@
     <string name="view_all_homefm">Xem tất cả</string>
     <string name="follow_homefm">Theo dõi</string>
     <string name="all_new_pro">Tất cả sản phẩm mới</string>
+    <string name="all_sale_pro">Sản phẩm giảm giá</string>
     <string name="all_popular_pro">Tất cả sản phẩm phổ biến</string>
 
     <!-- Profile_Fragment -->
     <string name="sign_out_success_pro">Đăng xuất thành công</string>
     <string name="setting_pro">Cài đặt</string>
     <string name="language_currency_pro">Ngôn ngữ và tiền tệ</string>
-    <string name="evaluate_pro">Đánh giá</string>
+    <string name="evaluate_pro">Đánh giá Ứng dụng</string>
     <string name="refer_friends_pro">Giới thiệu bạn bè</string>
     <string name="terms_conditions_pro">Điều khoản &amp; Điều kiện</string>
     <string name="privacy_security_pro">Quyền riêng tư &amp; Bảo mật</string>
@@ -197,7 +198,7 @@
     <!-- menu -->
     <string name="home_menu">Trang Chủ</string>
     <string name="browse_menu">Tìm Kiếm</string>
-    <string name="store_menu">Cửa Hàng</string>
+    <string name="artstory_menu">Tin tức</string>
     <string name="history_menu">Lịch Sử Mua</string>
     <string name="profile_menu">Hồ Sơ</string>
 

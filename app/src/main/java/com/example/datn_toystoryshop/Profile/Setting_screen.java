@@ -20,12 +20,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
-import com.example.datn_toystoryshop.Setting.ContactSupport_screen;
+import com.example.datn_toystoryshop.Setting.Currency_Language_screen;
 import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
 
-    private TextView tvUpdateInfo, tvChangePassword, tvNotifications, tvContactSupport;
+    private TextView tvUpdateInfo, tvChangePassword, tvNotifications,tvLanguageCurrency;
     private ImageView btnBack;
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
@@ -63,8 +63,8 @@ public class Setting_screen extends AppCompatActivity {
         tvUpdateInfo = findViewById(R.id.tv_update_info);
         tvChangePassword = findViewById(R.id.tv_change_password);
         tvNotifications = findViewById(R.id.tv_notifications);
-        tvContactSupport = findViewById(R.id.tv_contact_support);
         switchDarkMode = findViewById(R.id.switch_dark_mode);
+        tvLanguageCurrency = findViewById(R.id.tv_languagecurrency);
         btnBack = findViewById(R.id.btnBack);
         switchNotif = findViewById(R.id.switch_notif);
 
@@ -84,6 +84,13 @@ public class Setting_screen extends AppCompatActivity {
         } else {
             btnBack.setImageResource(R.drawable.back_icon_1);
         }
+
+        // Xử lý sự kiện cho mục "Ngôn ngữ & tiền tệ"
+        tvLanguageCurrency.setOnClickListener(v -> {
+            // Chuyển tới màn hình ngôn ngữ và tiền tệ
+            Intent intent1 = new Intent(Setting_screen.this, Currency_Language_screen.class);
+            startActivity(intent1);
+        });
 
         switchDarkMode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,15 +134,6 @@ public class Setting_screen extends AppCompatActivity {
                 // Chuyển sang NewActivity
                 Intent intent = new Intent(Setting_screen.this, ChangePassword_screen.class);
                 intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-
-        tvContactSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Setting_screen.this, ContactSupport_screen.class);
-                intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
                 startActivity(intent);
             }
         });

@@ -25,11 +25,13 @@
     import androidx.fragment.app.Fragment;
     import androidx.fragment.app.FragmentManager;
     import androidx.fragment.app.FragmentTransaction;
+
+    import com.example.datn_toystoryshop.Fragment.ArtStory_Fragment;
     import com.example.datn_toystoryshop.Fragment.Browse_Fragment;
     import com.example.datn_toystoryshop.Fragment.History_Fragment;
     import com.example.datn_toystoryshop.Fragment.Home_Fragment;
     import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
-    import com.example.datn_toystoryshop.Fragment.Store_Fragment;
+
     import com.example.datn_toystoryshop.Shopping.Favorite_screen;
     import com.example.datn_toystoryshop.Shopping.Cart_screen;
     import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -124,11 +126,10 @@
                         loadFragment(new Home_Fragment(),bundle);
                     } else if (itemId == R.id.nav_browse){
                         loadFragment(new Browse_Fragment(),bundle);
-                        //loadFragment(new Browse_Fragment(),null);
-                    } else if (itemId == R.id.nav_store){
-                        loadFragment(new Store_Fragment(),null);
                     } else if (itemId == R.id.nav_history){
                         loadFragment(new History_Fragment(),bundle);
+                    } else if (itemId == R.id.nav_ArtStory){
+                        loadFragment(new ArtStory_Fragment(),null);
                     } else{
                         loadFragment(new Profile_Fragment(), bundle);
                     }
@@ -153,10 +154,10 @@
                 header_title.setText(getString(R.string.app_name));
             } else if (fragment instanceof Browse_Fragment) {
                 header_title.setText(getString(R.string.browse_menu));
-            } else if (fragment instanceof Store_Fragment) {
-                header_title.setText(getString(R.string.store_menu));
             } else if (fragment instanceof History_Fragment) {
                 header_title.setText(getString(R.string.history_menu));
+            } else if (fragment instanceof ArtStory_Fragment) {
+                header_title.setText(getString(R.string.artstory_menu));
             } else if (fragment instanceof Profile_Fragment) {
                 header_title.setText(getString(R.string.profile_menu));
             }

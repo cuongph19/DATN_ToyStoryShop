@@ -65,14 +65,7 @@
             android:textSize="16sp"
             android:padding="12dp"/>
 
-        <TextView
-            style="@style/TEXT"
-            android:id="@+id/tv_languagecurrency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/language_currency_pro"
-            android:textSize="16sp"
-            android:padding="12dp"/>
+
 
         <TextView
             style="@style/TEXT"
@@ -85,10 +78,28 @@
 
         <TextView
             style="@style/TEXT"
+            android:id="@+id/tv_Store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vị trí cửa hàng"
+            android:textSize="16sp"
+            android:padding="12dp"/>
+        <TextView
+            style="@style/TEXT"
             android:id="@+id/tv_introducefriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/refer_friends_pro"
+            android:textSize="16sp"
+            android:padding="12dp"/>
+
+        <!-- Hỗ trợ & Liên hệ -->
+        <TextView
+            style="@style/TEXT"
+            android:id="@+id/tv_contact_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_support_set"
             android:textSize="16sp"
             android:padding="12dp"/>
 

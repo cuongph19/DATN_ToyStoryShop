@@ -47,7 +47,19 @@
         android:background="@drawable/rounded_corners_background"
         android:drawableStart="@drawable/ic_personal_info"
         android:drawablePadding="8dp" />
-
+    <TextView
+        style="@style/TEXT"
+        android:id="@+id/tv_languagecurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/language_currency_pro"
+        android:textColor="#001A61"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:background="@drawable/rounded_corners_background"
+        android:drawableStart="@drawable/ic_notifications"
+        android:layout_marginTop="15dp"
+        android:drawablePadding="8dp"/>
     <!-- Đổi mật khẩu -->
     <TextView
         android:id="@+id/tv_change_password"
@@ -125,17 +137,4 @@
             android:trackTint="#001A61"/>
     </LinearLayout>
 
-    <!-- Hỗ trợ & Liên hệ -->
-    <TextView
-        android:id="@+id/tv_contact_support"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/contact_support_set"
-        android:textColor="#001A61"
-        android:textSize="16sp"
-        android:padding="12dp"
-        android:background="@drawable/rounded_corners_background"
-        android:layout_marginTop="15dp"
-        android:drawableStart="@drawable/ic_contact_support"
-        android:drawablePadding="8dp"/>
 </LinearLayout>

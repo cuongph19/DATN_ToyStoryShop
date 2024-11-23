@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.Profile;
+package com.example.datn_toystoryshop.Setting;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

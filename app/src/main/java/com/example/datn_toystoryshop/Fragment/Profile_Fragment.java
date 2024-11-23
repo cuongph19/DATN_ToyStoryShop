@@ -15,21 +15,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.datn_toystoryshop.Profile.Currency_Language_screen;
+
 import com.example.datn_toystoryshop.Profile.Evaluate_screen;
 import com.example.datn_toystoryshop.Profile.Introduce_Friends_screen;
 import com.example.datn_toystoryshop.Profile.Privacy_Security_screen;
 import com.example.datn_toystoryshop.Profile.Setting_screen;
+import com.example.datn_toystoryshop.Profile.Store_screen;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Register_login.SignIn_screen;
+import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class Profile_Fragment extends Fragment {
 
-    private TextView tvSettings, tvLanguageCurrency, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity;
+    private TextView tvSettings, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity, tvContactSupport, tvStore;
     private ImageView ivAvatar;
     private FirebaseFirestore db;
     private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
@@ -61,7 +63,8 @@ public class Profile_Fragment extends Fragment {
         tvname = view.findViewById(R.id.tv_user_name);
         tvtvinformation = view.findViewById(R.id.tv_information);
         tvSettings = view.findViewById(R.id.tv_settings);
-        tvLanguageCurrency = view.findViewById(R.id.tv_languagecurrency);
+        tvContactSupport = view.findViewById(R.id.tv_contact_support);
+        tvStore = view.findViewById(R.id.tv_Store);
         tvRate = view.findViewById(R.id.tv_rate);
         tvIntroduceFriend = view.findViewById(R.id.tv_introducefriend);
         tvTerms = view.findViewById(R.id.tv_terms);
@@ -86,11 +89,10 @@ public class Profile_Fragment extends Fragment {
             intent.putExtra("documentId", documentId);
             startActivity(intent);
         });
-
-        // Xử lý sự kiện cho mục "Ngôn ngữ & tiền tệ"
-        tvLanguageCurrency.setOnClickListener(v -> {
-            // Chuyển tới màn hình ngôn ngữ và tiền tệ
-            Intent intent = new Intent(getActivity(), Currency_Language_screen.class);
+///
+        tvStore.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Store_screen.class);
+            intent.putExtra("documentId", documentId);
             startActivity(intent);
         });
 
@@ -99,6 +101,11 @@ public class Profile_Fragment extends Fragment {
             Intent intent = new Intent(getActivity(), Evaluate_screen.class);
             intent.putExtra("documentId", documentId);
             startActivity(intent);
+        });
+        tvContactSupport.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), ContactSupport_screen.class);
+                intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
+                startActivity(intent);
         });
 
         // Xử lý sự kiện cho mục "Giới thiệu bạn bè"

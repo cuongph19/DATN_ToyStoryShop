@@ -3,25 +3,19 @@ package com.example.datn_toystoryshop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
-import com.example.datn_toystoryshop.Fragment.History_Fragment;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
-import com.example.datn_toystoryshop.Setting.ContactSupport_screen;
+import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 
 import retrofit2.Call;
 import retrofit2.Callback;
