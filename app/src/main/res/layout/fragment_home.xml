@@ -186,7 +186,7 @@
 
         <!-- Art Story -->
         <FrameLayout
-            android:id="@+id/art_story"
+            android:id="@+id/sale"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gridlayout4"
@@ -201,7 +201,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/art_story_homefm"
+                android:text="@string/sale_homefm"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:gravity="center"

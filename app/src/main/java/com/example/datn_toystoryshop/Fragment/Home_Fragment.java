@@ -28,9 +28,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
+import com.example.datn_toystoryshop.Home.Sale_screen;
 import com.example.datn_toystoryshop.Shopping.Add_address_screen;
 import com.example.datn_toystoryshop.Home.All_new_screen;
-import com.example.datn_toystoryshop.Home.ArtStory_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
 import com.example.datn_toystoryshop.Home.Figuring_screen;
 import com.example.datn_toystoryshop.Home.LimitedFigure_screen;
@@ -60,7 +60,7 @@ public class Home_Fragment extends Fragment {
     private ViewPager2 viewPager;
     private Handler handler = new Handler();
     private Runnable runnable;
-    private FrameLayout new_arrivals, blind_box, figuring, other_products, art_story, limited_figure;
+    private FrameLayout new_arrivals, blind_box, figuring, other_products, sale, limited_figure;
     private int currentPage = 0;
     private RecyclerView recyclerViewNew, recyclerViewPopu;
     private RecyclerView recyclerViewSuggestions;
@@ -97,7 +97,7 @@ public class Home_Fragment extends Fragment {
         blind_box = view.findViewById(R.id.blind_box);
         figuring = view.findViewById(R.id.figuring);
         other_products = view.findViewById(R.id.other_products);
-        art_story = view.findViewById(R.id.art_story);
+        sale = view.findViewById(R.id.sale);
         limited_figure = view.findViewById(R.id.limited_figure);
 
 
@@ -169,7 +169,7 @@ public class Home_Fragment extends Fragment {
                     intent.putExtra("documentId", documentId);
                     break;
                 case 3:
-                    intent = new Intent(getActivity(), ArtStory_screen.class);
+                    intent = new Intent(getActivity(), Sale_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 4:
@@ -234,11 +234,11 @@ public class Home_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
-        art_story.setOnClickListener(new View.OnClickListener() {
+        sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), ArtStory_screen.class);
+                Intent intent = new Intent(getActivity(), Sale_screen.class);
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }

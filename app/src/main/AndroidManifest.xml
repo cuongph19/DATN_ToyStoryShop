@@ -17,8 +17,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
     <application
         android:allowBackup="true"
         android:configChanges="locale|layoutDirection"
@@ -32,7 +30,12 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Home.Sale_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.Store_screen"
+            android:exported="false" />
         <activity
             android:name=".PayPalActivity"
             android:exported="false" />
@@ -91,7 +94,7 @@
             android:name=".Profile.Introduce_Friends_screen"
             android:exported="false" />
         <activity
-            android:name=".Profile.Currency_Language_screen"
+            android:name=".Setting.Currency_Language_screen"
             android:configChanges="locale|layoutDirection"
             android:exported="false" />
         <activity
@@ -109,9 +112,8 @@
         <activity
             android:name=".Register_login.ForgotOTP_screen"
             android:exported="false" />
-
         <activity
-            android:name=".Setting.ContactSupport_screen"
+            android:name=".Profile.ContactSupport_screen"
             android:exported="false" />
         <activity
             android:name=".Setting.ChangePassword_screen"
@@ -121,9 +123,6 @@
             android:exported="false" />
         <activity
             android:name=".Home.OtherProducts_screen"
-            android:exported="false" />
-        <activity
-            android:name=".Home.ArtStory_screen"
             android:exported="false" />
         <activity
             android:name=".Home.LimitedFigure_screen"
@@ -166,7 +165,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
     </application>

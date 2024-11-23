@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.Setting;
+package com.example.datn_toystoryshop.Profile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Contact_support.Email_contact;
-import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.R;
 
 public class ContactSupport_screen extends AppCompatActivity {
