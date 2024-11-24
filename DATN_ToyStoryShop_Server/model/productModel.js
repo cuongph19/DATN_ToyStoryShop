@@ -15,7 +15,7 @@ const ProductSchema = mongoose.Schema({
     },
     desPro: {
         type: String,
-        maxlength: 255
+        maxlength: 10000
     },
     creatDatePro: {
         type: Date
@@ -36,10 +36,8 @@ const ProductSchema = mongoose.Schema({
         type: String,
         maxlength: 255
     },
-    cateId: {
-        type: Number,
-        required: true
-    },
+    cateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+
     brand: {
         type: String,
         maxlength: 255
