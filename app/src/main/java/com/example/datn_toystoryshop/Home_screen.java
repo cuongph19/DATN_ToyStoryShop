@@ -42,28 +42,26 @@
         private TextView header_title ;
         private ImageView heart_icon ;
         private RelativeLayout cart_full_icon;
-        public static final String CHANNEL_ID = "notification_channel";
+
+        private static final String CHANNEL_ID = "home_notification_channel";
+        private static final String PREFS_NAME = "NotificationPrefs";
+        private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
+        private NotificationManager notificationManager;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_home);
 
+            // Khởi tạo NotificationManager
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            // Kiểm tra và yêu cầu quyền thông báo nếu đang trên Android 13 hoặc cao hơn
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
-                } else {
-                    // Nếu đã có quyền, tạo thông báo ngay lập tức
-                    createNotificationChannel();
-                    showNotification();
-                }
-            } else {
-                // Nếu phiên bản thấp hơn Android 13, không cần yêu cầu quyền
-                createNotificationChannel();
-                showNotification();
-            }
+            // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
+            createNotificationChannel();
+
+            // Hiển thị thông báo chào mừng nếu thông báo đang được bật
+            showWelcomeNotification();
 
             // Nhận dữ liệu từ Intent
             Intent intent = getIntent();
@@ -162,48 +160,41 @@
                 header_title.setText(getString(R.string.profile_menu));
             }
         }
-        // Tạo Notification Channel (dành cho Android 8.0 trở lên)
         private void createNotificationChannel() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                CharSequence name = "My Channel";
-                String description = "Channel for notifications";
+                CharSequence name = "Home Notification Channel";
+                String description = "Channel for home screen notifications";
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
                 channel.setDescription(description);
 
                 // Đăng ký channel với hệ thống
-                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-
-        // Hiển thị thông báo
-        private void showNotification() {
-            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_logo)  // Icon mặc định của Android
-                    .setContentTitle("Chào mừng bạn!")
-                    .setContentText("Bạn đã vào màn hình chính của ứng dụng.")
-                    .setPriority(Notification.PRIORITY_DEFAULT);
-
-            // Hiển thị thông báo
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(1, builder.build());
-        }
-
-        @Override
-        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (requestCode == 1) {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Nếu quyền đã được cấp, tạo thông báo
-                    createNotificationChannel();
-                    showNotification();
-                } else {
-                    // Nếu quyền bị từ chối, thông báo cho người dùng
-                    Toast.makeText(this, "Bạn cần cấp quyền thông báo để sử dụng tính năng này.", Toast.LENGTH_SHORT).show();
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(channel);
                 }
             }
         }
 
+        private void showWelcomeNotification() {
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            boolean isNotificationBlocked = sharedPreferences.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
+
+            if (!isNotificationBlocked) {
+                // Tạo thông báo chào mừng
+                Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_logo) // Thay bằng icon của ứng dụng
+                        .setContentTitle("Chào mừng!")
+                        .setContentText("Cảm ơn bạn đã sử dụng ToyStory Shop.")
+                        .setPriority(Notification.PRIORITY_DEFAULT);
+
+                if (notificationManager != null) {
+                    notificationManager.notify(2, builder.build());
+                }
+
+            } else {
+                // Thông báo bị tắt
+                Toast.makeText(this, "Thông báo đang bị tắt.", Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }

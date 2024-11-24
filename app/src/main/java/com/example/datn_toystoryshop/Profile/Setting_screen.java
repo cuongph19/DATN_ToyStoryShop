@@ -25,7 +25,7 @@ import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
 
-    private TextView tvUpdateInfo, tvChangePassword, tvNotifications,tvLanguageCurrency;
+    private TextView tvUpdateInfo, tvChangePassword, tvNotifications, tvLanguageCurrency;
     private ImageView btnBack;
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
@@ -38,7 +38,6 @@ public class Setting_screen extends AppCompatActivity {
     private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
     private NotificationManager notificationManager;
     private static final String CHANNEL_ID = "notification_channel";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class Setting_screen extends AppCompatActivity {
             createNotificationChannel();
         }
 
-
         // Initialize Views
         tvUpdateInfo = findViewById(R.id.tv_update_info);
         tvChangePassword = findViewById(R.id.tv_change_password);
@@ -70,7 +68,6 @@ public class Setting_screen extends AppCompatActivity {
 
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-
 
         // SharedPreferences setup for dark mode toggle
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
@@ -110,7 +107,6 @@ public class Setting_screen extends AppCompatActivity {
             }
         });
 
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,24 +127,19 @@ public class Setting_screen extends AppCompatActivity {
         tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển sang NewActivity
+                // Chuyển sang ChangePassword_screen
                 Intent intent = new Intent(Setting_screen.this, ChangePassword_screen.class);
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }
         });
 
-
         // Load trạng thái chặn thông báo từ SharedPreferences và đặt trạng thái cho Switch
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isNotificationBlocked = sharedPreferences.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
         switchNotif.setChecked(isNotificationBlocked);
 
-        if (isNotificationBlocked) {
-            tvNotifications.setText("Tắt thông báo"); // Khi Switch bật
-        } else {
-            tvNotifications.setText("Bật thông báo"); // Khi Switch tắt
-        }
+        tvNotifications.setText(isNotificationBlocked ? "Tắt thông báo" : "Bật thông báo");
 
         // Xử lý sự kiện khi người dùng bật/tắt Switch
         switchNotif.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -158,14 +149,10 @@ public class Setting_screen extends AppCompatActivity {
             editor.apply();
 
             if (isChecked) {
-                // Nếu Switch bật, hiển thị thông báo
-                showNotification();
                 tvNotifications.setText("Tắt thông báo");
                 Toast.makeText(Setting_screen.this, "Thông báo đã bật", Toast.LENGTH_SHORT).show();
-
             } else {
-                // Nếu Switch tắt, hủy thông báo
-                cancelNotification();
+                cancelAllNotifications();
                 tvNotifications.setText("Bật thông báo");
                 Toast.makeText(Setting_screen.this, "Thông báo đã tắt", Toast.LENGTH_SHORT).show();
             }
@@ -182,26 +169,30 @@ public class Setting_screen extends AppCompatActivity {
             channel.setDescription(description);
 
             // Đăng ký channel với hệ thống
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    // Hiển thị thông báo
-    private void showNotification() {
-        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_logo)  // Icon mặc định của Android
-                .setContentTitle("Chào mừng bạn!")
-                .setContentText("Bạn đã vào màn hình Notifications_screen của ứng dụng.")
-                .setPriority(Notification.PRIORITY_DEFAULT);
-
-        // Hiển thị thông báo
-        notificationManager.notify(1, builder.build());
+    private void cancelAllNotifications() {
+        if (notificationManager != null) {
+            notificationManager.cancelAll(); // Hủy tất cả thông báo của ứng dụng
+        }
     }
 
-    // Hủy thông báo
-    private void cancelNotification() {
-        notificationManager.cancel(1); // Hủy thông báo với ID = 1
+    // Hiển thị thông báo
+    private void showNotification(String title, String content) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isNotificationBlocked = sharedPreferences.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
+
+        if (!isNotificationBlocked) {
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_logo)
+                    .setContentTitle(title)
+                    .setContentText(content)
+                    .setPriority(Notification.PRIORITY_DEFAULT);
+
+            notificationManager.notify(1, builder.build());
+        }
     }
 
     // Xử lý kết quả yêu cầu quyền thông báo
@@ -210,16 +201,13 @@ public class Setting_screen extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Nếu quyền đã được cấp, tạo thông báo
                 createNotificationChannel();
             } else {
-                // Nếu quyền bị từ chối, thông báo cho người dùng
                 Toast.makeText(this, "Bạn cần cấp quyền thông báo để sử dụng tính năng này.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // Kiểm tra trạng thái của Switch và hiển thị thông báo khi quay lại màn hình
     @Override
     protected void onResume() {
         super.onResume();
@@ -227,12 +215,9 @@ public class Setting_screen extends AppCompatActivity {
         // Lấy trạng thái của Switch từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isNotificationBlocked = sharedPreferences.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
-        if (isNotificationBlocked) {
-            showNotification(); // Nếu Switch đã bật trước đó, hiển thị thông báo
-            tvNotifications.setText("Tắt thông báo");
-        } else {
-            tvNotifications.setText("Bật thông báo");
-        }
-    }
 
+        // Đồng bộ trạng thái của Switch
+        switchNotif.setChecked(isNotificationBlocked);
+        tvNotifications.setText(isNotificationBlocked ? "Tắt thông báo" : "Bật thông báo");
+    }
 }
