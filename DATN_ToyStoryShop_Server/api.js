@@ -308,7 +308,7 @@ router.get('/carts', async (req, res) => {
     }
 });
 ///////////////////////////////////
-router.get('/orders', async (req, res) => {
+router.get('/orders/confirm', async (req, res) => {
     try {
         const { cusId } = req.query;
 
@@ -319,7 +319,7 @@ router.get('/orders', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'orders'
-        const orders = await OrderModel.find({ cusId }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+        const orders = await OrderModel.find({ cusId, orderStatus: 'Chờ xác nhận' }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
 
         if (orders.length === 0) {
             return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
@@ -331,6 +331,76 @@ router.get('/orders', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
     }
 });
+router.get('/orders/getgoods', async (req, res) => {
+    try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'orders'
+        const orders = await OrderModel.find({ cusId, orderStatus: 'Chờ lấy hàng' }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+
+        if (orders.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
+        }
+
+        res.json(orders);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
+    }
+});
+router.get('/orders/delivery', async (req, res) => {
+    try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'orders'
+        const orders = await OrderModel.find({ cusId, orderStatus: 'Chờ giao hàng' }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+
+        if (orders.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
+        }
+
+        res.json(orders);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
+    }
+});
+router.get('/orders/successful', async (req, res) => {
+    try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'orders'
+        const orders = await OrderModel.find({ cusId, orderStatus: 'Đã giao' }, '_id cusId revenue_all prodDetails content orderStatus orderDate ');
+
+        if (orders.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
+        }
+
+        res.json(orders);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
+    }
+});
+
 router.get('/feebacks', async (req, res) => {
     try {
         const { cusId } = req.query;
