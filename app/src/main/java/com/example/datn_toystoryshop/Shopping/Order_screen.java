@@ -1,7 +1,13 @@
 package com.example.datn_toystoryshop.Shopping;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
@@ -68,6 +74,12 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private double moneyPay;
     private ArrayList<String> productIds;
     private double shippingCost = 40000;
+    private static final String CHANNEL_ID = "home_notification_channel";
+    private static final String PREFS_NAME = "NotificationPrefs";
+    private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
+    private NotificationManager notificationManager;
+
+
     private String getFormattedDate(int daysToAdd, String format) {
         // Khởi tạo Calendar với ngày hiện tại
         Calendar calendar = Calendar.getInstance();
@@ -200,6 +212,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
                     btnOrder.setOnClickListener(v -> {
                         submitOrder_Cart(productDetails, totalAmount1);
+                        // Khởi tạo NotificationManager
+                        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
+                        createNotificationChannel();
+
+                        // Hiển thị thông báo chào mừng nếu thông báo đang được bật
+                        showWelcomeNotification();
 
                     });
                 }
@@ -505,5 +525,41 @@ private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, do
     });
 }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Home Notification Channel";
+            String description = "Channel for home screen notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            // Đăng ký channel với hệ thống
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+
+    private void showWelcomeNotification() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isNotificationBlocked = sharedPreferences.getBoolean(NOTIFICATION_BLOCKED_KEY, false);
+
+        if (!isNotificationBlocked) {
+            // Tạo thông báo chào mừng
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_logo) // Thay bằng icon của ứng dụng
+                    .setContentTitle("Đơn hàng của bạn đang đợi xác nhận")
+                    .setContentText("Cảm ơn bạn đã mua sắm tại ToyStory Shop. Chúng tôi đang xử lý đơn hàng của bạn")
+                    .setPriority(Notification.PRIORITY_DEFAULT);
+
+            if (notificationManager != null) {
+                notificationManager.notify(2, builder.build());
+            }
+
+        } else {
+            // Thông báo bị tắt
+            Toast.makeText(this, "Thông báo đang bị tắt.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

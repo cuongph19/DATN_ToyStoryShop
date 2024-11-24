@@ -64,6 +64,7 @@ public class NewArrivals_screen extends AppCompatActivity {
         });
 
 
+
         // Xử lý nút back
         backIcon = findViewById(R.id.back_icon);
         backIcon.setOnClickListener(new View.OnClickListener() {
