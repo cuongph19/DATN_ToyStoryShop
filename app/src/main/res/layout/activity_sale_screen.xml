@@ -45,7 +45,7 @@
 
        <!-- RecyclerView -->
        <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/recyclerViewAllsaleProducts"
+           android:id="@+id/recyclerViewSaleProducts"
            android:layout_width="0dp"
            android:layout_height="0dp"
            android:layout_marginTop="16dp"

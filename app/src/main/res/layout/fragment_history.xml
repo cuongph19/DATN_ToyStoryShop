@@ -7,43 +7,289 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="16dp">
+    <LinearLayout
+        android:id="@+id/history_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
+        <!-- "Đơn mua" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đơn mua"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_weight="1" />
 
+        <!-- "Xem lịch sử mua hàng" -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xem lịch sử mua hàng"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
 
+            <!-- Mũi tên -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow"
+                android:alpha="0.5"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+</LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@id/addressLayout"
+        android:scaleType="centerCrop"
+        app:tint="#CACACA"
+        android:alpha="0.2"
+        android:src="@drawable/ic_bgc"
+        android:contentDescription="Separator"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp">
+        android:weightSum="4"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giao dịch"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
-
-        <Spinner
-            android:id="@+id/spinnerMonth"
+        <!-- Icon 1 -->
+        <LinearLayout
+            android:id="@+id/confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+            <FrameLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
-        <Spinner
-            android:id="@+id/spinnerYear"
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_wallet" />
+                <TextView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:visibility="gone"
+                    android:background="@drawable/circle_background_1"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_gravity="end|top"
+                android:layout_marginEnd="-4dp"
+                android:layout_marginTop="-4dp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/confirmText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ xác nhận"
+                android:textSize="10sp"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+
+
+        </LinearLayout>
+
+        <!-- Icon 2 -->
+        <LinearLayout
+            android:id="@+id/get_goods"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal" android:clipChildren="false"
+            android:clipToPadding="false">
+            <FrameLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_box" />
+
+                <TextView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/circle_background_1"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_gravity="end|top"
+                    android:layout_marginEnd="-4dp"
+                    android:layout_marginTop="-4dp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/getGoodsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ lấy hàng"
+                android:textSize="10sp"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Icon 3 -->
+        <LinearLayout
+            android:id="@+id/delivery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+            <FrameLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_transport" />
+
+                <TextView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginEnd="-4dp"
+                    android:background="@drawable/circle_background_1"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/deliveryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ giao hàng"
+                android:textSize="10sp"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+
+
+        </LinearLayout>
+
+        <!-- Icon 4 -->
+        <LinearLayout
+            android:id="@+id/evaluate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+            <FrameLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_star" />
+
+                <TextView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/circle_background_1"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_gravity="end|top"
+                    android:layout_marginEnd="-4dp"
+                    android:layout_marginTop="-4dp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/evaluateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đánh giá"
+                android:textSize="10sp"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+        </LinearLayout>
 
     </LinearLayout>
 
-    <!-- RecyclerView for the transaction list -->
-    <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/item_history"
-        android:id="@+id/rvOrderHistory"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingTop="16dp">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Giao dịch"-->
+<!--            android:textSize="15sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_weight="1"/>-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinnerMonth"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="5"/>-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinnerYear"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="4"/>-->
+
+<!--    </LinearLayout>-->
+
+<!--    &lt;!&ndash; RecyclerView for the transaction list &ndash;&gt;-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        tools:listitem="@layout/item_history"-->
+<!--        android:id="@+id/rvOrderHistory"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="16dp" />-->
 </LinearLayout>
