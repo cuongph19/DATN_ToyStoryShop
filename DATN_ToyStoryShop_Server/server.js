@@ -41,7 +41,8 @@ app.get('/', async (req, res)=>{
     console.log(products);
 
     res.send(products);
-})
+});
+
 exports.uri = uri;
 exports.mongoose = mongoose;
 exports.productModel = productModel;

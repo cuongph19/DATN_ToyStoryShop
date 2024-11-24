@@ -23,13 +23,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
 import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
+import com.example.datn_toystoryshop.Model.Feeback_Model;
+import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.Shopping.Favorite_screen;
@@ -62,6 +67,7 @@ public class Product_detail extends AppCompatActivity {
     private Runnable imageSwitcherRunnable;
     private View viewDetail1, viewDetail2, viewDetail3;
     private String favoriteId;
+    private RecyclerView recyclerViewFeedback;
     private boolean isFavorite = false;
     private APIService apiService;
     private int currentQuantity = 1; // Số lượng sản phẩm ban đầu là 1
@@ -93,6 +99,7 @@ public class Product_detail extends AppCompatActivity {
         viewDetail3 = findViewById(R.id.view_detail_3);
         cart_full_icon = findViewById(R.id.cart_full_icon);
         heartIcon = findViewById(R.id.heart_icon);
+        recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
@@ -121,6 +128,11 @@ public class Product_detail extends AppCompatActivity {
         tvproductDescription.setText(desPro);
         productBrandValue1.setText(brand);
         productBrandValue2.setText(brand);
+
+        ////
+        recyclerViewFeedback.setLayoutManager(new LinearLayoutManager(this));
+        loadFeedback();
+
 
         ViewPager2 productImagePager = findViewById(R.id.productImage);
         ProductImage_Adapter adapter = new ProductImage_Adapter(this, productImg);
@@ -229,7 +241,29 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
+    public void loadFeedback() {
 
+//            APIService apiService = RetrofitClient.getAPIService();
+//        apiService.getSale().enqueue(new Callback<List<Feeback_Model>>() {
+//            @Override
+//            public void onResponse(Call<List<Feeback_Model>> call, Response<List<Feeback_Model>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
+//
+//                    // Tạo và thiết lập Cart_Adapter
+//                    cartAdapter = new Cart_Adapter(Product_detail.this, response.body(), apiService, documentId);
+//                    recyclerViewFeedback.setAdapter(cartAdapter);
+//                    // Thiết lập ItemTouchHelper cho RecyclerView
+//                    setupItemTouchHelper();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Feeback_Model>> call, Throwable t) {
+//                // Xử lý lỗi khi gọi API thất bại
+//            }
+//        });
+    }
     private void showAddTopayDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

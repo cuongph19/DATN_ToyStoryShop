@@ -6,6 +6,7 @@ const FavoriteModel = require('./model/FavoriteModel');
 const FeebackAppModel = require('./model/FeebackAppModel');
 const FeebackModel = require('./model/FeebackModel');
 const CartModel = require('./model/CartModel');
+const productModel = require('./model/productModel');
 const OrderModel = require('./model/OrderModel');
 const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
@@ -255,6 +256,41 @@ router.get('/list-popular', async (req, res) => {
     }
 });
 
+router.put('/update/product/:prodId', async (req, res) => {
+    console.log(req.body); // Log dữ liệu nhận được trong body
+
+    try {
+        const { prodId } = req.params; // Lấy ID từ URL
+        const { quantity } = req.body; // Lấy thông tin từ body
+
+        // Kiểm tra ID hợp lệ
+        if (!mongoose.Types.ObjectId.isValid(prodId)) {
+            return res.status(400).json({ message: 'ID sản phẩm không hợp lệ' });
+        }
+
+        // Tìm sản phẩm theo ID
+        const productItem = await productModel.findById(prodId);
+        if (!productItem) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+        }
+
+        // Kiểm tra và cập nhật trường `quantity`
+        if (quantity !== undefined) {
+            if (typeof quantity !== 'number' || quantity < 0) {
+                return res.status(400).json({ message: 'Số lượng phải là một số hợp lệ và lớn hơn hoặc bằng 0' });
+            }
+            productItem.quantity = quantity;
+        }
+
+        // Lưu sản phẩm
+        await productItem.save();
+
+        res.status(200).json({ message: 'Cập nhật sản phẩm thành công!', data: productItem });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật sản phẩm' });
+    }
+});
 
 // Lấy sản phẩm yêu thích
 router.get('/favorites', async (req, res) => {
@@ -305,6 +341,23 @@ router.get('/carts', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi lấy sản phẩm trong giỏ hàng.', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong giỏ hàng.' });
+    }
+});
+router.get('/feebacks', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'feebacks'
+        const feebacks = await FeebackModel.find({ }, '_id cusId prodId start content dateFeed ');
+        console.log('Kết quả truy vấn:', feebacks);
+        if (feebacks.length === 0) {
+            return res.status(404).json({ error: 'Không có feedback' });
+        }
+
+        res.json(feebacks);
+    } catch (error) {
+        console.error('Lỗi khi lấy feedback.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy feedback' });
     }
 });
 ///////////////////////////////////
@@ -401,29 +454,29 @@ router.get('/orders/successful', async (req, res) => {
     }
 });
 
-router.get('/feebacks', async (req, res) => {
-    try {
-        const { cusId } = req.query;
+// router.get('/feebacks', async (req, res) => {
+//     try {
+//         const { cusId } = req.query;
 
-        if (!cusId) {
-            return res.status(400).json({ error: 'cusId không được để trống.' });
-        }
+//         if (!cusId) {
+//             return res.status(400).json({ error: 'cusId không được để trống.' });
+//         }
 
-        await mongoose.connect(server.uri);
+//         await mongoose.connect(server.uri);
 
-        // Tìm tất cả các sản phẩm trong collection 'feeback'
-        const feebacks = await FeebackModel.find({ cusId }, '_id cusId prodId start content dateFeed ');
+//         // Tìm tất cả các sản phẩm trong collection 'feeback'
+//         const feebacks = await FeebackModel.find({ cusId }, '_id cusId prodId start content dateFeed ');
 
-        if (feebacks.length === 0) {
-            return res.status(404).json({ error: 'Không có  đánh giá.' });
-        }
+//         if (feebacks.length === 0) {
+//             return res.status(404).json({ error: 'Không có  đánh giá.' });
+//         }
 
-        res.json(feebacks);
-    } catch (error) {
-        console.error('Lỗi khi lấy đánh giá.', error);
-        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
-    }
-});
+//         res.json(feebacks);
+//     } catch (error) {
+//         console.error('Lỗi khi lấy đánh giá.', error);
+//         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
+//     }
+// });
 router.get('/vouchers', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
