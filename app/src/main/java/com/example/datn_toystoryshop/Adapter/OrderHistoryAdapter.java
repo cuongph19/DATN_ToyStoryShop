@@ -19,6 +19,7 @@ import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.OrderHist_Detail;
 import com.example.datn_toystoryshop.Product_detail;
+import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.ProductCallback;
@@ -40,10 +41,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private APIService apiService;
     // Constructor để khởi tạo adapter với danh sách sản phẩm
 
-//    public OrderHistoryAdapter(Context context, List<Order_Model> orderList) {
-//        this.context = context;
-//        this.orderList = orderList;
-//    }
 
     public OrderHistoryAdapter(Context context, List<Order_Model> orderList, APIService apiService) {
         this.context = context;
@@ -63,20 +60,20 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         Order_Model order = orderList.get(position);
 
         String prodId = order.getProdDetails().get(0).getProdId();
+        int Quantity = order.getProdDetails().get(0).getQuantity();
+        String ProdSpecification = order.getProdDetails().get(0).getProdSpecification();
 
-        holder.textProductName.setText(prodId);
-        holder.textPrice.setText(String.format("%,.0f Đ", (double) order.getRevenue_all()));
-
-        holder.textSta.setText(order.getOrderStatus());
-
+        holder.textStatus.setText(order.getOrderStatus());
+        holder.textRevenue_all.setText(String.format("Tổng số tiền: %,.0f Đ", (double) order.getRevenue_all()));
+        holder.textType.setText(ProdSpecification);
+        holder.textQuantity.setText(String.format("x"+ Quantity));
         // Lấy thông tin sản phẩm từ API
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
             public void onSuccess(Product_Model product) {
                 // Cập nhật thông tin sản phẩm vào view
                 holder.textProductName.setText(product.getNamePro());
-//                holder.textPrice.setText(String.format("%,.0fĐ", product.getPrice()));
-
+                holder.textPrice.setText(String.format("%,.0fĐ", product.getPrice()));
                 // Thiết lập ảnh sản phẩm bằng Glide
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
@@ -103,29 +100,35 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 Log.e("OrderHistoryAdapter", "Failed to load product details: " + t.getMessage());
             }
         });
-        // Chuyển đổi ngày từ chuỗi ISO sang định dạng "dd/MM/yyyy"
-        String orderDate = order.getOrderDate();
 
-        // Cập nhật định dạng để bao gồm phần milliseconds
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Đặt múi giờ UTC cho dữ liệu từ server
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        holder.ContactShop.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ContactSupport_screen.class);
 
-        try {
-            // Ghi log giá trị ngày từ server
-            Log.d("OrderHistoryAdapter", "Original orderDate: " + orderDate);
-
-            Date date = isoFormat.parse(orderDate); // Chuyển chuỗi thành đối tượng Date
-            String formattedDate = outputFormat.format(date); // Định dạng ngày
-
-            // Ghi log ngày đã chuyển đổi
-            Log.d("OrderHistoryAdapter", "Formatted orderDate: " + formattedDate);
-
-            holder.textDate.setText(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            holder.textDate.setText(orderDate); // Hiển thị gốc nếu có lỗi
-        }
+            context.startActivity(intent);
+        });
+//        // Chuyển đổi ngày từ chuỗi ISO sang định dạng "dd/MM/yyyy"
+//        String orderDate = order.getOrderDate();
+//
+//        // Cập nhật định dạng để bao gồm phần milliseconds
+//        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+//        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Đặt múi giờ UTC cho dữ liệu từ server
+//        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//
+//        try {
+//            // Ghi log giá trị ngày từ server
+//            Log.d("OrderHistoryAdapter", "Original orderDate: " + orderDate);
+//
+//            Date date = isoFormat.parse(orderDate); // Chuyển chuỗi thành đối tượng Date
+//            String formattedDate = outputFormat.format(date); // Định dạng ngày
+//
+//            // Ghi log ngày đã chuyển đổi
+//            Log.d("OrderHistoryAdapter", "Formatted orderDate: " + formattedDate);
+//
+//            holder.textDate.setText(formattedDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//            holder.textDate.setText(orderDate); // Hiển thị gốc nếu có lỗi
+//        }
     }
 
 
@@ -138,16 +141,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     // ViewHolder để giữ các view cho mỗi item
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewOr;
-        TextView textProductName, textPrice, textDate, textSta;
+        TextView textProductName,textType, textPrice, textStatus, textQuantity, textRevenue_all, ContactShop;
 
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageViewOr = itemView.findViewById(R.id.imageViewOrder);
-            textProductName = itemView.findViewById(R.id.textProductName);
-            textPrice = itemView.findViewById(R.id.textPrice);
-            textDate = itemView.findViewById(R.id.textDate);
-            textSta = itemView.findViewById(R.id.textSta);
+            imageViewOr = itemView.findViewById(R.id.ivProductImage);
+            textProductName = itemView.findViewById(R.id.tvProductName);
+            textPrice = itemView.findViewById(R.id.tvProductPrice);
+            textType = itemView.findViewById(R.id.tvProductType);
+            textStatus = itemView.findViewById(R.id.tvOrderStatus);
+            textQuantity = itemView.findViewById(R.id.tvProductQuantity);
+            textRevenue_all = itemView.findViewById(R.id.tvTotalPrice);
+            ContactShop = itemView.findViewById(R.id.btnContactShop);
         }
     }
 

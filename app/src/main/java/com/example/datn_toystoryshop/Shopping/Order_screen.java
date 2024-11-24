@@ -213,13 +213,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     btnOrder.setOnClickListener(v -> {
                         submitOrder_Cart(productDetails, totalAmount1);
                         // Khởi tạo NotificationManager
-                        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
-                        createNotificationChannel();
-
-                        // Hiển thị thông báo chào mừng nếu thông báo đang được bật
-                        showWelcomeNotification();
 
                     });
                 }
@@ -460,7 +453,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 (int) moneyPay,
                 productDetails,      // prodDetails (danh sách sản phẩm)
                 content,             // content (nội dung đơn hàng)
-                "Đang chờ xác nhận", // orderStatus
+                "Chờ xác nhận", // orderStatus
                 new Date().toString()// orderDate
         );
 
@@ -472,6 +465,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+                    notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
+                    createNotificationChannel();
+
+                    // Hiển thị thông báo chào mừng nếu thông báo đang được bật
+                    showWelcomeNotification();
+                    
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
                     Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
@@ -499,7 +500,7 @@ private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, do
             (int) moneyPay,
             productDetails,      // prodDetails (danh sách sản phẩm)
             content,             // content (nội dung đơn hàng)
-            "Đang chờ xác nhận", // orderStatus
+            "Chờ xác nhận", // orderStatus
             new Date().toString()// orderDate
     );
 

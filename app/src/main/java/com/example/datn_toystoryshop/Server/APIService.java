@@ -66,8 +66,17 @@ public interface APIService {
     @GET("/api/carts")
     Call<List<Cart_Model>> getCarts(@Query("cusId") String cusId);
 
-    @GET("/api/orders")
-    Call<List<Order_Model>> getOrders(@Query("cusId") String cusId);
+    @GET("/api/orders/confirm")
+    Call<List<Order_Model>> getOrders_Confirm(@Query("cusId") String cusId);
+
+    @GET("/api/orders/getgoods")
+    Call<List<Order_Model>> getOrders_getgoods(@Query("cusId") String cusId);
+
+    @GET("/api/orders/delivery")
+    Call<List<Order_Model>> getOrders_delivery(@Query("cusId") String cusId);
+
+    @GET("/api/orders/successful")
+    Call<List<Order_Model>> getOrders_successful(@Query("cusId") String cusId);
 
     @GET("/api/feebacks")
     Call<List<Feeback_Model>> getFeeback();
