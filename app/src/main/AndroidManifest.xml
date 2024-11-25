@@ -43,7 +43,7 @@
             android:name=".PayPalActivity"
             android:exported="false" />
         <activity
-            android:name=".Shopping.AddressList_Screen"
+            android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
             android:name=".OrderHist_Detail"
@@ -161,7 +161,7 @@
             android:name=".Home_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.SignIn_screen"
+            android:name=".Shopping.AddressList_Screen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

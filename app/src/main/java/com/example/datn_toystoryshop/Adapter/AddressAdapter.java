@@ -31,9 +31,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
-//    private Context context;
+    //    private Context context;
+    private OnAddressUpdatedListener listener;
     private List<Address> addressList;
     private int selectedPosition = -1;
+
+    public void setOnAddressUpdatedListener(OnAddressUpdatedListener listener) {
+        this.listener = listener;
+    }
     public AddressAdapter(List<Address> addressList) {
         this.addressList = (addressList != null) ? addressList : new ArrayList<>();
         for (int i = 0; i < addressList.size(); i++) {
@@ -92,6 +97,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     public class AddressViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, phoneTextView, addressTextView, addressDetailTextView;
         RadioButton radioButton;
+
         public AddressViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.address_name);
@@ -111,12 +117,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         notifyItemChanged(selectedPosition);
 
     }
+
     public Address getSelectedAddress() {
         if (selectedPosition >= 0 && selectedPosition < addressList.size()) {
             return addressList.get(selectedPosition);
         }
         return null;
     }
+
     private void showEditDialog(Context context, Address address) {
         // Kiểm tra context
         if (context == null) {
@@ -146,42 +154,33 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         // Khi nhấn nút quay lại, đóng dialog
         btnBack.setOnClickListener(v -> dialog.dismiss());
 
-        // Khi nhấn nút Lưu, cập nhật địa chỉ
-//        btnSave.setOnClickListener(v -> {
-//            // Lấy dữ liệu từ các trường
-//            String name = etName.getText().toString();
-//            String phone = etPhoneNumber.getText().toString();
-//            String newAddress = etAddress.getText().toString();
-//            String addressDetail = etAddressDetail.getText().toString();
-//
-//            APIService apiService = RetrofitClient.getAPIService();  // Sử dụng phương thức getAPIService của RetrofitClient
-//            Call<Address> call = apiService.updateAddress(address.get_id(), name, phone, newAddress, addressDetail);
-//            call.enqueue(new Callback<Address>() {
-//                @Override
-//                public void onResponse(Call<Address> call, Response<Address> response) {
-//                    if (response.isSuccessful()) {
-//                        addressList.set(addressList.indexOf(address), response.body());
-//                        notifyDataSetChanged();
-//                        dialog.dismiss();
-//                    } else {
-//                        try {
-//                            String error = response.errorBody().string();
-//                            Log.e("API Error", error);  // In ra lỗi để kiểm tra chi tiết
-//                            Toast.makeText(context, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
-//                        } catch (Exception e) {
-//                            Log.e("Error", e.getMessage());
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Address> call, Throwable t) {
-//                    // Xử lý lỗi khi gọi API thất bại
-//                    Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy dữ liệu từ các EditText
+                String name = etName.getText().toString().trim();
+                String phone = etPhoneNumber.getText().toString().trim();
+                String addressText = etAddress.getText().toString().trim();
+                String addressDetail = etAddressDetail.getText().toString().trim();
+
+                // Kiểm tra dữ liệu hợp lệ (bạn có thể thêm logic kiểm tra như rỗng, không hợp lệ...)
+                if (name.isEmpty() || phone.isEmpty() || addressText.isEmpty() || addressDetail.isEmpty()) {
+                    Toast.makeText(context, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Cập nhật đối tượng Address (không phải String)
+                address.setName(name);  // Gọi setName trên đối tượng Address
+                address.setPhone(phone);  // Gọi setPhone trên đối tượng Address
+                address.setAddress(addressText);  // Gọi setAddress trên đối tượng Address
+                address.setAddressDetail(addressDetail);  // Gọi setAddressDetail trên đối tượng Address
+
+                // Gọi API PUT để cập nhật
+                updateAddress(dialog.getContext(), address);  // Gọi phương thức updateAddress
+                dialog.dismiss(); // Đóng dialog sau khi lưu
+            }
+        });
+
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(dialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;  // Chiều rộng full màn hình
@@ -191,6 +190,67 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         dialog.show();
     }
 
+    private void updateAddress(Context context, Address address) {
+        // Lấy APIService từ Retrofit
+        APIService apiService = RetrofitClient.getAPIService();
+
+        // Gọi API PUT (Cập nhật địa chỉ)
+        Call<Address> call = apiService.updateAddress(address.get_id(), address);
+
+        // Thực hiện yêu cầu và xử lý phản hồi
+        call.enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Address updatedAddress = response.body();
+
+                    // Nếu ID trả về là null, sử dụng ID gốc
+                    String addressId = updatedAddress.get_id() != null ? updatedAddress.get_id() : address.get_id();
+
+                    int position = getAddressPositionById(addressId);
+                    if (position != -1) {
+                        addressList.set(position, updatedAddress);  // Cập nhật địa chỉ trong list
+                        notifyDataSetChanged();  // Cập nhật item trong RecyclerView
+                        Toast.makeText(context, "Cập nhật địa chỉ thành công", Toast.LENGTH_SHORT).show();
+
+                        // Gọi lại listener để thông báo đã cập nhật
+                        if (listener != null) {
+                            listener.onAddressUpdated();  // Gọi phương thức cập nhật
+                        }
+                    } else {
+                        Toast.makeText(context, "Không tìm thấy địa chỉ trong danh sách", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+    private int getAddressPositionById(String id) {
+        if (id == null) {
+            return -1;  // Nếu id là null, không thể so sánh, trả về -1
+        }
+        for (int i = 0; i < addressList.size(); i++) {
+            Log.d("AddressAdapter", "Checking ID: " + addressList.get(i).get_id());  // In ra các id trong danh sách
+            if (addressList.get(i).get_id() != null && addressList.get(i).get_id().equals(id)) {
+                return i;  // Trả về vị trí nếu tìm thấy
+            }
+        }
+        return -1;  // Không tìm thấy
+    }
+
+
+    public interface OnAddressUpdatedListener {
+        void onAddressUpdated();  // Hàm callback này sẽ được gọi khi địa chỉ được cập nhật
+    }
 
 
 }

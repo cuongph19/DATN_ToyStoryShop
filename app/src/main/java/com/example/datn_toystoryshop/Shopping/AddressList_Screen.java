@@ -26,6 +26,7 @@ public class AddressList_Screen extends AppCompatActivity {
     private List<Address> addressList;
     ImageView imgBack;
     LinearLayout linAdd;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -48,6 +49,7 @@ public class AddressList_Screen extends AppCompatActivity {
 
         // Khởi tạo RecyclerView
         recyclerViewAddress = findViewById(R.id.recyclerViewAddress);
+
         recyclerViewAddress.setLayoutManager(new LinearLayoutManager(this));  // Sử dụng LinearLayoutManager cho RecyclerView
 
         // Gọi API để lấy danh sách địa chỉ
@@ -82,32 +84,37 @@ public class AddressList_Screen extends AppCompatActivity {
     }
 
     private void getAddressesFromAPI() {
-        // Khởi tạo Retrofit client
         APIService apiService = RetrofitClient.getAPIService();
 
         // Gọi API để lấy danh sách địa chỉ
         Call<List<Address>> call = apiService.getAllAddresses();
-
         call.enqueue(new Callback<List<Address>>() {
             @Override
             public void onResponse(Call<List<Address>> call, Response<List<Address>> response) {
                 if (response.isSuccessful()) {
-                    // Nhận dữ liệu từ API
                     addressList = response.body();
-                    // Khởi tạo và gắn Adapter cho RecyclerView
                     addressAdapter = new AddressAdapter(addressList);
+
+                    // Đăng ký listener để nhận thông báo khi địa chỉ được cập nhật
+                    addressAdapter.setOnAddressUpdatedListener(new AddressAdapter.OnAddressUpdatedListener() {
+                        @Override
+                        public void onAddressUpdated() {
+                            // Tải lại dữ liệu sau khi địa chỉ được cập nhật
+                            getAddressesFromAPI();  // Hoặc bạn có thể gọi lại API nếu cần
+                        }
+                    });
+
                     recyclerViewAddress.setAdapter(addressAdapter);
                 } else {
-                    // Nếu API trả về lỗi
                     Log.e("API Error", "Lỗi khi nhận dữ liệu từ API: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Address>> call, Throwable t) {
-                // Nếu có lỗi trong quá trình gọi API
                 Log.e("API Error", "Lỗi kết nối: " + t.getMessage());
             }
         });
     }
+
 }
