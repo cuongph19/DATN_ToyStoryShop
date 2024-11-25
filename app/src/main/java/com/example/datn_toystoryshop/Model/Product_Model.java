@@ -34,6 +34,10 @@ public class Product_Model implements Serializable {
         this.brand = brand;
     }
 
+    public Product_Model() {
+
+    }
+
     public String get_id() {
         return _id;
     }

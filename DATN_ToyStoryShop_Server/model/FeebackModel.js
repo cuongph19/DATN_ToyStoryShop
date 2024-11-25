@@ -6,9 +6,9 @@ const FeebackSchema = mongoose.Schema({
         type: String,
         maxlength: 255
     },
-    prodId: {
+    orderId: {
         type: mongoose.Schema.Types.ObjectId, // Dùng ObjectId để liên kết đến sản phẩm
-        ref: 'product', // Tham chiếu đến collection 'product'
+        ref: 'order', // Tham chiếu đến collection 'product'
         required: true
     },
 

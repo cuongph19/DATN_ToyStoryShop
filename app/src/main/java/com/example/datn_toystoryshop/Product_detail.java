@@ -29,6 +29,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
+import com.example.datn_toystoryshop.Adapter.Feedback_Adapter_Product;
 import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Model.Cart_Model;
@@ -73,6 +74,7 @@ public class Product_detail extends AppCompatActivity {
     private int currentQuantity = 1; // Số lượng sản phẩm ban đầu là 1
     private String selectedColor; // Quy cách mặc định
     private String documentId;
+    private Feedback_Adapter_Product feedbackAdapterProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +133,7 @@ public class Product_detail extends AppCompatActivity {
 
         ////
         recyclerViewFeedback.setLayoutManager(new LinearLayoutManager(this));
-        loadFeedback();
+        loadFeedback(productId);
 
 
         ViewPager2 productImagePager = findViewById(R.id.productImage);
@@ -241,29 +243,28 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
-    public void loadFeedback() {
+    public void loadFeedback(String prodId) {
 
-//            APIService apiService = RetrofitClient.getAPIService();
-//        apiService.getSale().enqueue(new Callback<List<Feeback_Model>>() {
-//            @Override
-//            public void onResponse(Call<List<Feeback_Model>> call, Response<List<Feeback_Model>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
-//
-//                    // Tạo và thiết lập Cart_Adapter
-//                    cartAdapter = new Cart_Adapter(Product_detail.this, response.body(), apiService, documentId);
-//                    recyclerViewFeedback.setAdapter(cartAdapter);
-//                    // Thiết lập ItemTouchHelper cho RecyclerView
-//                    setupItemTouchHelper();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Feeback_Model>> call, Throwable t) {
-//                // Xử lý lỗi khi gọi API thất bại
-//            }
-//        });
+        APIService apiService = RetrofitClient.getAPIService();
+        apiService.getFeeback(prodId).enqueue(new Callback<List<Feeback_Model>>() {
+            @Override
+            public void onResponse(Call<List<Feeback_Model>> call, Response<List<Feeback_Model>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("ProductDetail", "Feedback items retrieved: " + response.body().size());
+
+                    // Tạo và thiết lập Feedback_Adapter_Product
+                    feedbackAdapterProduct = new Feedback_Adapter_Product(Product_detail.this, response.body(), apiService, documentId);
+                    recyclerViewFeedback.setAdapter(feedbackAdapterProduct);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Feeback_Model>> call, Throwable t) {
+                Log.e("ProductDetail", "Failed to load feedback: " + t.getMessage());
+            }
+        });
     }
+
     private void showAddTopayDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -355,7 +356,7 @@ public class Product_detail extends AppCompatActivity {
         });
 
 
-        // Sự kiện Thêm vào Giỏ hàng
+        // Sự kiện Thêm vào Oder_screen
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -364,7 +365,7 @@ public class Product_detail extends AppCompatActivity {
                 // Truyền tất cả dữ liệu qua Intent
                 intent.putExtra("productId", productId);
                 // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
-
+                intent.putExtra("quantity1", quantity);
                 intent.putExtra("currentQuantity", currentQuantity);
                 intent.putExtra("documentId", documentId); // ID khách hàng
                 intent.putExtra("selectedColor", selectedColor);

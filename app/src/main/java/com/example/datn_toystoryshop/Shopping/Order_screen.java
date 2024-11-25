@@ -32,6 +32,7 @@ import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
 import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
+import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -68,7 +69,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private boolean isFavorite = false;
     private int currentQuantity; // Số lượng sản phẩm ban đầu là 1
     private double totalAmount;
-    private int quantity;
+    private int quantity, quantity1;
     private String productType;
     private String documentId;
     private double moneyPay;
@@ -174,6 +175,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         ///dulieunhanDetail
         productId = intent.getStringExtra("productId");
         currentQuantity = intent.getIntExtra("currentQuantity", 0);
+        quantity1 = intent.getIntExtra("quantity1", 0);
         selectedColor = intent.getStringExtra("selectedColor");
         productImg = intent.getStringExtra("productImg");
         RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
@@ -469,7 +471,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
-
+                    updateProductItem(apiService, productId, quantity1 - quantity );
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
                     
@@ -486,7 +488,33 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
-private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
+    public void updateProductItem(APIService apiService, String prodId, int inventory) {
+
+        // Chuẩn bị dữ liệu cập nhật
+        Product_Model productModel = new Product_Model();
+        productModel.set_id(prodId);
+        productModel.setQuantity(inventory);
+        // Gọi API
+        Call<Product_Model> call = apiService.putProductUpdate(prodId, productModel);
+        call.enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Order_screen.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(Order_screen.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Toast.makeText(Order_screen.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
     String content = tvLeaveMessage.getText().toString();
 
     Log.e("API_ERROR", "Content: " + content);
