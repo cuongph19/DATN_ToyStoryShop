@@ -156,4 +156,6 @@ public interface APIService {
     // Lấy lịch sử tin nhắn
     @GET("/api/chat/history")
     Call<ChatHistoryResponse_Model> getChatHistory(@Query("user1") String user1, @Query("user2") String user2);
+    @GET("/api/feebacks")
+    Call<List<Feeback_Model>> getFeedbacks();
 }
