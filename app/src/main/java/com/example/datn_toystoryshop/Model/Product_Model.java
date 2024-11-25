@@ -15,7 +15,7 @@ public class Product_Model implements Serializable {
     private String listPro;      // Danh sách trạng thái sản phẩm
     private List<String> imgPro;       // URL hình ảnh của sản phẩm
     private String namePro;      // Tên sản phẩm
-    private int cateId;          // ID của danh mục sản phẩm
+    private String cateId;          // ID của danh mục sản phẩm
     private String brand;
 
     public Product_Model(String _id,
@@ -114,11 +114,11 @@ public class Product_Model implements Serializable {
         this.namePro = namePro;
     }
 
-    public int getCateId() {
+    public String getCateId() {
         return cateId;
     }
 
-    public void setCateId(int cateId) {
+    public void setCateId(String cateId) {
         this.cateId = cateId;
     }
 
