@@ -83,10 +83,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         });
 
 
-        // Nếu có trường isDefault, có thể thêm dấu sao hoặc thay đổi màu sắc
-//        if (address.isDefault()) {
-//            holder.nameTextView.setTextColor(Color.RED); // Ví dụ thay đổi màu chữ cho địa chỉ mặc định
-//        }
+
     }
 
     @Override
@@ -232,8 +229,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         });
     }
 
-
-
     private int getAddressPositionById(String id) {
         if (id == null) {
             return -1;  // Nếu id là null, không thể so sánh, trả về -1
@@ -247,10 +242,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         return -1;  // Không tìm thấy
     }
 
-
     public interface OnAddressUpdatedListener {
         void onAddressUpdated();  // Hàm callback này sẽ được gọi khi địa chỉ được cập nhật
     }
+
 
 
 }

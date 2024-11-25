@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.datn_toystoryshop.Adapter.AddressAdapter;
@@ -81,6 +84,25 @@ public class AddressList_Screen extends AppCompatActivity {
             }
         });
 
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false; // Không hỗ trợ kéo thả
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Address address = addressList.get(position);
+
+                // Hiển thị dialog xác nhận xóa
+                showDeleteConfirmationDialog(address, position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerViewAddress);
     }
 
     private void getAddressesFromAPI() {
@@ -113,6 +135,47 @@ public class AddressList_Screen extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Address>> call, Throwable t) {
                 Log.e("API Error", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
+    private void showDeleteConfirmationDialog(Address address, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận xóa");
+        builder.setMessage("Bạn có chắc chắn muốn xóa địa chỉ này?");
+
+        builder.setPositiveButton("Xóa", (dialog, which) -> {
+            // Gọi API xóa địa chỉ
+            deleteAddress(address, position);
+        });
+
+        builder.setNegativeButton("Hủy", (dialog, which) -> {
+            addressAdapter.notifyItemChanged(position); // Hủy hành động swipe, phục hồi item
+        });
+
+        builder.show();
+    }
+
+    private void deleteAddress(Address address, int position) {
+        APIService apiService = RetrofitClient.getAPIService();
+        Call<Void> call = apiService.deleteAddress(address.get_id());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Xóa item trong danh sách và cập nhật RecyclerView
+                    addressList.remove(position);
+                    addressAdapter.notifyItemRemoved(position);
+                    Toast.makeText(AddressList_Screen.this, "Địa chỉ đã được xóa", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AddressList_Screen.this, "Lỗi khi xóa địa chỉ", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(AddressList_Screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
