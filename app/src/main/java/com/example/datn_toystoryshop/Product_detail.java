@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -69,6 +70,7 @@ public class Product_detail extends AppCompatActivity {
     private View viewDetail1, viewDetail2, viewDetail3;
     private String favoriteId;
     private RecyclerView recyclerViewFeedback;
+    private FrameLayout out_of_stock_overlay;
     private boolean isFavorite = false;
     private APIService apiService;
     private int currentQuantity = 1; // Số lượng sản phẩm ban đầu là 1
@@ -85,6 +87,7 @@ public class Product_detail extends AppCompatActivity {
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         productStockValue = findViewById(R.id.productStockValue);
+        out_of_stock_overlay = findViewById(R.id.out_of_stock_overlay);
         productBrandValue1 = findViewById(R.id.productBrandValue1);
         productBrandValue2 = findViewById(R.id.productBrandValue2);
         tvProductPrice = findViewById(R.id.productPrice);
@@ -130,6 +133,15 @@ public class Product_detail extends AppCompatActivity {
         tvproductDescription.setText(desPro);
         productBrandValue1.setText(brand);
         productBrandValue2.setText(brand);
+
+        if (quantity == 0) {
+            // Ẩn các view cartIcon và voucherText
+            cartIcon.setEnabled(false);
+            voucherText.setEnabled(false);
+            out_of_stock_overlay.setVisibility(View.VISIBLE);
+            // Hiển thị thông báo hết hàng
+            Toast.makeText(Product_detail.this, "Sản phẩm hiện đang hết hàng!", Toast.LENGTH_SHORT).show();
+        }
 
         ////
         recyclerViewFeedback.setLayoutManager(new LinearLayoutManager(this));
