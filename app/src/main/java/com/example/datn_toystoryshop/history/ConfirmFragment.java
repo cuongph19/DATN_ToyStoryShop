@@ -119,20 +119,24 @@ public class ConfirmFragment extends Fragment {
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    orderList.clear();
-                    orderList.addAll(response.body());
-                    filteredOrderList.clear();
-                    filteredOrderList.addAll(orderList);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        orderList.clear();
+                        orderList.addAll(response.body());
+                        filteredOrderList.clear();
+                        filteredOrderList.addAll(orderList);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -143,29 +147,28 @@ public class ConfirmFragment extends Fragment {
 
         // Kiểm tra nếu người dùng chưa chọn tháng (chọn "...")
         if (selectedMonth.equals("...")) {
-            // Nếu chưa chọn tháng, không lọc mà hiển thị tất cả đơn hàng
             filteredOrderList.clear();
             filteredOrderList.addAll(orderList);
         } else {
-            // Chuyển đổi tên tháng sang số (01, 02, ..., 12)
             String monthNumber = convertMonthNameToNumber(selectedMonth);
             filteredOrderList.clear();
 
             for (Order_Model order : orderList) {
-                String orderDate = order.getOrderDate(); // Giả sử orderDate là chuỗi định dạng yyyy-MM-dd
-                String orderMonth = orderDate.substring(5, 7); // Lấy tháng từ chuỗi (index 5-6)
-                String orderYear = orderDate.substring(0, 4); // Lấy năm từ chuỗi (index 0-3)
+                String orderDate = order.getOrderDate();
+                String orderMonth = orderDate.substring(5, 7);
+                String orderYear = orderDate.substring(0, 4);
 
-                // Kiểm tra nếu tháng và năm khớp
                 if (orderMonth.equals(monthNumber) && orderYear.equals(selectedYear)) {
                     filteredOrderList.add(order);
                 }
             }
         }
 
-        // Cập nhật lại dữ liệu cho Adapter
-        adapter.notifyDataSetChanged();
+        if (getContext() != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
+
 
 
     // Phương thức chuyển đổi tên tháng sang số

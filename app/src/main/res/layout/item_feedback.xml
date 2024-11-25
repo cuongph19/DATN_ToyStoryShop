@@ -54,30 +54,38 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/star1"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_star1"
                         android:contentDescription="Star" />
 
                     <ImageView
+                        android:id="@+id/star2"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_star1"
                         android:contentDescription="Star" />
 
                     <ImageView
+                        android:id="@+id/star3"
+
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_star1"
                         android:contentDescription="Star" />
 
                     <ImageView
+                        android:id="@+id/star4"
+
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_star1"
                         android:contentDescription="Star" />
 
                     <ImageView
+                        android:id="@+id/star5"
+
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_star1"
