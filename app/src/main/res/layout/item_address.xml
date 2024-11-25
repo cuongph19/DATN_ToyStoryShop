@@ -83,5 +83,21 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/delete_layout"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="#FF0000"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_alignParentRight="true">
 
+        <TextView
+            android:id="@+id/delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

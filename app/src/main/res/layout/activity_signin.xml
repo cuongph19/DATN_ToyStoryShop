@@ -142,6 +142,7 @@
             android:layout_height="wrap_content"
             android:text="@string/signup_now"
             android:textStyle="bold"
+            android:layout_marginLeft="10dp"
             android:textColor="#F8F8F8" />
     </LinearLayout>
 

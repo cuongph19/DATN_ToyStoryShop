@@ -348,7 +348,7 @@ router.get('/feebacks', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Tìm tất cả các sản phẩm trong collection 'feebacks'
-        const feebacks = await FeebackModel.find({ }, '_id cusId prodId start content dateFeed ');
+        const feebacks = await FeebackModel.find({}, '_id cusId prodId start content dateFeed ');
         console.log('Kết quả truy vấn:', feebacks);
         if (feebacks.length === 0) {
             return res.status(404).json({ error: 'Không có feedback' });
@@ -692,25 +692,25 @@ router.get('/addresses', async (req, res) => {
 
 router.get('/addresses/:id', async (req, res) => {
     try {
-      const addressId = req.params.id;
-  
-      // Tìm địa chỉ theo ID
-      const address = await Address.findById(addressId);
-  
-      // Kiểm tra nếu không tìm thấy địa chỉ
-      if (!address) {
-        return res.status(404).json({ message: "Address not found" });
-      }
-  
-      // Trả về địa chỉ tìm thấy
-      res.status(200).json(address);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-    }
-  });
+        const addressId = req.params.id;
 
-  
+        // Tìm địa chỉ theo ID
+        const address = await Address.findById(addressId);
+
+        // Kiểm tra nếu không tìm thấy địa chỉ
+        if (!address) {
+            return res.status(404).json({ message: "Address not found" });
+        }
+
+        // Trả về địa chỉ tìm thấy
+        res.status(200).json(address);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 router.post('/addresses', async (req, res) => {
     try {
         const { name, phone, address, addressDetail, isDefault } = req.body;
@@ -742,50 +742,76 @@ router.post('/addresses', async (req, res) => {
     }
 });
 
-router.patch('/addresses/:id', async (req, res) => {
+router.put('/addresses/:id', async (req, res) => {
     try {
-      const addressId = req.params.id;
-      const { name, phone, address, addressDetail } = req.body;
-  
-      // Kiểm tra xem ít nhất một trong các trường cần cập nhật có được cung cấp không
-      if (!name && !phone && !address && !addressDetail) {
-        return res.status(400).json({
-          success: false,
-          message: 'Cần cung cấp ít nhất một trường để cập nhật',
+        const addressId = req.params.id; // Lấy `id` từ URL
+        const { name, phone, address, addressDetail } = req.body; // Lấy các trường khác (loại bỏ `isDefault`)
+
+        // Tìm và cập nhật địa chỉ theo ID (bỏ qua isDefault)
+        const updatedAddress = await Address.findByIdAndUpdate(
+            addressId, // ID cần cập nhật
+            {
+                name,
+                phone,
+                address,
+                addressDetail
+            }, // Chỉ cập nhật các trường này
+            { new: true, runValidators: true } // Tùy chọn trả về bản ghi sau khi cập nhật và kiểm tra ràng buộc
+        );
+
+        // Kiểm tra nếu không tìm thấy địa chỉ
+        if (!updatedAddress) {
+            return res.status(404).json({ success: false, message: "Address not found" });
+        }
+
+        // Trả về địa chỉ sau khi cập nhật
+        res.status(200).json({
+            success: true,
+            message: "Địa chỉ đã được cập nhật thành công",
+            data: updatedAddress,
         });
-      }
-  
-      // Tạo đối tượng cập nhật chỉ với các trường cần thay đổi
-      const updateData = {};
-      if (name) updateData.name = name;
-      if (phone) updateData.phone = phone;
-      if (address) updateData.address = address;
-      if (addressDetail) updateData.addressDetail = addressDetail;
-  
-      // Cập nhật địa chỉ trong cơ sở dữ liệu
-      const updatedAddress = await Address.findByIdAndUpdate(addressId, updateData, { new: true });
-  
-      // Kiểm tra nếu không tìm thấy địa chỉ
-      if (!updatedAddress) {
-        return res.status(404).json({ message: 'Địa chỉ không tìm thấy' });
-      }
-  
-      // Trả về địa chỉ đã được cập nhật
-      res.status(200).json({
-        success: true,
-        message: 'Cập nhật địa chỉ thành công',
-        data: updatedAddress,
-      });
     } catch (error) {
-      console.error('Lỗi khi cập nhật địa chỉ:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Không thể cập nhật địa chỉ',
-        error: error.message,
-      });
+        console.error("Lỗi khi cập nhật địa chỉ:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không thể cập nhật địa chỉ",
+            error: error.message,
+        });
     }
-  });
-  
+});
+
+// Xóa địa chỉ
+router.delete('/addresses/:id', async (req, res) => {
+    try {
+        const addressId = req.params.id; // Lấy ID từ tham số URL
+
+        // Tìm và xóa địa chỉ theo ID
+        const deletedAddress = await Address.findByIdAndDelete(addressId);
+
+        // Kiểm tra nếu không tìm thấy địa chỉ
+        if (!deletedAddress) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy địa chỉ để xóa",
+            });
+        }
+
+        // Trả về thông báo thành công sau khi xóa
+        res.status(200).json({
+            success: true,
+            message: "Địa chỉ đã được xóa thành công",
+            data: deletedAddress,
+        });
+    } catch (error) {
+        console.error("Lỗi khi xóa địa chỉ:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không thể xóa địa chỉ",
+            error: error.message,
+        });
+    }
+});
+
 
 router.get('/cart/check-product', async (req, res) => {
     const { prodId, cusId } = req.query; // Lấy productId và customerId từ query

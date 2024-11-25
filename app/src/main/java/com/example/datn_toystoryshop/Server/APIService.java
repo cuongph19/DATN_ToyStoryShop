@@ -31,8 +31,8 @@ import retrofit2.http.Query;
 public interface APIService {
 
 //    String BASE_URL  = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.10:3000/";// huy
-   // String BASE_URL = "http://192.168.101.10:3000/";
+//      String BASE_URL  = "http://192.168.1.10:3000/";// huy
+    String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -133,17 +133,12 @@ public interface APIService {
     @POST("/api/addresses")
     Call<Address> addAddress(@Body Address address);
 
+    @PUT("/api/addresses/{id}")
+    Call<Address> updateAddress(@Path("id") String addressId, @Body Address address);
 
+    @DELETE("/api/addresses/{id}")
+    Call<Void> deleteAddress(@Path("id") String addressId);
 
-//    @FormUrlEncoded  // Chỉ định bạn sử dụng form URL encoding
-//    @PUT("api/addresses/{id}")  // Sử dụng PUT để cập nhật tài nguyên
-//    Call<Address> updateAddress(
-//            @Field("id") String id,
-//            @Field("name") String name,
-//            @Field("phone") String phone,
-//            @Field("address") String address,
-//            @Field("addressDetail") String addressDetail
-//    );
 
     @GET("/api/cart/check-product")
     Call<JsonObject> checkProductInCart(@Query("prodId") String prodId, @Query("cusId") String cusId);
