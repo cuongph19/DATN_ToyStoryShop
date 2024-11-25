@@ -343,23 +343,44 @@ router.get('/carts', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong giỏ hàng.' });
     }
 });
+
 router.get('/feebacks', async (req, res) => {
     try {
+        const { prodId } = req.query;
+
+        if (!prodId) {
+            return res.status(400).json({ error: 'prodId không được để trống.' });
+        }
+
         await mongoose.connect(server.uri);
 
-        // Tìm tất cả các sản phẩm trong collection 'feebacks'
-        const feebacks = await FeebackModel.find({}, '_id cusId prodId start content dateFeed ');
-        console.log('Kết quả truy vấn:', feebacks);
+        // Lấy danh sách các orderId từ OrderModel dựa trên prodId
+        const orders = await OrderModel.find({ 'prodDetails.prodId': prodId }, '_id');
+
+        if (orders.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy đơn hàng chứa sản phẩm này.' });
+        }
+
+        // Trích xuất các orderId
+        const orderIds = orders.map(order => order._id);
+
+        // Lấy các đánh giá từ FeebackModel dựa trên orderId
+        const feebacks = await FeebackModel.find(
+            { orderId: { $in: orderIds } },
+            '_id cusId orderId start content dateFeed'
+        );
+
         if (feebacks.length === 0) {
-            return res.status(404).json({ error: 'Không có feedback' });
+            return res.status(404).json({ error: 'Không có đánh giá cho sản phẩm này.' });
         }
 
         res.json(feebacks);
     } catch (error) {
-        console.error('Lỗi khi lấy feedback.', error);
-        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy feedback' });
+        console.error('Lỗi khi lấy đánh giá.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
     }
 });
+
 ///////////////////////////////////
 router.get('/orders/confirm', async (req, res) => {
     try {
@@ -454,29 +475,6 @@ router.get('/orders/successful', async (req, res) => {
     }
 });
 
-// router.get('/feebacks', async (req, res) => {
-//     try {
-//         const { cusId } = req.query;
-
-//         if (!cusId) {
-//             return res.status(400).json({ error: 'cusId không được để trống.' });
-//         }
-
-//         await mongoose.connect(server.uri);
-
-//         // Tìm tất cả các sản phẩm trong collection 'feeback'
-//         const feebacks = await FeebackModel.find({ cusId }, '_id cusId prodId start content dateFeed ');
-
-//         if (feebacks.length === 0) {
-//             return res.status(404).json({ error: 'Không có  đánh giá.' });
-//         }
-
-//         res.json(feebacks);
-//     } catch (error) {
-//         console.error('Lỗi khi lấy đánh giá.', error);
-//         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
-//     }
-// });
 router.get('/vouchers', async (req, res) => {
     try {
         await mongoose.connect(server.uri);

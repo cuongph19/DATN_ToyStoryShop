@@ -391,13 +391,25 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsHeader" />
+            <TextView
+                android:id="@+id/FeedbackHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Feedback"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productDescription" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productDescription" />
+                app:layout_constraintTop_toBottomOf="@id/FeedbackHeader" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
   <!-- Add to Cart Section -->

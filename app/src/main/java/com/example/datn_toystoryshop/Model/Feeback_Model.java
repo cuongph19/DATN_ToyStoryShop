@@ -4,11 +4,11 @@ public class Feeback_Model {
     private String _id;          // Mã ID của yeu thic
     private String cusId;
     private String prodId;
-    private double start;
+    private int start;
     private String content;
     private String dateFeed;
 
-    public Feeback_Model(String _id, String cusId, String prodId, double start, String content, String dateFeed) {
+    public Feeback_Model(String _id, String cusId, String prodId, int start, String content, String dateFeed) {
         this._id = _id;
         this.cusId = cusId;
         this.prodId = prodId;
@@ -45,7 +45,7 @@ public class Feeback_Model {
         return start;
     }
 
-    public void setStart(double start) {
+    public void setStart(int start) {
         this.start = start;
     }
 
