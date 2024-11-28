@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class Feedback_Adapter_Product extends RecyclerView.Adapter<Feedback_Adapter_Product.FeedbackViewHolder> {
 
-private Context context;
-private List<Feeback_Model> feedbackList;
+    private Context context;
+    private List<Feeback_Model> feedbackList;
+    private FirebaseFirestore db;
+    private String documentId, name;
 
 public Feedback_Adapter_Product(Context context, List<Feeback_Model> feedbackList, APIService apiService, String documentId) {
     this.context = context;
     this.feedbackList = feedbackList;
+    this.db = FirebaseFirestore.getInstance();
 }
 
 @NonNull
@@ -37,7 +44,8 @@ public Feedback_Adapter_Product.FeedbackViewHolder onCreateViewHolder(@NonNull V
 public void onBindViewHolder(@NonNull Feedback_Adapter_Product.FeedbackViewHolder holder, int position) {
     Feeback_Model feedback = feedbackList.get(position);
 
-    holder.userName.setText(feedback.getCusId()); // Hoặc thay bằng tên khách hàng thực
+    // holder.userName.setText(feedback.getCusId()); // Hoặc thay bằng tên khách hàng thực
+    loadUserDataByDocumentId(feedback.getCusId(), holder.userName);
     holder.tvContent.setText(feedback.getContent());
     holder.tvDateFeed.setText(feedback.getDateFeed().substring(0, 10)); // Chỉ lấy ngày
     holder.bindStars((int) feedback.getStart());}
@@ -76,7 +84,30 @@ public static class FeedbackViewHolder extends RecyclerView.ViewHolder {
             }
         }
     }
+}
+    private void loadUserDataByDocumentId(String documentId, TextView userName) {
+        DocumentReference docRef = db.collection("users").document(documentId);
 
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Lấy tất cả dữ liệu từ tài liệu
+                    name = document.getString("name");
+
+                    // Hiển thị dữ liệu trên log
+                    Log.d("UserData", "Name: " + name);
+
+                    // Cập nhật giao diện nếu cần
+                    userName.setText(name);
+                } else {
+                    Log.d("UserData", "No such document");
+                }
+            } else {
+                Log.w("UserData", "get failed with ", task.getException());
+            }
+        });
+    }
 
 }
-}
+
