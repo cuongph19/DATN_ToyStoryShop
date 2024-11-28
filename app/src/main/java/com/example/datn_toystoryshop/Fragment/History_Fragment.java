@@ -123,7 +123,7 @@ public class History_Fragment extends Fragment {
         return view;
     }
     private void replaceFragment(Fragment fragment) {
-        if (fragment instanceof ConfirmFragment) {
+        if (documentId != null) {
             Bundle bundle = new Bundle();
             bundle.putString("documentId", documentId);
             fragment.setArguments(bundle);

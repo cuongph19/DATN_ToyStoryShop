@@ -10,6 +10,7 @@ import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.Model.Product_feedback;
 import com.example.datn_toystoryshop.Model.Voucher;
 import com.google.gson.JsonObject;
 
@@ -23,6 +24,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -30,9 +32,9 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-//   String BASE_URL  = "http://192.168.16.101:3000/";// cương
+   String BASE_URL  = "http://192.168.16.101:3000/";// cương
 //      String BASE_URL  = "http://192.168.1.10:3000/";// huy
-    String BASE_URL = "http://192.168.101.10:3000/";
+   // String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -81,6 +83,11 @@ public interface APIService {
  @GET("/api/feebacks")
  Call<List<Feeback_Model>> getFeeback(@Query("prodId") String prodId);
 
+    @POST("/api/add-feedback")
+    Call<Feeback_Model> addFeedback(@Body Feeback_Model feebackModel);
+
+    @GET("/api/all-product-details")
+    Call<List<Product_feedback>> getAllProductDetails(@Query("cusId") String cusId);
 
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
@@ -110,9 +117,6 @@ public interface APIService {
 
     @POST("/api/add/add-to-app-feeback")
     Call<FeebackApp_Model> addToFeebackApp(@Body FeebackApp_Model feebackAppModel);
-
-    @POST("/api/add/add-to-feeback")
-    Call<Feeback_Model> addToFeeback(@Body Feeback_Model feebackModel);
 
     @POST("/api/add/add-to-cart")
     Call<Cart_Model> addToCart(@Body Cart_Model cartModel);
@@ -152,6 +156,5 @@ public interface APIService {
     // Lấy lịch sử tin nhắn
     @GET("/api/chat/history")
     Call<ChatHistoryResponse_Model> getChatHistory(@Query("user1") String user1, @Query("user2") String user2);
-    @GET("/api/feebacks")
-    Call<List<Feeback_Model>> getFeedbacks();
+
 }

@@ -3,15 +3,15 @@ package com.example.datn_toystoryshop.Model;
 public class Feeback_Model {
     private String _id;          // Mã ID của yeu thic
     private String cusId;
-    private String prodId;
+    private String orderId;
     private int start;
     private String content;
     private String dateFeed;
 
-    public Feeback_Model(String _id, String cusId, String prodId, int start, String content, String dateFeed) {
+    public Feeback_Model(String _id, String cusId, String orderId, int start, String content, String dateFeed) {
         this._id = _id;
         this.cusId = cusId;
-        this.prodId = prodId;
+        this.orderId = orderId;
         this.start = start;
         this.content = content;
         this.dateFeed = dateFeed;
@@ -33,15 +33,15 @@ public class Feeback_Model {
         this.cusId = cusId;
     }
 
-    public String getProdId() {
-        return prodId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setProdId(String prodId) {
-        this.prodId = prodId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public double getStart() {
+    public int getStart() {
         return start;
     }
 
