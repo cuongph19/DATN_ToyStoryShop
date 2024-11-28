@@ -1,98 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SCREEN"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
+
+        <TextView
+            android:id="@+id/tvEvaluate"
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:gravity="center_horizontal"
+            android:text="Vị trí cửa hàng"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Hình ảnh chính -->
+        <ImageView
+            android:id="@+id/store_main_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_01_1" />
+
+        <!-- Thông tin chi tiết -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="ToyStory Shop là hệ thống bán lẻ chính hãng các mô hình đồ chơi từ các thương hiệu nổi tiếng như LEGO, Bandai, Funko, Hot Wheels,..."
+            style="@style/TEXT"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/searchLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:drawableStart="@drawable/ic_search"
+        android:hint="Nhập vị trí để tìm cửa hàng gần nhất"
+        android:padding="10dp" />
+
+    <!-- Dropdown for selecting city/province and district -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Spinner
+            android:id="@+id/spinnerCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/city_list"
+            android:prompt="@string/prompt_select_city" />
+
+        <Spinner
+            android:id="@+id/spinnerDistrict"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/district_list_hanoi"
+            android:prompt="@string/prompt_select_district" />
+    </LinearLayout>
+
+    <!-- List of stores -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:contentDescription="Back"
-                android:padding="8dp"
-                android:src="@drawable/back_icon_1" />
-
-            <TextView
-                style="@style/TEXT"
-                android:id="@+id/tvEvaluate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vị trí cửa hàng"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:layout_marginStart="10dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Hình ảnh chính -->
-            <ImageView
-                android:id="@+id/store_main_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_01_1" />
-
-            <!-- Thông tin chi tiết -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="ToyStory Shop là hệ thống bán lẻ chính hãng các mô hình đồ chơi từ các thương hiệu nổi tiếng như LEGO, Bandai, Funko, Hot Wheels,..."
-                android:textSize="14sp"
-                android:textColor="#333333" />
-        </LinearLayout>
-
-        <!-- Search Bar -->
-        <EditText
-            android:id="@+id/searchLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập vị trí để tìm cửa hàng gần nhất"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background"
-            android:drawableStart="@drawable/ic_search"/>
-
-        <!-- Dropdown for selecting city/province and district -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <Spinner
-                android:id="@+id/spinnerCity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/city_list"
-                android:prompt="@string/prompt_select_city" />
-
-            <Spinner
-                android:id="@+id/spinnerDistrict"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/district_list_hanoi"
-                android:prompt="@string/prompt_select_district" />
-        </LinearLayout>
-
-        <!-- List of stores -->
-        <fragment
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+        android:layout_weight="1" />
+</LinearLayout>

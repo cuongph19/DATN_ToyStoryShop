@@ -88,11 +88,11 @@ public class Product_detail extends AppCompatActivity {
         apiService = RetrofitClient.getAPIService();
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         productStockValue = findViewById(R.id.productStockValue);

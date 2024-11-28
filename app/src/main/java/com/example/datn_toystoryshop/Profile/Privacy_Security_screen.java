@@ -33,9 +33,9 @@ public class Privacy_Security_screen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 //        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
+//            btnBack.setImageResource(R.drawable.back_icon);
 //        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
+//            btnBack.setImageResource(R.drawable.back_icon_1);
 //        }
         checkboxAgree = findViewById(R.id.checkbox_agree_privacy);
         btnAccept = findViewById(R.id.btn_accept_privacy);

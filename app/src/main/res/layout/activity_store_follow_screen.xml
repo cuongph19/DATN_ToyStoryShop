@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Store_follow_screen">
+    tools:context=".Home.Store_follow_screen"
+    style="@style/SCREEN">
 
     <!-- Header section -->
     <LinearLayout

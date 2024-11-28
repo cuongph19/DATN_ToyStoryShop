@@ -98,11 +98,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         setContentView(R.layout.activity_oder_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         // Khởi tạo các view trong layout
         imgBack = findViewById(R.id.imgBack);
         btnOrder = findViewById(R.id.btnOrder);

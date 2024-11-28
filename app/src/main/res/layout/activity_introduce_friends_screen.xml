@@ -1,116 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#FFFFFF">
+    android:padding="16dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="10dp"
-        >
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:contentDescription="Back"
-        android:padding="8dp"
-        android:src="@drawable/back_icon_1" />
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/tvIntroduce"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/intro_rewards_int"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#001A61"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginStart="10dp" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/tvIntroduce"
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/intro_rewards_int"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
     <!-- Ảnh hoặc banner quảng cáo -->
     <ImageView
         android:id="@+id/imgBanner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/ic_google"
-        android:scaleType="centerCrop"
         android:layout_marginBottom="20dp"
-        android:background="#001A61"/> <!-- Nền banner có màu chủ đạo -->
+        android:background="#001A61"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_google" /> <!-- Nền banner có màu chủ đạo -->
 
     <!-- Mã giới thiệu -->
     <TextView
         android:id="@+id/tvReferralCodeLabel"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/share_referral_code_int"
-        android:textSize="18sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textColor="#001A61"/> <!-- Màu chủ đạo -->
+        android:text="@string/share_referral_code_int"
+        android:textSize="18sp" /> <!-- Màu chủ đạo -->
 
     <TextView
         android:id="@+id/tvReferralCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:background="#001A61"
+        android:padding="8dp"
         android:text="TOYSTORY123"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:textColor="#FFFFFF"
-    android:layout_gravity="center_horizontal"
-    android:background="#001A61"
-    android:padding="8dp"
-    android:layout_marginBottom="20dp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- Hướng dẫn chia sẻ -->
     <TextView
         android:id="@+id/tvInstructions"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="@string/steps_to_get_rewards_int"
-        android:textSize="16sp"
-        android:textColor="#001A61"
-    android:layout_marginBottom="10dp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvStep1"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/step_1_int"
-        android:textSize="16sp"
         android:layout_marginBottom="5dp"
-        android:textColor="#001A61"/>
+        android:text="@string/step_1_int"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvStep2"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/step_2_int"
-        android:textSize="16sp"
         android:layout_marginBottom="5dp"
-        android:textColor="#001A61"/>
+        android:text="@string/step_2_int"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvStep3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/step_3_int"
-        android:textSize="16sp"
         android:layout_marginBottom="20dp"
-        android:textColor="#001A61"/>
+        android:text="@string/step_3_int"
+        style="@style/TEXT"
+        android:textSize="16sp" />
 
     <!-- Nút chia sẻ -->
     <Button
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/share_button_int"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#001A61"
-    android:textColor="#FFFFFF"/>
+        android:text="@string/share_button_int"
+        style="@style/TEXT"/>
 
 </LinearLayout>

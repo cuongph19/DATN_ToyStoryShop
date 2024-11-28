@@ -10,7 +10,9 @@
     <style name="SCREEN">
         <item name="android:background">#17327A</item>
     </style>
-
+    <style name="BNavigation">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
     <style name="TEXT">
         <item name="android:textColor">#FFFFFF</item>
     </style>

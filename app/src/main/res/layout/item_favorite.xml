@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EFEFEF"
+    style="@style/SCREEN"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
@@ -13,6 +13,7 @@
         android:layout_marginBottom="10dp">
 
         <RelativeLayout
+            android:background="#F2DCE1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">

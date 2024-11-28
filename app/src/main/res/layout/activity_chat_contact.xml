@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Nhập tin nhắn"
+            android:hint="@string/enter_mess"
             android:textColor="#000000"
             android:textColorHint="#FFA726"
             android:background="@drawable/edittext_background"
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Gửi"
+            android:text="@string/send"
             android:backgroundTint="#FFA726"
             android:textColor="#FFFFFF"/>
     </LinearLayout>

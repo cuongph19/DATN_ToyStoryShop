@@ -1,111 +1,116 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SCREEN"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/topLinearLayout"
+        style="@style/SCREEN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/topLinearLayout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/back_icon_1" />
 
-            <ImageView
-                android:id="@+id/imgBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Back"
-                android:padding="8dp"
-                android:src="@drawable/back_icon_1" />
-
-            <TextView
-                style="@style/TEXT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:text="Phương thức thanh toán"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-
-            <!-- Phương thức thanh toán: Thanh toán khi nhận hàng -->
-            <LinearLayout
-                android:id="@+id/layoutCOD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:background="#F5F5F5"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:id="@+id/iconCOD"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_logo"
-                    android:layout_marginRight="8dp"
-                    android:layout_gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/tvCOD"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Thanh toán khi nhận hàng"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/radioCOD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <!-- Phương thức thanh toán: Ví ShopeePay -->
-            <LinearLayout
-                android:id="@+id/layoutShopeePay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:background="#F5F5F5"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:id="@+id/iconShopeePay"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_logo"
-                    android:layout_marginRight="8dp" />
-
-                <TextView
-                    android:id="@+id/tvShopeePay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ví ShopeePay (Yêu thích)"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/radioShopeePay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
         <TextView
-            android:id="@+id/tvAgree"
-            android:layout_width="match_parent"
+            style="@style/TEXT"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ĐỒNG Ý"
+            android:layout_marginStart="10dp"
             android:gravity="center"
-            android:background="#FF5722"
-            android:textColor="@android:color/white"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:focusable="true" />
+            android:text="Phương thức thanh toán"
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+
+    <!-- Phương thức thanh toán: Thanh toán khi nhận hàng -->
+    <LinearLayout
+        android:id="@+id/layoutCOD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#F5F5F5"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/iconCOD"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_logo" />
+
+        <TextView
+            android:id="@+id/tvCOD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thanh toán khi nhận hàng"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radioCOD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Phương thức thanh toán: Ví ShopeePay -->
+    <LinearLayout
+        android:id="@+id/layoutShopeePay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#F5F5F5"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/iconShopeePay"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_logo" />
+
+        <TextView
+            android:id="@+id/tvShopeePay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ví ShopeePay (Yêu thích)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radioShopeePay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAgree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#FF5722"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="ĐỒNG Ý"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+</LinearLayout>
 
