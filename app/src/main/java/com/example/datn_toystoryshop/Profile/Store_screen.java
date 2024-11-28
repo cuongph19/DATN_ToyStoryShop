@@ -53,9 +53,9 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 //        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
+//            btnBack.setImageResource(R.drawable.back_icon);
 //        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
+//            btnBack.setImageResource(R.drawable.back_icon_1);
 //        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);

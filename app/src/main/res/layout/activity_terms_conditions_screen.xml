@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    style="@style/SCREEN"
     android:padding="16dp">
 
     <LinearLayout
@@ -28,7 +28,7 @@
         android:text="@string/terms_and_conditions_title_ter"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#001A61"
+        style="@style/TEXT"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:layout_marginStart="10dp"
@@ -45,7 +45,7 @@
             android:id="@+id/tvTerms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#001A61"
+            style="@style/TEXT"
             android:textSize="16sp" />
     </ScrollView>
 
@@ -53,7 +53,7 @@
         android:id="@+id/checkbox_agree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#001A61"
+        style="@style/TEXT"
         android:text="@string/agree_statement_ter"
         android:layout_gravity="center_horizontal"
         android:paddingTop="16dp" />

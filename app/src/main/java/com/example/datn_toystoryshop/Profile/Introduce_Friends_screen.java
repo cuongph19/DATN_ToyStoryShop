@@ -28,9 +28,9 @@ public class Introduce_Friends_screen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 //        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
+//            btnBack.setImageResource(R.drawable.back_icon);
 //        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
+//            btnBack.setImageResource(R.drawable.back_icon_1);
 //        }
         btnBack = findViewById(R.id.btnBack);
         tvReferralCode = findViewById(R.id.tvReferralCode);

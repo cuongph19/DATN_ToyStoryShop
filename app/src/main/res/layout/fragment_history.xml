@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    style="@style/SCREEN">
     <LinearLayout
         android:id="@+id/history_purchase"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Đơn mua"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            style="@style/TEXT"
             android:layout_weight="1" />
 
         <!-- "Xem lịch sử mua hàng" -->
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="Xem lịch sử mua hàng"
                 android:textSize="16sp"
-                android:textColor="@android:color/black" />
+                style="@style/TEXT" />
 
             <!-- Mũi tên -->
             <ImageView
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:text="Chờ xác nhận"
                 android:textSize="10sp"
-                android:textColor="@android:color/black"
+                style="@style/TEXT"
                 android:gravity="center" />
 
 
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="Chờ lấy hàng"
                 android:textSize="10sp"
-                android:textColor="@android:color/black"
+                style="@style/TEXT"
                 android:gravity="center" />
         </LinearLayout>
 
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:text="Chờ giao hàng"
                 android:textSize="10sp"
-                android:textColor="@android:color/black"
+                style="@style/TEXT"
                 android:gravity="center" />
 
 
@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:text="Đánh giá"
                 android:textSize="10sp"
-                android:textColor="@android:color/black"
+                style="@style/TEXT"
                 android:gravity="center" />
         </LinearLayout>
 
@@ -255,7 +255,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:padding="10dp" />
 
 </LinearLayout>

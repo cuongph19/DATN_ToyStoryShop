@@ -11,6 +11,9 @@
         <item name="android:background">#FFFFFF</item>
     </style>
 
+    <style name="BNavigation">
+        <item name="android:background">#E5E7F8</item>
+    </style>
     <style name="TEXT">
         <item name="android:textColor">#001A61</item>
     </style>

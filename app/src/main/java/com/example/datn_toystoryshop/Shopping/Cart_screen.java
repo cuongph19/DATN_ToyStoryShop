@@ -75,7 +75,7 @@ public class Cart_screen extends AppCompatActivity {
 //        } else {
 //            imgBack.setImageResource(R.drawable.back_icon_1);
 //        }
-        imgBack = findViewById(R.id.imgBack);
+        imgBack = findViewById(R.id.imgBackCart);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);
         TotalPayment  = findViewById(R.id.tvTotalPayment);

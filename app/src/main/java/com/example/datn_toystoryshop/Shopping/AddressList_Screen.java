@@ -49,11 +49,11 @@ public class AddressList_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_address_list_screen);  // Đảm bảo layout này là layout của bạn
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         imgBack = findViewById(R.id.imgBack);
         linAdd = findViewById(R.id.bottomAddAddress);
 

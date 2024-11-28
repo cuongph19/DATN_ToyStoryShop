@@ -99,11 +99,11 @@ public class ShippingUnit_screen extends AppCompatActivity {
         setContentView(R.layout.activity_shipping_unit_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         imgBack = findViewById(R.id.imgBack);
         tvFastShipping = findViewById(R.id.tvFastShipping);
         tvExpressShipping = findViewById(R.id.tvExpressShipping);

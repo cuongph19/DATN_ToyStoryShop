@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+   style="@style/SCREEN"
     android:padding="16dp">
 
     <!-- Back Button và Title (sử dụng horizontal LinearLayout) -->
@@ -24,6 +24,7 @@
 
         <!-- Title -->
         <TextView
+            style="@style/TEXT"
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColorHint="#4E4E4E"
             android:hint="Nhập mã shopee voucher"
             android:background="@drawable/bg_input_field"
             android:padding="8dp"/>
@@ -81,15 +83,17 @@
             android:layout_height="wrap_content"
             android:text="Ưu đãi phí vận chuyển"
             android:textStyle="bold"
+            style="@style/TEXT"
              />
 
         <!-- Subtitle cho danh sách voucher -->
         <TextView
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Có thể chọn 1 Voucher"
             android:textSize="14sp"
-            android:textColor="#666666"
+
             android:layout_marginBottom="8dp"/>
 
         <!-- RecyclerView cho danh sách voucher -->
@@ -110,6 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xem thêm"
+            style="@style/TEXT"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
              />
@@ -125,6 +130,7 @@
 
         <!-- Voucher List Section Title -->
         <TextView
+            style="@style/TEXT"
             android:id="@+id/product_voucher_section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,11 +140,12 @@
 
         <!-- Subtitle cho danh sách voucher -->
         <TextView
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Có thể chọn 1 Voucher"
             android:textSize="14sp"
-            android:textColor="#666666"
+
             android:layout_marginBottom="8dp"/>
 
         <!-- RecyclerView cho danh sách voucher -->
@@ -152,6 +159,7 @@
             tools:itemCount="2" />
         <!-- TextView 'Xem thêm' dưới RecyclerView -->
         <TextView
+            style="@style/TEXT"
             android:id="@+id/show_more_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

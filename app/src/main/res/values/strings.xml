@@ -256,8 +256,24 @@
     <string name="name_address">Họ và tên</string>
     <string name="phone_address">Số điện thoại</string>
     <string name="address">Địa chỉ</string>
+    <string name="address_rev">Địa chỉ nhận hàng</string>
     <string name="address_detail">Địa chỉ chi tiết</string>
     <string name="save">Lưu</string>
+    <string name="choose_address">Chọn địa chỉ của bạn</string>
+    <string name="enter_mess">Nhập tin nhắn</string>
+    <string name="send">Gửi</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="choose_code">Chọn hoặc nhập mã</string>
+    <string name="all">Tất cả</string>
+    <string name="buy">Mua hàng</string>
+    <string name="pay">Thanh toán</string>
+    <string name="method_ship">Phương thức vận chuyển</string>
+    <string name="method_pay">Phương thức thanh toán</string>
+    <string name="detail_pay">Chi tiết thanh toán</string>
+    <string name="total_pro">Tổng tiền hàng</string>
+    <string name="total_ship">Tổng tiền phí vận chuyển</string>
+    <string name="total_pay">Tổng thanh toán</string>
+    <string name="sp">Bạn cần hỗ trợ?</string>
 
     //Sort by
     <string-array name="sort_options">
