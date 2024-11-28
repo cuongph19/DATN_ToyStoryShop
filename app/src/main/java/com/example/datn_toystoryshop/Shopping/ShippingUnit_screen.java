@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -32,7 +33,8 @@ public class ShippingUnit_screen extends AppCompatActivity {
     private String shipping_method = "";
     private String shipping_price = "";
     private double totalShipDiscount;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     private String getFormattedDate(int daysToAdd, String format) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
@@ -95,7 +97,13 @@ public class ShippingUnit_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping_unit_screen);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         imgBack = findViewById(R.id.imgBack);
         tvFastShipping = findViewById(R.id.tvFastShipping);
         tvExpressShipping = findViewById(R.id.tvExpressShipping);

@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Setting;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +22,20 @@ public class UpdateInfo_screen extends AppCompatActivity {
     private Button btnSave;
     private String documentId, phone, name, email,password;
     private FirebaseFirestore db;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_info_screen);
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
+
         etEmail = findViewById(R.id.et_email);
         etName = findViewById(R.id.et_name);
         etPhone = findViewById(R.id.et_phone);

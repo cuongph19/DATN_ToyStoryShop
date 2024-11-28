@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Contact_support;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,8 @@ public class Chat_contact extends AppCompatActivity {
     private List<ChatMessage_Model> chatMessageList;
     private ImageView imgBack;
     private String documentId;// ID của khách hàng
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,13 @@ public class Chat_contact extends AppCompatActivity {
         chatAdapter = new Chat_Adapter(chatMessageList, documentId);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

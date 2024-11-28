@@ -252,6 +252,13 @@
         <item>Tháng 12</item>
     </string-array>
 
+    <string name="add_address">Thêm địa chỉ</string>
+    <string name="name_address">Họ và tên</string>
+    <string name="phone_address">Số điện thoại</string>
+    <string name="address">Địa chỉ</string>
+    <string name="address_detail">Địa chỉ chi tiết</string>
+    <string name="save">Lưu</string>
+
     //Sort by
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>

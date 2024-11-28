@@ -25,12 +25,21 @@ public class Terms_Conditions_screen extends AppCompatActivity {
 
     // Biến để kiểm tra người dùng đã nhấn Accept h ay chưa
     private boolean isAccepted = false;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms_conditions_screen);
 
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         checkboxAgree = findViewById(R.id.checkbox_agree);
         btnAccept = findViewById(R.id.btn_accept);
         tvTerms = findViewById(R.id.tvTerms);

@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,12 +35,20 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     private TextView selectedVoucherCountTextView, btnApplyVoucher;
     private double totalShipDiscount;
     private double totalProductDiscount;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_voucher_screen);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         recyclerViewShip = findViewById(R.id.voucher_recycler_view_ship);
         recyclerViewProduct = findViewById(R.id.voucher_recycler_view_product);
         seeMoreTextViewShip = findViewById(R.id.show_more_ship);

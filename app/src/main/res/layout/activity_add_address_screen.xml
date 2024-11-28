@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    style="@style/SCREEN"
+    >
 
     <!-- Nút quay lại -->
     <ImageView
@@ -17,12 +18,12 @@
 
     <!-- Tiêu đề -->
     <TextView
+        style="@style/TEXT"
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm địa chỉ"
+        android:text="@string/add_address"
         android:textSize="24sp"
-        android:textColor="#001A61"
         android:gravity="center"
         android:paddingVertical="16dp" />
 
@@ -31,56 +32,56 @@
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ và tên"
+        android:hint="@string/name_address"
         android:inputType="textPersonName"
         android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        style="@style/TEXT" />
 
     <!-- Số điện thoại -->
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:hint="@string/phone_address"
         android:inputType="phone"
         android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        style="@style/TEXT" />
 
     <!-- Địa chỉ -->
     <EditText
         android:id="@+id/etAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Địa chỉ"
+        android:hint="@string/address"
         android:inputType="textPostalAddress"
         android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        style="@style/TEXT"  />
 
     <!-- Chi tiết địa chỉ -->
     <EditText
         android:id="@+id/etAddressDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Chi tiết địa chỉ"
+        android:hint="@string/address_detail"
         android:inputType="text"
         android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        style="@style/TEXT"  />
 
     <!-- Checkbox đặt làm mặc định -->
-    <CheckBox
-        android:id="@+id/cbDefault"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đặt làm địa chỉ mặc định"
-        android:paddingVertical="8dp"
-        android:textColor="#001A61" />
+<!--    <CheckBox-->
+<!--        android:id="@+id/cbDefault"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Đặt làm địa chỉ mặc định"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        style="@style/TEXT"  />-->
 
     <!-- Nút lưu -->
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu"
+        android:text="@string/save"
         android:textColor="#FFFFFF"
         android:backgroundTint="#001A61"
         android:paddingVertical="16dp"

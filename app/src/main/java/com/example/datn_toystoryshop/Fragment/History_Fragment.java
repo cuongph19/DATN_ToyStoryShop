@@ -1,7 +1,10 @@
 package com.example.datn_toystoryshop.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,7 +48,8 @@ public class History_Fragment extends Fragment {
     private static final float DEFAULT_TEXT_SIZE = 10f; // Kích thước mặc định (dp)
     private static final float HIGHLIGHTED_TEXT_SIZE = 12f; // Kích thước khi được chọn (dp)
     private String documentId;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     public History_Fragment() {
         // Required empty public constructor
     }
@@ -54,7 +58,14 @@ public class History_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         // Khởi tạo Spinner
         history_purchase = view.findViewById(R.id.history_purchase);
         confirm = view.findViewById(R.id.confirm);

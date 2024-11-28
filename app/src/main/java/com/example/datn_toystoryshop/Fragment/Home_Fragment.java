@@ -70,15 +70,21 @@ public class Home_Fragment extends Fragment {
     private Suggestion_Adapter suggestionAdapter;
     private List<Product_Model> popularProductList;
     private String documentId;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        boolean nightMode = sharedPreferences.getBoolean("night", false);
-        AppCompatDelegate.setDefaultNightMode(nightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         btn_follow_store_1 = view.findViewById(R.id.btn_follow_store_1);
         btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);

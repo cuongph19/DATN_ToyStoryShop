@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -42,11 +43,20 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
     private static final LatLng HANOI_STORE_1 = new LatLng(21.0386, 105.7477);
     private static final LatLng HANOI_STORE_2 = new LatLng(20.9395, 105.9754);
     private static final LatLng SAIGON_STORE = new LatLng(10.8231, 106.6297);
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_screen);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) {

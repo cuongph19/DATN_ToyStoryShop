@@ -8,7 +8,7 @@
     <style name="Theme.DATN_ToyStoryShop" parent="Base.Theme.DATN_ToyStoryShop" />
 
     <style name="SCREEN">
-        <item name="android:background">#172A5C</item>
+        <item name="android:background">#17327A</item>
     </style>
 
     <style name="TEXT">

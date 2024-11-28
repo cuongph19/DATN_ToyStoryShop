@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EFEFEF"
+    style="@style/SCREEN"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        android:backgroundTint="#F2DCE1"
         android:elevation="4dp">
 
         <!-- FrameLayout để chứa hình ảnh ở góc trên bên phải -->

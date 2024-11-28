@@ -24,12 +24,19 @@ public class Privacy_Security_screen extends AppCompatActivity {
     private static final String PREFS_NAME = "PrivacyPrefs";
     private static final String KEY_CHECKBOX_AGREE = "checkbox_agree_privacy";
     private boolean isAccepted = false;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy_security_screen);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         checkboxAgree = findViewById(R.id.checkbox_agree_privacy);
         btnAccept = findViewById(R.id.btn_accept_privacy);
         tvPrivacy = findViewById(R.id.tvPrivacy);

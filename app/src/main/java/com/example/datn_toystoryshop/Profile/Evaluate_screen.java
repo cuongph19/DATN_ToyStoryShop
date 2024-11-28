@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,11 +32,20 @@ public class Evaluate_screen extends AppCompatActivity {
     private String feedback;
     private float rating;
     private String documentId;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluate_screen);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         ratingBar = findViewById(R.id.ratingBar);
         etFeedback = findViewById(R.id.etFeedback);
         btnSubmit = findViewById(R.id.btnSubmit);

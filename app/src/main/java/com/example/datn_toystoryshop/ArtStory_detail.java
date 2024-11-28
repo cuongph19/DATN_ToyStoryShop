@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,13 +21,20 @@ public class ArtStory_detail extends AppCompatActivity {
     private TextView titleView, authorView, dateView, contentView;
     private ImageView mainImageView, imageView1, imageView2, imageView3;
     private TextView captionView1, captionView2, captionView3;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_art_story_detail);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         // Ánh xạ các view
         titleView = findViewById(R.id.detailTitle);
         authorView = findViewById(R.id.detailAuthor);
