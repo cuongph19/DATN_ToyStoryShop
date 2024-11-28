@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
+//import com.paypal.android.sdk.payments.PayPalConfiguration;
+//import com.paypal.android.sdk.payments.PayPalPayment;
+//import com.paypal.android.sdk.payments.PayPalService;
+//import com.paypal.android.sdk.payments.PaymentActivity;
+//import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import java.math.BigDecimal;
 
@@ -22,9 +22,9 @@ public class PayPalActivity extends Activity {
     public static final int REQUEST_CODE_PAYMENT = 1;
 
     // Cấu hình PayPal
-    public static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) // Môi trường Sandbox
-            .clientId(PAYPAL_CLIENT_ID); // Dùng Client ID của app trong Sandbox
+//    public static PayPalConfiguration config = new PayPalConfiguration()
+//            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) // Môi trường Sandbox
+//            .clientId(PAYPAL_CLIENT_ID); // Dùng Client ID của app trong Sandbox
 
 
     @Override
@@ -50,20 +50,20 @@ public class PayPalActivity extends Activity {
     }
 
     // Phương thức để bắt đầu thanh toán
-    private void startPayPalPayment() {
-        Log.d("PayPalActivity", "Starting PayPal payment...");
-        PayPalPayment payment = new PayPalPayment(
-                new BigDecimal("19.99"), // Số tiền
-                "USD",                   // Mã tiền tệ (đúng format ISO 4217)
-                "Toy Item",              // Mô tả sản phẩm
-                PayPalPayment.PAYMENT_INTENT_SALE); // Loại giao dịch (sale)
-
-
-        Intent intent = new Intent(this, PaymentActivity.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-        startActivityForResult(intent, REQUEST_CODE_PAYMENT);
-    }
+//    private void startPayPalPayment() {
+//        Log.d("PayPalActivity", "Starting PayPal payment...");
+//        PayPalPayment payment = new PayPalPayment(
+//                new BigDecimal("19.99"), // Số tiền
+//                "USD",                   // Mã tiền tệ (đúng format ISO 4217)
+//                "Toy Item",              // Mô tả sản phẩm
+//                PayPalPayment.PAYMENT_INTENT_SALE); // Loại giao dịch (sale)
+//
+//
+//        Intent intent = new Intent(this, PaymentActivity.class);
+//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+//        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+//        startActivityForResult(intent, REQUEST_CODE_PAYMENT);
+//    }
 //
 //    // Xử lý kết quả trả về từ PayPal
 //    @Override

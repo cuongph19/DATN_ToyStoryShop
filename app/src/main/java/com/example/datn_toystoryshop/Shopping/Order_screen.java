@@ -79,7 +79,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private static final String PREFS_NAME = "NotificationPrefs";
     private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
     private NotificationManager notificationManager;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
 
     private String getFormattedDate(int daysToAdd, String format) {
         // Khởi tạo Calendar với ngày hiện tại
@@ -95,7 +96,13 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oder_screen);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         // Khởi tạo các view trong layout
         imgBack = findViewById(R.id.imgBack);
         btnOrder = findViewById(R.id.btnOrder);

@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +13,21 @@ import com.example.datn_toystoryshop.R;
 public class Store_follow_screen extends AppCompatActivity {
     private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
     private ImageView ivBack;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_follow_screen);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
+
         ivBack = findViewById(R.id.ivBack);
         btn_follow_store_1 = findViewById(R.id.btn_follow_store_1);
         btn_follow_store_2 = findViewById(R.id.btn_follow_store_2);

@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +30,8 @@ public class AddressList_Screen extends AppCompatActivity {
     private List<Address> addressList;
     ImageView imgBack;
     LinearLayout linAdd;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -45,7 +47,13 @@ public class AddressList_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list_screen);  // Đảm bảo layout này là layout của bạn
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         imgBack = findViewById(R.id.imgBack);
         linAdd = findViewById(R.id.bottomAddAddress);
 

@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -77,13 +78,21 @@ public class Product_detail extends AppCompatActivity {
     private String selectedColor; // Quy cách mặc định
     private String documentId;
     private Feedback_Adapter_Product feedbackAdapterProduct;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         // Khởi tạo APIService bằng RetrofitClient
         apiService = RetrofitClient.getAPIService();
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         productStockValue = findViewById(R.id.productStockValue);

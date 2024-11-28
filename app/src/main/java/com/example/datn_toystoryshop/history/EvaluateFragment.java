@@ -1,6 +1,9 @@
 package com.example.datn_toystoryshop.history;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +38,8 @@ public class EvaluateFragment extends Fragment {
     private List<Feeback_Model> feedbackList = new ArrayList<>();
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     private APIService apiService;
 
     @Override
@@ -43,7 +47,14 @@ public class EvaluateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_evaluate, container, false);
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);

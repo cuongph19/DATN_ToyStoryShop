@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,11 +28,19 @@ public class NewArrivals_screen extends AppCompatActivity {
     private TextView headerTitle;
     private ImageView backIcon;
     private String documentId;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newarrivals);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         headerTitle = findViewById(R.id.header_title);

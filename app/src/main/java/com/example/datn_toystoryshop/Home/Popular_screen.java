@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,11 +29,21 @@ public class Popular_screen extends AppCompatActivity {
     private Product_Adapter productAdapter;
     private List<Product_Model> productList;
     private String documentId;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_screen);
 
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         // Khởi tạo RecyclerView
         recyclerViewPopular = findViewById(R.id.recyPopuPro);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));

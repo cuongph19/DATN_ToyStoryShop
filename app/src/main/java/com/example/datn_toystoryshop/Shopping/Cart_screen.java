@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,12 +61,20 @@ public class Cart_screen extends AppCompatActivity {
     private LinearLayout tvVoucher,Lldiscount;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     private List<Cart_Model> cartList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cart_screen);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         imgBack = findViewById(R.id.imgBack);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);

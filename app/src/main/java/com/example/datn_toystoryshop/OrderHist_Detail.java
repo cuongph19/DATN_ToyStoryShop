@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -27,11 +28,18 @@ public class OrderHist_Detail extends AppCompatActivity {
     private LinearLayout ivContactShop,ivSupportCenter;
     private APIService apiService;
     private Button btnRateProduct;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         setContentView(R.layout.activity_order_hist_detail);
         apiService = RetrofitClient.getAPIService();
 

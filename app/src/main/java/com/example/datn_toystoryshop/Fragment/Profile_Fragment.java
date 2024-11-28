@@ -36,7 +36,8 @@ public class Profile_Fragment extends Fragment {
     private FirebaseFirestore db;
     private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
     private static final String NOTIFICATION_SHOWN_KEY = "notificationShown"; // Khai báo hằng số cho trạng thái thông báo
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
 
     private String documentId, name, phoneNumber;
 
@@ -51,8 +52,9 @@ public class Profile_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        boolean nightMode = sharedPreferences.getBoolean("night", false);
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

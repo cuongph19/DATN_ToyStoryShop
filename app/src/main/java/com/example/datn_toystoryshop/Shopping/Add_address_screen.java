@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,17 +26,27 @@ public class Add_address_screen extends AppCompatActivity {
     CheckBox cbDefault;
     Button btnSave;
     private ImageView imgBack;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address_screen);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
+
         imgBack = findViewById(R.id.btnBack);
         etName = findViewById(R.id.etName);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etAddress = findViewById(R.id.etAddress);
         etAddressDetail = findViewById(R.id.etAddressDetail);
-        cbDefault = findViewById(R.id.cbDefault);
+//        cbDefault = findViewById(R.id.cbDefault);
         btnSave = findViewById(R.id.btnSave);
 
         imgBack.setOnClickListener(new View.OnClickListener() {

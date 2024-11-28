@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Setting;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,8 @@ public class ChangePassword_screen extends AppCompatActivity {
     private Button btnSave;
     private String documentId, phone, name, email,password;
     private FirebaseFirestore db;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,13 @@ public class ChangePassword_screen extends AppCompatActivity {
         setContentView(R.layout.activity_change_password_screen);
         etpass = findViewById(R.id.et_pass);
         btnSave = findViewById(R.id.btn_save);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
 

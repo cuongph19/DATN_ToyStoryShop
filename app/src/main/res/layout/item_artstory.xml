@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="4dp"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:elevation="4dp">
+    android:padding="8dp">
 
     <!-- Phần Hình ảnh và Nội dung Bài viết -->
     <LinearLayout
@@ -33,13 +32,12 @@
             <!-- Tiêu đề -->
             <TextView
                 android:id="@+id/articleTitle"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cuộc đua sức mạnh:"
-                android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
 
 
             <!-- Phần tác giả và thời gian -->
@@ -52,20 +50,20 @@
                 <!-- Tên tác giả -->
                 <TextView
                     android:id="@+id/articleAuthor"
+                    style="@style/TEXT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:text="Wibu của Hobiverse"
-                    android:textColor="#777777"
-                    android:textSize="12sp"
-                    android:layout_marginEnd="8dp" />
+                    android:textSize="12sp" />
 
                 <!-- Thời gian -->
                 <TextView
                     android:id="@+id/articleDate"
+                    style="@style/TEXT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="07/11/2024"
-                    android:textColor="#777777"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -73,16 +71,21 @@
             <!-- Phần Nội dung -->
             <TextView
                 android:id="@+id/articleContent"
+                style="@style/TEXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
                 android:ellipsize="end"
                 android:lines="2"
+                android:maxLines="2"
+                android:paddingTop="8dp"
                 android:text="Nội dung chi tiết của "
-                android:textColor="#333333"
-                android:textSize="14sp"
-                android:paddingTop="8dp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        style="@style/LINE"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp" />
 </LinearLayout>

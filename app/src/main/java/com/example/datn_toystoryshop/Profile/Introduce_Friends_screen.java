@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +17,21 @@ public class Introduce_Friends_screen extends AppCompatActivity {
     private ImageView btnBack;
     private TextView tvReferralCode;
     private Button btnShare;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduce_friends_screen);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         btnBack = findViewById(R.id.btnBack);
         tvReferralCode = findViewById(R.id.tvReferralCode);
         btnShare = findViewById(R.id.btnShare);

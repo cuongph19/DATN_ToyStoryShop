@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    style="@style/SCREEN"
     android:padding="16dp">
     <LinearLayout
         android:id="@+id/topLinearLayout"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textColor="#001A61"
+            style="@style/TEXT"
             android:gravity="center"
             android:text="Chat"
             android:textSize="24sp"

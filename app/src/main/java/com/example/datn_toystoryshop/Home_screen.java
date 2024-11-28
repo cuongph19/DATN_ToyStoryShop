@@ -47,13 +47,20 @@
         private static final String PREFS_NAME = "NotificationPrefs";
         private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
         private NotificationManager notificationManager;
-
+        private SharedPreferences sharedPreferences;
+        private boolean nightMode;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_home);
-
+            sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+            nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
             // Khởi tạo NotificationManager
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ public class All_new_screen extends AppCompatActivity {
     private ProductNewAdapter productNewAdapter;
     private List<Product_Model> productList;
     private String documentId;
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +35,13 @@ public class All_new_screen extends AppCompatActivity {
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j8888888888888888All_new_screen" + documentId);
-
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
         recyclerViewAllNewProducts = findViewById(R.id.recyclerViewAllNewProducts);
         recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
         ImageView imgBack = findViewById(R.id.ivBack);

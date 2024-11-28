@@ -27,12 +27,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Email_contact extends AppCompatActivity {
     ImageView imgBackEmail;
     private SharedPreferences sharedPreferences;
-    private boolean nightMode;;
+    private boolean nightMode;
     private String documentId, email;
     private TextView etEmail,tvAttachmentLabel;
     private  Uri imageUri ;
     private FirebaseFirestore db;
     private Button btnSend, btnAttachFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

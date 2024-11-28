@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Fragment;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,12 +47,20 @@ public class Browse_Fragment extends Fragment {
     private int maxPriceLimit = 10000000;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
     private String documentId;
-
+    private SharedPreferences sharedPreferences;
+    private boolean nightMode;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         recyclerView = view.findViewById(R.id.recycler_view_products);
         btnFilter = view.findViewById(R.id.btnFilter);
         Bundle bundle = getArguments();
