@@ -12,8 +12,6 @@ const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
 const Address = require('./model/AddressModel');
 const Chat = require('./model/ChatModel');
-
-
 const server = require('./server');
 
 
@@ -380,7 +378,88 @@ router.get('/feebacks', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
     }
 });
+router.get('/all-product-details', async (req, res) => {
+    try {
+        // Lấy cusId từ query string
+        const { cusId } = req.query;
 
+        // Kiểm tra nếu cusId không được cung cấp
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId là bắt buộc.' });
+        }
+
+        // Kết nối MongoDB
+        await mongoose.connect(server.uri);
+
+        // Sử dụng aggregate để lấy thông tin sản phẩm kèm điều kiện cusId
+        const productDetails = await OrderModel.aggregate([
+            { $match: { cusId } }, // Lọc theo cusId được truyền vào
+            { $unwind: '$prodDetails' }, // Tách từng phần tử trong mảng prodDetails
+            {
+                $lookup: {
+                    from: 'products', // Bảng product
+                    localField: 'prodDetails.prodId', // Liên kết theo prodId trong prodDetails
+                    foreignField: '_id', // Liên kết với _id trong products
+                    as: 'productInfo' // Kết quả lưu vào productInfo
+                }
+            },
+            { $unwind: '$productInfo' }, // Tách productInfo để dễ xử lý
+            {
+                $project: { // Lựa chọn các trường cần lấy
+                    'orderId': '$_id',
+                    _id: 0,
+                    'prodDetails.prodId': 1,
+                    'prodDetails.quantity': 1,
+                    'prodDetails.revenue': 1,
+                    'productInfo.namePro': 1,
+                    'productInfo.imgPro': 1,
+                    'productInfo.brand': 1
+                }
+            }
+        ]);
+
+        // Kiểm tra nếu không có sản phẩm
+        if (productDetails.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm nào.' });
+        }
+
+        res.json(productDetails);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy danh sách sản phẩm.' });
+    }
+});
+
+router.post('/add-feedback', async (req, res) => {
+    console.log( req.body);
+    try {
+       // Ghi log dữ liệu nhận được
+        const { cusId, orderId, start, content, dateFeed } = req.body;
+        // Tạo feedback
+        const newFeedback = new FeebackModel({ cusId, orderId, start, content, dateFeed });
+        await newFeedback.save();
+        res.status(201).json({ message: 'Đánh giá đã được thêm thành công.', feedback: newFeedback });
+    } catch (error) {
+        console.error("Error:", error); // Ghi log lỗi chi tiết
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error });
+    }
+});
+
+///////////////////////////////////
+// API thêm đáng giá
+router.post('/add/add-to-app-feeback', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { cusId, start, content, dateFeed } = req.body;
+        const newFeebackApp = new FeebackAppModel({ cusId, start, content, dateFeed });
+        await newFeebackApp.save();
+        res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeebackApp });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
+    }
+});
 ///////////////////////////////////
 router.get('/orders/confirm', async (req, res) => {
     try {
@@ -565,22 +644,6 @@ router.get('/check-favorite/:prodId', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi kiểm tra sản phẩm yêu thích.' });
     }
 });
-
-///////////////////////////////////
-// API thêm đáng giá
-router.post('/add/add-to-app-feeback', async (req, res) => {
-    console.log(req.body); // Xem dữ liệu nhận được trong body
-
-    try {
-        const { cusId, start, content, dateFeed } = req.body;
-        const newFeebackApp = new FeebackAppModel({ cusId, start, content, dateFeed });
-        await newFeebackApp.save();
-        res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeebackApp });
-    } catch (error) {
-        console.error('Lỗi chi tiết:', error);
-        res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
-    }
-});
 // Thêm sản phẩm vào favorites
 router.post('/add/add-to-favorites', async (req, res) => {
     try {
@@ -594,20 +657,6 @@ router.post('/add/add-to-favorites', async (req, res) => {
     }
 });
 ///////////////////////////////////
-// API thêm đáng giá
-router.post('/add/add-to-feeback', async (req, res) => {
-    console.log(req.body); // Xem dữ liệu nhận được trong body
-
-    try {
-        const { cusId, prodId, start, content, dateFeed } = req.body;
-        const newFeeback = new FeebackModel({ cusId, prodId, start, content, dateFeed });
-        await newFeeback.save();
-        res.status(201).json({ message: 'Thêm vào đáng giá thành công!', data: newFeeback });
-    } catch (error) {
-        console.error('Lỗi chi tiết:', error);
-        res.status(500).json({ message: 'Lỗi khi thêm vào đáng giá', error });
-    }
-});
 
 router.post('/add/add-to-cart', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
