@@ -35,11 +35,7 @@ public class OrderHist_Detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        if (nightMode) {
-            imgBack.setImageResource(R.drawable.back_icon);
-        } else {
-            imgBack.setImageResource(R.drawable.back_icon_1);
-        }
+
         setContentView(R.layout.activity_order_hist_detail);
         apiService = RetrofitClient.getAPIService();
 
@@ -87,6 +83,11 @@ public class OrderHist_Detail extends AppCompatActivity {
         });
 
         imgBack.setOnClickListener(v -> onBackPressed());
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
     }
 
     private void loadProductDetails(String prodId) {

@@ -35,16 +35,16 @@ public class Terms_Conditions_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            btnBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            btnBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
         checkboxAgree = findViewById(R.id.checkbox_agree);
         btnAccept = findViewById(R.id.btn_accept);
         tvTerms = findViewById(R.id.tvTerms);
         btnBack = findViewById(R.id.btnBack);
-
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

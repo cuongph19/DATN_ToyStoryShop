@@ -70,11 +70,7 @@ public class Cart_screen extends AppCompatActivity {
         setContentView(R.layout.activity_my_cart_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
         imgBack = findViewById(R.id.imgBackCart);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);
@@ -84,7 +80,11 @@ public class Cart_screen extends AppCompatActivity {
         tvDiscount  = findViewById(R.id.tvDiscount);
         Lldiscount  = findViewById(R.id.Lldiscount);
         tvFreeShipping  = findViewById(R.id.tvFreeShipping);
-
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");

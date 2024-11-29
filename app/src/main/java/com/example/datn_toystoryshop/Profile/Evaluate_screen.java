@@ -41,11 +41,7 @@ public class Evaluate_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            btnBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            btnBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
         ratingBar = findViewById(R.id.ratingBar);
         etFeedback = findViewById(R.id.etFeedback);
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -67,6 +63,11 @@ public class Evaluate_screen extends AppCompatActivity {
                 submitFeedback();
             }
         });
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
     }
 
     private void submitFeedback() {

@@ -52,11 +52,7 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            btnBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            btnBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) {
@@ -74,7 +70,11 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
         spinnerDistrict = findViewById(R.id.spinnerDistrict);
         searchLocation = findViewById(R.id.searchLocation);
         btnBack = findViewById(R.id.btnBack);
-
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -46,7 +46,6 @@
             android:id="@+id/tvPrivacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TEXT"
             android:textSize="16sp" />
     </ScrollView>
     <!-- CheckBox Đồng ý điều khoản -->
