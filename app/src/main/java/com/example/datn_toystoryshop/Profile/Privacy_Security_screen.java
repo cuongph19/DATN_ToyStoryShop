@@ -30,18 +30,17 @@ public class Privacy_Security_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy_security_screen);
-        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            btnBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            btnBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
+
         checkboxAgree = findViewById(R.id.checkbox_agree_privacy);
         btnAccept = findViewById(R.id.btn_accept_privacy);
         tvPrivacy = findViewById(R.id.tvPrivacy);
         btnBack = findViewById(R.id.btnBack_privacy);
-
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

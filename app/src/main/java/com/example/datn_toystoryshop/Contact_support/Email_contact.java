@@ -76,7 +76,7 @@ public class Email_contact extends AppCompatActivity {
                 // Không làm gì cả
             }
         });
-        //////////////////
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 

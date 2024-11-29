@@ -112,6 +112,6 @@
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#001A61"
         android:text="@string/share_button_int"
-        style="@style/TEXT"/>
+        android:textColor="@color/white"/>
 
 </LinearLayout>

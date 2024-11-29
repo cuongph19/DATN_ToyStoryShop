@@ -27,11 +27,7 @@ public class Introduce_Friends_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            btnBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            btnBack.setImageResource(R.drawable.back_icon_1);
-//        }
+
         btnBack = findViewById(R.id.btnBack);
         tvReferralCode = findViewById(R.id.tvReferralCode);
         btnShare = findViewById(R.id.btnShare);
@@ -53,6 +49,11 @@ public class Introduce_Friends_screen extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
     }
 
     // Phương thức chọn mã ngẫu nhiên từ danh sách

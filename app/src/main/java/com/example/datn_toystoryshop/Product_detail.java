@@ -88,11 +88,7 @@ public class Product_detail extends AppCompatActivity {
         apiService = RetrofitClient.getAPIService();
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
-        } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
-        }
+
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         productStockValue = findViewById(R.id.productStockValue);
@@ -114,7 +110,11 @@ public class Product_detail extends AppCompatActivity {
         cart_full_icon = findViewById(R.id.cart_full_icon);
         heartIcon = findViewById(R.id.heart_icon);
         recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
-
+        if (nightMode) {
+            btnBack.setImageResource(R.drawable.back_icon);
+        } else {
+            btnBack.setImageResource(R.drawable.back_icon_1);
+        }
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
