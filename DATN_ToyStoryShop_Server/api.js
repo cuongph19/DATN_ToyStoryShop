@@ -1024,6 +1024,24 @@ router.get('/product-by/:prodId', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
+router.get('/order-by/:orderId', async (req, res) => {
+    const { orderId } = req.params; // Lấy orderId từ tham số URL
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+        const order = await OrderModel.findOne({ _id: orderId });
+
+        if (!order) {
+            return res.status(404).json({ error: 'Không tìm thấy order.' });
+        }
+
+        res.json(order);
+    } catch (error) {
+        console.error('Lỗi khi lấy order:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy order.', details: error.message });
+    }
+});
 router.get('/cart-by/:cartId', async (req, res) => {
     const { cartId } = req.params; // Lấy prodId từ tham số URL
 

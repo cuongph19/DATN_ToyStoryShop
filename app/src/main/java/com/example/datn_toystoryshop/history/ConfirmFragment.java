@@ -66,8 +66,6 @@ public class ConfirmFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-            Log.e("OrderHistoryAdapter", "j66666666666666666History_Fragment_ConfirmFragment" + documentId);
-
         }
         // Khởi tạo RecyclerView và Adapter
         setUpSpinners();

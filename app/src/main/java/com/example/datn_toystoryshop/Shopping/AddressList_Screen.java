@@ -69,27 +69,12 @@ public class AddressList_Screen extends AppCompatActivity {
         // Gọi API để lấy danh sách địa chỉ
         getAddressesFromAPI();
 
-        imgBack.setOnClickListener(v -> {
-            Address selectedAddress = addressAdapter.getSelectedAddress();
-            if (selectedAddress != null) {
-                Intent intent = new Intent(AddressList_Screen.this, Order_screen.class);
-                intent.putExtra("selectedAddressId", selectedAddress.get_id());
-                intent.putExtra("selectedAddressName", selectedAddress.getName());
-                intent.putExtra("selectedAddressPhone", selectedAddress.getPhone());
-                intent.putExtra("selectedAddress", selectedAddress.getAddress());
-                intent.putExtra("selectedAddressDetail", selectedAddress.getAddressDetail());
-                startActivity(intent);
-            } else {
-                // Xử lý trường hợp không có địa chỉ nào được chọn
-                Log.e("Address Error", "No address selected!");
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
 
         linAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Sử dụng startActivityForResult() thay vì startActivity()
                 Intent intent = new Intent(AddressList_Screen.this, Add_address_screen.class);
                 startActivityForResult(intent, 1);  // Request code 1
             }
@@ -134,6 +119,18 @@ public class AddressList_Screen extends AppCompatActivity {
                         public void onAddressUpdated() {
                             // Tải lại dữ liệu sau khi địa chỉ được cập nhật
                             getAddressesFromAPI();  // Hoặc bạn có thể gọi lại API nếu cần
+                        }
+                        @Override
+                        public void onAddressSelected(Address selectedAddress) {
+                            // Khi địa chỉ được chọn, chuẩn bị dữ liệu để gửi về
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("selectedAddressId", selectedAddress.get_id());
+                            resultIntent.putExtra("selectedAddressName", selectedAddress.getName());
+                            resultIntent.putExtra("selectedAddressPhone", selectedAddress.getPhone());
+                            resultIntent.putExtra("selectedAddress", selectedAddress.getAddress());
+                            resultIntent.putExtra("selectedAddressDetail", selectedAddress.getAddressDetail());
+                            setResult(RESULT_OK, resultIntent);
+                            finish(); // Kết thúc màn hình hiện tại và trả kết quả
                         }
                     });
 
