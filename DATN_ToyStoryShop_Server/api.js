@@ -352,20 +352,10 @@ router.get('/feebacks', async (req, res) => {
 
         await mongoose.connect(server.uri);
 
-        // Lấy danh sách các orderId từ OrderModel dựa trên prodId
-        const orders = await OrderModel.find({ 'prodDetails.prodId': prodId }, '_id');
-
-        if (orders.length === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy đơn hàng chứa sản phẩm này.' });
-        }
-
-        // Trích xuất các orderId
-        const orderIds = orders.map(order => order._id);
-
-        // Lấy các đánh giá từ FeebackModel dựa trên orderId
+        // Tìm các đánh giá trong FeebackModel theo prodId
         const feebacks = await FeebackModel.find(
-            { orderId: { $in: orderIds } },
-            '_id cusId orderId start content dateFeed'
+            { prodId }, // Lọc theo prodId
+            '_id cusId prodId start content dateFeed' // Lấy các trường cần thiết
         );
 
         if (feebacks.length === 0) {
@@ -378,66 +368,128 @@ router.get('/feebacks', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy đánh giá.' });
     }
 });
-router.get('/all-product-details', async (req, res) => {
-    try {
-        // Lấy cusId từ query string
-        const { cusId } = req.query;
 
-        // Kiểm tra nếu cusId không được cung cấp
-        if (!cusId) {
-            return res.status(400).json({ error: 'cusId là bắt buộc.' });
+router.get('/check-feedback', async (req, res) => {
+    try {
+        const { cusId, prodId } = req.query;
+
+        // Kiểm tra tham số đầu vào
+        if (!cusId || !prodId) {
+            return res.status(400).json({ message: 'Thiếu tham số cusId hoặc prodId' });
         }
 
-        // Kết nối MongoDB
         await mongoose.connect(server.uri);
 
-        // Sử dụng aggregate để lấy thông tin sản phẩm kèm điều kiện cusId
-        const productDetails = await OrderModel.aggregate([
-            { $match: { cusId } }, // Lọc theo cusId được truyền vào
-            { $unwind: '$prodDetails' }, // Tách từng phần tử trong mảng prodDetails
+        // Tìm xem đã có đánh giá cho prodId và cusId này chưa
+        const feedback = await FeebackModel.findOne({ cusId, prodId });
+
+        if (feedback) {
+            return res.status(200).json({
+                feedback: true,
+                message: 'Bạn đã đánh giá sản phẩm này.',
+                data: feedback,
+            });
+        } else {
+            return res.status(200).json({
+                feedback: false,
+                message: 'Bạn chưa đánh giá sản phẩm này.',
+            });
+        }
+    } catch (error) {
+        console.error('Lỗi kiểm tra đánh giá:', error);
+        res.status(500).json({ message: 'Lỗi server.' });
+    }
+});
+
+router.get('/all-product-details', async (req, res) => {
+    const { cusId } = req.query; // Lấy cusId từ query parameter
+
+    if (!cusId) {
+        return res.status(400).json({ error: "cusId is required" });
+    }
+
+    try {
+        const orders = await OrderModel.aggregate([
+            // Lọc theo cusId trong bảng Order
             {
+                $match: { cusId: cusId }
+            },
+            { 
+                $unwind: "$prodDetails"  // Tách từng sản phẩm trong danh sách prodDetails
+            },
+            { 
                 $lookup: {
-                    from: 'products', // Bảng product
-                    localField: 'prodDetails.prodId', // Liên kết theo prodId trong prodDetails
-                    foreignField: '_id', // Liên kết với _id trong products
-                    as: 'productInfo' // Kết quả lưu vào productInfo
+                    from: "products",  // Tham chiếu tới collection "product"
+                    localField: "prodDetails.prodId",  // Trường trong bảng order
+                    foreignField: "_id",  // Trường trong bảng product
+                    as: "productInfo"  // Tên trường mới lưu thông tin sản phẩm
                 }
             },
-            { $unwind: '$productInfo' }, // Tách productInfo để dễ xử lý
-            {
-                $project: { // Lựa chọn các trường cần lấy
-                    'orderId': '$_id',
-                    _id: 0,
-                    'prodDetails.prodId': 1,
-                    'prodDetails.quantity': 1,
-                    'prodDetails.revenue': 1,
-                    'productInfo.namePro': 1,
-                    'productInfo.imgPro': 1,
-                    'productInfo.brand': 1
+            { 
+                $unwind: "$productInfo"  // Tách thông tin sản phẩm
+            },
+            // Tìm phản hồi trong bảng "feebacks" cho mỗi sản phẩm
+            { 
+                $lookup: {
+                    from: "feebacks",  // Tham chiếu tới collection "feedback"
+                    localField: "prodDetails.prodId",  // Trường prodId từ bảng order
+                    foreignField: "prodId",  // Trường prodId từ bảng feedback
+                    as: "feedbackInfo"  // Tên trường lưu thông tin feedback
+                }
+            },
+            // Kiểm tra chỉ lấy các sản phẩm chưa có phản hồi từ cusId trong bảng "feedback"
+            { 
+                $match: {
+                    "feedbackInfo": { $not: { $elemMatch: { cusId: cusId } } } // Lọc các sản phẩm chưa có phản hồi từ cusId này
+                }
+            },
+            { 
+                $lookup: {
+                    from: "feebacks",  // Lọc lại feedback để đảm bảo cusId không trùng với trong bảng feedback
+                    localField: "prodDetails.prodId",  // Trường prodId từ bảng order
+                    foreignField: "prodId",  // Trường prodId từ bảng feedback
+                    as: "feedbackInfoCheck"  // Lưu thông tin feedback để kiểm tra
+                }
+            },
+            { 
+                $match: {
+                    "feedbackInfoCheck.cusId": { $ne: cusId }  // Lọc những sản phẩm mà cusId trong feedback không trùng với cusId trong query
+                }
+            },
+            { 
+                $project: {
+                    prodId: "$prodDetails.prodId",
+                    quantity: "$prodDetails.quantity",
+                    revenue: "$prodDetails.revenue",
+                    namePro: "$productInfo.namePro",
+                    imgPro: "$productInfo.imgPro"
                 }
             }
         ]);
 
-        // Kiểm tra nếu không có sản phẩm
-        if (productDetails.length === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy sản phẩm nào.' });
-        }
+        // Trả về kết quả
+        res.status(200).json(orders);
 
-        res.json(productDetails);
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách sản phẩm:', error);
-        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy danh sách sản phẩm.' });
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong' });
     }
 });
 
 router.post('/add-feedback', async (req, res) => {
-    console.log( req.body);
+    console.log(req.body);  // Ghi log dữ liệu nhận được
+
     try {
-       // Ghi log dữ liệu nhận được
-        const { cusId, orderId, start, content, dateFeed } = req.body;
-        // Tạo feedback
-        const newFeedback = new FeebackModel({ cusId, orderId, start, content, dateFeed });
+        // Lấy dữ liệu từ request body
+        const { cusId, prodId, start, content, dateFeed } = req.body;
+
+        // Tạo feedback mới
+        const newFeedback = new FeebackModel({ cusId, prodId, start, content, dateFeed });
+
+        // Lưu vào cơ sở dữ liệu
         await newFeedback.save();
+
+        // Trả về phản hồi thành công
         res.status(201).json({ message: 'Đánh giá đã được thêm thành công.', feedback: newFeedback });
     } catch (error) {
         console.error("Error:", error); // Ghi log lỗi chi tiết
@@ -445,7 +497,7 @@ router.post('/add-feedback', async (req, res) => {
     }
 });
 
-///////////////////////////////////
+
 // API thêm đáng giá
 router.post('/add/add-to-app-feeback', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body

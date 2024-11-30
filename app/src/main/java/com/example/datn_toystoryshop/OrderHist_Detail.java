@@ -41,14 +41,8 @@ public class OrderHist_Detail extends AppCompatActivity {
         apiService = RetrofitClient.getAPIService();
 
         Intent intent = getIntent();
-        String prodId = intent.getStringExtra("prodId");
-        String orderStatus = intent.getStringExtra("orderStatus");
-        double orderRevenue = intent.getDoubleExtra("orderRevenue", 0);
-        String orderContent = intent.getStringExtra("orderContent");
-        Log.e("OrderHistoryAdapter", "j66666666666666666" + prodId);
-        Log.e("OrderHistoryAdapter", "j66666666666666666" + orderStatus);
-        Log.e("OrderHistoryAdapter", "j66666666666666666" + orderRevenue);
-        Log.e("OrderHistoryAdapter", "j66666666666666666" + orderContent);
+        String orderId = intent.getStringExtra("orderId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666gggg " + orderId);
 
 
         tvProductName = findViewById(R.id.tvProductName);
@@ -62,10 +56,10 @@ public class OrderHist_Detail extends AppCompatActivity {
         btnRateProduct = findViewById(R.id.btnRateProduct);
 
         imgBack.setOnClickListener(v -> onBackPressed());
-        tvOrderStatus.setText(orderStatus);
-        tvOrderRevenue.setText(String.format("%,.0fĐ", orderRevenue));
-//        tvOrderContent.setText(orderContent);
-        loadProductDetails(prodId);
+        tvOrderStatus.setText(orderId);
+//        tvOrderRevenue.setText(String.format("%,.0fĐ", orderRevenue));
+////        tvOrderContent.setText(orderContent);
+//        loadProductDetails(prodId);
         ivSupportCenter.setOnClickListener(v -> {
             Intent intent1 = new Intent(OrderHist_Detail.this, Chat_contact.class);
             startActivity(intent1);

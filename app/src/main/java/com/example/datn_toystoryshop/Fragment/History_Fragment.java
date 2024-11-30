@@ -29,6 +29,9 @@ import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.history.ConfirmFragment;
+//import com.example.datn_toystoryshop.history.DeliveryFragment;
+//import com.example.datn_toystoryshop.history.EvaluateFragment;
+//import com.example.datn_toystoryshop.history.GetGoodsFragment;
 import com.example.datn_toystoryshop.history.DeliveryFragment;
 import com.example.datn_toystoryshop.history.EvaluateFragment;
 import com.example.datn_toystoryshop.history.GetGoodsFragment;
@@ -50,7 +53,6 @@ public class History_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-
     public History_Fragment() {
         // Required empty public constructor
     }
@@ -62,11 +64,11 @@ public class History_Fragment extends Fragment {
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
-//        if (nightMode) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        } else {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//        }
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         // Khởi tạo Spinner
         history_purchase = view.findViewById(R.id.history_purchase);
         confirm = view.findViewById(R.id.confirm);
@@ -98,7 +100,7 @@ public class History_Fragment extends Fragment {
         });
         replaceFragment(new ConfirmFragment());
         highlightTextView(confirmText);
-        // Xử lý sự kiện nhấn
+//        // Xử lý sự kiện nhấn
         confirm.setOnClickListener(v -> {
             replaceFragment(new ConfirmFragment());
             highlightTextView(confirmText);
@@ -120,9 +122,9 @@ public class History_Fragment extends Fragment {
         });
 
 
+
         return view;
     }
-
     private void replaceFragment(Fragment fragment) {
         if (documentId != null) {
             Bundle bundle = new Bundle();
@@ -137,7 +139,6 @@ public class History_Fragment extends Fragment {
         fragmentTransaction.addToBackStack(null); // Nếu muốn cho phép quay lại Fragment trước
         fragmentTransaction.commit();
     }
-
     private void highlightTextView(TextView textView) {
         if (currentSelectedTextView != null) {
             // Reset màu và kích thước của TextView trước đó

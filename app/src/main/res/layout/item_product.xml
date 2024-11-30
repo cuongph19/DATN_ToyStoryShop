@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/product1" /> <!-- Thay thế bằng ảnh sản phẩm thực tế -->
+            android:src="@drawable/ic_launcher_background" /> <!-- Thay thế bằng ảnh sản phẩm thực tế -->
 
         <!-- Product Name -->
         <TextView
