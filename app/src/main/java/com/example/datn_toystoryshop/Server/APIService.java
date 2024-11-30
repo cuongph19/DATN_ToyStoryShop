@@ -98,6 +98,9 @@ public interface APIService {
     @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
 
+    @GET("/api/order-by/{orderId}")
+    Call<Order_Model> getOrderById(@Path("orderId") String orderId);
+
     @PUT("/api/update/cart/{cartId}")
     Call<Cart_Model> putCartUpdate(@Path("cartId") String cartId, @Body Cart_Model cartModel);
 

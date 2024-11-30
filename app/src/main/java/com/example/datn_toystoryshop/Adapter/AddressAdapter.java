@@ -73,6 +73,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
         holder.radioButton.setOnClickListener(v -> {
             updateSelectedPosition(holder.getAdapterPosition());
+
         });
 
         holder.itemView.setOnLongClickListener(v -> {
@@ -110,7 +111,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         // Chỉ cập nhật hai item thay đổi, không cần refresh toàn bộ
         notifyItemChanged(previousPosition);
         notifyItemChanged(selectedPosition);
-
+        Address selectedAddress = getSelectedAddress();
+        if (selectedAddress != null && listener != null) {
+            listener.onAddressSelected(selectedAddress); // Gửi địa chỉ được chọn
+        }
     }
 
     public Address getSelectedAddress() {
@@ -241,7 +245,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
     public interface OnAddressUpdatedListener {
-        void onAddressUpdated();  // Hàm callback này sẽ được gọi khi địa chỉ được cập nhật
+        void onAddressUpdated(); // Cập nhật địa chỉ
+        void onAddressSelected(Address selectedAddress); // Khi địa chỉ được chọn
     }
 
 

@@ -81,6 +81,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private TextView addressName, addressDetail, addressPhone;
 
     private String getFormattedDate(int daysToAdd, String format) {
         // Khởi tạo Calendar với ngày hiện tại
@@ -127,9 +128,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         recycler_view_oder = findViewById(R.id.recycler_view_oder);
         tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
 
-        TextView addressName = findViewById(R.id.address_name);
-        TextView addressPhone = findViewById(R.id.address_phone);
-        TextView addressDetail = findViewById(R.id.address_detail);
+        addressName = findViewById(R.id.address_name);
+        addressPhone = findViewById(R.id.address_phone);
+        addressDetail = findViewById(R.id.address_detail);
 
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
@@ -138,21 +139,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         }
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
-
-        String name = intent.getStringExtra("selectedAddressName");
-        String phone = intent.getStringExtra("selectedAddressPhone");
-        String address = intent.getStringExtra("selectedAddress");
-        String detail = intent.getStringExtra("selectedAddressDetail");
-
-        // Hiển thị dữ liệu lên giao diện
-        String fullAddress = (address != null ? address : "") +
-                (detail != null ? ", " + detail : "");
-        addressName.setText(name != null ? name : "");
-        addressPhone.setText(phone != null ? phone : "");
-        addressDetail.setText(!fullAddress.trim().isEmpty() ? fullAddress : "Chưa chọn thông tin người nhận!");
-
         documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen" + documentId);
         ///dulieunhanCart
         productIds = intent.getStringArrayListExtra("productIds");
         totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
@@ -303,8 +290,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
         addressLayout.setOnClickListener(v -> {
             Intent intent1 = new Intent(Order_screen.this, AddressList_Screen.class);
-            startActivity(intent1);
-            finish();
+
+            startActivityForResult(intent1, 103);
         });
 
         imgBack.setOnClickListener(v -> onBackPressed());
@@ -422,6 +409,20 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         String voucherExpiryDate = getFormattedDate(3, "'ngày' dd 'tháng' MM 'năm' yyyy");
                         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
                     }
+                    case 103:
+                        String name = data.getStringExtra("selectedAddressName");
+                        String phone = data.getStringExtra("selectedAddressPhone");
+                        String address = data.getStringExtra("selectedAddress");
+                        String detail = data.getStringExtra("selectedAddressDetail");
+//                                String fullAddress = (address != null ? address : "") +
+//                (detail != null ? ", " + detail : "");
+        addressName.setText(name);
+        addressPhone.setText(phone);
+        addressDetail.setText(address);
+                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 1 " + name);
+                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 2 " + phone);
+                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 3 " + address);
+                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 4 " + detail);
                     break;
             }
         }
