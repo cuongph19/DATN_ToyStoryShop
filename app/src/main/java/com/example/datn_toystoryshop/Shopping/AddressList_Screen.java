@@ -127,8 +127,8 @@ public class AddressList_Screen extends AppCompatActivity {
                             resultIntent.putExtra("selectedAddressId", selectedAddress.get_id());
                             resultIntent.putExtra("selectedAddressName", selectedAddress.getName());
                             resultIntent.putExtra("selectedAddressPhone", selectedAddress.getPhone());
-                            resultIntent.putExtra("selectedAddress", selectedAddress.getAddress());
-                            resultIntent.putExtra("selectedAddressDetail", selectedAddress.getAddressDetail());
+                            String fullAddress = selectedAddress.getAddressDetail() + ", " + selectedAddress.getAddress();
+                            resultIntent.putExtra("selectedAddress", fullAddress);
                             setResult(RESULT_OK, resultIntent);
                             finish(); // Kết thúc màn hình hiện tại và trả kết quả
                         }

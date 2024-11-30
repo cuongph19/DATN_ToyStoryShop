@@ -6,6 +6,11 @@ public class Order_Model {
     private String _id;          // Mã ID của đơn hàng
     private String cusId;        // ID khách hàng
     private int revenue_all;        // ID khách hàng
+    private String name_order;
+    private String phone_order;
+    private String address_order;
+    private String payment_method;
+
     private List<ProductDetail> prodDetails; // Danh sách các sản phẩm trong đơn hàng
     private String content;      // Nội dung đơn hàng
     private String orderStatus;  // Trạng thái đơn hàng
@@ -62,12 +67,14 @@ public class Order_Model {
     public Order_Model() {
     }
 
-    // Constructor với tất cả các tham số
-
-    public Order_Model(String _id, String cusId, int revenue_all, List<ProductDetail> prodDetails, String content, String orderStatus, String orderDate) {
+    public Order_Model(String _id, String cusId, int revenue_all, String name_order, String phone_order, String address_order, String payment_method, List<ProductDetail> prodDetails, String content, String orderStatus, String orderDate) {
         this._id = _id;
         this.cusId = cusId;
         this.revenue_all = revenue_all;
+        this.name_order = name_order;
+        this.phone_order = phone_order;
+        this.address_order = address_order;
+        this.payment_method = payment_method;
         this.prodDetails = prodDetails;
         this.content = content;
         this.orderStatus = orderStatus;
@@ -96,6 +103,38 @@ public class Order_Model {
 
     public void setRevenue_all(int revenue_all) {
         this.revenue_all = revenue_all;
+    }
+
+    public String getName_order() {
+        return name_order;
+    }
+
+    public void setName_order(String name_order) {
+        this.name_order = name_order;
+    }
+
+    public String getPhone_order() {
+        return phone_order;
+    }
+
+    public void setPhone_order(String phone_order) {
+        this.phone_order = phone_order;
+    }
+
+    public String getAddress_order() {
+        return address_order;
+    }
+
+    public void setAddress_order(String address_order) {
+        this.address_order = address_order;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
     }
 
     public List<ProductDetail> getProdDetails() {

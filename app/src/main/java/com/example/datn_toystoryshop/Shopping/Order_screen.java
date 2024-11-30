@@ -56,7 +56,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
-    private RecyclerView recycler_view_oder;
+    private RecyclerView recyclerView;
     private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price, shipping_method_name, show_more_oder;
 
     private double totalProductDiscount = 0;
@@ -71,6 +71,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private double totalAmount;
     private int quantity, quantity1;
     private String productType;
+    private String name, phone, address, paytext;
     private String documentId;
     private double moneyPay;
     private ArrayList<String> productIds;
@@ -125,7 +126,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
         productDiscountPrice = findViewById(R.id.productDiscountPrice);
         show_more_oder = findViewById(R.id.show_more_oder);
-        recycler_view_oder = findViewById(R.id.recycler_view_oder);
         tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
 
         addressName = findViewById(R.id.address_name);
@@ -171,7 +171,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         quantity1 = intent.getIntExtra("quantity1", 0);
         selectedColor = intent.getStringExtra("selectedColor");
         productImg = intent.getStringExtra("productImg");
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_oder);
+        recyclerView = findViewById(R.id.recycler_view_oder);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
 
@@ -349,7 +349,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
                 case 101:
                     // Nhận dữ liệu từ màn hình phương thức thanh toán
-                    String paytext = data.getStringExtra("paytext");
+                     paytext = data.getStringExtra("paytext");
                     tvPaymentDetail.setText(paytext);
                     break;
 
@@ -410,10 +410,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
                     }
                     case 103:
-                        String name = data.getStringExtra("selectedAddressName");
-                        String phone = data.getStringExtra("selectedAddressPhone");
-                        String address = data.getStringExtra("selectedAddress");
-                        String detail = data.getStringExtra("selectedAddressDetail");
+                         name = data.getStringExtra("selectedAddressName");
+                         phone = data.getStringExtra("selectedAddressPhone");
+                         address = data.getStringExtra("selectedAddress");
 //                                String fullAddress = (address != null ? address : "") +
 //                (detail != null ? ", " + detail : "");
         addressName.setText(name);
@@ -422,7 +421,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 1 " + name);
                         Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 2 " + phone);
                         Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 3 " + address);
-                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 4 " + detail);
                     break;
             }
         }
@@ -465,6 +463,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 null,                // _id
                 documentId,             // cusId
                 (int) moneyPay,
+                name,
+                phone,
+                address,
+                paytext,
                 productDetails,      // prodDetails (danh sách sản phẩm)
                 content,             // content (nội dung đơn hàng)
                 "Chờ xác nhận", // orderStatus
@@ -539,6 +541,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 null,                // _id
                 documentId,             // cusId
                 (int) moneyPay,
+                name,
+                phone,
+                address,
+                paytext,
                 productDetails,      // prodDetails (danh sách sản phẩm)
                 content,             // content (nội dung đơn hàng)
                 "Chờ xác nhận", // orderStatus

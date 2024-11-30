@@ -47,7 +47,7 @@ public class Add_address_screen extends AppCompatActivity {
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etAddress = findViewById(R.id.etAddress);
         etAddressDetail = findViewById(R.id.etAddressDetail);
-//        cbDefault = findViewById(R.id.cbDefault);
+        cbDefault = findViewById(R.id.cbDefault);
         btnSave = findViewById(R.id.btnSave);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
