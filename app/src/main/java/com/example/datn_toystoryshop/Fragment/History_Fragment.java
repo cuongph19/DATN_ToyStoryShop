@@ -94,6 +94,7 @@ public class History_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), History_purchase_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivity(intent);
                 requireActivity().finish();
             }
