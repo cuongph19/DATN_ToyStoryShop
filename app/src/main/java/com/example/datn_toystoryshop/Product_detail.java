@@ -56,7 +56,7 @@ import retrofit2.Response;
 
 public class Product_detail extends AppCompatActivity {
     private TextView tvProductName, tvProductPrice, tvproductDescription, productStockValue, productBrandValue1, productBrandValue2;
-    private ImageView btnBack, shareButton, heartIcon, heart_icon1;
+    private ImageView imgBack, shareButton, heartIcon, heart_icon1;
     private LinearLayout dotIndicatorLayout, chatIcon, cartIcon, voucherText;
     private List<View> dotIndicators = new ArrayList<>();
     private double productPrice;
@@ -80,6 +80,7 @@ public class Product_detail extends AppCompatActivity {
     private Feedback_Adapter_Product feedbackAdapterProduct;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +99,7 @@ public class Product_detail extends AppCompatActivity {
         tvProductPrice = findViewById(R.id.productPrice);
         tvproductDescription = findViewById(R.id.productDescription);
         dotIndicatorLayout = findViewById(R.id.dotIndicatorLayout);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         shareButton = findViewById(R.id.shareButton);
         chatIcon = findViewById(R.id.chatIcon);
         cartIcon = findViewById(R.id.cartIcon);
@@ -111,9 +112,9 @@ public class Product_detail extends AppCompatActivity {
         heartIcon = findViewById(R.id.heart_icon);
         recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
@@ -229,13 +230,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
 
-        // Sự kiện quay lại
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,6 +259,7 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
+
     public void loadFeedback(String prodId) {
 
         APIService apiService = RetrofitClient.getAPIService();
@@ -497,7 +493,7 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAndAddToCart(productId,documentId);
+                checkAndAddToCart(productId, documentId);
 
                 dialog.dismiss();
             }
@@ -586,6 +582,7 @@ public class Product_detail extends AppCompatActivity {
             dotIndicators.get(0).setBackgroundResource(R.drawable.dot_active); // dot đầu tiên màu xanh
         }
     }
+
     private void checkAndAddToCart(String prodId, String documentId) {
         Log.e("OrderHistoryAdapter", "j66666666666666666aaaaaa1" + documentId);
         Call<JsonObject> call = apiService.checkProductInCart(prodId, documentId);
@@ -616,6 +613,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     private void fetchCartId(String prodId, String documentId) {
         Call<JsonObject> call = apiService.getCartId(prodId, documentId);
         call.enqueue(new Callback<JsonObject>() {
@@ -633,7 +631,7 @@ public class Product_detail extends AppCompatActivity {
 
                     } else {
                         int updatedQuantity = currentQuantity + quantity;
-                         updateCartItem(apiService, cartId, prodSpecification, updatedQuantity );
+                        updateCartItem(apiService, cartId, prodSpecification, updatedQuantity);
                         // cộng tổng số lượng sản phẩm và cập nhâp
                     }
                 } else {
@@ -678,6 +676,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     public void updateCartItem(APIService apiService, String cartId, String selectedItem, int currentQuantity) {
         // Chuẩn bị dữ liệu cập nhật
         Cart_Model cartModel = new Cart_Model();
@@ -704,6 +703,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
     private void deleteFavorite(String productId) {
         // Gọi API xóa yêu thích
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
@@ -728,7 +728,6 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void updateDotIndicator() {

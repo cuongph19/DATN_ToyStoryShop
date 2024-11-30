@@ -46,6 +46,7 @@ public class ConfirmFragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,7 +87,8 @@ public class ConfirmFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -96,11 +98,13 @@ public class ConfirmFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
         return view;
     }
-        private void setUpSpinners() {
+
+    private void setUpSpinners() {
         // Thiết lập Adapter cho Spinner tháng
         ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.months_array, android.R.layout.simple_spinner_item);
@@ -179,7 +183,6 @@ public class ConfirmFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
-
 
 
     // Phương thức chuyển đổi tên tháng sang số

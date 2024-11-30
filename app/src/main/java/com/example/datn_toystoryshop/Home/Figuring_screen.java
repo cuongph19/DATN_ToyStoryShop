@@ -33,6 +33,7 @@ public class Figuring_screen extends AppCompatActivity {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

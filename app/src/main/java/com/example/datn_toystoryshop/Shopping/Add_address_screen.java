@@ -28,6 +28,7 @@ public class Add_address_screen extends AppCompatActivity {
     private ImageView imgBack;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +36,13 @@ public class Add_address_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+
+        imgBack = findViewById(R.id.btnBack);
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-
-        imgBack = findViewById(R.id.btnBack);
         etName = findViewById(R.id.etName);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etAddress = findViewById(R.id.etAddress);
@@ -55,7 +56,8 @@ public class Add_address_screen extends AppCompatActivity {
                 Intent intent = new Intent(Add_address_screen.this, AddressList_Screen.class);
                 startActivity(intent);
                 finish();
-            }});
+            }
+        });
         btnSave.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             String phone = etPhoneNumber.getText().toString().trim();
@@ -72,6 +74,7 @@ public class Add_address_screen extends AppCompatActivity {
             }
         });
     }
+
     private void addAddressToServer(String name, String phone, String address, String addressDetail, boolean isDefault) {
         // Khởi tạo Retrofit client
         APIService apiService = RetrofitClient.getAPIService();

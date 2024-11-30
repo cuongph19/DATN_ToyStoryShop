@@ -63,10 +63,7 @@ public class ArtStoryAdapter extends RecyclerView.Adapter<ArtStoryAdapter.ViewHo
             // Thêm log để kiểm tra URL của ảnh đầu tiên
             Log.d("ArtStoryAdapter", "First image URL: " + firstImageUrl);
 
-            Glide.with(context)
-                    .load(firstImageUrl)
-                    .override(120, 120)
-                    .into(holder.image);
+            Glide.with(context).load(firstImageUrl).override(120, 120).into(holder.image);
         }
         // Thiết lập sự kiện click để mở ArtStoryDetailActivity và truyền dữ liệu
         holder.itemView.setOnClickListener(v -> {
@@ -84,14 +81,13 @@ public class ArtStoryAdapter extends RecyclerView.Adapter<ArtStoryAdapter.ViewHo
     }
 
 
-
     @Override
     public int getItemCount() {
         return artStoryList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, author, content,date;
+        TextView title, author, content, date;
 
         ImageView image;
 

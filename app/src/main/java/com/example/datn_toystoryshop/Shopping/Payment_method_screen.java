@@ -21,6 +21,7 @@ public class Payment_method_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

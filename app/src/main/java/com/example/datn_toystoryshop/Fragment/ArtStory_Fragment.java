@@ -38,6 +38,7 @@ public class ArtStory_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

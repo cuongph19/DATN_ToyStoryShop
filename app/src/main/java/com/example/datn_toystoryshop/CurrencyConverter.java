@@ -11,7 +11,8 @@ public class CurrencyConverter {
 
     /**
      * Chuyển đổi giá trị tiền từ VND sang đơn vị tiền khác
-     * @param value Giá trị gốc (VND)
+     *
+     * @param value    Giá trị gốc (VND)
      * @param currency Loại tiền (e.g., "USD", "CNY", "JPY", "VND")
      * @return Giá trị đã chuyển đổi
      */
@@ -30,7 +31,8 @@ public class CurrencyConverter {
 
     /**
      * Định dạng giá trị tiền tệ cho hiển thị
-     * @param value Giá trị tiền đã chuyển đổi
+     *
+     * @param value    Giá trị tiền đã chuyển đổi
      * @param currency Loại tiền (e.g., "USD", "CNY", "JPY", "VND")
      * @return Chuỗi định dạng tiền tệ
      */
@@ -47,8 +49,9 @@ public class CurrencyConverter {
 
     /**
      * Chuyển đổi và định dạng giá trị tiền
+     *
      * @param baseValue Giá trị gốc (VND)
-     * @param currency Loại tiền cần chuyển đổi
+     * @param currency  Loại tiền cần chuyển đổi
      * @return Chuỗi định dạng tiền tệ
      */
     public static String convertAndFormat(double baseValue, String currency) {

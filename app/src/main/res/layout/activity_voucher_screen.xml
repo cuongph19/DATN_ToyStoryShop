@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-   style="@style/SCREEN"
     android:layout_marginTop="10dp"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <!-- Back Button và Title (sử dụng horizontal LinearLayout) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <!-- Back Button -->
         <ImageView
-            android:id="@+id/back_button"
+            android:id="@+id/imgBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/back_icon_2"
-            />
+            android:src="@drawable/back_icon_2" />
 
         <!-- Title -->
         <TextView
-            style="@style/TEXT"
             android:id="@+id/title"
+            style="@style/TEXT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="Chọn Voucher"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Voucher Input và Apply Button (sử dụng horizontal LinearLayout) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <!-- Voucher Input -->
         <EditText
@@ -51,10 +49,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="#4E4E4E"
-            android:hint="Nhập mã shopee voucher"
             android:background="@drawable/bg_input_field"
-            android:padding="8dp"/>
+            android:hint="Nhập mã shopee voucher"
+            android:padding="8dp"
+            android:textColorHint="#4E4E4E" />
 
         <!-- Apply Button -->
         <!-- TextView thay thế cho Apply Button -->
@@ -62,13 +60,13 @@
             android:id="@+id/apply_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Áp dụng"
-            android:textColor="#FFFFFF"
-            android:textSize="15dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/button_gray_background"
             android:gravity="center"
             android:padding="8dp"
-            android:layout_marginStart="8dp" />
+            android:text="Áp dụng"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,22 +78,21 @@
         <!-- Voucher List Section Title -->
         <TextView
             android:id="@+id/shipping_voucher_section"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ưu đãi phí vận chuyển"
-            android:textStyle="bold"
-            style="@style/TEXT"
-             />
+            android:textStyle="bold" />
 
         <!-- Subtitle cho danh sách voucher -->
         <TextView
             style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Có thể chọn 1 Voucher"
-            android:textSize="14sp"
 
-            android:layout_marginBottom="8dp"/>
+            android:textSize="14sp" />
 
         <!-- RecyclerView cho danh sách voucher -->
         <!-- TextView 'Xem thêm' dưới RecyclerView -->
@@ -112,13 +109,12 @@
 
         <TextView
             android:id="@+id/show_more_ship"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xem thêm"
-            style="@style/TEXT"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-             />
+            android:text="Xem thêm" />
 
     </LinearLayout>
 
@@ -131,23 +127,22 @@
 
         <!-- Voucher List Section Title -->
         <TextView
-            style="@style/TEXT"
             android:id="@+id/product_voucher_section"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mã giảm giá"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <!-- Subtitle cho danh sách voucher -->
         <TextView
             style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Có thể chọn 1 Voucher"
-            android:textSize="14sp"
 
-            android:layout_marginBottom="8dp"/>
+            android:textSize="14sp" />
 
         <!-- RecyclerView cho danh sách voucher -->
         <androidx.recyclerview.widget.RecyclerView
@@ -156,22 +151,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_voucher"
-            tools:itemCount="2" />
+            tools:itemCount="2"
+            tools:listitem="@layout/item_voucher" />
         <!-- TextView 'Xem thêm' dưới RecyclerView -->
         <TextView
-            style="@style/TEXT"
             android:id="@+id/show_more_product"
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xem thêm"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-           />
+            android:text="Xem thêm" />
 
     </LinearLayout>
     <!-- TextView để hiển thị trạng thái voucher đã chọn -->
-
 
 
     <!-- TextView thay thế cho Confirm Button -->
@@ -179,32 +172,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="8dp">
 
-    <!-- countVoucher -->
+        <!-- countVoucher -->
+        <TextView
+            android:id="@+id/countVoucher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/countVoucher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="16sp"
-        android:layout_marginEnd="8dp"
-        android:textColor="#000000"/>
-
-
-
-</LinearLayout>
-
-<TextView
         android:id="@+id/confirm_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đồng ý"
-        android:textSize="16dp"
         android:background="@drawable/button_orange_background"
-        android:textColor="#FFFFFF"
         android:gravity="center"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:text="Đồng ý"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_toystoryshop.Model.FeebackApp_Model;
@@ -28,12 +29,13 @@ public class Evaluate_screen extends AppCompatActivity {
     private RatingBar ratingBar;
     private EditText etFeedback;
     private Button btnSubmit;
-    private ImageView btnBack;
+    private ImageView imgBack;
     private String feedback;
     private float rating;
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +47,13 @@ public class Evaluate_screen extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         etFeedback = findViewById(R.id.etFeedback);
         btnSubmit = findViewById(R.id.btnSubmit);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_screen" + documentId);
 
         // Nút quay lại đăng nhập
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,9 +61,9 @@ public class Evaluate_screen extends AppCompatActivity {
             }
         });
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
     }
 

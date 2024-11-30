@@ -27,7 +27,7 @@ public class SignUp_screen extends AppCompatActivity {
 
     private TextInputEditText edemail, edname, edpassword, edrppassword;
     private TextView btnsignup, txtLogin;
-    private ImageView btnBack;
+    private ImageView imgBack;
 
     private FirebaseAuth mAuth;
     private String verificationId;
@@ -42,19 +42,12 @@ public class SignUp_screen extends AppCompatActivity {
         edpassword = findViewById(R.id.edpassword);
         edrppassword = findViewById(R.id.edrppassword);
         btnsignup = findViewById(R.id.btnsignup);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         txtLogin = findViewById(R.id.txtLogin);
         mAuth = FirebaseAuth.getInstance();
 
         // Xử lý sự kiện nhấn nút quay lại
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUp_screen.this, SignIn_screen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý sự kiện nhấn nút đăng ký
         btnsignup.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +124,7 @@ public class SignUp_screen extends AppCompatActivity {
                         intent.putExtra("name", name);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(SignUp_screen.this, getString(R.string.Toast_failure_signup), Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -163,7 +156,7 @@ public class SignUp_screen extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-        //    Toast.makeText(SignUp_screen.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            //    Toast.makeText(SignUp_screen.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -214,7 +207,7 @@ public class SignUp_screen extends AppCompatActivity {
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
                     String randomID = documentReference.getId();
-                   // Log.d("SignUp_screen", "ID ngẫu nhiên: " + randomID);
+                    // Log.d("SignUp_screen", "ID ngẫu nhiên: " + randomID);
                     checkUserPasswordInFirestore(randomID);
                 })
                 .addOnFailureListener(e -> {
@@ -233,11 +226,11 @@ public class SignUp_screen extends AppCompatActivity {
                         String name = documentSnapshot.getString("name");
                         // Xử lý dữ liệu
                     } else {
-                      //  Log.d("CheckUser", "Tài liệu không tồn tại");
+                        //  Log.d("CheckUser", "Tài liệu không tồn tại");
                     }
                 })
                 .addOnFailureListener(e -> {
-                  //  Log.d("CheckUser", "Lỗi khi kiểm tra dữ liệu: " + e.getMessage());
+                    //  Log.d("CheckUser", "Lỗi khi kiểm tra dữ liệu: " + e.getMessage());
                 });
     }
 }

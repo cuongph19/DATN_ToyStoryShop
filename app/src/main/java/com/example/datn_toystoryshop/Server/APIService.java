@@ -32,9 +32,9 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-//   String BASE_URL  = "http://192.168.16.101:3000/";// cương
+    String BASE_URL = "http://192.168.16.101:3000/";// cương
 //      String BASE_URL  = "http://192.168.1.10:3000/";// huy
-    String BASE_URL = "http://192.168.101.10:3000/";
+    // String BASE_URL = "http://192.168.101.10:3000/";
 
 
     @GET("/api/list")
@@ -80,8 +80,8 @@ public interface APIService {
     @GET("/api/orders/successful")
     Call<List<Order_Model>> getOrders_successful(@Query("cusId") String cusId);
 
- @GET("/api/feebacks")
- Call<List<Feeback_Model>> getFeeback(@Query("prodId") String prodId);
+    @GET("/api/feebacks")
+    Call<List<Feeback_Model>> getFeeback(@Query("prodId") String prodId);
 
     @POST("/api/add-feedback")
     Call<Feeback_Model> addFeedback(@Body Feeback_Model feebackModel);
@@ -112,6 +112,7 @@ public interface APIService {
 
     @GET("api/list-popular")
     Call<List<Product_Model>> getPopular();
+
     @GET("/api/check-favorite/{prodId}")
     Call<Map<String, Boolean>> checkFavorite(@Path("prodId") String productId);
 
@@ -126,6 +127,7 @@ public interface APIService {
 
     @GET("/api/artstories")
     Call<List<ArtStoryModel>> getArtStories();
+
     @GET("/api/vouchers")
     Call<List<Voucher>> getVouchers();
 
@@ -147,6 +149,7 @@ public interface APIService {
 
     @GET("/api/cart/check-product")
     Call<JsonObject> checkProductInCart(@Query("prodId") String prodId, @Query("cusId") String cusId);
+
     @GET("/api/cart/get-cart-id")
     Call<JsonObject> getCartId(@Query("prodId") String prodId, @Query("cusId") String cusId);
 

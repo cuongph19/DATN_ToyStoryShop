@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/SCREEN"
     tools:context=".OrderHist_Detail">
 
     <LinearLayout
@@ -42,6 +42,7 @@
     <!-- TextView for Order Status -->
     <TextView
         android:id="@+id/tvOrderStatus"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -51,7 +52,6 @@
         android:text="Trạng thái: Đang xử lý"
         android:textSize="18sp"
         android:textStyle="bold"
-        style="@style/TEXT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLinearLayout" />
@@ -60,8 +60,8 @@
         android:id="@+id/cardPaymentMethod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
         android:layout_margin="5dp"
+        android:backgroundTint="@color/colorPrimary"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
@@ -71,18 +71,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:gravity="center_vertical">
+            android:padding="10dp">
 
             <!-- Payment Method Icon (Left) -->
             <ImageView
                 android:id="@+id/ivPaymentMethodIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/pay"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="Payment Method Icon"
-                android:layout_marginEnd="8dp" />
+                android:src="@drawable/pay" />
 
             <!-- Payment Method Text -->
             <TextView
@@ -100,13 +100,11 @@
                 android:id="@+id/ivAdditionalIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/next_icon"
+                android:layout_marginStart="8dp"
                 android:contentDescription="Additional Icon"
-                android:layout_marginStart="8dp" />
+                android:src="@drawable/next_icon" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
 
 
     <!-- First Additional TextView -->
@@ -124,19 +122,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="#F2DCE1"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/tvOrderAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
                 android:text="@string/address"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="40dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvOrderAddressContent"
@@ -164,8 +162,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="#F2DCE1"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <!-- Product Image -->
@@ -181,8 +179,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <!-- Product Name TextView -->
                 <TextView
@@ -195,26 +193,26 @@
                     android:textStyle="bold" />
 
 
-
                 <!-- Product Price TextView -->
                 <TextView
                     android:id="@+id/tvProductPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Giá: 500,000 VND"
                     android:textColor="#FF0000"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tvProductTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Tổng cộng: ..."
                     android:textColor="#FF0000"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
@@ -232,9 +230,9 @@
         app:layout_constraintTop_toBottomOf="@id/cardProductInfo">
 
         <LinearLayout
-            android:background="#F2DCE1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#F2DCE1"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -243,27 +241,27 @@
                 android:id="@+id/tvSupportTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/sp"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:textStyle="bold" />
 
             <!-- Contact Shop -->
             <LinearLayout
                 android:id="@+id/ivContactShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="8dp"
-                android:gravity="center_vertical">
+                android:paddingVertical="8dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/contact"
+                    android:layout_marginEnd="8dp"
                     android:contentDescription="Contact Shop"
-                    android:layout_marginEnd="8dp" />
+                    android:src="@drawable/contact" />
 
                 <TextView
                     android:id="@+id/tvContactShop"
@@ -278,9 +276,10 @@
                     android:id="@+id/ivContactShopArrow"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/next_icon"
-                    android:contentDescription="Arrow" />
+                    android:contentDescription="Arrow"
+                    android:src="@drawable/next_icon" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -290,16 +289,16 @@
                 android:id="@+id/ivSupportCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="8dp"
-                android:gravity="center_vertical">
+                android:paddingVertical="8dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/center_sp"
+                    android:layout_marginEnd="8dp"
                     android:contentDescription="Support Center"
-                    android:layout_marginEnd="8dp" />
+                    android:src="@drawable/center_sp" />
 
                 <TextView
                     android:id="@+id/tvSupportCenter"
@@ -314,8 +313,8 @@
                     android:id="@+id/ivSupportCenterArrow"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/next_icon"
-                    android:contentDescription="Arrow" />
+                    android:contentDescription="Arrow"
+                    android:src="@drawable/next_icon" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -326,11 +325,11 @@
         android:id="@+id/btnRateProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FF5733"
+        android:padding="12dp"
         android:text="@string/feedback_order_his"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#FF5733"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

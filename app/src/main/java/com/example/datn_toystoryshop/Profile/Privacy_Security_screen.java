@@ -20,12 +20,13 @@ public class Privacy_Security_screen extends AppCompatActivity {
     private CheckBox checkboxAgree;
     private Button btnAccept;
     private TextView tvPrivacy;
-    private ImageView btnBack;
+    private ImageView imgBack;
     private static final String PREFS_NAME = "PrivacyPrefs";
     private static final String KEY_CHECKBOX_AGREE = "checkbox_agree_privacy";
     private boolean isAccepted = false;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +36,13 @@ public class Privacy_Security_screen extends AppCompatActivity {
         checkboxAgree = findViewById(R.id.checkbox_agree_privacy);
         btnAccept = findViewById(R.id.btn_accept_privacy);
         tvPrivacy = findViewById(R.id.tvPrivacy);
-        btnBack = findViewById(R.id.btnBack_privacy);
+        imgBack = findViewById(R.id.btnBack_privacy);
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkboxAgree.setChecked(false);

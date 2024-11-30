@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    style="@style/SCREEN"
-    >
-
+    android:orientation="vertical">
 
 
     <!-- Include header layout -->
@@ -17,18 +15,17 @@
         android:layout_height="wrap_content" />
 
 
-
     <!-- Product Grid Layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        android:padding="8dp"
-        tools:listitem="@layout/item_product"
-        android:clipToPadding="false" />
+        tools:listitem="@layout/item_product" />
 
 </LinearLayout>

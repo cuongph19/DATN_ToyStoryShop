@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,7 +67,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.textStatus.setText(order.getOrderStatus());
         holder.textRevenue_all.setText(String.format("Tổng số tiền: %,.0f Đ", (double) order.getRevenue_all()));
         holder.textType.setText(ProdSpecification);
-        holder.textQuantity.setText(String.format("x"+ Quantity));
+        holder.textQuantity.setText(String.format("x" + Quantity));
         // Lấy thông tin sản phẩm từ API
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
@@ -88,7 +89,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     intent.putExtra("prodId", prodId);
                     intent.putExtra("orderStatus", order.getOrderStatus());
                     intent.putExtra("orderRevenue", (double) order.getRevenue_all());
-                    Log.e("OrderHistoryAdapter", "j66666666666666666 " +  order.getRevenue_all());
+                    Log.e("OrderHistoryAdapter", "j66666666666666666 " + order.getRevenue_all());
                     intent.putExtra("orderContent", order.getContent());
 
                     context.startActivity(intent);
@@ -132,7 +133,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
 
-
     @Override
     public int getItemCount() {
         return orderList.size();
@@ -141,7 +141,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     // ViewHolder để giữ các view cho mỗi item
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewOr;
-        TextView textProductName,textType, textPrice, textStatus, textQuantity, textRevenue_all, ContactShop;
+        TextView textProductName, textType, textPrice, textStatus, textQuantity, textRevenue_all, ContactShop;
 
 
         public OrderViewHolder(@NonNull View itemView) {

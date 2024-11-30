@@ -31,6 +31,7 @@ public class Favorite_screen extends AppCompatActivity {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +39,6 @@ public class Favorite_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_screen" + documentId);
@@ -52,14 +48,21 @@ public class Favorite_screen extends AppCompatActivity {
 
         loadFavoriteProducts();
         imgBack = findViewById(R.id.btnBack);
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Favorite_screen.this, Home_screen.class);
                 startActivity(intent);
                 finish();
-            }});
+            }
+        });
     }
+
     private void loadFavoriteProducts() {
         String cusId = documentId;
 

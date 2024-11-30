@@ -178,7 +178,6 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
     }
 
 
-
     // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
         productModelList.clear();
@@ -193,8 +192,6 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
         }
         notifyDataSetChanged();
     }
-
-
 
 
     private String removeDiacritics(String input) {

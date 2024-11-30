@@ -41,10 +41,10 @@ import retrofit2.Response;
 
 public class Sale_screen extends AppCompatActivity {
     private RecyclerView recyclerViewSaleProducts;
-   private Sale_Adapter saleAdapter;
+    private Sale_Adapter saleAdapter;
     private List<Product_Model> productList;
     private String documentId;
-    private  ImageView imgBack;
+    private ImageView imgBack;
     private static final String CHANNEL_ID = "home_notification_channel";
     private static final String PREFS_NAME = "NotificationPrefs";
     private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
@@ -59,11 +59,6 @@ public class Sale_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
 
         // Khởi tạo NotificationManager
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -81,8 +76,13 @@ public class Sale_screen extends AppCompatActivity {
 
         recyclerViewSaleProducts = findViewById(R.id.recyclerViewSaleProducts);
 
-        recyclerViewSaleProducts.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerViewSaleProducts.setLayoutManager(new GridLayoutManager(this, 2));
         imgBack = findViewById(R.id.ivBack);
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getSale().enqueue(new Callback<List<Product_Model>>() {
             @Override
@@ -107,16 +107,14 @@ public class Sale_screen extends AppCompatActivity {
         });
 
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed(); // Quay lại activity trước đó
     }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Home Notification Channel";

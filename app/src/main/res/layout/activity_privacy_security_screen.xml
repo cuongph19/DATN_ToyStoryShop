@@ -51,12 +51,12 @@
     <!-- CheckBox Đồng ý điều khoản -->
     <CheckBox
         android:id="@+id/checkbox_agree_privacy"
+        style="@style/TEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:paddingTop="16dp"
-        android:text="@string/privacy_agree"
-        style="@style/TEXT"/>
+        android:text="@string/privacy_agree" />
 
     <!-- Nút Accept -->
     <Button

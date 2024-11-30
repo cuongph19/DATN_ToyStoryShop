@@ -38,13 +38,14 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
     private Spinner spinnerCity, spinnerDistrict;
     private ArrayAdapter<CharSequence> districtAdapter;
     private EditText searchLocation;
-    private ImageView btnBack;
+    private ImageView imgBack;
     // Vị trí của các cửa hàng
     private static final LatLng HANOI_STORE_1 = new LatLng(21.0386, 105.7477);
     private static final LatLng HANOI_STORE_2 = new LatLng(20.9395, 105.9754);
     private static final LatLng SAIGON_STORE = new LatLng(10.8231, 106.6297);
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,19 +70,13 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
         spinnerCity = findViewById(R.id.spinnerCity);
         spinnerDistrict = findViewById(R.id.spinnerDistrict);
         searchLocation = findViewById(R.id.searchLocation);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Thiết lập Adapter cho Spinner thành phố
         ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(
                 this,

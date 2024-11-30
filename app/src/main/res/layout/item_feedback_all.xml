@@ -1,17 +1,16 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@android:color/white">
+    android:padding="10dp">
 
     <!-- Thông tin sản phẩm -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imgProduct"
@@ -32,18 +31,18 @@
                 android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tên sản phẩm"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end" />
+                android:text="Tên sản phẩm"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edRemainingDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Đánh giá sản phẩm"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -63,20 +62,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/tvfeedback"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Đánh giá sản phẩm"
-            android:maxLines="1"
-            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center_vertical" />
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:text="Đánh giá sản phẩm"
+            android:textColor="@android:color/black" />
 
 
         <RatingBar

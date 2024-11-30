@@ -9,24 +9,26 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
 
 public class Terms_Conditions_screen extends AppCompatActivity {
 
-    private CheckBox checkboxAgree;
-    private Button btnAccept;
-    private TextView tvTerms;
-    private ImageView btnBack;
     // Tên của SharedPreferences và key
     private static final String PREFS_NAME = "TermsPrefs";
     private static final String KEY_CHECKBOX_AGREE = "checkbox_agree";
-
+    private CheckBox checkboxAgree;
+    private Button btnAccept;
+    private TextView tvTerms;
+    private ImageView imgBack;
     // Biến để kiểm tra người dùng đã nhấn Accept h ay chưa
     private boolean isAccepted = false;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +41,13 @@ public class Terms_Conditions_screen extends AppCompatActivity {
         checkboxAgree = findViewById(R.id.checkbox_agree);
         btnAccept = findViewById(R.id.btn_accept);
         tvTerms = findViewById(R.id.tvTerms);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkboxAgree.setChecked(false);  // Reset CheckBox về không được chọn

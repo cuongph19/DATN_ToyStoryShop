@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -47,6 +48,7 @@ import com.example.datn_toystoryshop.Server.APIService;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +74,7 @@ public class Home_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,9 +108,6 @@ public class Home_Fragment extends Fragment {
         other_products = view.findViewById(R.id.other_products);
         sale = view.findViewById(R.id.sale);
         limited_figure = view.findViewById(R.id.limited_figure);
-
-
-
 
 
         Bundle bundle = getArguments();
@@ -325,7 +325,6 @@ public class Home_Fragment extends Fragment {
     }
 
 
-
     private void loadProducts(APIService apiService) {
         Call<List<Product_Model>> call = apiService.getProducts();
         call.enqueue(new Callback<List<Product_Model>>() {
@@ -373,8 +372,6 @@ public class Home_Fragment extends Fragment {
     }
 
 
-
-
     private boolean isPointInsideView(float x, float y, View view) {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
@@ -384,6 +381,7 @@ public class Home_Fragment extends Fragment {
         return (x >= viewX && x <= viewX + view.getWidth() &&
                 y >= viewY && y <= viewY + view.getHeight());
     }
+
     private void setupSearchBar(APIService apiService) {
         Call<List<Product_Model>> call = apiService.getProducts();
         call.enqueue(new Callback<List<Product_Model>>() {
@@ -397,7 +395,8 @@ public class Home_Fragment extends Fragment {
 
                     search_bar.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -413,7 +412,8 @@ public class Home_Fragment extends Fragment {
                         }
 
                         @Override
-                        public void afterTextChanged(Editable s) {}
+                        public void afterTextChanged(Editable s) {
+                        }
                     });
                 } else {
                     Log.e("HomeFragment", "Response unsuccessful or body is null");

@@ -28,9 +28,11 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
     private APIService apiService;
     private TotalAmountCallback totalAmountCallback;
     private String ProductType;
+
     public interface TotalAmountCallback {
         void onTotalAmountCalculated(double totalAmount, int quantity, String productType);
     }
+
     public Order_Adapter_Detail(List<Order_Detail_Model> productList, APIService apiService, TotalAmountCallback totalAmountCallback) {
         this.productList = productList;
         this.apiService = apiService;
@@ -50,23 +52,23 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
         Order_Detail_Model product = productList.get(position);
         holder.productName.setText(product.getProductId());  // Hiển thị mã sản phẩm
         holder.productQuantity.setText("x" + product.getCurrentQuantity());  // Hiển thị số lượng
-        holder.productType.setText( product.getSelectedColor());  // Hiển thị màu sắc
+        holder.productType.setText(product.getSelectedColor());  // Hiển thị màu sắc
         ProductType = product.getSelectedColor();
         // Nếu cần hiển thị ảnh sản phẩm, bạn có thể sử dụng thư viện Glide hoặc Picasso để tải ảnh từ URL
-         Glide.with(holder.productImage.getContext()).load(product.getProductImg()).into(holder.productImage);
+        Glide.with(holder.productImage.getContext()).load(product.getProductImg()).into(holder.productImage);
         // Gọi API để lấy tên sản phẩm
         loadProductById(apiService, product.getProductId(), new ProductCallback() {
             @Override
             public void onSuccess(Product_Model productModel) {
                 holder.productName.setText(productModel.getNamePro()); // Cập nhật tên sản phẩm
-                holder.productPrice.setText(String.format("%,.0fđ",productModel.getPrice())); // Cập nhật tên sản phẩm
+                holder.productPrice.setText(String.format("%,.0fđ", productModel.getPrice())); // Cập nhật tên sản phẩm
                 double Price = productModel.getPrice();
                 int quantity = product.getCurrentQuantity();
                 double totalAmount = Price * quantity;
                 Log.e("Oder_Adapter", "aaaaaaaaaaaaaaaaaaaaaavdv: " + totalAmount);
                 // Truyền totalAmount về màn hình chính
                 if (totalAmountCallback != null) {
-                    totalAmountCallback.onTotalAmountCalculated(totalAmount,quantity, ProductType );
+                    totalAmountCallback.onTotalAmountCalculated(totalAmount, quantity, ProductType);
                 }
             }
 
@@ -84,7 +86,7 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productQuantity, productType,productPrice;
+        TextView productName, productQuantity, productType, productPrice;
         ImageView productImage;  // Nếu bạn cần hiển thị ảnh sản phẩm
 
         public ProductViewHolder(View view) {
@@ -96,6 +98,7 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
             productPrice = view.findViewById(R.id.product_price);
         }
     }
+
     // Hàm gọi API
     private void loadProductById(APIService apiService, String prodId, ProductCallback callback) {
         Call<Product_Model> call = apiService.getProductById(prodId);

@@ -28,7 +28,7 @@ public class Currency_Language_screen extends AppCompatActivity {
     private static final String LANGUAGE_KEY = "current_language"; // Key để lưu ngôn ngữ hiện tại
     private static final String CURRENCY_KEY = "current_currency"; // Key lưu tiền tệ hiện tại
 
-    private ImageView btnBack;
+    private ImageView imgBack;
     private boolean isSpinnerInitial = true;  // Biến để kiểm soát lần đầu khởi tạo Spinner
     private String currentLanguage;  // Ngôn ngữ hiện tại
     private Spinner spinnerLanguages, spinnerCurrency;
@@ -45,7 +45,7 @@ public class Currency_Language_screen extends AppCompatActivity {
         String currentCurrency = prefs.getString(CURRENCY_KEY, "VND"); // Giá trị mặc định là VND
 
         tvCurrencyValue = findViewById(R.id.tvCurrencyValue);
-        btnBack = findViewById(R.id.btnBack); // Khởi tạo nút quay lại
+        imgBack = findViewById(R.id.btnBack); // Khởi tạo nút quay lại
         spinnerLanguages = findViewById(R.id.language_spinner);
         spinnerCurrency = findViewById(R.id.currency_spinner);
 
@@ -59,7 +59,7 @@ public class Currency_Language_screen extends AppCompatActivity {
         updateCurrencyValue(currentCurrency);
 
         // Sự kiện quay lại
-        btnBack.setOnClickListener(v -> onBackPressed());
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý sự kiện chọn ngôn ngữ từ Spinner
         spinnerLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -234,6 +234,7 @@ public class Currency_Language_screen extends AppCompatActivity {
             Log.e(TAG, "Error setting locale", e);  // Log lỗi nếu có exception
         }
     }
+
     @Override
     public void onBackPressed() {
         // Tạo Intent để trở về Home_screen

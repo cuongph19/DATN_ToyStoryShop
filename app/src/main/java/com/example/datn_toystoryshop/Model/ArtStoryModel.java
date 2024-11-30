@@ -10,7 +10,7 @@ public class ArtStoryModel {
     private String description;
     private List<String> imageUrl; // Chứa danh sách các URL ảnh
     private List<String> caption;
-     private  String content;
+    private String content;
 
     public ArtStoryModel(String title, String author, Date date, String description, List<String> imageUrl, List<String> caption, String content) {
         this.title = title;

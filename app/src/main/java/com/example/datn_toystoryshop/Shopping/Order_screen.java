@@ -52,12 +52,12 @@ import retrofit2.Response;
 public class Order_screen extends AppCompatActivity implements Order_Adapter_Detail.TotalAmountCallback {
 
     private ImageView imgBack;
-    private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail,clause,tvTotalAmountLabel;
+    private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail, clause, tvTotalAmountLabel;
     private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
     private RecyclerView recycler_view_oder;
-    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price,shipping_method_name,show_more_oder;
+    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price, shipping_method_name, show_more_oder;
 
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
@@ -98,11 +98,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         setContentView(R.layout.activity_oder_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        if (nightMode) {
-            imgBack.setImageResource(R.drawable.back_icon);
-        } else {
-            imgBack.setImageResource(R.drawable.back_icon_1);
-        }
         // Khởi tạo các view trong layout
         imgBack = findViewById(R.id.imgBack);
         btnOrder = findViewById(R.id.btnOrder);
@@ -136,7 +131,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         TextView addressPhone = findViewById(R.id.address_phone);
         TextView addressDetail = findViewById(R.id.address_detail);
 
-
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
 
@@ -156,29 +155,29 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen" + documentId);
         ///dulieunhanCart
         productIds = intent.getStringArrayListExtra("productIds");
-         totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
-         totalProductDiscount = intent.getDoubleExtra("totalProductDiscount", 0);
+        totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
+        totalProductDiscount = intent.getDoubleExtra("totalProductDiscount", 0);
         Log.e("API_ERROR", "bttttttttttttttttttttt" + totalShipDiscount);
         Log.e("API_ERROR", "btttttttttttttttttttttff " + totalProductDiscount);
         if (totalShipDiscount != 0 && totalProductDiscount != 0) {
             String text = String.format("%,.0fđ", shippingCost);
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new StrikethroughSpan(), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        old_price.setText(spannableString);
-        // Hiển thị các thông tin giảm giá
-        shipDiscounttv.setVisibility(View.VISIBLE);
-        productDiscounttv.setVisibility(View.VISIBLE);
-        new_price.setVisibility(View.VISIBLE);
-        shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
-        // Tính giá mới và set cho new_price
-        double newPriceValue = shippingCost - totalShipDiscount;
-        new_price.setText(String.format("₫%,.0f", newPriceValue));
+            SpannableString spannableString = new SpannableString(text);
+            spannableString.setSpan(new StrikethroughSpan(), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            old_price.setText(spannableString);
+            // Hiển thị các thông tin giảm giá
+            shipDiscounttv.setVisibility(View.VISIBLE);
+            productDiscounttv.setVisibility(View.VISIBLE);
+            new_price.setVisibility(View.VISIBLE);
+            shipDiscountPrice.setText(String.format("-₫%,.0f", totalShipDiscount));
+            // Tính giá mới và set cho new_price
+            double newPriceValue = shippingCost - totalShipDiscount;
+            new_price.setText(String.format("₫%,.0f", newPriceValue));
 
-        productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
-        // Tính toán lại moneyPay sau khi nhận được giá trị mới
-        calculateMoneyPay();
-    }
+            productDiscountPrice.setText(String.format("-₫%,.0f", totalProductDiscount));
+            // Tính toán lại moneyPay sau khi nhận được giá trị mới
+            calculateMoneyPay();
+        }
         ///dulieunhanDetail
         productId = intent.getStringExtra("productId");
         currentQuantity = intent.getIntExtra("currentQuantity", 0);
@@ -205,11 +204,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         int quantity = oderProductDetailModel.getQuantity();
                         String productType = oderProductDetailModel.getProdSpecification();
                         int count = productIds.size();
-                        tvTotalAmountLabel.setText("Tổng số tiền ("+ count+ " sản phẩm):");
+                        tvTotalAmountLabel.setText("Tổng số tiền (" + count + " sản phẩm):");
                         Log.d("ProductIDCount", "Số lượng ID trong danh sách: " + count);
 
                         // Thêm sản phẩm vào danh sách productDetails
-                          productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
+                        productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
 
                         Log.d("MainActivity", "aaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhh " + productId + ", Total Price: " + moneyPay);
                     }
@@ -252,11 +251,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         }
         // Đặt ngày giao hàng dự kiến
         String estimatedDeliveryDate = getFormattedDate(5, "'ngày' dd 'tháng' MM");
-        estimated_delivery.setText("Đảm bảo nhận hàng vào "+ estimatedDeliveryDate);
+        estimated_delivery.setText("Đảm bảo nhận hàng vào " + estimatedDeliveryDate);
         String voucherExpiryDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");
         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
 
-                String shippingmoney = String.format("%,.0fđ", shippingCost);
+        String shippingmoney = String.format("%,.0fđ", shippingCost);
         shipping_money.setText(shippingmoney);
 // Kiểm tra null và tính toán moneyPay theo các trường hợp
 
@@ -310,6 +309,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
         imgBack.setOnClickListener(v -> onBackPressed());
     }
+
     @Override
     public void onTotalAmountCalculated(double totalAmount2, int quantity2, String productType2) {
         totalAmount = totalAmount2;
@@ -322,13 +322,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh" + productType);
         tvTotalAmount.setText(formattedTotalAmount);
         total_amount.setText(formattedTotalAmount);
-         tvTotalAmountLabel.setText("Tổng số tiền (1 sản phẩm):");
+        tvTotalAmountLabel.setText("Tổng số tiền (1 sản phẩm):");
         calculateMoneyPay();
         btnOrder.setOnClickListener(v -> {
             sumitOrder_Detail();
             finish();
         });
     }
+
     // Hàm nhận kết quả từ màn hình Voucher
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -372,17 +373,17 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     String shipping_method = data.getStringExtra("shipping_method");
 
                     if (totalShipDiscount != 0) {
-                    new_price.setVisibility(View.VISIBLE);
-                    // Tính giá mới và set cho new_price
-                    double shippingPriceValue = Double.parseDouble(shipping_price.replaceAll("[^\\d]", ""));
-                    double newPriceValue1 = shippingPriceValue - totalShipDiscount;
-                    new_price.setText(String.format("₫%,.0f", newPriceValue1));
-                    //set gạch ngang cho giá cũ
-                    String text1 = String.format("%,.0fđ", shippingCost);
-                    SpannableString spannableString1 = new SpannableString(text1);
-                    spannableString1.setSpan(new StrikethroughSpan(), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    spannableString1.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    old_price.setText(spannableString1);
+                        new_price.setVisibility(View.VISIBLE);
+                        // Tính giá mới và set cho new_price
+                        double shippingPriceValue = Double.parseDouble(shipping_price.replaceAll("[^\\d]", ""));
+                        double newPriceValue1 = shippingPriceValue - totalShipDiscount;
+                        new_price.setText(String.format("₫%,.0f", newPriceValue1));
+                        //set gạch ngang cho giá cũ
+                        String text1 = String.format("%,.0fđ", shippingCost);
+                        SpannableString spannableString1 = new SpannableString(text1);
+                        spannableString1.setSpan(new StrikethroughSpan(), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spannableString1.setSpan(new ForegroundColorSpan(Color.parseColor("#888888")), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        old_price.setText(spannableString1);
                     }
                     shipping_method_name.setText(shipping_method);
 //                    String shippingmoney = String.format("%,.0fđ", shippingCost);
@@ -391,7 +392,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     calculateMoneyPay();
                     // Kiểm tra phương thức giao hàng và xử lý tương ứng
                     if ("Nhanh".equals(shipping_method)) {
-                        shippingCost= 40000;
+                        shippingCost = 40000;
                         String shippingmoney = String.format("%,.0fđ", shippingCost);
                         shipping_money.setText(shippingmoney);
                         calculateMoneyPay();
@@ -408,9 +409,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
 
                     } else if ("Hỏa Tốc".equals(shipping_method)) {
-                        shippingCost= 80000;
-                                String shippingmoney = String.format("%,.0fđ", shippingCost);
-                                 shipping_money.setText(shippingmoney);
+                        shippingCost = 80000;
+                        String shippingmoney = String.format("%,.0fđ", shippingCost);
+                        shipping_money.setText(shippingmoney);
                         calculateMoneyPay();
                         String oldprice = String.format("%,.0fđ", shippingCost);
                         old_price.setText(oldprice);
@@ -422,8 +423,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         voucher_info.setText("Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau " + voucherExpiryDate);
                     }
                     break;
-            }}
+            }
+        }
     }
+
     private void calculateMoneyPay() {
 
         // Kiểm tra null và tính toán moneyPay theo các trường hợp
@@ -444,6 +447,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         money_pay.setText(formattedMoneyPay);
         money_pay1.setText(formattedMoneyPay);
     }
+
     private void sumitOrder_Detail() {
         content = tvLeaveMessage.getText().toString();
         Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:1 " + content);
@@ -478,10 +482,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
-                    updateProductItem(apiService, productId, quantity1 - quantity );
+                    updateProductItem(apiService, productId, quantity1 - quantity);
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
-                    
+
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
                     Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
@@ -495,6 +499,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
+
     public void updateProductItem(APIService apiService, String prodId, int inventory) {
 
         // Chuẩn bị dữ liệu cập nhật
@@ -522,44 +527,44 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     }
 
     private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
-    String content = tvLeaveMessage.getText().toString();
+        String content = tvLeaveMessage.getText().toString();
 
-    Log.e("API_ERROR", "Content: " + content);
-    Log.e("API_ERROR", "Product Details: " + productDetails.toString());
-    Log.e("API_ERROR", "Total Amount: " + moneyPay);
+        Log.e("API_ERROR", "Content: " + content);
+        Log.e("API_ERROR", "Product Details: " + productDetails.toString());
+        Log.e("API_ERROR", "Total Amount: " + moneyPay);
 
-    // Tạo đối tượng Order_Model với danh sách sản phẩm
-    Order_Model orderModel = new Order_Model(
-            null,                // _id
-            documentId,             // cusId
-            (int) moneyPay,
-            productDetails,      // prodDetails (danh sách sản phẩm)
-            content,             // content (nội dung đơn hàng)
-            "Chờ xác nhận", // orderStatus
-            new Date().toString()// orderDate
-    );
+        // Tạo đối tượng Order_Model với danh sách sản phẩm
+        Order_Model orderModel = new Order_Model(
+                null,                // _id
+                documentId,             // cusId
+                (int) moneyPay,
+                productDetails,      // prodDetails (danh sách sản phẩm)
+                content,             // content (nội dung đơn hàng)
+                "Chờ xác nhận", // orderStatus
+                new Date().toString()// orderDate
+        );
 
-    APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-    Call<Order_Model> call = apiService.addToOrder(orderModel);
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Order_Model> call = apiService.addToOrder(orderModel);
 
-    call.enqueue(new Callback<Order_Model>() {
-        @Override
-        public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
-            if (response.isSuccessful()) {
-                Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
-                Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<Order_Model>() {
+            @Override
+            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
+                    Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
 
-        @Override
-        public void onFailure(Call<Order_Model> call, Throwable t) {
-            Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
-            Log.e("API_ERROR", "Lỗi kết nối API khi thêm order", t);
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<Order_Model> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
+                Log.e("API_ERROR", "Lỗi kết nối API khi thêm order", t);
+            }
+        });
+    }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

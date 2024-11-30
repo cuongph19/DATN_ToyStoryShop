@@ -1,11 +1,9 @@
 <!-- activity_shipping_unit_screen.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/SCREEN"
-    >
+    android:orientation="vertical">
 
     <!-- Thanh trên cùng -->
     <LinearLayout
@@ -13,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imgBack"
@@ -40,20 +38,20 @@
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="#CACACA"
         android:alpha="0.8"
+        android:background="#CACACA"
+        android:padding="16dp"
         android:text="Các phương thức vận chuyển của Shopee\nBạn có thể theo dõi đơn hàng trên ứng dụng Shopee khi chọn một trong các phương thức vận chuyển:"
-        android:textSize="14sp"
-        android:textColor="#555" />
+        android:textColor="#555"
+        android:textSize="14sp" />
     <!-- Phương thức Nhanh -->
     <LinearLayout
         android:id="@+id/LLfast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@android:color/white">
+        android:padding="16dp">
 
         <!-- Phần thông tin bên trái -->
         <LinearLayout
@@ -73,9 +71,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nhanh"
+                    android:textColor="#000"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvFastShippingOldPrice"
@@ -83,18 +81,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="₫40.000"
-                    android:textSize="14sp"
-                    android:textColor="#FF0000" />
-<!--                android:textColor="#777"-->
+                    android:textColor="#FF0000"
+                    android:textSize="14sp" />
+                <!--                android:textColor="#777"-->
                 <TextView
                     android:id="@+id/tvFastShippingNewPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:visibility="gone"
                     android:text="₫0"
+                    android:textColor="#FF0000"
                     android:textSize="16sp"
-                    android:textColor="#FF0000" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- Chi tiết vận chuyển -->
@@ -104,8 +102,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau ngày 14 Tháng 11 2024."
-                android:textSize="14sp"
-                android:textColor="#555" />
+                android:textColor="#555"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <!-- RadioButton để chọn phương thức -->
@@ -121,9 +119,9 @@
         android:id="@+id/LLexpress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:background="#FAFAFA"
         android:orientation="horizontal"
-        android:background="#FAFAFA">
+        android:padding="16dp">
 
         <!-- Phần thông tin bên trái -->
         <LinearLayout
@@ -143,9 +141,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hỏa Tốc"
+                    android:textColor="#000"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvExpressShippingPrice"
@@ -153,25 +151,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="₫80.000"
-                    android:textSize="16sp"
-                    android:textColor="#FF0000" />
+                    android:textColor="#FF0000"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/tvExpressShippingNewPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:visibility="gone"
                     android:text="₫0"
+                    android:textColor="#FF0000"
                     android:textSize="16sp"
-                    android:textColor="#FF0000" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- Thời gian nhận hàng và biểu tượng -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -184,8 +183,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Đảm bảo nhận hàng vào hôm nay"
-                    android:textSize="14sp"
-                    android:textColor="#00BFA5" />
+                    android:textColor="#00BFA5"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- Chi tiết vận chuyển -->
@@ -195,8 +194,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Nhận Voucher trị giá ₫15.000 nếu đơn hàng được giao đến bạn sau ngày 13 Tháng 11 2024."
-                android:textSize="14sp"
-                android:textColor="#555" />
+                android:textColor="#555"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <!-- RadioButton để chọn phương thức -->
@@ -211,52 +210,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:alpha="0.5"
+        android:background="@android:color/white"
         android:orientation="vertical"
-        android:background="@android:color/white">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvBulkyShipping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hàng Cồng Kềnh"
-            android:textSize="16sp"
-            android:textColor="#777" />
+            android:textColor="#777"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvBulkyShippingNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dưới giới hạn kích thước tối thiểu"
-            android:textSize="14sp"
-            android:textColor="#777" />
+            android:textColor="#777"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- Phương thức Tiết kiệm -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical"
         android:alpha="0.5"
-        android:background="#FAFAFA">
+        android:background="#FAFAFA"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvEconomyShipping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tiết kiệm"
-            android:textSize="16sp"
-            android:textColor="#777" />
+            android:textColor="#777"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvEconomyShippingNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Không hỗ trợ"
-            android:textSize="14sp"
-            android:textColor="#777" />
+            android:textColor="#777"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- Nút Xác nhận -->
@@ -264,14 +263,14 @@
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Xác nhận"
-        android:gravity="center"
-        android:background="#FF5722"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
-        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:background="#FF5722"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="Xác nhận"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 </LinearLayout>

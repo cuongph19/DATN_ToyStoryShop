@@ -8,15 +8,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +34,7 @@ public class NewArrivals_screen extends AppCompatActivity {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,7 @@ public class NewArrivals_screen extends AppCompatActivity {
 //            imgBack.setImageResource(R.drawable.back_icon_1);
 //        }
         recyclerView = findViewById(R.id.product_list);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("New Arrivals"); // Đặt tiêu đề là "Blind Box"
 
@@ -71,7 +76,6 @@ public class NewArrivals_screen extends AppCompatActivity {
                 Toast.makeText(NewArrivals_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
         // Xử lý nút back

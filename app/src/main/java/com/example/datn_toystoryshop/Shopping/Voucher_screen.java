@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     private double totalProductDiscount;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +47,13 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         setContentView(R.layout.activity_voucher_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
         recyclerViewShip = findViewById(R.id.voucher_recycler_view_ship);
         recyclerViewProduct = findViewById(R.id.voucher_recycler_view_product);
         seeMoreTextViewShip = findViewById(R.id.show_more_ship);
         seeMoreTextViewProduct = findViewById(R.id.show_more_product);
         selectedVoucherCountTextView = findViewById(R.id.countVoucher);
         btnApplyVoucher = findViewById(R.id.confirm_button);
+        imgBack = findViewById(R.id.imgBack);
 
         recyclerViewShip.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +63,12 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
 
         recyclerViewShip.setAdapter(adapterShip);
         recyclerViewProduct.setAdapter(adapterProduct);
-
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
+        imgBack.setOnClickListener(v -> onBackPressed());
         Intent intent1 = getIntent();
         totalShipDiscount = intent1.getDoubleExtra("totalShipDiscount", 0);
         totalProductDiscount = intent1.getDoubleExtra("totalProductDiscount", 0);

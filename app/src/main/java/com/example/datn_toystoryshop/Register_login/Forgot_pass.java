@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Forgot_pass extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private ImageView btnBack;
+    private ImageView imgBack;
     private EditText edmail;
     private TextView btnsenemail;
     private String verificationId;
@@ -38,19 +38,12 @@ public class Forgot_pass extends AppCompatActivity {
 
         btnsenemail = findViewById(R.id.btnsenemail);
         edmail = findViewById(R.id.edmail);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // Xử lý sự kiện cho nút quay lại
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý sự kiện cho nút gửi email hoặc OTP
         btnsenemail.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +101,7 @@ public class Forgot_pass extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // Lỗi khi truy vấn Firestore
-                 //   Toast.makeText(Forgot_pass.this, getString(R.string.Toast_firestore_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(Forgot_pass.this, getString(R.string.Toast_firestore_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -149,7 +142,7 @@ public class Forgot_pass extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(Forgot_pass.this, getString(R.string.Toast_wrong_sdt) , Toast.LENGTH_LONG).show();
+            Toast.makeText(Forgot_pass.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Forgot_pass.this, SignIn_screen.class);
             startActivity(intent);
         }
@@ -167,6 +160,7 @@ public class Forgot_pass extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
     // Kiểm tra định dạng email
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();

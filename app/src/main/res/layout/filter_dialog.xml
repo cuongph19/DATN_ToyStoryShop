@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#F2DCE1"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Giá"
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <SeekBar
         android:id="@+id/seekBar_price_max"
@@ -23,34 +22,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_min_price"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
             android:hint="Từ"
-            android:layout_height="wrap_content" />
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/et_max_price"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
             android:hint="Đến"
-            android:layout_height="wrap_content" />
+            android:inputType="number" />
     </LinearLayout>
 
     <!-- Thương hiệu -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Thương hiệu"
-        android:textSize="18sp"
         android:textColor="@android:color/black"
-        android:layout_marginTop="16dp" />
+        android:textSize="18sp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -66,64 +65,66 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/checkbox_brand_1"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="BANPRESTO"
-                    android:layout_height="wrap_content"/>
+                    android:text="BANPRESTO" />
 
                 <TextView
                     android:id="@+id/tv_count_brand_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:paddingStart="8dp"
+                    android:text="0"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/checkbox_brand_2"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="POP MART"
-                    android:layout_height="wrap_content"/>
+                    android:text="POP MART" />
 
                 <TextView
                     android:id="@+id/tv_count_brand_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:paddingStart="8dp"
+                    android:text="0"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/checkbox_brand_3"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="FUNISM"
-                    android:layout_height="wrap_content" />
+                    android:text="FUNISM" />
 
                 <TextView
                     android:id="@+id/tv_count_brand_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:paddingStart="8dp"
+                    android:text="0"
                     android:textColor="@android:color/black" />
             </LinearLayout>
         </LinearLayout>

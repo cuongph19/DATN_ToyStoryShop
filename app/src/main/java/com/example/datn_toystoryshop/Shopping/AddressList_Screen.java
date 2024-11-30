@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.datn_toystoryshop.Adapter.AddressAdapter;
 import com.example.datn_toystoryshop.Model.Address;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +35,7 @@ public class AddressList_Screen extends AppCompatActivity {
     LinearLayout linAdd;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -49,15 +53,14 @@ public class AddressList_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_address_list_screen);  // Đảm bảo layout này là layout của bạn
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        imgBack = findViewById(R.id.imgBack);
+        linAdd = findViewById(R.id.bottomAddAddress);
+
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        imgBack = findViewById(R.id.imgBack);
-        linAdd = findViewById(R.id.bottomAddAddress);
-
-
         // Khởi tạo RecyclerView
         recyclerViewAddress = findViewById(R.id.recyclerViewAddress);
 

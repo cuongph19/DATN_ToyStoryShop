@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:elevation="4dp"
     app:cardCornerRadius="8dp"
-    style="@style/SCREEN"
     app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#F2DCE1"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <!-- Product Image -->
@@ -30,11 +30,11 @@
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
             android:text="Tên sản phẩm"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:paddingTop="8dp"/>
+            android:textStyle="bold" />
 
         <!-- Product SKU -->
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="SKU: 1234567890"
             android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <!-- Product Price and Status -->
         <LinearLayout
@@ -56,21 +56,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="start"
                 android:text="100.000đ"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:gravity="start" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/product_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hàng sắp về"
                 android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="Hàng sắp về"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="14sp"
-                android:gravity="end" />
+                android:textSize="14sp" />
         </LinearLayout>
 
 

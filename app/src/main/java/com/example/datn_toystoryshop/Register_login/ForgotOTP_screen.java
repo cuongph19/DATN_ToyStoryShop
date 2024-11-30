@@ -31,7 +31,8 @@ public class ForgotOTP_screen extends AppCompatActivity {
     private String phoneNumber, password, verificationId;
     private TextView verifyButton;
     private FirebaseAuth mAuth;
-    private ImageView btnBack;
+    private ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class ForgotOTP_screen extends AppCompatActivity {
         otp4 = findViewById(R.id.otpEditText4);
         otp5 = findViewById(R.id.otpEditText5);
         otp6 = findViewById(R.id.otpEditText6);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         verifyButton = findViewById(R.id.verifyButton);
 
         // Khởi tạo Firebase Auth
@@ -62,11 +63,7 @@ public class ForgotOTP_screen extends AppCompatActivity {
         setOtpMoveListener(otp5, otp6);
 
         // Xử lý khi nhấn nút "Quay lại"
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(ForgotOTP_screen.this, SignIn_screen.class);
-            startActivity(intent);
-            finish();
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý khi nhấn nút "Xác minh"
         verifyButton.setOnClickListener(v -> {

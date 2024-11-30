@@ -56,14 +56,15 @@ public class Cart_screen extends AppCompatActivity {
     private String selectedColor;
     private RecyclerView recyclerViewCart;
     private Cart_Adapter cartAdapter;
-    private CheckBox checkBoxSelectAll ;
-    private TextView TotalPayment,btnCheckout,tvDiscount,tvFreeShipping ;
-    private LinearLayout tvVoucher,Lldiscount;
+    private CheckBox checkBoxSelectAll;
+    private TextView TotalPayment, btnCheckout, tvDiscount, tvFreeShipping;
+    private LinearLayout tvVoucher, Lldiscount;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private List<Cart_Model> cartList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +74,13 @@ public class Cart_screen extends AppCompatActivity {
 
         imgBack = findViewById(R.id.imgBackCart);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
-        checkBoxSelectAll  = findViewById(R.id.checkBoxSelectAll);
-        TotalPayment  = findViewById(R.id.tvTotalPayment);
-        btnCheckout  = findViewById(R.id.btnCheckout);
-        tvVoucher  = findViewById(R.id.tvVoucher);
-        tvDiscount  = findViewById(R.id.tvDiscount);
-        Lldiscount  = findViewById(R.id.Lldiscount);
-        tvFreeShipping  = findViewById(R.id.tvFreeShipping);
+        checkBoxSelectAll = findViewById(R.id.checkBoxSelectAll);
+        TotalPayment = findViewById(R.id.tvTotalPayment);
+        btnCheckout = findViewById(R.id.btnCheckout);
+        tvVoucher = findViewById(R.id.tvVoucher);
+        tvDiscount = findViewById(R.id.tvDiscount);
+        Lldiscount = findViewById(R.id.Lldiscount);
+        tvFreeShipping = findViewById(R.id.tvFreeShipping);
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {
@@ -111,7 +112,8 @@ public class Cart_screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-            }});
+            }
+        });
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,10 +156,11 @@ public class Cart_screen extends AppCompatActivity {
                     Intent intent = new Intent(Cart_screen.this, Voucher_screen.class);
                     startActivityForResult(intent, 100);
                     return;
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Vui lòng chọn sản phẩm", Toast.LENGTH_SHORT).show();
                 }
-            }});
+            }
+        });
 
         // Initialize product list and add sample products
         productList = new ArrayList<>();
@@ -225,10 +228,12 @@ public class Cart_screen extends AppCompatActivity {
             }
         }
     }
+
     public void updateTotalPayment(double total) {
         TotalPayment.setText(String.format("Tổng thanh toán: %,.0f VND", total));
         updateCheckoutButton();
     }
+
     public void loadCartProducts() {
         String cusId = documentId;
 
@@ -263,6 +268,7 @@ public class Cart_screen extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cartAdapter.getItemTouchHelper());
         itemTouchHelper.attachToRecyclerView(recyclerViewCart);
     }
+
     private void updateCheckoutButton() {
 
         int selectedCount = cartAdapter.countSelectedItems();

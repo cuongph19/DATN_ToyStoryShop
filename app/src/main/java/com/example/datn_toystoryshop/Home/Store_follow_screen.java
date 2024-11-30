@@ -7,14 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
 
 public class Store_follow_screen extends AppCompatActivity {
     private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
-    private ImageView ivBack;
+    private ImageView imgBack;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,23 +25,17 @@ public class Store_follow_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
-
-        ivBack = findViewById(R.id.ivBack);
+        imgBack = findViewById(R.id.ivBack);
         btn_follow_store_1 = findViewById(R.id.btn_follow_store_1);
         btn_follow_store_2 = findViewById(R.id.btn_follow_store_2);
         btn_follow_store_3 = findViewById(R.id.btn_follow_store_3);
         btn_follow_store_4 = findViewById(R.id.btn_follow_store_4);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed(); // Gọi phương thức quay lại activity trước đó
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
 
         btn_follow_store_1.setOnClickListener(new View.OnClickListener() {
             @Override
