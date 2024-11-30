@@ -10,6 +10,22 @@ const OrderSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    name_order: {
+        type: String,
+        maxlength: 255
+    },
+    phone_order: {
+        type: String,
+        maxlength: 255
+    },
+    address_order: {
+        type: String,
+        maxlength: 255
+    },
+    payment_method: {
+        type: String,
+        maxlength: 255
+    },
     prodDetails: [{
         prodId: {
             type: mongoose.Schema.Types.ObjectId, // Dùng ObjectId để liên kết đến sản phẩm

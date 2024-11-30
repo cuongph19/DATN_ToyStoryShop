@@ -118,32 +118,59 @@
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardPaymentMethod">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F2DCE1"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvOrderAddress"
+                android:id="@+id/tvAddressLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:text="@string/address"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:drawablePadding="8dp"
+                android:paddingStart="8dp"
+                android:text="@string/address_rev"
+                android:textColor="#FF6E40"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvOrderAddressContent"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/address_name"
+                    style="@style/TEXT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="8dp"
+                    android:text="Trần Cương"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/address_phone"
+                    style="@style/TEXT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="(+84) 382 200 084"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Địa chỉ chi tiết -->
+            <TextView
+                android:id="@+id/address_detail"
+                style="@style/TEXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:padding="8dp"
+                android:text="Số Nhà 3, Ngách 21/1 Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội"
+                android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -158,12 +185,34 @@
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardOrderAddress">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProductList"
-            android:background="#F2DCE1"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            android:orientation="vertical"
+            android:background="#F2DCE1"
+            android:padding="10dp">
+
+            <!-- RecyclerView for Product List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProductList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:background="#F2DCE1" />
+
+            <!-- TextView for Total Price -->
+            <TextView
+                android:id="@+id/tvTotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="end"
+                android:text="Tổng số tiền: ₫3.174.500"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -267,17 +316,4 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-
-    <!-- Button to rate product -->
-    <Button
-        android:id="@+id/btnRateProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#FF5733"
-        android:padding="12dp"
-        android:text="@string/feedback_order_his"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

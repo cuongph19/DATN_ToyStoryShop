@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Adapter.OrderHist_Detail_Adapter;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -20,20 +22,22 @@ import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderHist_Detail extends AppCompatActivity {
-    private TextView tvProductName, tvOrderStatus, tvOrderRevenue;
-    private ImageView ivProductImage, imgBack;
+    private TextView tvTotalPrice, tvOrderStatus, tvPaymentMethod, address_name, address_phone, address_detail;
+    private ImageView imgBack;
     private LinearLayout ivContactShop, ivSupportCenter;
     private APIService apiService;
-    private Button btnRateProduct;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private RecyclerView rvProductList;
-
+    private OrderHist_Detail_Adapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,34 +52,27 @@ public class OrderHist_Detail extends AppCompatActivity {
         Log.e("OrderHistoryAdapter", "j66666666666666666gggg " + orderId);
         loadOrderDetails(orderId);
 
-//        tvProductName = findViewById(R.id.tvProductName);
-//        tvOrderStatus = findViewById(R.id.tvOrderStatus);
-//        tvOrderRevenue = findViewById(R.id.tvProductPrice);
-////        tvOrderContent = findViewById(R.id.tvProductContent);
-//        ivProductImage = findViewById(R.id.tvProductImage);
+        tvOrderStatus = findViewById(R.id.tvOrderStatus);
+        tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        tvPaymentMethod = findViewById(R.id.tvPaymentMethod);
+        address_name = findViewById(R.id.address_name);
+        address_phone = findViewById(R.id.address_phone);
+        address_detail = findViewById(R.id.address_detail);
         ivContactShop = findViewById(R.id.ivContactShop);
         rvProductList = findViewById(R.id.rvProductList);
         ivSupportCenter = findViewById(R.id.ivSupportCenter);
         imgBack = findViewById(R.id.btnBack);
-        btnRateProduct = findViewById(R.id.btnRateProduct);
+
+
+        rvProductList.setLayoutManager(new LinearLayoutManager(this));
 
         imgBack.setOnClickListener(v -> onBackPressed());
-        tvOrderStatus.setText(orderId);
-//        tvOrderRevenue.setText(String.format("%,.0fĐ", orderRevenue));
-////        tvOrderContent.setText(orderContent);
-//        loadProductDetails(prodId);
         ivSupportCenter.setOnClickListener(v -> {
             Intent intent1 = new Intent(OrderHist_Detail.this, Chat_contact.class);
             startActivity(intent1);
             finish();
         });
         ivContactShop.setOnClickListener(v -> {
-            Intent intent1 = new Intent(OrderHist_Detail.this, ContactSupport_screen.class);
-            startActivity(intent1);
-            finish();
-        });
-        btnRateProduct.setOnClickListener(v -> {
-            /// đánh giá chưa làm
             Intent intent1 = new Intent(OrderHist_Detail.this, ContactSupport_screen.class);
             startActivity(intent1);
             finish();
@@ -93,53 +90,35 @@ public class OrderHist_Detail extends AppCompatActivity {
         apiService.getOrderById(orderId).enqueue(new Callback<Order_Model>() {
             @Override
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
-
-
-                ///// chưa sửa đợi dữ liệu mới
                 if (response.isSuccessful() && response.body() != null) {
-//                    Order_Model product = response.body();
-//
-//                    // Hiển thị tên sản phẩm
-//                    tvProductName.setText(product.getNamePro());
-//
-//                    // Hiển thị ảnh sản phẩm (dùng Glide để tải ảnh)
-//                    if (product.getImgPro() != null && !product.getImgPro().isEmpty()) {
-//                        Glide.with(OrderHist_Detail.this)
-//                                .load(product.getImgPro().get(0))  // Chọn ảnh đầu tiên trong danh sách ảnh
-//                                .into(ivProductImage);
-//                    }
+                    Order_Model orderModel = response.body();
+
+                    // Cập nhật thông tin đơn hàng
+                    tvOrderStatus.setText(orderModel.getOrderStatus());
+                    tvPaymentMethod.setText(orderModel.getPayment_method());
+                    address_name.setText(orderModel.getName_order());
+                    address_phone.setText(orderModel.getPhone_order());
+                    address_detail.setText(orderModel.getAddress_order());
+
+                    int revenueAll = orderModel.getRevenue_all();
+                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    String formattedRevenue = currencyFormat.format(revenueAll);
+                    tvTotalPrice.setText("Tổng số tiền: " + formattedRevenue);
+
+                    if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
+                        APIService apiService = RetrofitClient.getAPIService();
+                        adapter = new OrderHist_Detail_Adapter(OrderHist_Detail.this, orderModel.getProdDetails(),apiService);
+                        rvProductList.setAdapter(adapter);
+                    } else {
+                        Log.e("OrderHist_Detail", "Danh sách sản phẩm rỗng hoặc null");
+                    }
+                } else {
+                    Log.e("OrderHist_Detail", "Response thất bại hoặc body null");
                 }
             }
 
             @Override
             public void onFailure(Call<Order_Model> call, Throwable t) {
-                // Xử lý khi gọi API thất bại
-            }
-        });
-    }
-
-    private void loadProductDetails(String prodId) {
-        // Gọi API để lấy thông tin sản phẩm
-        apiService.getProductById(prodId).enqueue(new Callback<Product_Model>() {
-            @Override
-            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Product_Model product = response.body();
-
-                    // Hiển thị tên sản phẩm
-                    tvProductName.setText(product.getNamePro());
-
-                    // Hiển thị ảnh sản phẩm (dùng Glide để tải ảnh)
-                    if (product.getImgPro() != null && !product.getImgPro().isEmpty()) {
-                        Glide.with(OrderHist_Detail.this)
-                                .load(product.getImgPro().get(0))  // Chọn ảnh đầu tiên trong danh sách ảnh
-                                .into(ivProductImage);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product_Model> call, Throwable t) {
                 // Xử lý khi gọi API thất bại
             }
         });
