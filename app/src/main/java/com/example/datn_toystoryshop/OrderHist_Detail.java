@@ -25,11 +25,12 @@ import retrofit2.Response;
 public class OrderHist_Detail extends AppCompatActivity {
     private TextView tvProductName, tvOrderStatus, tvOrderRevenue;
     private ImageView ivProductImage, imgBack;
-    private LinearLayout ivContactShop,ivSupportCenter;
+    private LinearLayout ivContactShop, ivSupportCenter;
     private APIService apiService;
     private Button btnRateProduct;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,6 @@ public class OrderHist_Detail extends AppCompatActivity {
         Log.e("OrderHistoryAdapter", "j66666666666666666" + orderContent);
 
 
-
         tvProductName = findViewById(R.id.tvProductName);
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
         tvOrderRevenue = findViewById(R.id.tvProductPrice);
@@ -61,6 +61,7 @@ public class OrderHist_Detail extends AppCompatActivity {
         imgBack = findViewById(R.id.btnBack);
         btnRateProduct = findViewById(R.id.btnRateProduct);
 
+        imgBack.setOnClickListener(v -> onBackPressed());
         tvOrderStatus.setText(orderStatus);
         tvOrderRevenue.setText(String.format("%,.0fĐ", orderRevenue));
 //        tvOrderContent.setText(orderContent);

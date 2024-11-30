@@ -50,6 +50,7 @@ public class History_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     public History_Fragment() {
         // Required empty public constructor
     }
@@ -119,9 +120,9 @@ public class History_Fragment extends Fragment {
         });
 
 
-
         return view;
     }
+
     private void replaceFragment(Fragment fragment) {
         if (documentId != null) {
             Bundle bundle = new Bundle();
@@ -136,6 +137,7 @@ public class History_Fragment extends Fragment {
         fragmentTransaction.addToBackStack(null); // Nếu muốn cho phép quay lại Fragment trước
         fragmentTransaction.commit();
     }
+
     private void highlightTextView(TextView textView) {
         if (currentSelectedTextView != null) {
             // Reset màu và kích thước của TextView trước đó

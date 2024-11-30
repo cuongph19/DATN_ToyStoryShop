@@ -23,6 +23,7 @@ public class ArtStory_detail extends AppCompatActivity {
     private TextView captionView1, captionView2, captionView3;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

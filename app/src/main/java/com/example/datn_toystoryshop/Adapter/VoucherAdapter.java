@@ -41,7 +41,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
 
         Voucher voucher = voucherList.get(index);
 
-        holder.voucherPrice.setText("đ" + voucher.getPriceReduced()/1000 + "k");
+        holder.voucherPrice.setText("đ" + voucher.getPriceReduced() / 1000 + "k");
         holder.minimumPrice.setText("Đơn tối thiểu 0đ");
         holder.voucherDescription.setText("Giảm tối đa");
 

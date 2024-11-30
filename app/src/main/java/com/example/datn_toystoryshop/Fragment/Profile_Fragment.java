@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class Profile_Fragment extends Fragment {
 
-    private TextView tvSettings, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation,tvPrivacySecurity, tvContactSupport, tvStore;
+    private TextView tvSettings, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation, tvPrivacySecurity, tvContactSupport, tvStore;
     private ImageView ivAvatar;
     private FirebaseFirestore db;
     private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
@@ -47,6 +49,7 @@ public class Profile_Fragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,8 +82,8 @@ public class Profile_Fragment extends Fragment {
             documentId = bundle.getString("documentId");
 
             Log.e("OrderHistoryAdapter", "j66666666666666666Profile_Fragment" + documentId);
-             if (documentId != null && !documentId.isEmpty()) {
-                 loadUserDataByDocumentId(documentId);
+            if (documentId != null && !documentId.isEmpty()) {
+                loadUserDataByDocumentId(documentId);
             }
         }
 
@@ -105,9 +108,9 @@ public class Profile_Fragment extends Fragment {
             startActivity(intent);
         });
         tvContactSupport.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), ContactSupport_screen.class);
-                intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
-                startActivity(intent);
+            Intent intent = new Intent(getActivity(), ContactSupport_screen.class);
+            intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
+            startActivity(intent);
         });
 
         // Xử lý sự kiện cho mục "Giới thiệu bạn bè"
@@ -167,6 +170,7 @@ public class Profile_Fragment extends Fragment {
         return view;
 
     }
+
     private void loadUserDataByDocumentId(String documentId) {
         DocumentReference docRef = db.collection("users").document(documentId);
 

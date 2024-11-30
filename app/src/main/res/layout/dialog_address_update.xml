@@ -1,71 +1,69 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2DCE1"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F2DCE1">
+    android:padding="16dp">
 
     <!-- Nút quay lại -->
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/back_icon_1"
         android:contentDescription="Back"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:src="@drawable/back_icon_1" />
 
     <!-- Tiêu đề -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thay đổi địa chỉ"
-        android:textSize="24sp"
-        android:textColor="#001A61"
         android:gravity="center"
-        android:paddingVertical="16dp" />
+        android:paddingVertical="16dp"
+        android:text="Thay đổi địa chỉ"
+        android:textColor="#001A61"
+        android:textSize="24sp" />
 
     <!-- Tên người nhận -->
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#001A61"
         android:hint="Họ và tên"
         android:inputType="textPersonName"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        android:padding="12dp" />
 
     <!-- Số điện thoại -->
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#001A61"
         android:hint="Số điện thoại"
         android:inputType="phone"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        android:padding="12dp" />
 
     <!-- Địa chỉ -->
     <EditText
         android:id="@+id/etAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#001A61"
         android:hint="Địa chỉ"
         android:inputType="textPostalAddress"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
+        android:padding="12dp" />
 
     <!-- Chi tiết địa chỉ -->
     <EditText
         android:id="@+id/etAddressDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#001A61"
         android:hint="Chi tiết địa chỉ"
         android:inputType="text"
-        android:padding="12dp"
-        android:backgroundTint="#001A61" />
-
+        android:padding="12dp" />
 
 
     <!-- Nút lưu -->
@@ -73,10 +71,10 @@
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#001A61"
         android:paddingVertical="16dp"
-        android:layout_marginTop="24dp" />
+        android:text="Lưu"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

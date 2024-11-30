@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/SCREEN">
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/history_purchase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <!-- "Đơn mua" -->
         <TextView
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Đơn mua"
-            android:textSize="16sp"
-            style="@style/TEXT"
-            android:layout_weight="1" />
+            android:textSize="16sp" />
 
         <!-- "Xem lịch sử mua hàng" -->
         <LinearLayout
@@ -30,39 +30,40 @@
             android:orientation="horizontal">
 
             <TextView
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Xem lịch sử mua hàng"
-                android:textSize="16sp"
-                style="@style/TEXT" />
+                android:textSize="16sp" />
 
             <!-- Mũi tên -->
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow"
+                android:layout_marginStart="4dp"
                 android:alpha="0.5"
-                android:layout_marginStart="4dp" />
+                android:src="@drawable/ic_arrow" />
         </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_below="@id/addressLayout"
-        android:scaleType="centerCrop"
-        app:tint="#CACACA"
         android:alpha="0.2"
+        android:contentDescription="Separator"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_bgc"
-        android:contentDescription="Separator"/>
+        app:tint="#CACACA" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="5dp"
-        android:weightSum="4"
-        android:gravity="center_vertical">
+        android:weightSum="4">
 
         <!-- Icon 1 -->
         <LinearLayout
@@ -70,42 +71,44 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <FrameLayout
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_wallet" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_wallet" />
+
                 <TextView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:visibility="gone"
+                    android:layout_gravity="end|top"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginEnd="-4dp"
                     android:background="@drawable/circle_background_1"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"
-                android:gravity="center"
-                android:layout_gravity="end|top"
-                android:layout_marginEnd="-4dp"
-                android:layout_marginTop="-4dp" />
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/confirmText"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Chờ xác nhận"
-                android:textSize="10sp"
-                style="@style/TEXT"
-                android:gravity="center" />
+                android:textSize="10sp" />
 
 
         </LinearLayout>
@@ -116,42 +119,44 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal" android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <FrameLayout
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_box" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_box" />
 
                 <TextView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:background="@drawable/circle_background_1"
-                    android:visibility="gone"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"
                     android:layout_gravity="end|top"
+                    android:layout_marginTop="-4dp"
                     android:layout_marginEnd="-4dp"
-                    android:layout_marginTop="-4dp" />
+                    android:background="@drawable/circle_background_1"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/getGoodsText"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Chờ lấy hàng"
-                android:textSize="10sp"
-                style="@style/TEXT"
-                android:gravity="center" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <!-- Icon 3 -->
@@ -160,22 +165,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <FrameLayout
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_transport" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_transport" />
 
                 <TextView
                     android:layout_width="18dp"
@@ -185,20 +191,20 @@
                     android:layout_marginEnd="-4dp"
                     android:background="@drawable/circle_background_1"
                     android:gravity="center"
-                    android:visibility="gone"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </FrameLayout>
 
 
             <TextView
                 android:id="@+id/deliveryText"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Chờ giao hàng"
-                android:textSize="10sp"
-                style="@style/TEXT"
-                android:gravity="center" />
+                android:textSize="10sp" />
 
 
         </LinearLayout>
@@ -209,44 +215,45 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <FrameLayout
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_star" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_star" />
 
                 <TextView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:background="@drawable/circle_background_1"
-                    android:visibility="gone"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"
                     android:layout_gravity="end|top"
+                    android:layout_marginTop="-4dp"
                     android:layout_marginEnd="-4dp"
-                    android:layout_marginTop="-4dp" />
+                    android:background="@drawable/circle_background_1"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/evaluateText"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Đánh giá"
-                android:textSize="10sp"
-                style="@style/TEXT"
-                android:gravity="center" />
+                android:textSize="10sp" />
         </LinearLayout>
 
     </LinearLayout>

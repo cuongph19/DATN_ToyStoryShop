@@ -7,14 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
+
 import java.util.Random;
 
 public class Introduce_Friends_screen extends AppCompatActivity {
 
     private String[] referralCodes = {"TOYSTORY123", "TOYSTORY456", "TOYSTORY789", "TOYSTORY101"};
-    private ImageView btnBack;
+    private ImageView imgBack;
     private TextView tvReferralCode;
     private Button btnShare;
     private SharedPreferences sharedPreferences;
@@ -28,7 +31,7 @@ public class Introduce_Friends_screen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         tvReferralCode = findViewById(R.id.tvReferralCode);
         btnShare = findViewById(R.id.btnShare);
 
@@ -43,16 +46,11 @@ public class Introduce_Friends_screen extends AppCompatActivity {
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
         if (nightMode) {
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
     }
 

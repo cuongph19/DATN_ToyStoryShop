@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/SCREEN"
     android:layout_width="match_parent"
@@ -15,26 +14,26 @@
         android:paddingTop="16dp">
 
         <TextView
+            style="@style/TEXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Giao dịch"
             android:textSize="15sp"
-            style="@style/TEXT"
             android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/spinnerMonth"
+            style="@style/TEXT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/TEXT"
             android:layout_weight="5" />
 
         <Spinner
             android:id="@+id/spinnerYear"
+            style="@style/TEXT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/TEXT"
             android:layout_weight="4" />
 
     </LinearLayout>

@@ -35,6 +35,7 @@ public class ShippingUnit_screen extends AppCompatActivity {
     private double totalShipDiscount;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     private String getFormattedDate(int daysToAdd, String format) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
@@ -99,11 +100,6 @@ public class ShippingUnit_screen extends AppCompatActivity {
         setContentView(R.layout.activity_shipping_unit_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        if (nightMode) {
-            imgBack.setImageResource(R.drawable.back_icon);
-        } else {
-            imgBack.setImageResource(R.drawable.back_icon_1);
-        }
         imgBack = findViewById(R.id.imgBack);
         tvFastShipping = findViewById(R.id.tvFastShipping);
         tvExpressShipping = findViewById(R.id.tvExpressShipping);
@@ -118,6 +114,12 @@ public class ShippingUnit_screen extends AppCompatActivity {
         radiofast = findViewById(R.id.radiofast);
         LLexpress = findViewById(R.id.LLexpress);
         LLfast = findViewById(R.id.LLfast);
+
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
 
         // Đặt ngày giao hàng dự kiến
         String FastDate = getFormattedDate(7, "'ngày' dd 'tháng' MM 'năm' yyyy");

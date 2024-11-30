@@ -2,7 +2,6 @@ package com.example.datn_toystoryshop.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
-    //    private Context context;
     private OnAddressUpdatedListener listener;
     private List<Address> addressList;
     private int selectedPosition = -1;
@@ -39,6 +37,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     public void setOnAddressUpdatedListener(OnAddressUpdatedListener listener) {
         this.listener = listener;
     }
+
     public AddressAdapter(List<Address> addressList) {
         this.addressList = (addressList != null) ? addressList : new ArrayList<>();
         for (int i = 0; i < addressList.size(); i++) {
@@ -81,7 +80,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             showEditDialog(holder.itemView.getContext(), address);
             return true;
         });
-
 
 
     }
@@ -245,7 +243,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     public interface OnAddressUpdatedListener {
         void onAddressUpdated();  // Hàm callback này sẽ được gọi khi địa chỉ được cập nhật
     }
-
 
 
 }

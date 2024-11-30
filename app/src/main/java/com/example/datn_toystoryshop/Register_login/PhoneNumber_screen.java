@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Register_login;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,7 +28,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
     private Spinner spinnerCountryCode;
     private TextView btnNext;
     private FirebaseAuth mAuth;
-    private ImageView btnBack;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
         edPhoneNumber = findViewById(R.id.edtPhoneNumber);
         spinnerCountryCode = findViewById(R.id.spinnerCountryCode);
         btnNext = findViewById(R.id.btnNext);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
 
         // Khởi tạo FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -48,14 +49,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
         password = getIntent().getStringExtra("password");
 
         // Xử lý sự kiện nút quay lại
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PhoneNumber_screen.this, SignIn_screen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý sự kiện nút "Next"
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +71,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
     }
 
 
-     //Gửi mã OTP tới số điện thoại đã nhập
+    //Gửi mã OTP tới số điện thoại đã nhập
     private void sendVerificationCode(String phoneNumber) {
         String countryCode = spinnerCountryCode.getSelectedItem().toString();
 
@@ -106,7 +100,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
     }
 
 
-     // Callback xử lý kết quả gửi mã OTP
+    // Callback xử lý kết quả gửi mã OTP
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
             new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 

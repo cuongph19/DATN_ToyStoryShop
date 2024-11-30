@@ -31,6 +31,8 @@ public class Popular_screen extends AppCompatActivity {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +41,15 @@ public class Popular_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
         // Khởi tạo RecyclerView
         recyclerViewPopular = findViewById(R.id.recyPopuPro);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
-        ImageView imgBack = findViewById(R.id.ivBack);
-
+        imgBack = findViewById(R.id.ivBack);
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j8888888888888888Popular_screen" + documentId);
@@ -68,11 +69,6 @@ public class Popular_screen extends AppCompatActivity {
                 outRect.bottom = 16;
             }
         });
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Popular_screen.this, Home_screen.class));
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
     }
 }

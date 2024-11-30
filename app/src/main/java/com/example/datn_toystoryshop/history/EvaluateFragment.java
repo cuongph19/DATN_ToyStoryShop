@@ -2,6 +2,7 @@ package com.example.datn_toystoryshop.history;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,7 +63,7 @@ public class EvaluateFragment extends Fragment {
         setUpSpinners();
 
         // Khởi tạo RecyclerView và Adapter cho feedback
-        feedbackAdapter = new FeedbackAdapter(getContext(), orderList,apiService, documentId);
+        feedbackAdapter = new FeedbackAdapter(getContext(), orderList, apiService, documentId);
         recyclerView.setAdapter(feedbackAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Gọi API để lấy feedback
@@ -76,7 +77,8 @@ public class EvaluateFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -86,7 +88,8 @@ public class EvaluateFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         return view;
@@ -137,10 +140,6 @@ public class EvaluateFragment extends Fragment {
             }
         });
     }
-
-
-
-
 
 
     // Hàm lọc đơn hàng theo tháng và năm

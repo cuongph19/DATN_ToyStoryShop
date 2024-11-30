@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#172A5C"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#172A5C">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/btnBack"
@@ -20,36 +19,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/phoneVerificationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="@string/send_sdt"
-            android:textSize="24sp"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="20dp" />
+            android:textSize="24sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:layout_marginBottom="20dp">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/otpEditText1"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <EditText
@@ -57,11 +56,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <EditText
@@ -69,11 +68,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <EditText
@@ -81,11 +80,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <EditText
@@ -93,11 +92,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <EditText
@@ -105,11 +104,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
                 android:background="@drawable/otp_box"
-                android:textColor="#FFFFFF"
+                android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -117,22 +116,22 @@
             android:id="@+id/resendText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
             android:text="@string/no_otp"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:layout_marginBottom="20dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/verifyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/otp_verify"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:textColor="#13B48B"
-            android:padding="20dp"
-            android:gravity="center"
             android:background="@drawable/rounded_border"
-            android:layout_gravity="center" />
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/otp_verify"
+            android:textColor="#13B48B" />
     </LinearLayout>
 </LinearLayout>

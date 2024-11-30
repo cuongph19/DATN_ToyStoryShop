@@ -52,6 +52,7 @@ public class Chat_Adapter extends RecyclerView.Adapter<Chat_Adapter.ChatViewHold
         // Đặt nội dung tin nhắn
         holder.textViewMessage.setText(message.getMessage());
     }
+
     @Override
     public int getItemCount() {
         return chatList.size();

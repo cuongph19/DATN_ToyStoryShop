@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.Profile.Setting_screen;
 import com.example.datn_toystoryshop.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +24,7 @@ public class ChangePassword_screen extends AppCompatActivity {
 
     private EditText etpass;
     private Button btnSave;
-    private String documentId, phone, name, email,password;
+    private String documentId, phone, name, email, password;
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;

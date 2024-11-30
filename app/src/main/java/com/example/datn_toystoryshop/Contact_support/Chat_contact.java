@@ -46,6 +46,7 @@ public class Chat_contact extends AppCompatActivity {
     private String documentId;// ID của khách hàng
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +72,7 @@ public class Chat_contact extends AppCompatActivity {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }});
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Gọi API để lấy lịch sử tin nhắn
         getChatHistory();
         // Tự động hiển thị tin nhắn hỗ trợ sau 2 giây
@@ -99,12 +96,14 @@ public class Chat_contact extends AppCompatActivity {
             }
         });
     }
+
     private void addSupportMessage(String message) {
         ChatMessage_Model supportMessage = new ChatMessage_Model(null, documentId, message, "Văn bản");
         chatMessageList.add(supportMessage);
         chatAdapter.notifyItemInserted(chatMessageList.size() - 1);
         chatRecyclerView.scrollToPosition(chatMessageList.size() - 1);
     }
+
     private void getChatHistory() {
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getChatHistory(documentId, null).enqueue(new Callback<ChatHistoryResponse_Model>() {

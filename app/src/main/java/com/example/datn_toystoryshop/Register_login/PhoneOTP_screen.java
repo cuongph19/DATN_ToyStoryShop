@@ -9,12 +9,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_toystoryshop.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +26,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
     private EditText otp1, otp2, otp3, otp4, otp5, otp6;
     private String name, email, phoneNumber, password;
     private TextView verifyButton;
-    private ImageView btnBack;
+    private ImageView imgBack;
     private String verificationId;
     private FirebaseAuth mAuth;
 
@@ -40,7 +43,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
         otp5 = findViewById(R.id.otpEditText5);
         otp6 = findViewById(R.id.otpEditText6);
         verifyButton = findViewById(R.id.verifyButton);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
 
         // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -56,12 +59,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
         setupOtpNavigation();
 
         // Xử lý nút "Quay lại"
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(PhoneOTP_screen.this, SignIn_screen.class);
-            startActivity(intent);
-            finish(); // Kết thúc Activity hiện tại
-        });
-
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Xử lý khi nhấn nút "Xác minh"
         verifyButton.setOnClickListener(v -> verifyOtp());
     }

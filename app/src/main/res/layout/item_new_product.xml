@@ -1,24 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/SCREEN"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
         android:backgroundTint="#F2DCE1"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        app:cardCornerRadius="10dp">
 
         <!-- FrameLayout để chứa hình ảnh ở góc trên bên phải -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--             Hình ảnh ở góc trên bên phải-->
+            <!--             Hình ảnh ở góc trên bên phải-->
             <ImageView
                 android:id="@+id/new_icon"
                 android:layout_width="80dp"
@@ -35,11 +35,11 @@
 
                 <!-- ImageView for product image -->
                 <ImageView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/imgAvatar"
                     android:layout_width="190dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher_background" />
 
@@ -55,9 +55,9 @@
                         android:id="@+id/tvTen"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Tên sản phẩm"
-                        android:maxLines="2"
                         android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Tên sản phẩm"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -76,20 +76,20 @@
                         android:id="@+id/tvGia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
                         android:text="Giá: 100000 VND"
                         android:textColor="#FF5722"
-                        android:textSize="16sp"
-                        android:paddingTop="4dp" />
+                        android:textSize="16sp" />
 
                     <!-- Product Status -->
                     <TextView
                         android:id="@+id/tvStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
                         android:text="Còn hàng"
                         android:textColor="#4CAF50"
-                        android:textSize="14sp"
-                        android:paddingTop="4dp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>

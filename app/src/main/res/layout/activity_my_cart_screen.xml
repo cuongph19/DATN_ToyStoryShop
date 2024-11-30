@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -80,29 +79,29 @@
 
             <TextView
                 android:id="@+id/tvFreeShipping"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/choose_code"
-                style="@style/TEXT" />
+                android:text="@string/choose_code" />
 
         </LinearLayout>
 
 
         <!-- Chọn tất cả, tổng thanh toán, và nút mua hàng -->
         <LinearLayout
+            style="@style/SCREEN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            style="@style/SCREEN"
             android:paddingTop="8dp">
 
             <CheckBox
                 android:id="@+id/checkBoxSelectAll"
+                style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TEXT"
                 android:text="@string/all" />
 
             <LinearLayout

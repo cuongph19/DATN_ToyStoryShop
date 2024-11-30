@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,7 +177,6 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
     }
 
 
-
     // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
         productModelList.clear();
@@ -189,8 +191,6 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
         }
         notifyDataSetChanged();
     }
-
-
 
 
     private String removeDiacritics(String input) {

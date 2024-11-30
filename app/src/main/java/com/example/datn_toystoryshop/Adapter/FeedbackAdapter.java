@@ -37,10 +37,11 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
 
     private Context context;
     private List<Product_feedback> productList;
-    private String documentId,textfeedback,OrderId,dateFeed;
+    private String documentId, textfeedback, OrderId, dateFeed;
     private int rating;
     private APIService apiService;
-    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService , String documentId) {
+
+    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService, String documentId) {
         this.context = context;
         this.productList = productList;
         this.documentId = documentId;
@@ -57,7 +58,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
     @Override
     public void onBindViewHolder(@NonNull FeedbackViewHolder holder, int position) {
         Product_feedback product = productList.get(position);
-       // Log.d("FeedbackAdapter", "Feedbacksaaaaaaaaaaaaaaaaaaaaaaaaaa item tại vị trí " + position + ": " + orderModel.getContent());
+        // Log.d("FeedbackAdapter", "Feedbacksaaaaaaaaaaaaaaaaaaaaaaaaaa item tại vị trí " + position + ": " + orderModel.getContent());
 
         // Hiển thị thông tin
         holder.tvProductName.setText(product.getProductInfo().getNamePro());
@@ -71,7 +72,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
 
         OrderId = product.getOrderId();
         dateFeed = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date());
-       // holder.tvFeedback.setText(product.getProdDetails().getProdId()); // Hoặc thông tin khác
+        // holder.tvFeedback.setText(product.getProdDetails().getProdId()); // Hoặc thông tin khác
         // Load hình ảnh nếu có
         if (!product.getProductInfo().getImgPro().isEmpty()) {
             Glide.with(context)
@@ -107,6 +108,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }
+
     private void submitFeedback(FeedbackViewHolder holder) {
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + documentId);
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + OrderId);

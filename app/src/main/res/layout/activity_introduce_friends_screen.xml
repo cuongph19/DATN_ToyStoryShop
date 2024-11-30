@@ -97,11 +97,11 @@
 
     <TextView
         android:id="@+id/tvStep3"
+        style="@style/TEXT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="@string/step_3_int"
-        style="@style/TEXT"
         android:textSize="16sp" />
 
     <!-- Nút chia sẻ -->
@@ -112,6 +112,6 @@
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#001A61"
         android:text="@string/share_button_int"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
 </LinearLayout>

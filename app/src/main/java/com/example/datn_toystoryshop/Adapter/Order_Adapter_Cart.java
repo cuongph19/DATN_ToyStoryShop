@@ -1,4 +1,5 @@
 package com.example.datn_toystoryshop.Adapter;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Order_Adapter_Cart extends RecyclerView.Adapter<Order_Adapter_Cart.ProductViewHolder> {
-private List<String> productIds;
-private APIService apiService;
+    private List<String> productIds;
+    private APIService apiService;
     private boolean showAll = false; // Trạng thái hiển thị
     private double totalAmount = 0; // Tổng tiền
     private OnTotalAmountChangeListener totalAmountChangeListener;
@@ -42,72 +43,73 @@ private APIService apiService;
         this.apiService = apiService;
         this.totalAmountChangeListener = listener;
     }
+
     // Thay đổi trạng thái hiển thị
     public void toggleShowAll() {
         showAll = !showAll;
         notifyDataSetChanged(); // Cập nhật lại giao diện
     }
 
-@NonNull
-@Override
-public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View itemView = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.item_oder, parent, false);
-    return new ProductViewHolder(itemView);
-}
+    @NonNull
+    @Override
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_oder, parent, false);
+        return new ProductViewHolder(itemView);
+    }
 
-@Override
-public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-    String cartId = productIds.get(position);
-    // Gọi API để lấy dữ liệu chi tiết từ MongoDB
-    apiService.getCartById(cartId).enqueue(new Callback<Cart_Model>() {
-        @Override
-        public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
-            if (response.isSuccessful() && response.body() != null) {
-                Cart_Model cartModel = response.body();
+    @Override
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        String cartId = productIds.get(position);
+        // Gọi API để lấy dữ liệu chi tiết từ MongoDB
+        apiService.getCartById(cartId).enqueue(new Callback<Cart_Model>() {
+            @Override
+            public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Cart_Model cartModel = response.body();
 
-                holder.productQuantity.setText("x" + cartModel.getQuantity());
-                holder.productType.setText(cartModel.getProdSpecification());
-                // Gọi phương thức lấy dữ liệu từ MongoDB với prodId
+                    holder.productQuantity.setText("x" + cartModel.getQuantity());
+                    holder.productType.setText(cartModel.getProdSpecification());
+                    // Gọi phương thức lấy dữ liệu từ MongoDB với prodId
 
-                loadProductById(apiService, cartModel.getProdId(), new ProductCallback() {
-                    @Override
-                    public void onSuccess(Product_Model product) {
-                        double itemTotal = product.getPrice() * cartModel.getQuantity();
-                        totalAmount += itemTotal;
-                        productDetails.add(new OderProductDetail_Model(cartModel.getProdId(), itemTotal, cartModel.getQuantity(), cartModel.getProdSpecification()));
-                        // Gửi tổng tiền về Activity/Fragment
-                        if (totalAmountChangeListener != null) {
-                            totalAmountChangeListener.onTotalAmountChanged(totalAmount, productDetails);
+                    loadProductById(apiService, cartModel.getProdId(), new ProductCallback() {
+                        @Override
+                        public void onSuccess(Product_Model product) {
+                            double itemTotal = product.getPrice() * cartModel.getQuantity();
+                            totalAmount += itemTotal;
+                            productDetails.add(new OderProductDetail_Model(cartModel.getProdId(), itemTotal, cartModel.getQuantity(), cartModel.getProdSpecification()));
+                            // Gửi tổng tiền về Activity/Fragment
+                            if (totalAmountChangeListener != null) {
+                                totalAmountChangeListener.onTotalAmountChanged(totalAmount, productDetails);
+                            }
+                            holder.productName.setText(product.getNamePro());
+                            holder.productPrice.setText(String.format("%,.0fđ", product.getPrice()));
+                            List<String> images = product.getImgPro();
+                            Glide.with(holder.productImage.getContext())
+                                    .load(images.get(0))
+                                    .into(holder.productImage);
+
+
                         }
-                        holder.productName.setText(product.getNamePro());
-                        holder.productPrice.setText(String.format("%,.0fđ",product.getPrice()));
-                        List<String> images = product.getImgPro();
-                        Glide.with(holder.productImage.getContext())
-                                .load(images.get(0))
-                                .into(holder.productImage);
 
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.e("cartAdapter", "Failed to load product details: " + t.getMessage());
+                        }
+                    });
 
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.e("cartAdapter", "Failed to load product details: " + t.getMessage());
-                    }
-                });
-
-            } else {
-                holder.productName.setText("Product Not Found");
+                } else {
+                    holder.productName.setText("Product Not Found");
+                }
             }
-        }
 
-        @Override
-        public void onFailure(Call<Cart_Model> call, Throwable t) {
-            holder.productName.setText("Error loading product");
-            Log.e("Oder_Adapter", "Error: " + t.getMessage());
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<Cart_Model> call, Throwable t) {
+                holder.productName.setText("Error loading product");
+                Log.e("Oder_Adapter", "Error: " + t.getMessage());
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -130,6 +132,7 @@ public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
             productPrice = view.findViewById(R.id.product_price);
         }
     }
+
     private void loadProductById(APIService apiService, String prodId, ProductCallback callback) {
         Call<Product_Model> call = apiService.getProductById(prodId);
         call.enqueue(new Callback<Product_Model>() {

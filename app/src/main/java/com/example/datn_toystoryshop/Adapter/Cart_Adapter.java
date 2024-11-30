@@ -1,4 +1,5 @@
 package com.example.datn_toystoryshop.Adapter;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -45,9 +46,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     private Context context;
     private List<Cart_Model> cartList;
     private Cart_Model cart;
-    private  String selectedItem;
+    private String selectedItem;
     private String documentId;
-    private  int quantity;
+    private int quantity;
     private APIService apiService;
     private boolean isDefaultSelected = true; // Biến trạng thái để theo dõi giá trị mặc định
 
@@ -61,6 +62,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         this.apiService = apiService;
         this.documentId = documentId;
     }
+
     public List<Cart_Model> getSelectedItems() {
         List<Cart_Model> selectedItems = new ArrayList<>();
         for (Cart_Model cart : cartList) {
@@ -70,6 +72,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         }
         return selectedItems;
     }
+
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -85,9 +88,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         holder.hiddenTextView.setVisibility(View.GONE);
         String cartId = cart.get_id();
         String prodId = cart.getProdId();
-         quantity = cart.getQuantity();
+        quantity = cart.getQuantity();
 
-        Log.d("CartAdapter", "Attempting to delete product with ID: aaa" );
+        Log.d("CartAdapter", "Attempting to delete product with ID: aaa");
         // Xử lý sự kiện nhấn vào nút xóa
         holder.hiddenTextView.setOnClickListener(v -> {
             // Khi nhấn vào nút xóa, xóa sản phẩm khỏi giỏ hàng
@@ -100,7 +103,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
         // Sự kiện tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
-          int   currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             currentQuantity++;
             holder.tvQuantity.setText(String.valueOf(currentQuantity));
             updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
@@ -108,7 +111,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + currentQuantity);
             Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + quantity);
 
-          //  gặp lỗi tvQuantity không cập nhập lên ngay mà phải click 2 lần thì mới cập nhập, mặc dù khi click 1 lần dữ liệu đã lên đc mongo
+            //  gặp lỗi tvQuantity không cập nhập lên ngay mà phải click 2 lần thì mới cập nhập, mặc dù khi click 1 lần dữ liệu đã lên đc mongo
 
         });
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
@@ -169,10 +172,11 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 if (!newItem.equals(selectedItem)) { // Kiểm tra nếu giá trị đã thay đổi
                     selectedItem = newItem;
                     updateCartItem(apiService, cart.get_id(), selectedItem, quantity);
-                  //  refreshCart();
+                    //  refreshCart();
                     Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + selectedItem);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Không làm gì khi không có gì được chọn
@@ -294,8 +298,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
 
 
-
-
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                                     float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -323,6 +325,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         };
     }
+
     public void updateCartItem(APIService apiService, String cartId, String selectedItem, int currentQuantity) {
 
         // Chuẩn bị dữ liệu cập nhật
@@ -373,6 +376,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             }
         });
     }
+
     private Map<String, Double> productPriceMap = new HashMap<>();
 
     public void loadProductPrices() {
@@ -391,6 +395,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             });
         }
     }
+
     // Hàm tính tổng tiền thanh toán
     public void updateTotalPayment(boolean isSelectAll) {
         double totalPayment = 0;
@@ -423,6 +428,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         Log.d("CartAdapter", "Total Payment: " + totalPayment);
         ((Cart_screen) context).updateTotalPayment(totalPayment);
     }
+
     public void deselectAllItems() {
 
         for (Cart_Model cart : cartList) {
@@ -465,9 +471,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     }
 
 
-
-
-
     public int countSelectedItems() {
         int selectedCount = 0;
 
@@ -481,6 +484,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         // Hiển thị Toast với số lượng sản phẩm đã chọn
         return selectedCount;
     }
+
     public void refreshCart() {
         String cusId = documentId;
 

@@ -25,12 +25,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Email_contact extends AppCompatActivity {
-    ImageView imgBackEmail;
+    ImageView imgBack;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private String documentId, email;
-    private TextView etEmail,tvAttachmentLabel;
-    private  Uri imageUri ;
+    private TextView etEmail, tvAttachmentLabel;
+    private Uri imageUri;
     private FirebaseFirestore db;
     private Button btnSend, btnAttachFile;
 
@@ -38,7 +38,7 @@ public class Email_contact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_contact);
-        imgBackEmail = findViewById(R.id.imgBackEm);
+        imgBack = findViewById(R.id.imgBackEm);
         etEmail = findViewById(R.id.etEmail);
         btnAttachFile = findViewById(R.id.btnAttachFile);
         btnSend = findViewById(R.id.btnSend);
@@ -81,17 +81,12 @@ public class Email_contact extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
 
         if (nightMode) {
-            imgBackEmail.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            imgBackEmail.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
 
-        imgBackEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Email_contact.this, ContactSupport_screen.class));
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
         btnAttachFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +135,7 @@ public class Email_contact extends AppCompatActivity {
             }
         });
     }
+
     private void loadUserDataByDocumentId(String documentId) {
         DocumentReference docRef = db.collection("users").document(documentId);
 
@@ -159,13 +155,14 @@ public class Email_contact extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             if (data != null) {
-                 imageUri = data.getData();  // Lấy URI của ảnh đã chọn
+                imageUri = data.getData();  // Lấy URI của ảnh đã chọn
 
                 // Bạn có thể sử dụng imageUri để đính kèm ảnh vào email
                 // Nếu muốn, bạn có thể lưu URI này hoặc lấy đường dẫn thực tế từ URI
@@ -179,7 +176,7 @@ public class Email_contact extends AppCompatActivity {
     }
 
     private String getPathFromURI(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
         String path = null;
         if (cursor != null) {

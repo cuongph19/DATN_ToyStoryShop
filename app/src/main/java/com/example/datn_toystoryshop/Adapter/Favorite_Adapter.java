@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -61,7 +62,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
             @Override
             public void onSuccess(Product_Model product) {
                 holder.tvTen.setText(product.getNamePro());
-                holder.tvGia.setText(String.format("%,.0fđ",product.getPrice()));
+                holder.tvGia.setText(String.format("%,.0fđ", product.getPrice()));
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.imageViewFav);
@@ -87,7 +88,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
                         intent.putExtra("productName", product.getNamePro());
                         intent.putExtra("cateId", product.getCateId());
                         intent.putExtra("brand", product.getBrand());
-                    // Truyền _id của Favorite_Model vào Intent
+                        // Truyền _id của Favorite_Model vào Intent
                         intent.putExtra("favoriteId", favoriteId);
                         context.startActivity(intent);
                     }

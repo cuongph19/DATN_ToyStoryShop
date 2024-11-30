@@ -26,7 +26,7 @@ import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
 public class Setting_screen extends AppCompatActivity {
 
     private TextView tvUpdateInfo, tvChangePassword, tvNotifications, tvLanguageCurrency;
-    private ImageView btnBack;
+    private ImageView imgBack;
     private Switch switchDarkMode;
     private SharedPreferences sharedPreferences;
     private String documentId;
@@ -63,7 +63,7 @@ public class Setting_screen extends AppCompatActivity {
         tvNotifications = findViewById(R.id.tv_notifications);
         switchDarkMode = findViewById(R.id.switch_dark_mode);
         tvLanguageCurrency = findViewById(R.id.tv_languagecurrency);
-        btnBack = findViewById(R.id.btnBack);
+        imgBack = findViewById(R.id.btnBack);
         switchNotif = findViewById(R.id.switch_notif);
 
         Intent intent = getIntent();
@@ -77,9 +77,9 @@ public class Setting_screen extends AppCompatActivity {
         if (nightMode) {
             switchDarkMode.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            btnBack.setImageResource(R.drawable.back_icon);
+            imgBack.setImageResource(R.drawable.back_icon);
         } else {
-            btnBack.setImageResource(R.drawable.back_icon_1);
+            imgBack.setImageResource(R.drawable.back_icon_1);
         }
 
         // Xử lý sự kiện cho mục "Ngôn ngữ & tiền tệ"
@@ -107,12 +107,7 @@ public class Setting_screen extends AppCompatActivity {
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
 
         tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override

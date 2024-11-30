@@ -32,10 +32,7 @@ public class ProductImage_Adapter extends RecyclerView.Adapter<ProductImage_Adap
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Glide.with(context)
-                .load(productImages.get(position))
-                .placeholder(R.drawable.product1)
-                .into(holder.imageView);
+        Glide.with(context).load(productImages.get(position)).placeholder(R.drawable.product1).into(holder.imageView);
     }
 
     @Override

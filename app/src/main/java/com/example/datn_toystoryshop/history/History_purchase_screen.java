@@ -14,6 +14,7 @@ import com.example.datn_toystoryshop.R;
 public class History_purchase_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

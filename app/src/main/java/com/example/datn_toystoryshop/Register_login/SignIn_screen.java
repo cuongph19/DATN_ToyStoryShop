@@ -190,7 +190,7 @@ public class SignIn_screen extends AppCompatActivity {
                                     startActivity(intent);
                                 })
                                 .addOnFailureListener(e -> {
-                                  //  Toast.makeText(SignIn_screen.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                    //  Toast.makeText(SignIn_screen.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
                                 });
                     } else {
                         Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();
@@ -226,7 +226,7 @@ public class SignIn_screen extends AppCompatActivity {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                       // Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
