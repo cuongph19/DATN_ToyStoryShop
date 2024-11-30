@@ -31,7 +31,7 @@
                 android:id="@+id/tvOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chờ xác nhận"
+                android:text="Đã giao"
                 android:textColor="#FF5722"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -62,19 +62,8 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
-
-            <!-- Nút Liên hệ Shop -->
-            <TextView
-                android:id="@+id/btnContactShop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button_background"
-                android:gravity="center"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Liên hệ Shop"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+
+
