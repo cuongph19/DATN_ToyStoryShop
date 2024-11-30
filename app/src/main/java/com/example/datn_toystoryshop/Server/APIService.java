@@ -89,6 +89,9 @@ public interface APIService {
     @GET("/api/all-product-details")
     Call<List<Product_feedback>> getAllProductDetails(@Query("cusId") String cusId);
 
+    @GET("/api/check-feedback")
+    Call<JsonObject> checkFeedback(@Query("cusId") String cusId, @Query("prodId") String prodId);
+
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 

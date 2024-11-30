@@ -24,6 +24,7 @@ import com.example.datn_toystoryshop.Model.Product_feedback;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,11 +38,10 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
 
     private Context context;
     private List<Product_feedback> productList;
-    private String documentId, textfeedback, OrderId, dateFeed;
+    private String documentId,textfeedback,prodId,dateFeed;
     private int rating;
     private APIService apiService;
-
-    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService, String documentId) {
+    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService , String documentId) {
         this.context = context;
         this.productList = productList;
         this.documentId = documentId;
@@ -58,10 +58,8 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
     @Override
     public void onBindViewHolder(@NonNull FeedbackViewHolder holder, int position) {
         Product_feedback product = productList.get(position);
-        // Log.d("FeedbackAdapter", "Feedbacksaaaaaaaaaaaaaaaaaaaaaaaaaa item tại vị trí " + position + ": " + orderModel.getContent());
-
         // Hiển thị thông tin
-        holder.tvProductName.setText(product.getProductInfo().getNamePro());
+        holder.tvProductName.setText(product.getNamePro());
 
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -69,22 +67,32 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
                 rating = (int) ratingValue; // Cập nhật giá trị rating
             }
         });
+        /////////////////////
 
-        OrderId = product.getOrderId();
+
+
+        String cusId = documentId;
+
+
+
+        ///////////////////////
         dateFeed = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date());
         // holder.tvFeedback.setText(product.getProdDetails().getProdId()); // Hoặc thông tin khác
         // Load hình ảnh nếu có
-        if (!product.getProductInfo().getImgPro().isEmpty()) {
+        if (!product.getImgPro().isEmpty()) {
             Glide.with(context)
-                    .load(product.getProductInfo().getImgPro().get(0))
+                    .load(product.getImgPro().get(0))
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.imgProduct);
         }
 
+
         holder.btnRate.setOnClickListener(v -> {
-            textfeedback = holder.edRemainingDays.getText().toString();
-            submitFeedback(holder);
+            // Kiểm tra xem người dùng đã đánh giá sản phẩm chưa
+            prodId = product.getProdId();
+            checkFeedback(cusId, prodId, holder);
         });
+
     }
 
     @Override
@@ -108,15 +116,17 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }
-
     private void submitFeedback(FeedbackViewHolder holder) {
+        if (textfeedback == null || textfeedback.trim().isEmpty()) {
+            textfeedback = null;
+        }
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + documentId);
-        Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + OrderId);
+        Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + prodId);
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + rating);
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + textfeedback);
         Log.d("FeedbackAdapter", "Feedbackyyyyyyyyyyyyyyyyyy: " + dateFeed);
         // Tạo model phản ánh dữ liệu
-        Feeback_Model feedback = new Feeback_Model(null, documentId, OrderId, rating, textfeedback, dateFeed);
+        Feeback_Model feedback = new Feeback_Model(null, documentId, prodId, rating, textfeedback, dateFeed);
 
         // Gọi API
         Call<Feeback_Model> call = apiService.addFeedback(feedback);
@@ -139,4 +149,36 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
         });
     }
 
+
+
+    //////////////////////////
+    private void checkFeedback(String cusId, String prodId, FeedbackViewHolder holder) {
+        apiService.checkFeedback(cusId, prodId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject result = response.body();
+                    boolean hasFeedback = result.get("feedback").getAsBoolean();
+
+                    if (hasFeedback) {
+                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này.", Toast.LENGTH_SHORT).show();
+                        holder.btnRate.setEnabled(false); // Vô hiệu hóa nút đánh giá
+                    } else {
+                        holder.btnRate.setEnabled(true); // Kích hoạt nút đánh giá
+                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này11111.", Toast.LENGTH_SHORT).show();
+                        textfeedback = holder.edRemainingDays.getText().toString(); // Lấy thông tin phản hồi
+                        submitFeedback(holder); // Gửi đánh giá
+                    }
+                } else {
+                    Log.e("APIError", "Không thể kiểm tra đánh giá: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("APIError", "Lỗi mạng khi kiểm tra đánh giá: " + t.getMessage());
+            }
+        });
+    }
+/////////////////////
 }

@@ -16,7 +16,7 @@
             android:id="@+id/productImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_logo" /> <!-- Thay hình ảnh sản phẩm của bạn ở đây -->
+            android:src="@drawable/ic_launcher_background" /> <!-- Thay hình ảnh sản phẩm của bạn ở đây -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -172,7 +172,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="Product Image"
-                android:src="@drawable/common_google_signin_btn_icon_dark_normal" />
+                android:src="@drawable/ic_launcher_background" />
 
             <!-- Product Info Linear Layout -->
             <LinearLayout

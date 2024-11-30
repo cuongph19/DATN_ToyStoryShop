@@ -1,11 +1,11 @@
 package com.example.datn_toystoryshop.Model;
 
-public class ProdDetails_feedback {
+public class OrderHistoryProductModel {
     private String prodId;
     private int revenue;
     private int quantity;
+    private String prodSpecification;
 
-    // Getter và Setter
     public String getProdId() {
         return prodId;
     }
@@ -28,5 +28,13 @@ public class ProdDetails_feedback {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getProdSpecification() {
+        return prodSpecification;
+    }
+
+    public void setProdSpecification(String prodSpecification) {
+        this.prodSpecification = prodSpecification;
     }
 }

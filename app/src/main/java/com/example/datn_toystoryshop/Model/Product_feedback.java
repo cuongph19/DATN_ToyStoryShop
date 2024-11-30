@@ -1,37 +1,51 @@
 package com.example.datn_toystoryshop.Model;
 
+import java.util.List;
+
 public class Product_feedback {
-    private String orderId;
-    private ProdDetails_feedback prodDetails;
-    private ProductInfo_feedback productInfo;
+    private String prodId; // ID sản phẩm
+    private int quantity;  // Số lượng sản phẩm đã bán
+    private int revenue;   // Doanh thu của sản phẩm
+    private String namePro; // Tên sản phẩm
+    private List<String> imgPro; // Danh sách hình ảnh sản phẩm
 
-    public Product_feedback(String orderId, ProdDetails_feedback prodDetails, ProductInfo_feedback productInfo) {
-        this.orderId = orderId;
-        this.prodDetails = prodDetails;
-        this.productInfo = productInfo;
+    public String getProdId() {
+        return prodId;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public ProdDetails_feedback getProdDetails() {
-        return prodDetails;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setProdDetails(ProdDetails_feedback prodDetails) {
-        this.prodDetails = prodDetails;
+    public int getRevenue() {
+        return revenue;
     }
 
-    public ProductInfo_feedback getProductInfo() {
-        return productInfo;
+    public void setRevenue(int revenue) {
+        this.revenue = revenue;
     }
 
-    public void setProductInfo(ProductInfo_feedback productInfo) {
-        this.productInfo = productInfo;
+    public String getNamePro() {
+        return namePro;
+    }
+
+    public void setNamePro(String namePro) {
+        this.namePro = namePro;
+    }
+
+    public List<String> getImgPro() {
+        return imgPro;
+    }
+
+    public void setImgPro(List<String> imgPro) {
+        this.imgPro = imgPro;
     }
 }

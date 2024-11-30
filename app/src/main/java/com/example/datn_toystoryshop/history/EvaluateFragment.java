@@ -1,8 +1,6 @@
 package com.example.datn_toystoryshop.history;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,16 +37,13 @@ public class EvaluateFragment extends Fragment {
     private List<Product_feedback> filteredOrderList = new ArrayList<>();
     private String documentId;
     private APIService apiService;
-    private SharedPreferences sharedPreferences;
-    private boolean nightMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_evaluate, container, false);
-        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
+
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
@@ -56,14 +51,12 @@ public class EvaluateFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-            Log.e("OrderHistoryAdapter", "j666666ggggg" + documentId);
 
         }
         apiService = RetrofitClient.getAPIService();
         setUpSpinners();
-
         // Khởi tạo RecyclerView và Adapter cho feedback
-        feedbackAdapter = new FeedbackAdapter(getContext(), orderList, apiService, documentId);
+        feedbackAdapter = new FeedbackAdapter(getContext(), orderList,apiService, documentId);
         recyclerView.setAdapter(feedbackAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Gọi API để lấy feedback
@@ -77,8 +70,7 @@ public class EvaluateFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
+            public void onNothingSelected(AdapterView<?> parentView) {}
         });
 
         spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -88,8 +80,7 @@ public class EvaluateFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
+            public void onNothingSelected(AdapterView<?> parentView) {}
         });
 
         return view;
@@ -124,9 +115,10 @@ public class EvaluateFragment extends Fragment {
                     feedbackAdapter.notifyDataSetChanged();
 
                     for (Product_feedback product : orderList) {
-                        String namePro = product.getProductInfo().getNamePro();
-                        String prodId = product.getProdDetails().getProdId();
-                        Log.d("EvaluateFragment", "Product: " + namePro + ", ID: " + prodId);
+                        Log.d("Product", "Tên sản phẩm: " + product.getNamePro());
+                        Log.d("Product", "Doanh thu: " + product.getRevenue());
+                        Log.d("Product", "id: " + product.getProdId());
+                        Log.d("Product", "Hình ảnh: " + product.getImgPro().toString());
                     }
                 } else {
                     Log.e("EvaluateFragment", "Failed to load product details");
@@ -140,6 +132,10 @@ public class EvaluateFragment extends Fragment {
             }
         });
     }
+
+
+
+
 
 
     // Hàm lọc đơn hàng theo tháng và năm
