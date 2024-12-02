@@ -51,8 +51,8 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
         Order_Model.ProductDetail product = productList.get(position);
         Log.e("OrderHistoryAdapter", "j66666666666666666gggg 11 2" + orderId);
         // Hiển thị thông tin sản phẩm
-        holder.productName.setText(product.getProdSpecification());
-        holder.productQuantity.setText(String.format("Số lượng: %d", product.getQuantity()));
+        holder.productQuantity.setText(String.format("x %d", product.getQuantity()));
+        holder.tvProductType.setText(product.getProdSpecification());
         holder.productPrice.setText(String.format("₫%,.0f", product.getRevenue()));
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
@@ -68,6 +68,7 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.productImage);
                 }
+                holder.productName.setText(product.getNamePro());
             }
 
             @Override
@@ -84,7 +85,7 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        TextView productName, productQuantity, productPrice;
+        TextView productName, productQuantity, productPrice,tvProductType;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +93,8 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
             productName = itemView.findViewById(R.id.tvProductName);
             productQuantity = itemView.findViewById(R.id.tvProductQuantity);
             productPrice = itemView.findViewById(R.id.tvProductPrice);
+            tvProductType = itemView.findViewById(R.id.tvProductType);
+
         }
     }
     // Phương thức gọi API để lấy chi tiết sản phẩm

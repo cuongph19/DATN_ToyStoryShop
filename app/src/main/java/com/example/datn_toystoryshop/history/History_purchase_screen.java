@@ -111,7 +111,7 @@ public class History_purchase_screen extends AppCompatActivity {
             return;
         }
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_Confirm(cusId);
+        Call<List<Order_Model>> call = apiService.getOrders_successful(cusId);
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {

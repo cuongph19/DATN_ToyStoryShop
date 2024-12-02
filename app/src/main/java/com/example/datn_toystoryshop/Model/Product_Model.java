@@ -6,7 +6,7 @@ import java.util.List;
 public class Product_Model implements Serializable {
 
     private String _id;          // Mã ID của sản phẩm
-    private int owerId;          // ID chủ sở hữu
+    private String owerId;          // ID chủ sở hữu
     private boolean statusPro;   // Tồn kho (true nếu còn hàng)
     private double price;        // Giá của sản phẩm
     private String desPro;       // Mô tả sản phẩm
@@ -46,11 +46,11 @@ public class Product_Model implements Serializable {
         this._id = _id;
     }
 
-    public int getOwerId() {
+    public String getOwerId() {
         return owerId;
     }
 
-    public void setOwerId(int owerId) {
+    public void setOwerId(String owerId) {
         this.owerId = owerId;
     }
 
