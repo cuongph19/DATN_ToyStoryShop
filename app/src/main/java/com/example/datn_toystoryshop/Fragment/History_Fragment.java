@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.util.TypedValue;
@@ -45,6 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class History_Fragment extends Fragment {
+
     private TextView currentSelectedTextView;
     private LinearLayout history_purchase, confirm, get_goods, delivery, evaluate;
     private TextView confirmText, getGoodsText, deliveryText, evaluateText;
@@ -121,8 +123,6 @@ public class History_Fragment extends Fragment {
             replaceFragment(new EvaluateFragment());
             highlightTextView(evaluateText);
         });
-
-
 
         return view;
     }

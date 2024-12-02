@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,7 @@ public class Profile_Fragment extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         // Khởi tạo các view từ layout
+
         ivAvatar = view.findViewById(R.id.iv_avatar);
         tvname = view.findViewById(R.id.tv_user_name);
         tvtvinformation = view.findViewById(R.id.tv_information);
@@ -165,8 +167,6 @@ public class Profile_Fragment extends Fragment {
             getActivity().finish(); // Đóng tất cả các Activity hiện tại
 
         });
-
-
         return view;
 
     }

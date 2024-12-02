@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.ArtStoryAdapter;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
@@ -31,6 +32,7 @@ import retrofit2.Response;
 
 
 public class ArtStory_Fragment extends Fragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView recyclerView;
     private ArtStoryAdapter adapter;
@@ -45,6 +47,7 @@ public class ArtStory_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_art_story, container, false);
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -62,7 +65,9 @@ public class ArtStory_Fragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         fetchArtStories();
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchArtStories(); // Gọi lại API để làm mới danh sách
+        });
         return view;
     }
 
@@ -72,6 +77,8 @@ public class ArtStory_Fragment extends Fragment {
         apiService.getArtStories().enqueue(new Callback<List<ArtStoryModel>>() {
             @Override
             public void onResponse(Call<List<ArtStoryModel>> call, Response<List<ArtStoryModel>> response) {
+                swipeRefreshLayout.setRefreshing(false);
+
                 if (response.isSuccessful() && response.body() != null) {
                     adapter = new ArtStoryAdapter(getContext(), response.body());
                     recyclerView.setAdapter(adapter);
@@ -81,6 +88,8 @@ public class ArtStory_Fragment extends Fragment {
             @Override
             public void onFailure(Call<List<ArtStoryModel>> call, Throwable t) {
                 Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }
