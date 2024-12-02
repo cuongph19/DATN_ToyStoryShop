@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -34,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LimitedFigure_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private Product_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
     private List<Product_Model> productList;
@@ -58,6 +60,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
 //        }
         ImageView ivBack = findViewById(R.id.ivBack); // Lấy đối tượng ImageView
         recyclerView = findViewById(R.id.product_list);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Limited Figure"); // Đặt tiêu đề là "Blind Box"
@@ -100,6 +103,29 @@ public class LimitedFigure_screen extends AppCompatActivity {
         });
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            apiService.getLimited().enqueue(new Callback<List<Product_Model>>() {
+                @Override
+                public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng làm mới
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<Product_Model> products = response.body();
+                        adapter.updateData(products); // Cập nhật dữ liệu trong adapter
+                        Toast.makeText(LimitedFigure_screen.this, "Làm mới thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());
+                        Toast.makeText(LimitedFigure_screen.this, "Không thể làm mới dữ liệu.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng làm mới
+                    Log.e("API_ERROR", "Lỗi: " + t.getMessage());
+                    Toast.makeText(LimitedFigure_screen.this, "Lỗi kết nối API.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

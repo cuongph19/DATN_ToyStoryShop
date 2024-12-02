@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Adapter.OrderHist_Detail_Adapter;
@@ -30,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderHist_Detail extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView tvTotalPrice, tvOrderStatus, tvPaymentMethod, address_name, address_phone, address_detail;
     private ImageView imgBack;
     private LinearLayout ivContactShop, ivSupportCenter;
@@ -53,6 +55,7 @@ public class OrderHist_Detail extends AppCompatActivity {
         loadOrderDetails(orderId);
 
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         tvPaymentMethod = findViewById(R.id.tvPaymentMethod);
         address_name = findViewById(R.id.address_name);
@@ -84,6 +87,9 @@ public class OrderHist_Detail extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadOrderDetails(orderId); // Gọi lại API để làm mới danh sách
+        });
     }
     private void loadOrderDetails(String orderId) {
         // Gọi API để lấy thông tin sản phẩm
@@ -91,6 +97,7 @@ public class OrderHist_Detail extends AppCompatActivity {
             @Override
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     Order_Model orderModel = response.body();
 
                     // Cập nhật thông tin đơn hàng
@@ -111,14 +118,17 @@ public class OrderHist_Detail extends AppCompatActivity {
                         rvProductList.setAdapter(adapter);
                     } else {
                         Log.e("OrderHist_Detail", "Danh sách sản phẩm rỗng hoặc null");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 } else {
                     Log.e("OrderHist_Detail", "Response thất bại hoặc body null");
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(Call<Order_Model> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
                 // Xử lý khi gọi API thất bại
             }
         });
