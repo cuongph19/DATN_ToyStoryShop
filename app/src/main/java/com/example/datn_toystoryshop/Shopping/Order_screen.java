@@ -72,6 +72,11 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private int quantity, quantity1;
     private String productType;
     private String name, phone, address, paytext;
+    String defaultName = "Trần Cương";
+    String defaultPhone = "";
+    String defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội";
+    String defaultPayText = "Thanh toán khi nhận hàng";
+
     private String documentId;
     private double moneyPay;
     private ArrayList<String> productIds;
@@ -457,7 +462,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         // Tạo một danh sách các sản phẩm trong đơn hàng
         List<Order_Model.ProductDetail> productDetails = new ArrayList<>();
         productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
-
+        name = name != null ? name : defaultName;
+        phone = phone != null ? phone : defaultPhone;
+        address = address != null ? address : defaultAddress;
+        paytext = paytext != null ? paytext : defaultPayText;
         // Tạo đối tượng Order_Model với danh sách sản phẩm
         Order_Model orderModel = new Order_Model(
                 null,                // _id
@@ -535,7 +543,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         Log.e("API_ERROR", "Content: " + content);
         Log.e("API_ERROR", "Product Details: " + productDetails.toString());
         Log.e("API_ERROR", "Total Amount: " + moneyPay);
-
+        name = name != null ? name : defaultName;
+        phone = phone != null ? phone : defaultPhone;
+        address = address != null ? address : defaultAddress;
+        paytext = paytext != null ? paytext : defaultPayText;
         // Tạo đối tượng Order_Model với danh sách sản phẩm
         Order_Model orderModel = new Order_Model(
                 null,                // _id
