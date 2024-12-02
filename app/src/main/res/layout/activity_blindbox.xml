@@ -7,12 +7,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <!-- Include header layout -->
     <include
         layout="@layout/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_background"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:hint="@string/search_product_homefm"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <!-- Sort and Filter Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_filter"
+                android:text="Bộ lọc"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <!-- Product Grid Layout -->
@@ -26,6 +69,6 @@
         android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_product" />
+        />
 
 </LinearLayout>
