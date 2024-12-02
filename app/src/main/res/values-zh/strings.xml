@@ -6,16 +6,20 @@
     <string name="search_product_homefm">搜索产品</string>
     <string name="new_arrivals_homefm">新品到货</string>
     <string name="blind_box_homefm">盲盒</string>
-    <string name="figuring_homefm">雕像</string>
+    <string name="figuring_homefm">手办</string>
     <string name="other_products_homefm">其他产品</string>
-    <string name="art_story_homefm">艺术商店</string>
+    <string name="sale_homefm">促销</string>
     <string name="limited_figure_homefm">限量版</string>
-    <string name="new_product_homefm">新产品</string>
+    <string name="new_product_homefm">新品</string>
     <string name="see_all_homefm">查看全部</string>
     <string name="popular_product_homefm">热门产品</string>
-    <string name="store_follow_homefm">关注商店</string>
+    <string name="store_follow_homefm">关注店铺</string>
     <string name="view_all_homefm">查看全部</string>
     <string name="follow_homefm">关注</string>
+    <string name="all_new_pro">所有新品</string>
+    <string name="all_sale_pro">所有促销产品</string>
+    <string name="all_popular_pro">所有热门产品</string>
+
 
     <!-- Profile_Fragment -->
     <string name="sign_out_success_pro">成功退出</string>
@@ -84,15 +88,35 @@
     </string>
 
     <!-- Setting_screen -->
-    <string name="dark_mode_enabled_set">深色模式已 </string>
+    <string name="dark_mode_enabled_set">黑暗模式已</string>
     <string name="dark_mode_on_set">开启</string>
     <string name="dark_mode_off_set">关闭</string>
-    <string name="update_profile_set">更新个人资料</string>
+    <string name="update_profile_set">更新个人信息</string>
     <string name="change_password_set">更改密码</string>
     <string name="notification_set">通知</string>
-    <string name="dark_mode_set">深色模式</string>
+    <string name="dark_mode_set">黑暗模式</string>
     <string name="contact_support_set">联系支持</string>
-    <string name="status_notifi">所有通知都已被阻止</string>
+    <string name="status_notifi">通知已被</string>
+    <string name="intro_title_detail">立即购买产品：</string>
+    <string name="noti_block">关闭通知</string>
+    <string name="notification">通知</string>
+    <string name="ed">已被</string>
+    <string name="support">支持</string>
+    <string name="support_chat">聊天支持</string>
+    <string name="support_phone">电话支持</string>
+    <string name="support_email">邮件支持</string>
+    <string name="service">服务</string>
+    <string name="attachment">附件</string>
+    <string name="title_contact">标题</string>
+    <string name="descr_contact">描述</string>
+    <string name="btn_attachm">选择文件</string>
+    <string name="edt_email">输入您的电子邮件</string>
+    <string name="edt_title">输入标题</string>
+    <string name="edt_des">输入描述</string>
+    <string name="send_contact">发送</string>
+    <string name="prompt_select_city">选择省/城市</string>
+    <string name="prompt_select_district">选择区/县</string>
+
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
     <![CDATA[
@@ -186,7 +210,7 @@
     <!-- menu -->
     <string name="home_menu">首页</string>
     <string name="browse_menu">浏览</string>
-    <string name="store_menu">商店</string>
+    <string name="artstory_menu">新闻</string>
     <string name="history_menu">购买历史</string>
     <string name="profile_menu">个人资料</string>
 
@@ -211,4 +235,33 @@
     <string name="name_pro">产品名称</string>
     <string name="add_cart">加入购物车</string>
     <string name="brand">品牌：</string>
+
+    <string name="add_address">添加地址</string>
+    <string name="name_address">姓名</string>
+    <string name="phone_address">电话号码</string>
+    <string name="address">地址</string>
+    <string name="address_rev">收货地址</string>
+    <string name="address_detail">详细地址</string>
+    <string name="save">保存</string>
+    <string name="choose_address">选择您的地址</string>
+    <string name="enter_mess">输入留言</string>
+    <string name="send">发送</string>
+    <string name="cart">购物车</string>
+    <string name="choose_code">选择或输入代码</string>
+    <string name="all">全部</string>
+    <string name="buy">购买</string>
+    <string name="pay">支付</string>
+    <string name="method_ship">配送方式</string>
+    <string name="method_pay">支付方式</string>
+    <string name="detail_pay">支付详情</string>
+    <string name="total_pro">商品总价</string>
+    <string name="total_ship">运费总计</string>
+    <string name="total_pay">总支付金额</string>
+    <string name="sp">需要帮助吗？</string>
+
+    <string name="info_pro">产品信息</string>
+    <string name="info_order">订单信息</string>
+    <string name="feedback_order_his">评价</string>
+
+
 </resources>
