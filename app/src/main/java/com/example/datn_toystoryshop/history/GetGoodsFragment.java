@@ -51,10 +51,14 @@ public class GetGoodsFragment extends Fragment {
     private boolean nightMode;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_goods, container, false);
+
+        spinnerMonth = view.findViewById(R.id.spinnerMonth);
+        spinnerYear = view.findViewById(R.id.spinnerYear);
+        recyclerView = view.findViewById(R.id.rvOrderHistory);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
@@ -63,10 +67,6 @@ public class GetGoodsFragment extends Fragment {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        spinnerMonth = view.findViewById(R.id.spinnerMonth);
-        spinnerYear = view.findViewById(R.id.spinnerYear);
-        recyclerView = view.findViewById(R.id.rvOrderHistory);
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");

@@ -46,11 +46,8 @@ public class ForgotOTP_screen extends AppCompatActivity {
         otp6 = findViewById(R.id.otpEditText6);
         imgBack = findViewById(R.id.btnBack);
         verifyButton = findViewById(R.id.verifyButton);
-
-        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Nhận dữ liệu từ intent
         verificationId = getIntent().getStringExtra("verificationId");
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         password = getIntent().getStringExtra("password");

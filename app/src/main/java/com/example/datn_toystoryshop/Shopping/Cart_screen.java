@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
@@ -34,7 +35,7 @@ import retrofit2.Response;
 
 public class Cart_screen extends AppCompatActivity {
 
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ImageView imgBack;
     private String productId;
     private int owerId;
@@ -71,6 +72,7 @@ public class Cart_screen extends AppCompatActivity {
         setContentView(R.layout.activity_my_cart_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         imgBack = findViewById(R.id.imgBackCart);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
@@ -113,6 +115,9 @@ public class Cart_screen extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadCartProducts(); // Gọi lại API để làm mới danh sách
         });
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +251,7 @@ public class Cart_screen extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
 
                     // Tạo và thiết lập Cart_Adapter
@@ -258,6 +264,7 @@ public class Cart_screen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
                 // Xử lý lỗi khi gọi API thất bại
             }
         });

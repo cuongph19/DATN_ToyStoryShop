@@ -40,19 +40,11 @@ public class OrderHist_Detail extends AppCompatActivity {
     private boolean nightMode;
     private RecyclerView rvProductList;
     private OrderHist_Detail_Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
-
         setContentView(R.layout.activity_order_hist_detail);
-        apiService = RetrofitClient.getAPIService();
-
-        Intent intent = getIntent();
-        String orderId = intent.getStringExtra("orderId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666gggg " + orderId);
-        loadOrderDetails(orderId);
 
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -66,7 +58,14 @@ public class OrderHist_Detail extends AppCompatActivity {
         ivSupportCenter = findViewById(R.id.ivSupportCenter);
         imgBack = findViewById(R.id.btnBack);
 
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+        apiService = RetrofitClient.getAPIService();
 
+        Intent intent = getIntent();
+        String orderId = intent.getStringExtra("orderId");
+        Log.e("OrderHistoryAdapter", "j66666666666666666gggg " + orderId);
+        loadOrderDetails(orderId);
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
 
         imgBack.setOnClickListener(v -> onBackPressed());

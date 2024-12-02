@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -81,14 +82,6 @@ public class Setting_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-
-        // Xử lý sự kiện cho mục "Ngôn ngữ & tiền tệ"
-        tvLanguageCurrency.setOnClickListener(v -> {
-            // Chuyển tới màn hình ngôn ngữ và tiền tệ
-            Intent intent1 = new Intent(Setting_screen.this, Currency_Language_screen.class);
-            startActivity(intent1);
-        });
-
         switchDarkMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,27 +100,11 @@ public class Setting_screen extends AppCompatActivity {
             }
         });
 
+        setOnClickListener(tvLanguageCurrency, Currency_Language_screen.class, null);
+        setOnClickListener(tvUpdateInfo, UpdateInfo_screen.class, documentId);
+        setOnClickListener(tvChangePassword, ChangePassword_screen.class, documentId);
         imgBack.setOnClickListener(v -> onBackPressed());
 
-        tvUpdateInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang UpdateInfo_screen
-                Intent intent = new Intent(Setting_screen.this, UpdateInfo_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-
-        tvChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang ChangePassword_screen
-                Intent intent = new Intent(Setting_screen.this, ChangePassword_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
 
         // Load trạng thái chặn thông báo từ SharedPreferences và đặt trạng thái cho Switch
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -153,7 +130,15 @@ public class Setting_screen extends AppCompatActivity {
             }
         });
     }
-
+    private void setOnClickListener(View view, Class<?> targetClass, @Nullable String documentId) {
+        view.setOnClickListener(v -> {
+            Intent intent = new Intent(Setting_screen.this, targetClass);
+            if (documentId != null) {
+                intent.putExtra("documentId", documentId);
+            }
+            startActivity(intent);
+        });
+    }
     // Tạo Notification Channel (dành cho Android 8.0 trở lên)
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -63,15 +63,7 @@ public class History_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
 
-        if (nightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        // Khởi tạo Spinner
         history_purchase = view.findViewById(R.id.history_purchase);
         confirm = view.findViewById(R.id.confirm);
         get_goods = view.findViewById(R.id.get_goods);
@@ -82,15 +74,23 @@ public class History_Fragment extends Fragment {
         deliveryText = view.findViewById(R.id.deliveryText);
         evaluateText = view.findViewById(R.id.evaluateText);
 
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-            Log.e("OrderHistoryAdapter", "j66666666666666666History_Fragment" + documentId);
 
         }
         currentSelectedTextView = confirmText; // Mặc định chọn Confirm
         highlightTextView(confirmText); // Tô màu ban đầu
+        replaceFragment(new ConfirmFragment());
+        highlightTextView(confirmText);
 
         history_purchase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +101,7 @@ public class History_Fragment extends Fragment {
                 requireActivity().finish();
             }
         });
-        replaceFragment(new ConfirmFragment());
-        highlightTextView(confirmText);
+
 //        // Xử lý sự kiện nhấn
         confirm.setOnClickListener(v -> {
             replaceFragment(new ConfirmFragment());

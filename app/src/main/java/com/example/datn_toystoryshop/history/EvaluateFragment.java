@@ -40,9 +40,7 @@ public class EvaluateFragment extends Fragment {
     private APIService apiService;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_evaluate, container, false);
 
         spinnerMonth = view.findViewById(R.id.spinnerMonth);

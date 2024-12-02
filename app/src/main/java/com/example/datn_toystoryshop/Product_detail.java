@@ -87,12 +87,7 @@ public class Product_detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-        // Khởi tạo APIService bằng RetrofitClient
-        apiService = RetrofitClient.getAPIService();
-        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
 
-        // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         productStockValue = findViewById(R.id.productStockValue);
@@ -114,6 +109,12 @@ public class Product_detail extends AppCompatActivity {
         cart_full_icon = findViewById(R.id.cart_full_icon);
         heartIcon = findViewById(R.id.heart_icon);
         recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
+
+        // Khởi tạo APIService bằng RetrofitClient
+        apiService = RetrofitClient.getAPIService();
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {
@@ -122,7 +123,6 @@ public class Product_detail extends AppCompatActivity {
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Product_detail" + documentId);
         productId = intent.getStringExtra("productId");
         owerId = intent.getIntExtra("owerId", -1);
         statusPro = intent.getBooleanExtra("statusPro", false);

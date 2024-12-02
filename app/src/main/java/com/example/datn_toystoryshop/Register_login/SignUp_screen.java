@@ -28,7 +28,6 @@ public class SignUp_screen extends AppCompatActivity {
     private TextInputEditText edemail, edname, edpassword, edrppassword;
     private TextView btnsignup, txtLogin;
     private ImageView imgBack;
-
     private FirebaseAuth mAuth;
     private String verificationId;
 
@@ -45,8 +44,6 @@ public class SignUp_screen extends AppCompatActivity {
         imgBack = findViewById(R.id.btnBack);
         txtLogin = findViewById(R.id.txtLogin);
         mAuth = FirebaseAuth.getInstance();
-
-        // Xử lý sự kiện nhấn nút quay lại
         imgBack.setOnClickListener(v -> onBackPressed());
 
         // Xử lý sự kiện nhấn nút đăng ký

@@ -54,6 +54,11 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
+        // Khởi tạo Spinner cho thành phố và quận/huyện
+        spinnerCity = findViewById(R.id.spinnerCity);
+        spinnerDistrict = findViewById(R.id.spinnerDistrict);
+        searchLocation = findViewById(R.id.searchLocation);
+        imgBack = findViewById(R.id.btnBack);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) {
@@ -66,11 +71,6 @@ public class Store_screen extends AppCompatActivity implements OnMapReadyCallbac
             return false;
         });
 
-        // Khởi tạo Spinner cho thành phố và quận/huyện
-        spinnerCity = findViewById(R.id.spinnerCity);
-        spinnerDistrict = findViewById(R.id.spinnerDistrict);
-        searchLocation = findViewById(R.id.searchLocation);
-        imgBack = findViewById(R.id.btnBack);
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {

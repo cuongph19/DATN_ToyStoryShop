@@ -34,6 +34,13 @@ public class Add_address_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address_screen);
 
+        etName = findViewById(R.id.etName);
+        etPhoneNumber = findViewById(R.id.etPhoneNumber);
+        etAddress = findViewById(R.id.etAddress);
+        etAddressDetail = findViewById(R.id.etAddressDetail);
+        cbDefault = findViewById(R.id.cbDefault);
+        btnSave = findViewById(R.id.btnSave);
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
@@ -43,12 +50,6 @@ public class Add_address_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        etName = findViewById(R.id.etName);
-        etPhoneNumber = findViewById(R.id.etPhoneNumber);
-        etAddress = findViewById(R.id.etAddress);
-        etAddressDetail = findViewById(R.id.etAddressDetail);
-        cbDefault = findViewById(R.id.cbDefault);
-        btnSave = findViewById(R.id.btnSave);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

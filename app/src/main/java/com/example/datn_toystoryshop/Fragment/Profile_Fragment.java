@@ -56,16 +56,6 @@ public class Profile_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
-
-        if (nightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        // Khởi tạo các view từ layout
-
         ivAvatar = view.findViewById(R.id.iv_avatar);
         tvname = view.findViewById(R.id.tv_user_name);
         tvtvinformation = view.findViewById(R.id.tv_information);
@@ -78,78 +68,30 @@ public class Profile_Fragment extends Fragment {
         tvPrivacySecurity = view.findViewById(R.id.tv_privacy_security);
         tvLogout = view.findViewById(R.id.tv_logout);
 
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        // Khởi tạo các view từ layout
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
-
-            Log.e("OrderHistoryAdapter", "j66666666666666666Profile_Fragment" + documentId);
-            if (documentId != null && !documentId.isEmpty()) {
-                loadUserDataByDocumentId(documentId);
-            }
         }
+        loadUserDataByDocumentId(documentId);
 
-        // Xử lý sự kiện cho mục "Cài đặt"
-        tvSettings.setOnClickListener(v -> {
-            // Chuyển tới màn hình cài đặt
-            Intent intent = new Intent(getActivity(), Setting_screen.class);
-            intent.putExtra("documentId", documentId);
-            startActivity(intent);
-        });
-///
-        tvStore.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Store_screen.class);
-            intent.putExtra("documentId", documentId);
-            startActivity(intent);
-        });
+        // Gắn sự kiện cho các TextView
+        setOnClickListener(tvSettings, Setting_screen.class, documentId);
+        setOnClickListener(tvStore, Store_screen.class, documentId);
+        setOnClickListener(tvRate, Evaluate_screen.class, documentId);
+        setOnClickListener(tvContactSupport, ContactSupport_screen.class, documentId);
+        setOnClickListener(tvIntroduceFriend, Introduce_Friends_screen.class, null);
+        setOnClickListener(tvTerms, Terms_Conditions_screen.class, null);
+        setOnClickListener(tvPrivacySecurity, Privacy_Security_screen.class, null);
 
-        // Xử lý sự kiện cho mục "Đánh giá"
-        tvRate.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Evaluate_screen.class);
-            intent.putExtra("documentId", documentId);
-            startActivity(intent);
-        });
-        tvContactSupport.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ContactSupport_screen.class);
-            intent.putExtra("documentId", documentId);  // Truyền documentId qua Intent
-            startActivity(intent);
-        });
-
-        // Xử lý sự kiện cho mục "Giới thiệu bạn bè"
-        tvIntroduceFriend.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Introduce_Friends_screen.class);
-            startActivity(intent);
-        });
-
-        // Xử lý sự kiện cho mục "Điều khoản & Điều kiện"
-        tvTerms.setOnClickListener(v -> {
-            // Chuyển tới trang điều khoản và điều kiện
-            Intent intent = new Intent(getActivity(), Terms_Conditions_screen.class);
-            startActivity(intent);
-        });
-        // Xử lý sự kiện cho mục "Quyền riêng tư &amp; Bảo mật"
-        tvPrivacySecurity.setOnClickListener(v -> {
-            // Chuyển tới trang điều khoản và điều kiện
-            Intent intent = new Intent(getActivity(), Privacy_Security_screen.class);
-            startActivity(intent);
-        });
-
-
-        //logout trước đó
-//         Xử lý sự kiện cho mục "Đăng xuất"
-//        tvLogout.setOnClickListener(v -> {
-//            // Đăng xuất người dùng
-//
-//            SharedPreferences sharedP = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedP.edit();
-//            editor.putBoolean("notificationShown", false); // Đặt lại trạng thái thông báo
-//            editor.apply();
-//            // Chuyển tới màn hình đăng nhập
-//            Intent intent = new Intent(getActivity(), SignIn_screen.class);
-//            startActivity(intent);
-//            getActivity().finish(); // Đóng tất cả các Activity hiện tại
-//            Toast.makeText(getActivity(), getString(R.string.sign_out_success_pro), Toast.LENGTH_SHORT).show();
-//        });
 
         // Xử lý sự kiện cho mục "Đăng xuất"
         tvLogout.setOnClickListener(v -> {
@@ -170,7 +112,16 @@ public class Profile_Fragment extends Fragment {
         return view;
 
     }
-
+    // Phương thức xử lý chung
+    private void setOnClickListener(TextView textView, Class<?> targetClass, @Nullable String documentId) {
+        textView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), targetClass);
+            if (documentId != null) {
+                intent.putExtra("documentId", documentId);
+            }
+            startActivity(intent);
+        });
+    }
     private void loadUserDataByDocumentId(String documentId) {
         DocumentReference docRef = db.collection("users").document(documentId);
 

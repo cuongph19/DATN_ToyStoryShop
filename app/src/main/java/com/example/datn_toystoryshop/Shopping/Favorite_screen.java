@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Favorite_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
@@ -25,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Favorite_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewFavorites;
     private Favorite_Adapter favoriteAdapter;
     private ImageView imgBack;
@@ -45,7 +47,10 @@ public class Favorite_screen extends AppCompatActivity {
 
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadFavoriteProducts(); // Gọi lại API để làm mới danh sách
+        });
         loadFavoriteProducts();
         imgBack = findViewById(R.id.btnBack);
         if (nightMode) {
@@ -76,6 +81,7 @@ public class Favorite_screen extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Favorite_Model>> call, Response<List<Favorite_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     Log.d("FavoriteScreen", "Favorites retrieved: " + response.body().size());
                     favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService, documentId);
                     recyclerViewFavorites.setAdapter(favoriteAdapter);
@@ -84,6 +90,7 @@ public class Favorite_screen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Favorite_Model>> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
                 // Xử lý lỗi khi gọi API thất bại
             }
         });

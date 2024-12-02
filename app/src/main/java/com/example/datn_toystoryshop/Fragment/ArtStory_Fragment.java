@@ -45,23 +45,22 @@ public class ArtStory_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_art_story, container, false);
-        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
+
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        recyclerView = view.findViewById(R.id.product_list);
 
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
+        sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
         // Lấy documentId từ Bundle
         if (getArguments() != null) {
             documentId = getArguments().getString("documentId", "");
-            Log.e("ArtStoryFragment", "Received documentId: " + documentId);
         }
-        recyclerView = view.findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         fetchArtStories();

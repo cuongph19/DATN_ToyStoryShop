@@ -34,18 +34,17 @@ public class All_new_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_new_screen);
-        // Khởi tạo RecyclerView
+
+        recyclerViewAllNewProducts = findViewById(R.id.recyclerViewAllNewProducts);
+        imgBack = findViewById(R.id.ivBack);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j8888888888888888All_new_screen" + documentId);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        recyclerViewAllNewProducts = findViewById(R.id.recyclerViewAllNewProducts);
-        recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
-        imgBack = findViewById(R.id.ivBack);
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
         // Thiết lập Adapter
         productNewAdapter = new ProductNewAdapter(this, productList, false, documentId);
         recyclerViewAllNewProducts.setAdapter(productNewAdapter);

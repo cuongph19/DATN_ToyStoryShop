@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/SCREEN"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- Thanh trên cùng -->
     <LinearLayout
@@ -30,33 +31,31 @@
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <!-- RecyclerView cho danh sách sản phẩm -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCart"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/checkoutLayout"
-        android:layout_below="@id/topLinearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <!-- Layout chứa voucher, phí vận chuyển, và tổng thanh toán -->
     <LinearLayout
         android:id="@+id/checkoutLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-
         android:background="#FFFFFF"
         android:orientation="vertical">
 
         <!-- Voucher và phí vận chuyển -->
         <LinearLayout
             android:id="@+id/tvVoucher"
-            style="@style/SCREEN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -84,13 +83,10 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/choose_code" />
-
         </LinearLayout>
-
 
         <!-- Chọn tất cả, tổng thanh toán, và nút mua hàng -->
         <LinearLayout
-            style="@style/SCREEN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -105,7 +101,7 @@
                 android:text="@string/all" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -153,4 +149,4 @@
                 android:textColor="#FFFFFF" />
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
