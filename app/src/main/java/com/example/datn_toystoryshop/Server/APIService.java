@@ -32,8 +32,8 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-//    String BASE_URL = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.10:3000/";// huy
+   String BASE_URL = "http://192.168.16.101:3000/";// cương
+   //   String BASE_URL  = "http://192.168.1.10:3000/";// huy
     // String BASE_URL = "http://192.168.101.10:3000/";
 
 

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -38,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Browse_Fragment extends Fragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView recyclerView;
     private Product_Adapter productAdapter;
@@ -56,6 +58,7 @@ public class Browse_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -101,7 +104,9 @@ public class Browse_Fragment extends Fragment {
             }
         });
 
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getProductsFromApi(); // Gọi lại API để làm mới danh sách
+        });
         return view;
     }
 
@@ -112,6 +117,8 @@ public class Browse_Fragment extends Fragment {
         call.enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                swipeRefreshLayout.setRefreshing(false);
+
                 if (response.isSuccessful() && response.body() != null) {
                     originalProductList = new ArrayList<>(response.body());
                     Log.d("API Response", "Loaded products: " + originalProductList.size()); // Debugging để kiểm tra số lượng sản phẩm
@@ -122,6 +129,8 @@ public class Browse_Fragment extends Fragment {
             @Override
             public void onFailure(Call<List<Product_Model>> call, Throwable t) {
                 t.printStackTrace();
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }

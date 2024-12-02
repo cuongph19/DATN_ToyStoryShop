@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const ProductSchema = mongoose.Schema({
     //id ngẫu nhiên của mongo không cần khai báo
     owerId: {
-        type: Number,
-        required: true
+        type: String,
+        maxlength: 255
     },
     statusPro: {
         type: Boolean

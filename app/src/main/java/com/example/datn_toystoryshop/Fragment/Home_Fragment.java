@@ -22,8 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
@@ -56,6 +58,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Home_Fragment extends Fragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
     private EditText search_bar;
     private TextView recyclertextviewsuggestions;
@@ -74,7 +78,6 @@ public class Home_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,6 +91,7 @@ public class Home_Fragment extends Fragment {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         btn_follow_store_1 = view.findViewById(R.id.btn_follow_store_1);
         btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);
@@ -321,10 +325,26 @@ public class Home_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadData(apiService);
+            swipeRefreshLayout.setRefreshing(false); // Tắt hiệu ứng loading của SwipeRefreshLayout
+        });
+
         return view;
     }
 
+    private void loadData(APIService apiService) {
+        // Gọi lại API để tải danh sách sản phẩm mới
+        loadProducts(apiService);
 
+        // Gọi lại API để tải danh sách sản phẩm phổ biến
+        loadPopularProducts(apiService);
+
+        // Nếu có thêm dữ liệu khác cần load, gọi ở đây
+        setupSearchBar(apiService);
+
+        // Đảm bảo cập nhật giao diện hoặc dữ liệu khác nếu cần
+    }
     private void loadProducts(APIService apiService) {
         Call<List<Product_Model>> call = apiService.getProducts();
         call.enqueue(new Callback<List<Product_Model>>() {

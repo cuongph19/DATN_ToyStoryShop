@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.util.TypedValue;
@@ -39,7 +40,7 @@ import retrofit2.Response;
 
 
 public class GetGoodsFragment extends Fragment {
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner spinnerMonth, spinnerYear;
     private RecyclerView recyclerView;
     private OrderHistoryAdapter adapter;
@@ -65,7 +66,7 @@ public class GetGoodsFragment extends Fragment {
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
-
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
@@ -101,6 +102,9 @@ public class GetGoodsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchOrders(); // Gọi lại API để làm mới danh sách
+        });
         return view;
     }
 
@@ -135,6 +139,7 @@ public class GetGoodsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     orderList.clear();
                     orderList.addAll(response.body());
                     filteredOrderList.clear();
@@ -142,12 +147,14 @@ public class GetGoodsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

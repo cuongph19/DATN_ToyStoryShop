@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
@@ -33,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class History_purchase_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private Spinner spinnerMonth, spinnerYear;
@@ -52,6 +54,7 @@ public class History_purchase_screen extends AppCompatActivity {
         spinnerMonth = findViewById(R.id.spinnerMonth);
         spinnerYear = findViewById(R.id.spinnerYear);
         rvOrderHistory = findViewById(R.id.rvOrderHistory);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
@@ -64,6 +67,10 @@ public class History_purchase_screen extends AppCompatActivity {
         rvOrderHistory.setAdapter(adapter);
         rvOrderHistory.setLayoutManager(new LinearLayoutManager(this));
         fetchOrders();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchOrders(); // Gọi lại API để làm mới danh sách
+        });
+
     }
     private void setupSpinners() {
         // Populate month spinner
@@ -117,6 +124,7 @@ public class History_purchase_screen extends AppCompatActivity {
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
                 if (getContext() != null) {
                     if (response.isSuccessful() && response.body() != null) {
+                        swipeRefreshLayout.setRefreshing(false);
                         orderList.clear();
                         orderList.addAll(response.body());
                         filteredOrderList.clear();
@@ -128,6 +136,7 @@ public class History_purchase_screen extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(History_purchase_screen.this, "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }
             }
@@ -136,6 +145,7 @@ public class History_purchase_screen extends AppCompatActivity {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 if (getContext() != null) {
                     Toast.makeText(History_purchase_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });

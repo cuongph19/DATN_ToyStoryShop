@@ -28,6 +28,7 @@ import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConfirmFragment extends Fragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner spinnerMonth, spinnerYear;
     private RecyclerView recyclerView;
     private OrderHistoryAdapter adapter;
@@ -62,6 +64,7 @@ public class ConfirmFragment extends Fragment {
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -96,6 +99,11 @@ public class ConfirmFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchOrders(); // Gọi lại API để làm mới danh sách
+        });
+
         return view;
     }
     private void setUpSpinners() {
@@ -135,12 +143,15 @@ public class ConfirmFragment extends Fragment {
                         filteredOrderList.clear();
                         filteredOrderList.addAll(orderList);
                         adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
                         Log.d("API Response", "Số lượng đơn hàngggggggggggg: " + response.body().size());
                         for (Order_Model order : response.body()) {
                             Log.d("Số lượng đơn hàngggggggggggg API Response", order.toString());
                         }
                     } else {
                         Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 }
             }
@@ -149,6 +160,7 @@ public class ConfirmFragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });

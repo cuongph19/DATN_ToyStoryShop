@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EvaluateFragment extends Fragment {
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner spinnerMonth, spinnerYear;
     private RecyclerView recyclerView;
     private FeedbackAdapter feedbackAdapter;
@@ -47,6 +48,7 @@ public class EvaluateFragment extends Fragment {
         spinnerMonth = view.findViewById(R.id.spinnerMonth);
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -82,7 +84,9 @@ public class EvaluateFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getFeedbackData(documentId); // Gọi lại API để làm mới danh sách
+        });
         return view;
     }
 
@@ -110,6 +114,7 @@ public class EvaluateFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product_feedback>> call, Response<List<Product_feedback>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     orderList.clear();
                     orderList.addAll(response.body());
                     feedbackAdapter.notifyDataSetChanged();
@@ -122,6 +127,7 @@ public class EvaluateFragment extends Fragment {
                     }
                 } else {
                     Log.e("EvaluateFragment", "Failed to load product details");
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
@@ -129,6 +135,7 @@ public class EvaluateFragment extends Fragment {
             public void onFailure(Call<List<Product_feedback>> call, Throwable t) {
                 Log.e("EvaluateFragment", "Error: " + t.getMessage());
                 t.printStackTrace();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -139,20 +146,20 @@ public class EvaluateFragment extends Fragment {
 
 
     // Hàm lọc đơn hàng theo tháng và năm
-//    private void filterOrders() {
-//        String selectedMonth = spinnerMonth.getSelectedItem().toString();
-//        String selectedYear = spinnerYear.getSelectedItem().toString();
-//
-//        // Kiểm tra nếu người dùng chưa chọn tháng (chọn "...")
-//        if (selectedMonth.equals("...")) {
-//            // Nếu chưa chọn tháng, không lọc mà hiển thị tất cả đơn hàng
-//            filteredOrderList.clear();
-//            filteredOrderList.addAll(orderList);
-//        } else {
-//            // Chuyển đổi tên tháng sang số (01, 02, ..., 12)
-//            String monthNumber = convertMonthNameToNumber(selectedMonth);
-//            filteredOrderList.clear();
-//
+    private void filterOrders() {
+        String selectedMonth = spinnerMonth.getSelectedItem().toString();
+        String selectedYear = spinnerYear.getSelectedItem().toString();
+
+        // Kiểm tra nếu người dùng chưa chọn tháng (chọn "...")
+        if (selectedMonth.equals("...")) {
+            // Nếu chưa chọn tháng, không lọc mà hiển thị tất cả đơn hàng
+            filteredOrderList.clear();
+            filteredOrderList.addAll(orderList);
+        } else {
+            // Chuyển đổi tên tháng sang số (01, 02, ..., 12)
+            String monthNumber = convertMonthNameToNumber(selectedMonth);
+            filteredOrderList.clear();
+
 //            for (Order_Model order : orderList) {
 //                String orderDate = order.getOrderDate(); // Giả sử orderDate là chuỗi định dạng yyyy-MM-dd
 //                String orderMonth = orderDate.substring(5, 7); // Lấy tháng từ chuỗi (index 5-6)
@@ -163,11 +170,11 @@ public class EvaluateFragment extends Fragment {
 //                    filteredOrderList.add(order);
 //                }
 //            }
-//        }
-//
-//        // Cập nhật lại dữ liệu cho Adapter
-//        feedbackAdapter.notifyDataSetChanged();
-//    }
+        }
+
+        // Cập nhật lại dữ liệu cho Adapter
+        feedbackAdapter.notifyDataSetChanged();
+    }
 
     // Phương thức chuyển đổi tên tháng sang số
     private String convertMonthNameToNumber(String monthName) {

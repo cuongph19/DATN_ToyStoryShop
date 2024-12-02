@@ -37,6 +37,10 @@
             android:layout_weight="4" />
 
     </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <!-- RecyclerView for the transaction list -->
     <androidx.recyclerview.widget.RecyclerView
@@ -45,4 +49,5 @@
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         tools:listitem="@layout/item_history_purchase" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
