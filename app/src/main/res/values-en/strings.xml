@@ -3,19 +3,23 @@
 <!--    tiếng anh-->
         <string name="app_name">ToyStory Shop</string>
         <!-- Home_Fragment -->
-        <string name="search_product_homefm">Search product</string>
-        <string name="new_arrivals_homefm">New Arrivals</string>
-        <string name="blind_box_homefm">Blind Box</string>
-        <string name="figuring_homefm">Figuring</string>
-        <string name="other_products_homefm">Other Products</string>
-        <string name="art_story_homefm">Art Store</string>
-        <string name="limited_figure_homefm">Limited Edition</string>
-        <string name="new_product_homefm">New Products</string>
-        <string name="see_all_homefm">See All</string>
-        <string name="popular_product_homefm">Popular Products</string>
-        <string name="store_follow_homefm">Follow Store</string>
-        <string name="view_all_homefm">View All</string>
+        <string name="search_product_homefm">Search for products</string>
+        <string name="new_arrivals_homefm">New arrivals</string>
+        <string name="blind_box_homefm">Blind box</string>
+        <string name="figuring_homefm">Figure</string>
+        <string name="other_products_homefm">Other products</string>
+        <string name="sale_homefm">Sale</string>
+        <string name="limited_figure_homefm">Limited edition</string>
+        <string name="new_product_homefm">New products</string>
+        <string name="see_all_homefm">See all</string>
+        <string name="popular_product_homefm">Popular products</string>
+        <string name="store_follow_homefm">Follow store</string>
+        <string name="view_all_homefm">View all</string>
         <string name="follow_homefm">Follow</string>
+        <string name="all_new_pro">All new products</string>
+        <string name="all_sale_pro">All sale products</string>
+        <string name="all_popular_pro">All popular products</string>
+
 
         <!-- Profile_Fragment -->
         <string name="sign_out_success_pro">Sign out successfully</string>
@@ -87,12 +91,32 @@
         <string name="dark_mode_enabled_set">Dark mode has been </string>
         <string name="dark_mode_on_set">enabled</string>
         <string name="dark_mode_off_set">disabled</string>
-        <string name="update_profile_set">Update profile</string>
+        <string name="update_profile_set">Update personal information</string>
         <string name="change_password_set">Change password</string>
         <string name="notification_set">Notifications</string>
         <string name="dark_mode_set">Dark mode</string>
         <string name="contact_support_set">Contact support</string>
-        <string name="status_notifi">All notifications have been blocked</string>
+        <string name="status_notifi">Notifications have been</string>
+        <string name="intro_title_detail">Buy product now:</string>
+        <string name="noti_block">Turn off notifications</string>
+        <string name="notification">Notification</string>
+        <string name="ed">has been</string>
+        <string name="support">Support</string>
+        <string name="support_chat">Chat support</string>
+        <string name="support_phone">Phone support</string>
+        <string name="support_email">Email support</string>
+        <string name="service">Service</string>
+        <string name="attachment">Attachment</string>
+        <string name="title_contact">Title</string>
+        <string name="descr_contact">Description</string>
+        <string name="btn_attachm">Choose file</string>
+        <string name="edt_email">Enter your email</string>
+        <string name="edt_title">Enter title</string>
+        <string name="edt_des">Enter description</string>
+        <string name="send_contact">Send</string>
+        <string name="prompt_select_city">Select province/city</string>
+        <string name="prompt_select_district">Select district</string>
+
         <!-- Terms_Conditions_screen -->
         <string name="conditions_content_ter">
     <![CDATA[
@@ -186,7 +210,7 @@
         <!-- menu -->
         <string name="home_menu">Home</string>
         <string name="browse_menu">Browse</string>
-        <string name="store_menu">Store</string>
+        <string name="artstory_menu">News</string>
         <string name="history_menu">Purchase History</string>
         <string name="profile_menu">Profile</string>
 
@@ -212,4 +236,33 @@
         <string name="name_pro">Product Name</string>
         <string name="add_cart">Add to Cart</string>
         <string name="brand">Brand: </string>
+
+        <string name="add_address">Add address</string>
+        <string name="name_address">Full name</string>
+        <string name="phone_address">Phone number</string>
+        <string name="address">Address</string>
+        <string name="address_rev">Delivery address</string>
+        <string name="address_detail">Detailed address</string>
+        <string name="save">Save</string>
+        <string name="choose_address">Choose your address</string>
+        <string name="enter_mess">Enter message</string>
+        <string name="send">Send</string>
+        <string name="cart">Cart</string>
+        <string name="choose_code">Choose or enter code</string>
+        <string name="all">All</string>
+        <string name="buy">Buy</string>
+        <string name="pay">Pay</string>
+        <string name="method_ship">Shipping method</string>
+        <string name="method_pay">Payment method</string>
+        <string name="detail_pay">Payment details</string>
+        <string name="total_pro">Total product cost</string>
+        <string name="total_ship">Total shipping fee</string>
+        <string name="total_pay">Total payment</string>
+        <string name="sp">Do you need assistance?</string>
+
+        <string name="info_pro">Product information</string>
+        <string name="info_order">Order information</string>
+        <string name="feedback_order_his">Review</string>
+
+
 </resources>

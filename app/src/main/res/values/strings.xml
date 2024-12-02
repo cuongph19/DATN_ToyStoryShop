@@ -83,9 +83,7 @@
     </string>
     <string name="privacy_agree">Tôi đã đọc và đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật.</string>
     <string name="accepted_message_privacy">Bạn đã đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật.</string>
-    <string name="confirm_exit_without_accepting_privacy">
-        Bạn có chắc chắn muốn thoát mà không đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật không?
-    </string>
+    <string name="confirm_exit_without_accepting_privacy">Bạn có chắc chắn muốn thoát mà không đồng ý với các điều khoản về Quyền Riêng Tư &amp; Bảo Mật không?</string>
 
     <!-- Setting_screen -->
     <string name="dark_mode_enabled_set">Chế độ tối đã được </string>
@@ -116,6 +114,7 @@
     <string name="send_contact">Gửi</string>
     <string name="prompt_select_city">Chọn tỉnh/thành phố</string>
     <string name="prompt_select_district">Chọn quận/huyện</string>
+
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
         <![CDATA[
@@ -223,35 +222,6 @@
     <string name="add_cart">Thêm vào giỏ hàng</string>
     <string name="brand">Thương hiệu: </string>
 
-    <string-array name="country_codes">
-        <!--        Việt Nam-->
-        <item>+84</item>
-        <!--        Vương Quốc Anh-->
-        <item>+44</item>
-        <!--        Trung Quốc-->
-        <item>+86</item>
-        <!--        Nhật Bản-->
-        <item>+81</item>
-    </string-array>
-
-
-    //list month
-    <string-array name="months_array">
-        <item>...</item>
-        <item>Tháng 1</item>
-        <item>Tháng 2</item>
-        <item>Tháng 3</item>
-        <item>Tháng 4</item>
-        <item>Tháng 5</item>
-        <item>Tháng 6</item>
-        <item>Tháng 7</item>
-        <item>Tháng 8</item>
-        <item>Tháng 9</item>
-        <item>Tháng 10</item>
-        <item>Tháng 11</item>
-        <item>Tháng 12</item>
-    </string-array>
-
     <string name="add_address">Thêm địa chỉ</string>
     <string name="name_address">Họ và tên</string>
     <string name="phone_address">Số điện thoại</string>
@@ -275,15 +245,40 @@
     <string name="total_pay">Tổng thanh toán</string>
     <string name="sp">Bạn cần hỗ trợ?</string>
 
-    //Sort by
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
         <item>Giá cao - thấp</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="info_pro">Thông tin sản phẩm</string>
     <string name="info_order">Thông tin đơn hàng</string>
     <string name="feedback_order_his">Đánh giá</string>
+
+    <string-array name="country_codes">
+        <!--        Việt Nam-->
+        <item>+84</item>
+        <!--        Vương Quốc Anh-->
+        <item>+44</item>
+        <!--        Trung Quốc-->
+        <item>+86</item>
+        <!--        Nhật Bản-->
+        <item>+81</item>
+    </string-array>
+
+    <string-array name="months_array">
+        <item>...</item>
+        <item>Tháng 1</item>
+        <item>Tháng 2</item>
+        <item>Tháng 3</item>
+        <item>Tháng 4</item>
+        <item>Tháng 5</item>
+        <item>Tháng 6</item>
+        <item>Tháng 7</item>
+        <item>Tháng 8</item>
+        <item>Tháng 9</item>
+        <item>Tháng 10</item>
+        <item>Tháng 11</item>
+        <item>Tháng 12</item>
+    </string-array>
+
 </resources>

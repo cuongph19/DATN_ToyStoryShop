@@ -4,19 +4,23 @@
 
    <string name="app_name">ToyStory ショップ</string>
     <!-- Home_Fragment -->
-    <string name="search_product_homefm">商品を探す</string>
-    <string name="new_arrivals_homefm">新商品</string>
+    <string name="search_product_homefm">商品を検索</string>
+    <string name="new_arrivals_homefm">新着商品</string>
     <string name="blind_box_homefm">ブラインドボックス</string>
     <string name="figuring_homefm">フィギュア</string>
     <string name="other_products_homefm">その他の商品</string>
-    <string name="art_story_homefm">アートストア</string>
+    <string name="sale_homefm">セール</string>
     <string name="limited_figure_homefm">限定版</string>
     <string name="new_product_homefm">新商品</string>
     <string name="see_all_homefm">すべてを見る</string>
     <string name="popular_product_homefm">人気商品</string>
-    <string name="store_follow_homefm">ストアをフォローする</string>
-    <string name="view_all_homefm">すべて見る</string>
+    <string name="store_follow_homefm">ストアをフォロー</string>
+    <string name="view_all_homefm">すべてを見る</string>
     <string name="follow_homefm">フォロー</string>
+    <string name="all_new_pro">すべての新商品</string>
+    <string name="all_sale_pro">すべてのセール商品</string>
+    <string name="all_popular_pro">すべての人気商品</string>
+
 
     <!-- Profile_Fragment -->
     <string name="sign_out_success_pro">サインアウトに成功しました</string>
@@ -85,15 +89,35 @@
     </string>
 
     <!-- Setting_screen -->
-    <string name="dark_mode_enabled_set">ダークモードが </string>
-    <string name="dark_mode_on_set">有効</string>
-    <string name="dark_mode_off_set">無効</string>
-    <string name="update_profile_set">プロフィール更新</string>
-    <string name="change_password_set">パスワード変更</string>
+    <string name="dark_mode_enabled_set">ダークモードが</string>
+    <string name="dark_mode_on_set">有効になりました</string>
+    <string name="dark_mode_off_set">無効になりました</string>
+    <string name="update_profile_set">個人情報を更新</string>
+    <string name="change_password_set">パスワードを変更</string>
     <string name="notification_set">通知</string>
     <string name="dark_mode_set">ダークモード</string>
     <string name="contact_support_set">サポートに連絡</string>
-    <string name="status_notifi">すべての通知がブロックされました</string>
+    <string name="status_notifi">通知は</string>
+    <string name="intro_title_detail">今すぐ商品を購入：</string>
+    <string name="noti_block">通知をオフ</string>
+    <string name="notification">通知</string>
+    <string name="ed">が</string>
+    <string name="support">サポート</string>
+    <string name="support_chat">チャットサポート</string>
+    <string name="support_phone">電話サポート</string>
+    <string name="support_email">メールサポート</string>
+    <string name="service">サービス</string>
+    <string name="attachment">添付ファイル</string>
+    <string name="title_contact">タイトル</string>
+    <string name="descr_contact">説明</string>
+    <string name="btn_attachm">ファイルを選択</string>
+    <string name="edt_email">メールアドレスを入力</string>
+    <string name="edt_title">タイトルを入力</string>
+    <string name="edt_des">説明を入力</string>
+    <string name="send_contact">送信</string>
+    <string name="prompt_select_city">県/市を選択</string>
+    <string name="prompt_select_district">区/郡を選択</string>
+
     <!-- Terms_Conditions_screen -->
     <string name="conditions_content_ter">
     <![CDATA[
@@ -187,7 +211,7 @@
     <!-- menu -->
     <string name="home_menu">ホーム</string>
     <string name="browse_menu">検索</string>
-    <string name="store_menu">ストア</string>
+    <string name="artstory_menu">ニュース</string>
     <string name="history_menu">購入履歴</string>
     <string name="profile_menu">プロフィール</string>
 
@@ -213,4 +237,32 @@
     <string name="name_pro">商品名</string>
     <string name="add_cart">カートに追加</string>
     <string name="brand">ブランド：</string>
+
+    <string name="add_address">住所を追加</string>
+    <string name="name_address">氏名</string>
+    <string name="phone_address">電話番号</string>
+    <string name="address">住所</string>
+    <string name="address_rev">配送先住所</string>
+    <string name="address_detail">詳細住所</string>
+    <string name="save">保存</string>
+    <string name="choose_address">住所を選択</string>
+    <string name="enter_mess">メッセージを入力</string>
+    <string name="send">送信</string>
+    <string name="cart">カート</string>
+    <string name="choose_code">コードを選択または入力</string>
+    <string name="all">すべて</string>
+    <string name="buy">購入</string>
+    <string name="pay">支払い</string>
+    <string name="method_ship">配送方法</string>
+    <string name="method_pay">支払い方法</string>
+    <string name="detail_pay">支払い詳細</string>
+    <string name="total_pro">商品合計</string>
+    <string name="total_ship">配送料合計</string>
+    <string name="total_pay">支払合計</string>
+    <string name="sp">サポートが必要ですか？</string>
+
+    <string name="info_pro">商品情報</string>
+    <string name="info_order">注文情報</string>
+    <string name="feedback_order_his">評価</string>
+
 </resources>

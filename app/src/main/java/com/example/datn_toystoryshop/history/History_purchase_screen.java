@@ -1,12 +1,13 @@
 package com.example.datn_toystoryshop.history;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,19 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-
-import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,112 +39,161 @@ public class History_purchase_screen extends AppCompatActivity {
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_purchase_screen);
 
-        // Initialize UI components
+        // Khởi tạo các thành phần UI
         spinnerMonth = findViewById(R.id.spinnerMonth);
         spinnerYear = findViewById(R.id.spinnerYear);
         rvOrderHistory = findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-
+        imgBack = findViewById(R.id.ivBack);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
+        imgBack.setOnClickListener(v -> onBackPressed());
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-        Log.e("API_ERROR", "bttttttttttttttttttttt" + documentId);
-        setupSpinners();
 
+        // Thiết lập Spinner
+        setUpSpinners();
+
+        // Cấu hình RecyclerView và Adapter
         APIService apiService = RetrofitClient.getAPIService();
         adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService);
         rvOrderHistory.setAdapter(adapter);
         rvOrderHistory.setLayoutManager(new LinearLayoutManager(this));
+
+        // Lấy dữ liệu từ API
         fetchOrders();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            fetchOrders(); // Gọi lại API để làm mới danh sách
+
+        // Xử lý sự kiện chọn Spinner
+        spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterOrders();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterOrders();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> fetchOrders());
     }
-    private void setupSpinners() {
-        // Populate month spinner
-        List<String> months = new ArrayList<>();
-        months.add("January");
-        months.add("February");
-        months.add("March");
-        months.add("April");
-        months.add("May");
-        months.add("June");
-        months.add("July");
-        months.add("August");
-        months.add("September");
-        months.add("October");
-        months.add("November");
-        months.add("December");
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
+
+    private void setUpSpinners() {
+        // Thiết lập Adapter cho Spinner tháng
+        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.months_array,
+                android.R.layout.simple_spinner_item
+        );
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMonth.setAdapter(monthAdapter);
 
-        // Populate year spinner
-        List<String> years = new ArrayList<>();
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = currentYear; i >= currentYear - 10; i--) {
+        // Thiết lập Adapter cho Spinner năm
+        ArrayList<String> years = new ArrayList<>();
+        for (int i = 2024; i <= 2030; i++) {
             years.add(String.valueOf(i));
         }
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                years
+        );
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerYear.setAdapter(yearAdapter);
     }
 
-    private List<String> getSampleData() {
-        // Replace with actual data from the server or database
-        List<String> data = new ArrayList<>();
-        data.add("Order #1");
-        data.add("Order #2");
-        data.add("Order #3");
-        return data;
-    }
     private void fetchOrders() {
-        String cusId = documentId;
-        Log.e("FavoriteScreen", "cusId không được để trống " + cusId);
-        if (cusId == null || cusId.isEmpty()) {
-            Log.e("FavoriteScreen", "cusId không được để trống");
+        if (documentId == null || documentId.isEmpty()) {
+            Log.e("HistoryPurchase", "documentId không được để trống");
             return;
         }
+
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_successful(cusId);
+        Call<List<Order_Model>> call = apiService.getOrders_successful(documentId);
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
-                if (getContext() != null) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        orderList.clear();
-                        orderList.addAll(response.body());
-                        filteredOrderList.clear();
-                        filteredOrderList.addAll(orderList);
-                        adapter.notifyDataSetChanged();
-                        Log.d("API Response", "Số lượng đơn hàngggggggggggg: " + response.body().size());
-                        for (Order_Model order : response.body()) {
-                            Log.d("Số lượng đơn hàngggggggggggg API Response", order.toString());
-                        }
-                    } else {
-                        Toast.makeText(History_purchase_screen.this, "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+                swipeRefreshLayout.setRefreshing(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    orderList.clear();
+                    orderList.addAll(response.body());
+                    filteredOrderList.clear();
+                    filteredOrderList.addAll(orderList);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(History_purchase_screen.this, "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                if (getContext() != null) {
-                    Toast.makeText(History_purchase_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(History_purchase_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void filterOrders() {
+        String selectedMonth = spinnerMonth.getSelectedItem().toString();
+        String selectedYear = spinnerYear.getSelectedItem().toString();
+
+        if (selectedMonth.equals("...")) {
+            filteredOrderList.clear();
+            filteredOrderList.addAll(orderList);
+        } else {
+            String monthNumber = convertMonthNameToNumber(selectedMonth);
+            filteredOrderList.clear();
+
+            for (Order_Model order : orderList) {
+                String orderDate = order.getOrderDate();
+                String orderMonth = orderDate.substring(5, 7);
+                String orderYear = orderDate.substring(0, 4);
+
+                if (orderMonth.equals(monthNumber) && orderYear.equals(selectedYear)) {
+                    filteredOrderList.add(order);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private String convertMonthNameToNumber(String monthName) {
+        switch (monthName) {
+            case "Tháng 1": return "01";
+            case "Tháng 2": return "02";
+            case "Tháng 3": return "03";
+            case "Tháng 4": return "04";
+            case "Tháng 5": return "05";
+            case "Tháng 6": return "06";
+            case "Tháng 7": return "07";
+            case "Tháng 8": return "08";
+            case "Tháng 9": return "09";
+            case "Tháng 10": return "10";
+            case "Tháng 11": return "11";
+            case "Tháng 12": return "12";
+            default: return "01";
+        }
     }
 }
