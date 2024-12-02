@@ -22,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 
@@ -40,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Sale_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewSaleProducts;
     private Sale_Adapter saleAdapter;
     private List<Product_Model> productList;
@@ -75,7 +77,7 @@ public class Sale_screen extends AppCompatActivity {
         Log.e("OrderHistoryAdapter", "j8888888888888888All_new_screen" + documentId);
 
         recyclerViewSaleProducts = findViewById(R.id.recyclerViewSaleProducts);
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewSaleProducts.setLayoutManager(new GridLayoutManager(this, 2));
         imgBack = findViewById(R.id.ivBack);
         if (nightMode) {
@@ -108,6 +110,33 @@ public class Sale_screen extends AppCompatActivity {
 
 
         imgBack.setOnClickListener(v -> onBackPressed());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            apiService.getSale().enqueue(new Callback<List<Product_Model>>() {
+                @Override
+                public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<Product_Model> products = response.body();
+                        Log.d("API_RESPONSE", "Dữ liệu nhận được: " + products.toString()); // Kiểm tra dữ liệu trả về
+
+                        // Cập nhật lại dữ liệu cho adapter
+                        saleAdapter = new Sale_Adapter(Sale_screen.this, products, documentId);
+                        recyclerViewSaleProducts.setAdapter(saleAdapter);
+                    } else {
+                        Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());
+                        Toast.makeText(Sale_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    }
+                    swipeRefreshLayout.setRefreshing(false); // Tắt trạng thái "đang làm mới"
+                }
+
+                @Override
+                public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                    Log.e("API_ERROR", "Lỗi: " + t.getMessage());
+                    Toast.makeText(Sale_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false); // Tắt trạng thái "đang làm mới" khi có lỗi
+                }
+            });
+        });
+
     }
 
     @Override

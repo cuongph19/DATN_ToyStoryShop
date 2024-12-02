@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
@@ -25,6 +26,7 @@ import com.example.datn_toystoryshop.R;
 import java.util.List;
 
 public class Popular_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewPopular;
     private Product_Adapter productAdapter;
     private List<Product_Model> productList;
@@ -43,6 +45,7 @@ public class Popular_screen extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
         // Khởi tạo RecyclerView
         recyclerViewPopular = findViewById(R.id.recyPopuPro);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
         imgBack = findViewById(R.id.ivBack);
         if (nightMode) {
@@ -70,5 +73,10 @@ public class Popular_screen extends AppCompatActivity {
             }
         });
         imgBack.setOnClickListener(v -> onBackPressed());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            productAdapter.notifyDataSetChanged(); // Làm mới danh sách trong Adapter
+
+            // Dừng hiệu ứng làm mới
+            swipeRefreshLayout.setRefreshing(false);        });
     }
 }

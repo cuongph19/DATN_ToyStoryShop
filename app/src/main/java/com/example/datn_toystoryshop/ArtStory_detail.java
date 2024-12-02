@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ArtStory_detail extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView titleView, authorView, dateView, contentView;
     private ImageView mainImageView, imageView1, imageView2, imageView3;
     private TextView captionView1, captionView2, captionView3;
@@ -38,6 +40,7 @@ public class ArtStory_detail extends AppCompatActivity {
 //        }
         // Ánh xạ các view
         titleView = findViewById(R.id.detailTitle);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         authorView = findViewById(R.id.detailAuthor);
         dateView = findViewById(R.id.detailDate);
         contentView = findViewById(R.id.detailContent);
@@ -114,6 +117,38 @@ public class ArtStory_detail extends AppCompatActivity {
                 captionView3.setVisibility(View.GONE);
             }
         }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            refreshContent(); // Gọi lại API để làm mới danh sách
+        });
+    }
+    private void refreshContent() {
+        // Xử lý làm mới dữ liệu chi tiết bài viết
+        // Ví dụ: Lấy lại dữ liệu từ Intent hoặc gọi API để cập nhật nội dung mới
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
+        String author = intent.getStringExtra("author");
+        long dateMillis = intent.getLongExtra("date", 0);
+        String content = intent.getStringExtra("content");
+        ArrayList<String> imageUrl = intent.getStringArrayListExtra("imageUrl");
+        ArrayList<String> caption = intent.getStringArrayListExtra("caption");
+
+        // Cập nhật các View
+        titleView.setText(title);
+        authorView.setText(author);
+        contentView.setText(content);
+
+        if (dateMillis > 0) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            dateView.setText(dateFormat.format(new Date(dateMillis)));
+        }
+
+        // Cập nhật hình ảnh và chú thích như trong onCreate
+        if (imageUrl != null) {
+            // (Lặp lại logic cập nhật hình ảnh và caption tại đây)
+        }
+
+        // Tắt làm mới sau khi hoàn thành
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 

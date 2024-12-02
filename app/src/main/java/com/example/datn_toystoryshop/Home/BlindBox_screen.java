@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -34,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BlindBox_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private Product_Adapter adapter;
     private TextView headerTitle;
@@ -57,7 +59,7 @@ public class BlindBox_screen extends AppCompatActivity {
 //        }
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Blind Box"); // Đặt tiêu đề là "Blind Box"
         Intent intent = getIntent();
@@ -93,6 +95,37 @@ public class BlindBox_screen extends AppCompatActivity {
         });
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            apiService.getBlindBox().enqueue(new Callback<List<Product_Model>>() {
+                @Override
+                public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<Product_Model> products = response.body();
+                        originalProductList.clear();
+                        originalProductList.addAll(products);
+
+                        if (adapter == null) {
+                            adapter = new Product_Adapter(BlindBox_screen.this, products, documentId);
+                            recyclerView.setAdapter(adapter);
+                        } else {
+                            adapter.updateData(products); // Cập nhật dữ liệu trong adapter
+                        }
+
+                        swipeRefreshLayout.setRefreshing(false); // Tắt trạng thái "đang làm mới"
+                    } else {
+                        Toast.makeText(BlindBox_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false); // Đảm bảo tắt trạng thái "đang làm mới"
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                    Toast.makeText(BlindBox_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false); // Tắt trạng thái "đang làm mới" khi lỗi
+                }
+            });
+        });
+
     }
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

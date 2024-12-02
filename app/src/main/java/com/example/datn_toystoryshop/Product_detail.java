@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -55,6 +56,7 @@ import retrofit2.Response;
 
 
 public class Product_detail extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView tvProductName, tvProductPrice, tvproductDescription, productStockValue, productBrandValue1, productBrandValue2;
     private ImageView imgBack, shareButton, heartIcon, heart_icon1;
     private LinearLayout dotIndicatorLayout, chatIcon, cartIcon, voucherText;
@@ -92,6 +94,7 @@ public class Product_detail extends AppCompatActivity {
 
         // Ánh xạ các view
         tvProductName = findViewById(R.id.productTitle);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         productStockValue = findViewById(R.id.productStockValue);
         out_of_stock_overlay = findViewById(R.id.out_of_stock_overlay);
         productBrandValue1 = findViewById(R.id.productBrandValue1);
@@ -250,7 +253,10 @@ public class Product_detail extends AppCompatActivity {
             }
         });
 
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recreate(); // Khởi động lại Activity
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     @Override

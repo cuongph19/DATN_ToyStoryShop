@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Home_screen;
@@ -20,6 +21,7 @@ import com.example.datn_toystoryshop.R;
 import java.util.List;
 
 public class All_new_screen extends AppCompatActivity {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewAllNewProducts;
     private ProductNewAdapter productNewAdapter;
     private List<Product_Model> productList;
@@ -43,7 +45,7 @@ public class All_new_screen extends AppCompatActivity {
         recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
         imgBack = findViewById(R.id.ivBack);
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
-
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         // Thiết lập Adapter
         productNewAdapter = new ProductNewAdapter(this, productList, false, documentId);
         recyclerViewAllNewProducts.setAdapter(productNewAdapter);
@@ -62,7 +64,11 @@ public class All_new_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            productNewAdapter.notifyDataSetChanged();
+            // Tắt hiệu ứng tải lại
+            swipeRefreshLayout.setRefreshing(false);
+        });
         imgBack.setOnClickListener(v -> onBackPressed());
     }
 }
