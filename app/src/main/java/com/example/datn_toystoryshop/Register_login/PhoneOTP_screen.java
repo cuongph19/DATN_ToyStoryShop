@@ -35,7 +35,6 @@ public class PhoneOTP_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_otp_screen);
 
-        // Liên kết các thành phần UI từ file XML
         otp1 = findViewById(R.id.otpEditText1);
         otp2 = findViewById(R.id.otpEditText2);
         otp3 = findViewById(R.id.otpEditText3);
@@ -44,11 +43,7 @@ public class PhoneOTP_screen extends AppCompatActivity {
         otp6 = findViewById(R.id.otpEditText6);
         verifyButton = findViewById(R.id.verifyButton);
         imgBack = findViewById(R.id.btnBack);
-
-        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-        // Nhận dữ liệu từ Intent
         verificationId = getIntent().getStringExtra("verificationId");
         name = getIntent().getStringExtra("name");
         email = getIntent().getStringExtra("email");

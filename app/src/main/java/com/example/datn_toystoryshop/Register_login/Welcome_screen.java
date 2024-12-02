@@ -13,6 +13,7 @@ import com.example.datn_toystoryshop.R;
 public class Welcome_screen extends AppCompatActivity {
 
     private static final int SPLASH_SCREEN_TIME_OUT = 3000; // 3 giây
+    private View loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class Welcome_screen extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         // Tạo hiệu ứng load cho thanh trắng
-        View loadingBar = findViewById(R.id.loadingBar);
+         loadingBar = findViewById(R.id.loadingBar);
         ObjectAnimator animator = ObjectAnimator.ofFloat(loadingBar, "scaleX", 0f, 1f);
         animator.setDuration(SPLASH_SCREEN_TIME_OUT); // 3 giây
         animator.start();

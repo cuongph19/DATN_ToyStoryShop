@@ -51,22 +51,26 @@ public class Browse_Fragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private EditText searchBar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        recyclerView = view.findViewById(R.id.recycler_view_products);
+        btnFilter = view.findViewById(R.id.btnFilter);
+         searchBar = view.findViewById(R.id.search_bar);
+
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        recyclerView = view.findViewById(R.id.recycler_view_products);
-        btnFilter = view.findViewById(R.id.btnFilter);
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
@@ -88,7 +92,6 @@ public class Browse_Fragment extends Fragment {
         // Xử lý sự kiện nhấn nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
         // Tìm kiếm theo tên sản phẩm
-        EditText searchBar = view.findViewById(R.id.search_bar);
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -39,13 +39,9 @@ public class Forgot_pass extends AppCompatActivity {
         btnsenemail = findViewById(R.id.btnsenemail);
         edmail = findViewById(R.id.edmail);
         imgBack = findViewById(R.id.btnBack);
-        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-        // Xử lý sự kiện cho nút quay lại
         imgBack.setOnClickListener(v -> onBackPressed());
 
-        // Xử lý sự kiện cho nút gửi email hoặc OTP
         btnsenemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

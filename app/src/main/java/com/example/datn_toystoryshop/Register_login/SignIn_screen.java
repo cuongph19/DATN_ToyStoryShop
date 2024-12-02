@@ -52,7 +52,14 @@ public class SignIn_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        // Khởi tạo Firebase Auth và Firestore
+        edInput = findViewById(R.id.edemailLg); // Nhập email hoặc số điện thoại
+        edPassword = findViewById(R.id.edpasswordLg);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
+        btnGoogleLogin1 = findViewById(R.id.btnGoogleLogin1);
+        btnGoogleLogin2 = findViewById(R.id.btnGoogleLogin2);
+        txtSignup = findViewById(R.id.txtSignup);
+        txtForgotPass = findViewById(R.id.txtForgotPass);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -63,16 +70,6 @@ public class SignIn_screen extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Khởi tạo các thành phần giao diện
-        edInput = findViewById(R.id.edemailLg); // Nhập email hoặc số điện thoại
-        edPassword = findViewById(R.id.edpasswordLg);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
-        btnGoogleLogin1 = findViewById(R.id.btnGoogleLogin1);
-        btnGoogleLogin2 = findViewById(R.id.btnGoogleLogin2);
-        txtSignup = findViewById(R.id.txtSignup);
-        txtForgotPass = findViewById(R.id.txtForgotPass);
 
         // Truyền dữ liệu từ ForgotOTP_screen
         Intent intent = getIntent();

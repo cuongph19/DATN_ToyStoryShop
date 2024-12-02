@@ -52,90 +52,67 @@ import retrofit2.Response;
 public class Order_screen extends AppCompatActivity implements Order_Adapter_Detail.TotalAmountCallback {
 
     private ImageView imgBack;
-    private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail, clause, tvTotalAmountLabel;
+    private TextView btnOrder, tvTotalAmount, total_amount, shipping_money, money_pay1, money_pay, tvPaymentDetail, clause, tvTotalAmountLabel, shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price, shipping_method_name, show_more_oder;
     private LinearLayout addressLayout, ship, pay, productDiscounttv, shipDiscounttv;
     private RelativeLayout voucher;
     private EditText tvLeaveMessage;
     private RecyclerView recyclerView;
-    private TextView shipDiscountPrice, productDiscountPrice, estimated_delivery, voucher_info, old_price, new_price, shipping_method_name, show_more_oder;
-
-    private double totalProductDiscount = 0;
-    private double totalShipDiscount = 0;
-    private String productId, selectedColor, customerId;
-    private String productImg; // Danh sách URL ảnh của sản phẩm
-    private int currentImageIndex = 0; // Vị trí ảnh hiện tại
-    private Handler handler = new Handler(); // Tạo Handler để cập nhật ảnh
-    private String content;
-    private boolean isFavorite = false;
-    private int currentQuantity; // Số lượng sản phẩm ban đầu là 1
-    private double totalAmount;
-    private int quantity, quantity1;
-    private String productType;
-    private String name, phone, address, paytext;
-    String defaultName = "Trần Cương";
-    String defaultPhone = "";
-    String defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội";
-    String defaultPayText = "Thanh toán khi nhận hàng";
-
-    private String documentId;
-    private double moneyPay;
+    private Handler handler = new Handler();
+    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId;
+    private double totalProductDiscount = 0, totalShipDiscount = 0, totalAmount, moneyPay, shippingCost = 40000;
+    private int currentImageIndex = 0, currentQuantity, quantity, quantity1;
+    private boolean isFavorite = false, nightMode;
     private ArrayList<String> productIds;
-    private double shippingCost = 40000;
-    private static final String CHANNEL_ID = "home_notification_channel";
-    private static final String PREFS_NAME = "NotificationPrefs";
-    private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
+    private static final String CHANNEL_ID = "home_notification_channel", PREFS_NAME = "NotificationPrefs", NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
-    private boolean nightMode;
     private TextView addressName, addressDetail, addressPhone;
 
     private String getFormattedDate(int daysToAdd, String format) {
-        // Khởi tạo Calendar với ngày hiện tại
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
-
-        // Định dạng ngày theo yêu cầu
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format, new Locale("vi", "VN"));
-        return dateFormat.format(calendar.getTime());
+        return new SimpleDateFormat(format, new Locale("vi", "VN")).format(calendar.getTime());
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oder_screen);
-        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
-        // Khởi tạo các view trong layout
+
         imgBack = findViewById(R.id.imgBack);
         btnOrder = findViewById(R.id.btnOrder);
+        show_more_oder = findViewById(R.id.show_more_oder);
         addressLayout = findViewById(R.id.addressLayout);
-        ship = findViewById(R.id.ship);
-        pay = findViewById(R.id.pay);
-        voucher = findViewById(R.id.voucher);
+        recyclerView = findViewById(R.id.recycler_view_oder);
+        addressName = findViewById(R.id.address_name);
+        addressPhone = findViewById(R.id.address_phone);
+        addressDetail = findViewById(R.id.address_detail);
         tvLeaveMessage = findViewById(R.id.tvLeaveMessage1);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
-        total_amount = findViewById(R.id.total_amount);
-        shipping_money = findViewById(R.id.shipping_money);
-        money_pay1 = findViewById(R.id.money_pay1);
-        money_pay = findViewById(R.id.money_pay);
+        tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
         tvPaymentDetail = findViewById(R.id.tvPaymentDetail);
         productDiscounttv = findViewById(R.id.productDiscounttv);
         shipDiscounttv = findViewById(R.id.shipDiscounttv);
+        shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
+        productDiscountPrice = findViewById(R.id.productDiscountPrice);
         clause = findViewById(R.id.clause);
         estimated_delivery = findViewById(R.id.estimated_delivery);
         voucher_info = findViewById(R.id.voucher_info);
         old_price = findViewById(R.id.old_price);
         new_price = findViewById(R.id.new_price);
         shipping_method_name = findViewById(R.id.shipping_method_name);
-        // Các TextView để hiển thị thông tin giảm giá
-        shipDiscountPrice = findViewById(R.id.shipDiscountPrice);
-        productDiscountPrice = findViewById(R.id.productDiscountPrice);
-        show_more_oder = findViewById(R.id.show_more_oder);
-        tvTotalAmountLabel = findViewById(R.id.tvTotalAmountLabel);
+        total_amount = findViewById(R.id.total_amount);
+        shipping_money = findViewById(R.id.shipping_money);
+        money_pay1 = findViewById(R.id.money_pay1);
+        money_pay = findViewById(R.id.money_pay);
+        ship = findViewById(R.id.ship);
+        pay = findViewById(R.id.pay);
+        voucher = findViewById(R.id.voucher);
 
-        addressName = findViewById(R.id.address_name);
-        addressPhone = findViewById(R.id.address_phone);
-        addressDetail = findViewById(R.id.address_detail);
+
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
 
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
@@ -176,7 +153,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         quantity1 = intent.getIntExtra("quantity1", 0);
         selectedColor = intent.getStringExtra("selectedColor");
         productImg = intent.getStringExtra("productImg");
-        recyclerView = findViewById(R.id.recycler_view_oder);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
 

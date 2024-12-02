@@ -51,11 +51,7 @@ public class Chat_contact extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_contact);
-        documentId = getIntent().getStringExtra("documentId");
-        Log.d("ContactSupport_screen", "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkfffffff " + documentId);
 
-
-        // Khởi tạo các thành phần giao diện
         chatRecyclerView = findViewById(R.id.recyclerViewChat);
         messageInput = findViewById(R.id.editTextMessage);
         sendButton = findViewById(R.id.buttonSend);
@@ -71,7 +67,7 @@ public class Chat_contact extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-
+        documentId = getIntent().getStringExtra("documentId");
         imgBack.setOnClickListener(v -> onBackPressed());
         // Gọi API để lấy lịch sử tin nhắn
         getChatHistory();

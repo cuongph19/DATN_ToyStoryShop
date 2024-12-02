@@ -39,11 +39,7 @@ public class PhoneNumber_screen extends AppCompatActivity {
         spinnerCountryCode = findViewById(R.id.spinnerCountryCode);
         btnNext = findViewById(R.id.btnNext);
         imgBack = findViewById(R.id.btnBack);
-
-        // Khởi tạo FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
-
-        // Nhận dữ liệu từ Intent
         name = getIntent().getStringExtra("name");
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");

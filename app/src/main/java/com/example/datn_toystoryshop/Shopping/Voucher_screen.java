@@ -43,8 +43,8 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_voucher_screen);
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         recyclerViewShip = findViewById(R.id.voucher_recycler_view_ship);
@@ -72,8 +72,6 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         Intent intent1 = getIntent();
         totalShipDiscount = intent1.getDoubleExtra("totalShipDiscount", 0);
         totalProductDiscount = intent1.getDoubleExtra("totalProductDiscount", 0);
-        Log.e("API_ERROR", "bttttttttttttttttttttt" + totalShipDiscount);
-        Log.e("API_ERROR", "btttttttttttttttttttttff " + totalProductDiscount);
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getVouchers().enqueue(new Callback<List<Voucher>>() {

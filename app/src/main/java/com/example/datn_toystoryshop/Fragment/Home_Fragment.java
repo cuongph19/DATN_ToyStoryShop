@@ -58,30 +58,72 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Home_Fragment extends Fragment {
-    private SwipeRefreshLayout swipeRefreshLayout;
 
-    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private EditText search_bar;
     private TextView recyclertextviewsuggestions;
     private ViewPager2 viewPager;
-    private Handler handler = new Handler();
-    private Runnable runnable;
     private FrameLayout new_arrivals, blind_box, figuring, other_products, sale, limited_figure;
-    private int currentPage = 0;
-    private RecyclerView recyclerViewNew, recyclerViewPopu;
-    private RecyclerView recyclerViewSuggestions;
-    private List<Product_Model> listProductModel;
+    private RecyclerView recyclerViewNew, recyclerViewPopu, recyclerViewSuggestions;
+    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
     private ProductNewAdapter productNewAdapter;
     private Product_Adapter productAdapter;
     private Suggestion_Adapter suggestionAdapter;
-    private List<Product_Model> popularProductList;
+    private List<Product_Model> listProductModel, popularProductList;
+    private Handler handler = new Handler();
+    private Runnable runnable;
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private APIService apiService;
+    private int currentPage = 0;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+// RecyclerViews
+        recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
+        recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
+        recyclertextviewsuggestions = view.findViewById(R.id.recycler_textview_suggestions);
+        recyclerViewSuggestions = view.findViewById(R.id.recycler_view_suggestions);
+// Buttons
+        btn_follow_store_1 = view.findViewById(R.id.btn_follow_store_1);
+        btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);
+        btn_follow_store_3 = view.findViewById(R.id.btn_follow_store_3);
+        btn_follow_store_4 = view.findViewById(R.id.btn_follow_store_4);
+        btn_see_all_new = view.findViewById(R.id.btn_see_all_new);
+        btn_see_all_popular = view.findViewById(R.id.btn_see_all_popular);
+        btn_view_all_stores = view.findViewById(R.id.btn_view_all_stores);
+// ViewPager
+        viewPager = view.findViewById(R.id.view_pager);
+// Categories
+        new_arrivals = view.findViewById(R.id.new_arrivals);
+        blind_box = view.findViewById(R.id.blind_box);
+        figuring = view.findViewById(R.id.figuring);
+        other_products = view.findViewById(R.id.other_products);
+        sale = view.findViewById(R.id.sale);
+        limited_figure = view.findViewById(R.id.limited_figure);
+// Search Bar
+        search_bar = view.findViewById(R.id.search_bar);
+
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            documentId = bundle.getString("documentId");
+        }
+
+        recyclerViewNew.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewPopu.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        recyclerViewSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerViewSuggestions.setVisibility(View.GONE);
+        recyclertextviewsuggestions.setVisibility(View.GONE);
 
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
@@ -91,45 +133,6 @@ public class Home_Fragment extends Fragment {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
-        btn_follow_store_1 = view.findViewById(R.id.btn_follow_store_1);
-        btn_follow_store_2 = view.findViewById(R.id.btn_follow_store_2);
-        btn_follow_store_3 = view.findViewById(R.id.btn_follow_store_3);
-        btn_follow_store_4 = view.findViewById(R.id.btn_follow_store_4);
-        btn_see_all_new = view.findViewById(R.id.btn_see_all_new);
-        btn_see_all_popular = view.findViewById(R.id.btn_see_all_popular);
-        btn_view_all_stores = view.findViewById(R.id.btn_view_all_stores);
-        search_bar = view.findViewById(R.id.search_bar);
-
-        recyclertextviewsuggestions = view.findViewById(R.id.recycler_textview_suggestions);
-        recyclerViewSuggestions = view.findViewById(R.id.recycler_view_suggestions);
-
-        viewPager = view.findViewById(R.id.view_pager);
-        new_arrivals = view.findViewById(R.id.new_arrivals);
-        blind_box = view.findViewById(R.id.blind_box);
-        figuring = view.findViewById(R.id.figuring);
-        other_products = view.findViewById(R.id.other_products);
-        sale = view.findViewById(R.id.sale);
-        limited_figure = view.findViewById(R.id.limited_figure);
-
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            documentId = bundle.getString("documentId");
-            Log.e("OrderHistoryAdapter", "j66666666666666666Home_Fragment" + documentId);
-
-        }
-
-        recyclerViewNew = view.findViewById(R.id.recyclerViewNewProducts);
-        recyclerViewPopu = view.findViewById(R.id.recyclerViewpopularProducts);
-
-        recyclerViewNew.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewPopu.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        recyclerViewSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerViewSuggestions.setVisibility(View.GONE);
-        recyclertextviewsuggestions.setVisibility(View.GONE);
         // Lắng nghe sự kiện chạm cho toàn bộ view
         view.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -148,7 +151,7 @@ public class Home_Fragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        APIService apiService = retrofit.create(APIService.class);
+         apiService = retrofit.create(APIService.class);
 
         loadProducts(apiService);
         loadPopularProducts(apiService);
@@ -208,129 +211,56 @@ public class Home_Fragment extends Fragment {
             }
         };
         handler.postDelayed(runnable, 3000);
-        new_arrivals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), NewArrivals_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        blind_box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), BlindBox_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        figuring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), Figuring_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        other_products.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), OtherProducts_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        sale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), Sale_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        limited_figure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), LimitedFigure_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        //////////////////////
-        btn_see_all_new.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), All_new_screen.class);
-                intent.putExtra("documentId", documentId);
-                intent.putExtra("productList", (Serializable) listProductModel); // truyền productModelList
-                startActivity(intent);
-            }
-        });
-        btn_see_all_popular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Popular_screen.class);
-                intent.putExtra("documentId", documentId);
-                intent.putExtra("productListPopu", (Serializable) popularProductList); // truyền popularProductList
-                startActivity(intent);
-            }
-        });
 
-        btn_view_all_stores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển sang NewActivity
-                Intent intent = new Intent(getActivity(), Store_follow_screen.class);
-                startActivity(intent);
-            }
-        });
-        ///////////////
+        setupClickListeners();
 
-        btn_follow_store_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://youtube.com/@ToyStationVietnam"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.youtube.com/@dochoirobot9952"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.youtube.com/@mykingdom"));
-                startActivity(intent);
-            }
-        });
-        btn_follow_store_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.youtube.com/@HOBIVERSEVIETNAM"));
-                startActivity(intent);
-            }
-        });
         swipeRefreshLayout.setOnRefreshListener(() -> {
             loadData(apiService);
             swipeRefreshLayout.setRefreshing(false); // Tắt hiệu ứng loading của SwipeRefreshLayout
         });
 
         return view;
+    }
+    private void navigateToScreen(Class<?> targetScreen, String key, Serializable value) {
+        Intent intent = new Intent(getActivity(), targetScreen);
+        intent.putExtra("documentId", documentId);
+        if (key != null && value != null) {
+            intent.putExtra(key, value);
+        }
+        startActivity(intent);
+    }
+    private void openLink(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
+    private void setupClickListeners() {
+        // Chuyển màn hình đến các Activity khác
+        new_arrivals.setOnClickListener(v -> navigateToScreen(NewArrivals_screen.class, null, null));
+        blind_box.setOnClickListener(v -> navigateToScreen(BlindBox_screen.class, null, null));
+        figuring.setOnClickListener(v -> navigateToScreen(Figuring_screen.class, null, null));
+        other_products.setOnClickListener(v -> navigateToScreen(OtherProducts_screen.class, null, null));
+        sale.setOnClickListener(v -> navigateToScreen(Sale_screen.class, null, null));
+        limited_figure.setOnClickListener(v -> navigateToScreen(LimitedFigure_screen.class, null, null));
+
+        // Xem tất cả sản phẩm mới và phổ biến
+        btn_see_all_new.setOnClickListener(v -> navigateToScreen(All_new_screen.class, "productList", (Serializable) listProductModel));
+        btn_see_all_popular.setOnClickListener(v -> navigateToScreen(Popular_screen.class, "productListPopu", (Serializable) popularProductList));
+
+        // Xem tất cả cửa hàng
+        btn_view_all_stores.setOnClickListener(v -> navigateToScreen(Store_follow_screen.class, null, null));
+
+        // Theo dõi các cửa hàng
+        btn_follow_store_1.setOnClickListener(v -> openLink("https://youtube.com/@ToyStationVietnam"));
+        btn_follow_store_2.setOnClickListener(v -> openLink("https://www.youtube.com/@dochoirobot9952"));
+        btn_follow_store_3.setOnClickListener(v -> openLink("https://www.youtube.com/@mykingdom"));
+        btn_follow_store_4.setOnClickListener(v -> openLink("https://www.youtube.com/@HOBIVERSEVIETNAM"));
+
+        // Tải lại dữ liệu khi refresh
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadData(apiService);
+            swipeRefreshLayout.setRefreshing(false); // Tắt hiệu ứng loading
+        });
     }
 
     private void loadData(APIService apiService) {

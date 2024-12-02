@@ -49,18 +49,21 @@ public class Home_screen extends AppCompatActivity {
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private String documentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        bottomNavigationView = findViewById(R.id.bottomNaviView);
+        frameLayout = findViewById(R.id.fragmentLayout);
+        header_title = findViewById(R.id.header_title);
+        cart_full_icon = findViewById(R.id.cart_full_icon);
+        heart_icon = findViewById(R.id.heart_icon);
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
         // Khởi tạo NotificationManager
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -72,7 +75,7 @@ public class Home_screen extends AppCompatActivity {
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
-        String documentId = intent.getStringExtra("documentId");
+        documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j66666666666666666Home_screen" + documentId);
 
         // Truyền dữ liệu cho Fragment
@@ -91,36 +94,9 @@ public class Home_screen extends AppCompatActivity {
                 .replace(R.id.fragmentLayout, homeFragment)
                 .commit();
 
-        bottomNavigationView = findViewById(R.id.bottomNaviView);
-        frameLayout = findViewById(R.id.fragmentLayout);
-        header_title = findViewById(R.id.header_title);
-        cart_full_icon = findViewById(R.id.cart_full_icon);
-        heart_icon = findViewById(R.id.heart_icon);
 
-        header_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Load lại màn hình hiện tại
-                recreate();
-            }
-        });
-        cart_full_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home_screen.this, Cart_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
-        heart_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home_screen.this, Favorite_screen.class);
-                intent.putExtra("documentId", documentId);
-                startActivity(intent);
-            }
-        });
 
+        setupClickListeners();
         // Hiển thị Home_Fragment ngay khi vào màn hình Home
         loadFragment(new Home_Fragment(), bundle);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -143,6 +119,19 @@ public class Home_screen extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    private void setupClickListeners() {
+        header_title.setOnClickListener(v -> recreate());
+
+        cart_full_icon.setOnClickListener(v -> navigateToScreen(Cart_screen.class));
+
+        heart_icon.setOnClickListener(v -> navigateToScreen(Favorite_screen.class));
+    }
+
+    private void navigateToScreen(Class<?> targetScreen) {
+        Intent intent = new Intent(Home_screen.this, targetScreen);
+        intent.putExtra("documentId", documentId);
+        startActivity(intent);
     }
 
     private void loadFragment(Fragment fragment, Bundle args) {

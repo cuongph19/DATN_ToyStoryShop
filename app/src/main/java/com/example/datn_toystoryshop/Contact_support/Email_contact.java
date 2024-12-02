@@ -38,17 +38,16 @@ public class Email_contact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_contact);
+
         imgBack = findViewById(R.id.imgBackEm);
         etEmail = findViewById(R.id.etEmail);
         btnAttachFile = findViewById(R.id.btnAttachFile);
         btnSend = findViewById(R.id.btnSend);
         tvAttachmentLabel = findViewById(R.id.tvAttachmentLabel);
-/////////////code set cứng maill////////////////////
+
         db = FirebaseFirestore.getInstance();
         documentId = getIntent().getStringExtra("documentId");
-        Log.d("ContactSupport_screen", "Document ID received: " + documentId);
         loadUserDataByDocumentId(documentId);
-/////////////code hiển thị Spinner////////////////////
         Spinner serviceSpinner = findViewById(R.id.spService);
         String[] services = {
                 " - Chọn loại - ",

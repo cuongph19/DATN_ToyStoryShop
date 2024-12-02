@@ -48,19 +48,20 @@ public class History_purchase_screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_purchase_screen);
-        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        nightMode = sharedPreferences.getBoolean("night", false);
+
         // Initialize UI components
         spinnerMonth = findViewById(R.id.spinnerMonth);
         spinnerYear = findViewById(R.id.spinnerYear);
         rvOrderHistory = findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        nightMode = sharedPreferences.getBoolean("night", false);
+
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("API_ERROR", "bttttttttttttttttttttt" + documentId);
-        // Setup spinners
-      //  setupSpinners();
+        setupSpinners();
 
         APIService apiService = RetrofitClient.getAPIService();
         adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService);
