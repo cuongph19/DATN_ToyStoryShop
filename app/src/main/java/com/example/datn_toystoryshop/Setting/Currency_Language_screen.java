@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.datn_toystoryshop.CurrencyConverter;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 
@@ -31,8 +30,8 @@ public class Currency_Language_screen extends AppCompatActivity {
     private ImageView imgBack;
     private boolean isSpinnerInitial = true;  // Biến để kiểm soát lần đầu khởi tạo Spinner
     private String currentLanguage;  // Ngôn ngữ hiện tại
-    private Spinner spinnerLanguages, spinnerCurrency;
-    private TextView tvCurrencyValue;
+    private Spinner spinnerLanguages;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +41,14 @@ public class Currency_Language_screen extends AppCompatActivity {
         // Đọc ngôn ngữ và tiền tệ hiện tại từ SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         currentLanguage = prefs.getString(LANGUAGE_KEY, Locale.getDefault().getLanguage());
-        String currentCurrency = prefs.getString(CURRENCY_KEY, "VND"); // Giá trị mặc định là VND
 
-        tvCurrencyValue = findViewById(R.id.tvCurrencyValue);
         imgBack = findViewById(R.id.btnBack); // Khởi tạo nút quay lại
         spinnerLanguages = findViewById(R.id.language_spinner);
-        spinnerCurrency = findViewById(R.id.currency_spinner);
 
         // Cập nhật vị trí của Spinner dựa trên ngôn ngữ đã lưu
         setSpinnerLanguagePosition(currentLanguage);
 
-        // Cập nhật vị trí của Spinner dựa trên tiền tệ đã lưu
-        setSpinnerCurrencyPosition(currentCurrency);
 
-        // Hiển thị giá trị mặc định
-        updateCurrencyValue(currentCurrency);
 
         // Sự kiện quay lại
         imgBack.setOnClickListener(v -> onBackPressed());
@@ -71,23 +63,19 @@ public class Currency_Language_screen extends AppCompatActivity {
                 }
 
                 String selectedLanguage;
-                int currencyPosition;
                 switch (position) {
                     case 0:
                         selectedLanguage = "vi";
-                        currencyPosition = 0; // VND
+
                         break;
                     case 1:
                         selectedLanguage = "en";
-                        currencyPosition = 1; // USD
                         break;
                     case 2:
                         selectedLanguage = "zh";
-                        currencyPosition = 2; // CNY
                         break;
                     case 3:
                         selectedLanguage = "ja";
-                        currencyPosition = 3; // JPY
                         break;
                     default:
                         return;
@@ -97,9 +85,6 @@ public class Currency_Language_screen extends AppCompatActivity {
                 if (!selectedLanguage.equals(currentLanguage)) {
                     setLocale(selectedLanguage);
                 }
-
-                // Đặt giá trị mặc định cho Spinner tiền tệ
-                spinnerCurrency.setSelection(currencyPosition);
             }
 
             @Override
@@ -108,55 +93,8 @@ public class Currency_Language_screen extends AppCompatActivity {
             }
         });
 
-        // Xử lý sự kiện chọn tiền tệ từ Spinner
-        spinnerCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCurrency;
-                switch (position) {
-                    case 0:
-                        selectedCurrency = "VND";
-                        break;
-                    case 1:
-                        selectedCurrency = "USD";
-                        break;
-                    case 2:
-                        selectedCurrency = "CNY";
-                        break;
-                    case 3:
-                        selectedCurrency = "JPY";
-                        break;
-                    default:
-                        return;
-                }
-
-                // Lưu loại tiền tệ mới vào SharedPreferences
-                saveCurrency(selectedCurrency);
-
-                // Cập nhật giá trị hiển thị tiền tệ
-                updateCurrencyValue(selectedCurrency);
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Không làm gì khi không chọn
-            }
-        });
     }
 
-    // Cập nhật giá trị tiền tệ hiển thị
-    private void updateCurrencyValue(String currency) {
-        double baseValue = 40000; // Giá trị gốc: 40.000 VND
-
-        // Sử dụng CurrencyConverter để chuyển đổi và định dạng
-        String formattedValue = CurrencyConverter.convertAndFormat(baseValue, currency);
-
-        // Cập nhật giá trị hiển thị trong TextView
-        tvCurrencyValue.setText(formattedValue);
-
-    }
 
     // Đặt vị trí Spinner cho ngôn ngữ
     private void setSpinnerLanguagePosition(String language) {
@@ -179,33 +117,8 @@ public class Currency_Language_screen extends AppCompatActivity {
         }
     }
 
-    // Đặt vị trí Spinner cho tiền tệ
-    private void setSpinnerCurrencyPosition(String currency) {
-        switch (currency) {
-            case "VND":
-                spinnerCurrency.setSelection(0);
-                break;
-            case "USD":
-                spinnerCurrency.setSelection(1);
-                break;
-            case "CNY":
-                spinnerCurrency.setSelection(2);
-                break;
-            case "JPY":
-                spinnerCurrency.setSelection(3);
-                break;
-            default:
-                spinnerCurrency.setSelection(0); // Mặc định là VND
-                break;
-        }
-    }
 
-    // Lưu tiền tệ vào SharedPreferences
-    private void saveCurrency(String currency) {
-        SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString(CURRENCY_KEY, currency);
-        editor.apply();
-    }
+
 
     // Phương thức thay đổi ngôn ngữ
     private void setLocale(String lang) {

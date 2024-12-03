@@ -24,14 +24,7 @@
         android:gravity="center"
         android:orientation="vertical">
         <!-- TextView để chọn ngôn ngữ -->
-        <TextView
-            android:id="@+id/tvCurrencyValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="40.000đ"
-            android:textSize="18sp" />
+
 
         <TextView
             android:id="@+id/textViewLanguage"
@@ -52,24 +45,6 @@
             android:popupBackground="#0D47A1"
             android:textColor="#FFFFFF" />
 
-        <TextView
-            android:id="@+id/textViewcurrency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/select_currency"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp" />
 
-        <!-- Spinner để chọn ngôn ngữ -->
-        <Spinner
-            android:id="@+id/currency_spinner"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/spinner_background"
-            android:entries="@array/currency_array"
-            android:popupBackground="#0D47A1"
-            android:textColor="#FFFFFF" />
     </LinearLayout>
 </LinearLayout>

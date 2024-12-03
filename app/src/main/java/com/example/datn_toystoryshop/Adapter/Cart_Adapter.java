@@ -3,7 +3,6 @@ package com.example.datn_toystoryshop.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.CurrencyConverter;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
@@ -51,10 +49,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     private int quantity;
     private APIService apiService;
     private boolean isDefaultSelected = true; // Biến trạng thái để theo dõi giá trị mặc định
-
-    private boolean isHiddenTextViewVisible(CartViewHolder holder) {
-        return holder.hiddenTextView.getVisibility() == View.VISIBLE;
-    }
 
     public Cart_Adapter(Context context, List<Cart_Model> cartList, APIService apiService, String documentId) {
         this.context = context;
@@ -189,14 +183,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
             public void onSuccess(Product_Model product) {
-                //////////////////code test chức năng đổi tiền
-                SharedPreferences prefs = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-                String currency = prefs.getString("current_currency", "VND"); // Mặc định là VND
-                String formattedPrice = CurrencyConverter.convertAndFormat(product.getPrice(), currency);
-                Log.e("cartAdapter", "aaaaaaaaaaaaaaaaaaaaa" + formattedPrice);
-                ///////////////
+
                 holder.productName.setText(product.getNamePro());
-                holder.productPrice.setText(String.format(formattedPrice));
+                holder.productPrice.setText(String.format("%,.0fđ", product.getPrice()));
                 List<String> images = product.getImgPro();
                 if (images != null && !images.isEmpty()) {
                     Glide.with(context).load(images.get(0)).into(holder.productImage);

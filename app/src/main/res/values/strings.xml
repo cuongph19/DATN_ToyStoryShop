@@ -23,7 +23,7 @@
     <!-- Profile_Fragment -->
     <string name="sign_out_success_pro">Đăng xuất thành công</string>
     <string name="setting_pro">Cài đặt</string>
-    <string name="language_currency_pro">Ngôn ngữ và tiền tệ</string>
+    <string name="language_currency_pro">Ngôn ngữ </string>
     <string name="evaluate_pro">Đánh giá Ứng dụng</string>
     <string name="refer_friends_pro">Giới thiệu bạn bè</string>
     <string name="terms_conditions_pro">Điều khoản &amp; Điều kiện</string>
