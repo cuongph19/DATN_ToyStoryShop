@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:gravity="center"
-            android:text="Phương thức vận chuyển"
+            android:text="@string/method_ship"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -41,7 +41,7 @@
         android:alpha="0.8"
         android:background="#CACACA"
         android:padding="16dp"
-        android:text="Các phương thức vận chuyển của Shopee\nBạn có thể theo dõi đơn hàng trên ứng dụng Shopee khi chọn một trong các phương thức vận chuyển:"
+        android:text="@string/shipping_methods"
         android:textColor="#555"
         android:textSize="14sp" />
     <!-- Phương thức Nhanh -->
@@ -70,7 +70,7 @@
                     android:id="@+id/tvFastShipping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhanh"
+                    android:text="@string/fast"
                     android:textColor="#000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -140,7 +140,7 @@
                     android:id="@+id/tvExpressShipping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hỏa Tốc"
+                    android:text="@string/express_shipping"
                     android:textColor="#000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -182,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Đảm bảo nhận hàng vào hôm nay"
+                    android:text="@string/guaranteed_delivery_today"
                     android:textColor="#00BFA5"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -206,57 +206,57 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <!-- Phương thức Hàng Cồng Kềnh -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="0.5"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:padding="16dp">
+<!--    &lt;!&ndash; Phương thức Hàng Cồng Kềnh &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:alpha="0.5"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="16dp">-->
 
-        <TextView
-            android:id="@+id/tvBulkyShipping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hàng Cồng Kềnh"
-            android:textColor="#777"
-            android:textSize="16sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvBulkyShipping"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Hàng Cồng Kềnh"-->
+<!--            android:textColor="#777"-->
+<!--            android:textSize="16sp" />-->
 
-        <TextView
-            android:id="@+id/tvBulkyShippingNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dưới giới hạn kích thước tối thiểu"
-            android:textColor="#777"
-            android:textSize="14sp" />
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/tvBulkyShippingNote"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Dưới giới hạn kích thước tối thiểu"-->
+<!--            android:textColor="#777"-->
+<!--            android:textSize="14sp" />-->
+<!--    </LinearLayout>-->
 
-    <!-- Phương thức Tiết kiệm -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="0.5"
-        android:background="#FAFAFA"
-        android:orientation="vertical"
-        android:padding="16dp">
+<!--    &lt;!&ndash; Phương thức Tiết kiệm &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:alpha="0.5"-->
+<!--        android:background="#FAFAFA"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="16dp">-->
 
-        <TextView
-            android:id="@+id/tvEconomyShipping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiết kiệm"
-            android:textColor="#777"
-            android:textSize="16sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvEconomyShipping"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Tiết kiệm"-->
+<!--            android:textColor="#777"-->
+<!--            android:textSize="16sp" />-->
 
-        <TextView
-            android:id="@+id/tvEconomyShippingNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Không hỗ trợ"
-            android:textColor="#777"
-            android:textSize="14sp" />
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/tvEconomyShippingNote"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Không hỗ trợ"-->
+<!--            android:textColor="#777"-->
+<!--            android:textSize="14sp" />-->
+<!--    </LinearLayout>-->
 
     <!-- Nút Xác nhận -->
     <TextView
@@ -270,7 +270,7 @@
         android:focusable="true"
         android:gravity="center"
         android:padding="12dp"
-        android:text="Xác nhận"
+        android:text="@string/confirm"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 </LinearLayout>

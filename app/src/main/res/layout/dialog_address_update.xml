@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingVertical="16dp"
-        android:text="Thay đổi địa chỉ"
+        android:text="@string/change_address"
         android:textColor="#001A61"
         android:textSize="24sp" />
 
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#001A61"
-        android:hint="Họ và tên"
+        android:hint="@string/name_hint"
         android:inputType="textPersonName"
         android:padding="12dp" />
 
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#001A61"
-        android:hint="Số điện thoại"
+        android:hint="@string/phone_address"
         android:inputType="phone"
         android:padding="12dp" />
 
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#001A61"
-        android:hint="Địa chỉ"
+        android:hint="@string/location"
         android:inputType="textPostalAddress"
         android:padding="12dp" />
 
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#001A61"
-        android:hint="Chi tiết địa chỉ"
+        android:hint="@string/address_details"
         android:inputType="text"
         android:padding="12dp" />
 
@@ -74,7 +74,7 @@
         android:layout_marginTop="24dp"
         android:backgroundTint="#001A61"
         android:paddingVertical="16dp"
-        android:text="Lưu"
+        android:text="@string/save"
         android:textColor="#FFFFFF" />
 
 </LinearLayout>

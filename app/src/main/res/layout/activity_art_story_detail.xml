@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:text="Tiêu đề bài viết"
+            android:text="@string/article_title"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Tác giả"
+                android:text="@string/author"
                 android:textSize="14sp" />
 
             <TextView
@@ -54,7 +54,7 @@
                 style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày đăng"
+                android:text="@string/publish_date"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:text="Nội dung chi tiết của bài viết"
+            android:text="@string/article_content"
             android:textSize="16sp" />
 
         <!-- Ảnh xen kẽ 1 -->
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:text="Chú thích ảnh 1"
+            android:text="@string/image_caption_1"
             android:textSize="14sp" />
 
         <!-- Ảnh xen kẽ 2 -->
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:text="Chú thích ảnh 2"
+            android:text="@string/image_caption_2"
             android:textSize="14sp" />
 
         <!-- Ảnh xen kẽ 3 -->
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:text="Chú thích ảnh 3"
+            android:text="@string/image_caption_3"
             android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>

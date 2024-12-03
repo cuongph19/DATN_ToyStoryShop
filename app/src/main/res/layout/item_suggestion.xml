@@ -30,7 +30,7 @@
                 android:id="@+id/suggestion_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tên sản phẩm"
+                android:text="@string/name_pro"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -39,7 +39,7 @@
                 android:id="@+id/suggestion_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giá"
+                android:text="@string/price"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="16sp" />
         </LinearLayout>

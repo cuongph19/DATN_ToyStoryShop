@@ -229,7 +229,6 @@
     <string name="category">分类</string>
 
 
-    <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
     <string name="favorite_list">收藏夹</string>
     <string name="my_store">我的商店</string>
     <string name="name_pro">产品名称</string>
@@ -262,6 +261,95 @@
     <string name="info_pro">产品信息</string>
     <string name="info_order">订单信息</string>
     <string name="feedback_order_his">评价</string>
+
+    <string name="article_title">文章标题</string>
+    <string name="author">作者</string>
+    <string name="publish_date">发布日期</string>
+    <string name="article_content">文章详细内容</string>
+    <string name="image_caption_1">图片说明 1</string>
+    <string name="image_caption_2">图片说明 2</string>
+    <string name="image_caption_3">图片说明 3</string>
+    <string name="filter">筛选</string>
+    <string name="enter_password">输入密码</string>
+    <string name="chat">聊天</string>
+    <string name="purchased_products">已购买商品</string>
+    <string name="shop_voucher">店铺优惠券</string>
+    <string name="save_money">省钱</string>
+    <string name="approved_check">已通过检查</string>
+    <string name="message_for_shop">给店铺的留言</string>
+    <string name="leave_message">留下留言</string>
+    <string name="free_shipping">免运费</string>
+    <string name="payment_on_delivery">货到付款</string>
+    <string name="agree_terms">点击‘下单’即表示您同意遵守</string>
+    <string name="soy_story_terms">SoyStory 条款</string>
+    <string name="place_order">下单</string>
+    <string name="contact_shop">联系店铺</string>
+    <string name="total_amount">总金额</string>
+    <string name="paypal_wallet_favorite">PayPal 钱包（收藏）</string>
+    <string name="agree">同意</string>
+
+    <string name="fast_delivery_excluding_weekends">快速送达（不含周六 - 周日）</string>
+    <string name="official_distribution">ToyStory Shop 是品牌的官方分销商</string>
+    <string name="discount_shipping_for_all_orders">所有订单均享运费折扣</string>
+    <string name="note_return_exchange">***注意：若为生产商问题，商品可在收到货后3天内退/换，需提供开箱视频。</string>
+    <string name="low_stock">库存不足：剩余</string>
+    <string name="product"> 件商品</string>
+    <string name="details">商品详情</string>
+    <string name="shipping_methods">ToyStory Shop 的配送方式\n选择以下任意配送方式，即可通过 ToyStory Shop 应用程序跟踪订单：</string>
+    <string name="fast">快速</string>
+    <string name="express_shipping">特快</string>
+    <string name="guaranteed_delivery_today">保证今天送达</string>
+    <string name="confirm">确认</string>
+    <string name="store_location">店铺位置</string>
+    <string name="toy_story_shop_description">ToyStory Shop 是销售来自知名品牌的正版玩具模型的零售系统，如 LEGO、Bandai、Funko、Hot Wheels 等。</string>
+    <string name="enter_location_to_find_nearest_store">输入位置以查找最近的店铺</string>
+    <string name="enter_email">输入邮箱</string>
+    <string name="enter_name">输入姓名</string>
+    <string name="enter_phone_number">输入手机号</string>
+    <string name="select_voucher">选择优惠券</string>
+    <string name="shipping_fee_discount">运费优惠</string>
+    <string name="can_select_one_voucher">可选择一张优惠券</string>
+    <string name="see_more">查看更多</string>
+    <string name="change_address">更改地址</string>
+    <string name="address_details">地址详情</string>
+    <string name="wholesale_price_available">提供批发价</string>
+
+    <string name="quantity">数量</string>
+    <string name="warehouse">仓库</string>
+    <string name="price">价格</string>
+    <string name="apply">应用</string>
+    <string name="from">从</string>
+    <string name="to">到</string>
+    <string name="sort">排序</string>
+    <string name="purchase_order">购买订单</string>
+    <string name="view_purchase_history">查看购买历史</string>
+    <string name="waiting_for_confirmation">等待确认</string>
+    <string name="waiting_for_pickup">等待取货</string>
+    <string name="waiting_for_delivery">等待送货</string>
+    <string name="free_return">免费退货</string>
+    <string name="in_stock">有货</string>
+    <string name="product_description">产品描述</string>
+    <string name="customer_name">客户姓名</string>
+    <string name="customer_phone">客户电话</string>
+    <string name="customer_address">客户地址</string>
+    <string name="default1">默认</string>
+    <string name="delete">删除</string>
+    <string name="review_content">评价内容</string>
+    <string name="product_review">产品评价</string>
+    <string name="delivered">已送达</string>
+    <string name="limited_stock">库存有限</string>
+    <string name="maximum_discount">最大折扣</string>
+    <string name="minimum_order_0d">最低订单 0₫</string>
+
+    <string name="sort_by1">排序方式</string>
+    <string name="highlighted">突出</string>
+    <string name="best_selling">畅销</string>
+    <string name="alphabetical_order">字母顺序 (A-Z)</string>
+    <string name="reverse_alphabetical_order">逆字母顺序 (Z-A)</string>
+    <string name="price_low_to_high">价格 (从低到高)</string>
+    <string name="price_high_to_low">价格 (从高到低)</string>
+    <string name="date_newest_to_oldest">日期 (从新到旧)</string>
+    <string name="date_oldest_to_newest">日期 (从旧到新)</string>
 
 
 </resources>

@@ -51,7 +51,7 @@
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@color/colorAccent"
                 android:drawableEnd="@drawable/ic_filter"
-                android:text="Bộ lọc"
+                android:text="@string/filter"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 

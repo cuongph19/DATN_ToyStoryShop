@@ -28,7 +28,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="10dp"
             android:gravity="center_horizontal"
-            android:text="Vị trí cửa hàng"
+            android:text="@string/store_location"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_marginTop="16dp"
-            android:text="ToyStory Shop là hệ thống bán lẻ chính hãng các mô hình đồ chơi từ các thương hiệu nổi tiếng như LEGO, Bandai, Funko, Hot Wheels,..."
+            android:text="@string/toy_story_shop_description"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -66,7 +66,7 @@
         android:layout_margin="5dp"
         android:background="@drawable/edittext_background"
         android:drawableStart="@drawable/ic_search"
-        android:hint="Nhập vị trí để tìm cửa hàng gần nhất"
+        android:hint="@string/enter_location_to_find_nearest_store"
         android:padding="10dp" />
 
     <!-- Dropdown for selecting city/province and district -->

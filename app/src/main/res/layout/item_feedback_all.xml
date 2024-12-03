@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Tên sản phẩm"
+                android:text="@string/name_pro"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
@@ -52,7 +52,7 @@
                 android:id="@+id/edRemainingDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Đánh giá sản phẩm"
+                android:hint="@string/product_review"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="Đánh giá"
+            android:text="@string/feedback_order_his"
             android:textColor="@color/black"
             android:textSize="14sp" />
     </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:maxLines="1"
-            android:text="Đánh giá sản phẩm"
+            android:text="@string/product_review"
             android:textColor="@android:color/black" />
 
 

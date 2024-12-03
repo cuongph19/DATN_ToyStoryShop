@@ -235,7 +235,7 @@ public class Cart_screen extends AppCompatActivity {
     }
 
     public void updateTotalPayment(double total) {
-        TotalPayment.setText(String.format("Tổng thanh toán: %,.0f VND", total));
+        TotalPayment.setText(String.format("%,.0f VND", total));
         updateCheckoutButton();
     }
 

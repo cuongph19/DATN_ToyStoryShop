@@ -39,7 +39,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/bg_limited_stock_label"
             android:padding="2dp"
-            android:text="Số lượng có hạn"
+            android:text="@string/limited_stock"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/voucher_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giảm tối đa"
+                android:text="@string/maximum_discount"
                 android:textColor="#000000"
                 android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="4dp"
-                android:text="đ300k"
+                android:text="đ0"
                 android:textStyle="bold" /> <!-- Khoảng cách giữa chữ và số tiền -->
         </LinearLayout>
 
@@ -73,7 +73,7 @@
             android:id="@+id/minimunPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đơn tối thiểu 0đ"
+            android:text="@string/minimum_order_0d"
             android:textColor="#888888"
             android:textSize="12sp" />
 

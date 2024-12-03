@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:text="Sắp xếp theo"
+        android:text="@string/sort_by1"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -18,54 +18,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Nổi bật" />
+        android:text="@string/highlighted" />
 
     <TextView
         android:id="@+id/tv_best_selling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Bán chạy nhất" />
+        android:text="@string/best_selling" />
 
     <TextView
         android:id="@+id/tv_alphabetical_az"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Thứ tự bảng chữ cái (từ A-Z)" />
+        android:text="@string/alphabetical_order" />
 
     <TextView
         android:id="@+id/tv_alphabetical_za"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Thứ tự bảng chữ cái (từ Z-A)" />
+        android:text="@string/reverse_alphabetical_order" />
 
     <TextView
         android:id="@+id/tv_price_low_high"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Giá (từ thấp đến cao)" />
+        android:text="@string/price_low_to_high" />
 
     <TextView
         android:id="@+id/tv_price_high_low"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Giá (từ cao xuống thấp)" />
+        android:text="@string/price_high_to_low" />
 
     <TextView
         android:id="@+id/tv_date_new_old"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Ngày (từ mới đến cũ)" />
+        android:text="@string/date_newest_to_oldest" />
 
     <TextView
         android:id="@+id/tv_date_old_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Ngày (từ cũ đến mới)" />
+        android:text="@string/date_oldest_to_newest" />
 </LinearLayout>

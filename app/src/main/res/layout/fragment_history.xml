@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Đơn mua"
+            android:text="@string/purchase_order"
             android:textSize="16sp" />
 
         <!-- "Xem lịch sử mua hàng" -->
@@ -33,7 +33,7 @@
                 style="@style/TEXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xem lịch sử mua hàng"
+                android:text="@string/view_purchase_history"
                 android:textSize="16sp" />
 
             <!-- Mũi tên -->
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Chờ xác nhận"
+                android:text="@string/waiting_for_confirmation"
                 android:textSize="10sp" />
 
 
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Chờ lấy hàng"
+                android:text="@string/waiting_for_pickup"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -203,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Chờ giao hàng"
+                android:text="@string/waiting_for_delivery"
                 android:textSize="10sp" />
 
 
@@ -252,7 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Đánh giá"
+                android:text="@string/feedback_order_his"
                 android:textSize="10sp" />
         </LinearLayout>
 

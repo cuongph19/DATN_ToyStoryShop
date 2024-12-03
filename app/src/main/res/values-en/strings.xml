@@ -230,7 +230,6 @@
         <string name="location">Location</string>
         <string name="category">Category</string>
 
-        <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
         <string name="favorite_list">Favorite List</string>
         <string name="my_store">My Store</string>
         <string name="name_pro">Product Name</string>
@@ -263,6 +262,95 @@
         <string name="info_pro">Product information</string>
         <string name="info_order">Order information</string>
         <string name="feedback_order_his">Review</string>
+
+        <string name="article_title">Article Title</string>
+        <string name="author">Author</string>
+        <string name="publish_date">Publish Date</string>
+        <string name="article_content">Detailed Content of the Article</string>
+        <string name="image_caption_1">Image Caption 1</string>
+        <string name="image_caption_2">Image Caption 2</string>
+        <string name="image_caption_3">Image Caption 3</string>
+        <string name="filter">Filter</string>
+        <string name="enter_password">Enter Password</string>
+        <string name="chat">Chat</string>
+        <string name="purchased_products">Purchased Products</string>
+        <string name="shop_voucher">Shop Voucher</string>
+        <string name="save_money">Save Money</string>
+        <string name="approved_check">Approved Check</string>
+        <string name="message_for_shop">Message for Shop</string>
+        <string name="leave_message">Leave a Message</string>
+        <string name="free_shipping">Free Shipping</string>
+        <string name="payment_on_delivery">Payment on Delivery</string>
+        <string name="agree_terms">Clicking \'Place Order\' means you agree to follow</string>
+        <string name="soy_story_terms">SoyStory Terms</string>
+        <string name="place_order">Place Order</string>
+        <string name="contact_shop">Contact Shop</string>
+        <string name="total_amount">Total Amount</string>
+        <string name="paypal_wallet_favorite">PayPal Wallet (Favorite)</string>
+        <string name="agree">AGREE</string>
+
+        <string name="fast_delivery_excluding_weekends">Fast delivery (excluding Sat - Sun)</string>
+        <string name="official_distribution">ToyStory Shop officially distributes products from brands</string>
+        <string name="discount_shipping_for_all_orders">Shipping discount for all orders</string>
+        <string name="note_return_exchange">***Note: Products can be returned/exchanged within 3 days of receipt if due to manufacturer defects and must include an unboxing video.</string>
+        <string name="low_stock">Low stock: Remaining</string>
+        <string name="product"> product(s)</string>
+        <string name="details">Product Details</string>
+        <string name="shipping_methods">Shipping methods of ToyStory Shop\nYou can track your order on the ToyStory Shop app when choosing one of the following shipping methods:</string>
+        <string name="fast">Fast</string>
+        <string name="express_shipping">Express</string>
+        <string name="guaranteed_delivery_today">Guaranteed delivery today</string>
+        <string name="confirm">Confirm</string>
+        <string name="store_location">Store Location</string>
+        <string name="toy_story_shop_description">ToyStory Shop is an official retailer of toy models from famous brands such as LEGO, Bandai, Funko, Hot Wheels, etc.</string>
+        <string name="enter_location_to_find_nearest_store">Enter your location to find the nearest store</string>
+        <string name="enter_email">Enter email</string>
+        <string name="enter_name">Enter name</string>
+        <string name="enter_phone_number">Enter phone number</string>
+        <string name="select_voucher">Select Voucher</string>
+        <string name="shipping_fee_discount">Shipping Fee Discount</string>
+        <string name="can_select_one_voucher">Can select one voucher</string>
+        <string name="see_more">See More</string>
+        <string name="change_address">Change Address</string>
+        <string name="address_details">Address Details</string>
+        <string name="wholesale_price_available">Wholesale price available</string>
+
+        <string name="quantity">Quantity</string>
+        <string name="warehouse">Warehouse</string>
+        <string name="price">Price</string>
+        <string name="apply">Apply</string>
+        <string name="from">From</string>
+        <string name="to">To</string>
+        <string name="sort">Sort</string>
+        <string name="purchase_order">Purchase Order</string>
+        <string name="view_purchase_history">View Purchase History</string>
+        <string name="waiting_for_confirmation">Waiting for Confirmation</string>
+        <string name="waiting_for_pickup">Waiting for Pickup</string>
+        <string name="waiting_for_delivery">Waiting for Delivery</string>
+        <string name="free_return">Free Return</string>
+        <string name="in_stock">In Stock</string>
+        <string name="product_description">Product Description</string>
+        <string name="customer_name">Customer Name</string>
+        <string name="customer_phone">Customer Phone Number</string>
+        <string name="customer_address">Customer Address</string>
+        <string name="default1">Default</string>
+        <string name="delete">Delete</string>
+        <string name="review_content">Review Content</string>
+        <string name="product_review">Product Review</string>
+        <string name="delivered">Delivered</string>
+        <string name="limited_stock">Limited Stock</string>
+        <string name="maximum_discount">Maximum Discount</string>
+        <string name="minimum_order_0d">Minimum Order 0₫</string>
+
+        <string name="sort_by1">Sort by</string>
+        <string name="highlighted">Highlighted</string>
+        <string name="best_selling">Best Selling</string>
+        <string name="alphabetical_order">Alphabetical Order (A-Z)</string>
+        <string name="reverse_alphabetical_order">Reverse Alphabetical Order (Z-A)</string>
+        <string name="price_low_to_high">Price (Low to High)</string>
+        <string name="price_high_to_low">Price (High to Low)</string>
+        <string name="date_newest_to_oldest">Date (Newest to Oldest)</string>
+        <string name="date_oldest_to_newest">Date (Oldest to Newest)</string>
 
 
 </resources>
