@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Register_login.Forgot_pass;
+import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 
@@ -40,7 +44,7 @@ public class History_purchase_screen extends AppCompatActivity {
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
     private ImageView imgBack;
-
+    private LinearLayout history_cancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,8 @@ public class History_purchase_screen extends AppCompatActivity {
         rvOrderHistory = findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         imgBack = findViewById(R.id.ivBack);
+        history_cancel = findViewById(R.id.history_cancel);
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         if (nightMode) {
@@ -59,9 +65,16 @@ public class History_purchase_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        imgBack.setOnClickListener(v -> onBackPressed());
+
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
+
+        imgBack.setOnClickListener(v -> onBackPressed());
+        history_cancel.setOnClickListener(view -> {
+            Intent intent1 = new Intent(History_purchase_screen.this, history_cancel_screen.class);
+            intent1.putExtra("documentId", documentId);
+            startActivity(intent1);
+        });
 
         // Thiết lập Spinner
         setUpSpinners();

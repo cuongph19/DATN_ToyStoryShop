@@ -32,8 +32,8 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-//   String BASE_URL = "http://192.168.16.101:3000/";// cương
-      String BASE_URL  = "http://192.168.1.10:3000/";// huy
+   String BASE_URL = "http://192.168.16.101:3000/";// cương
+    //  String BASE_URL  = "http://192.168.1.10:3000/";// huy
     // String BASE_URL = "http://192.168.101.10:3000/";
 
 
@@ -80,6 +80,9 @@ public interface APIService {
     @GET("/api/orders/successful")
     Call<List<Order_Model>> getOrders_successful(@Query("cusId") String cusId);
 
+    @GET("/api/orders/canceled")
+    Call<List<Order_Model>> getOrders_canceled(@Query("cusId") String cusId);
+
     @GET("/api/feebacks")
     Call<List<Feeback_Model>> getFeeback(@Query("prodId") String prodId);
 
@@ -103,6 +106,9 @@ public interface APIService {
 
     @PUT("/api/update/cart/{cartId}")
     Call<Cart_Model> putCartUpdate(@Path("cartId") String cartId, @Body Cart_Model cartModel);
+
+    @PUT("/api/update/order/{orderId}")
+    Call<Cart_Model> putorderUpdate(@Path("orderId") String orderId, @Body Order_Model orderModel);
 
     @PUT("/api/update/product/{prodId}")
     Call<Product_Model> putProductUpdate(@Path("prodId") String prodId, @Body Product_Model productModel);

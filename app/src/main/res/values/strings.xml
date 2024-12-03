@@ -334,6 +334,9 @@
     <string name="date_newest_to_oldest">Ngày (từ mới đến cũ)</string>
     <string name="date_oldest_to_newest">Ngày (từ cũ đến mới)</string>
 
+    <string name="view_cancel_history">Xem lịch sử hủy</string>
+    <string name="canceled_products">Sản phẩm đã hủy</string>
+
 
 
     <string-array name="sort_options">
