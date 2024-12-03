@@ -51,6 +51,7 @@ public class NewArrivals_screen extends AppCompatActivity {
     private boolean nightMode;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
     private  APIService apiService;
+    private EditText searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class NewArrivals_screen extends AppCompatActivity {
         setContentView(R.layout.activity_newarrivals);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        searchBar = findViewById(R.id.search_bar);
+
 //        if (nightMode) {
 //            imgBack.setImageResource(R.drawable.back_icon);
 //        } else {
@@ -68,6 +71,20 @@ public class NewArrivals_screen extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("New Arrivals"); // Đặt tiêu đề là "Blind Box"
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
