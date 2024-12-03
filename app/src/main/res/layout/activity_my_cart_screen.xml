@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:layout_weight="1"
-                android:text="Shopee Voucher"
+                android:text="@string/shop_voucher"
                 android:textColor="#FF6600" />
 
             <TextView
@@ -105,16 +105,26 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/tvTotalPayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="Tổng thanh toán: 0đ"
+                    android:text="@string/total_pay"
                     android:textColor="#D32F2F"
                     android:textStyle="bold" />
-
+                    <TextView
+                        android:id="@+id/tvTotalPayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="0đ"
+                        android:textColor="#D32F2F"
+                        android:textStyle="bold" />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/Lldiscount"
                     android:layout_width="wrap_content"
@@ -126,7 +136,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="Tiết kiệm"
+                        android:text="@string/save_money"
                         android:textColor="#009688" />
 
                     <TextView

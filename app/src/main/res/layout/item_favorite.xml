@@ -41,7 +41,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Product Price -->
             <TextView
                 android:id="@+id/tvGia"
                 android:layout_width="wrap_content"
@@ -71,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvGia"
                 android:paddingTop="4dp"
-                android:text="Còn hàng"
+                android:text="@string/in_stock"
                 android:textColor="#4CAF50"
                 android:textSize="14sp" />
         </RelativeLayout>

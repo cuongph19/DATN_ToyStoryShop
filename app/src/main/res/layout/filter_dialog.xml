@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Giá"
+        android:text="@string/price"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Từ"
+            android:hint="@string/from"
             android:inputType="number" />
 
         <EditText
@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Đến"
+            android:hint="@string/to"
             android:inputType="number" />
     </LinearLayout>
 
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Thương hiệu"
+        android:text="@string/brand"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -135,5 +135,5 @@
         android:id="@+id/btn_apply_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Áp dụng" />
+        android:text="@string/apply" />
 </LinearLayout>

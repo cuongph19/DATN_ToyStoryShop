@@ -270,7 +270,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Nhận hàng nhanh chóng (không tính T7 - CN)"
+                        android:text="@string/fast_delivery_excluding_weekends"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -298,7 +298,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:text="ToyStory Shop phân phối chính hãng từ thương hiệu "
+                            android:text="@string/official_distribution"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -332,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Miễn phí giao hàng toàn quốc đơn trên 500k"
+                        android:text="@string/discount_shipping_for_all_orders"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -341,7 +341,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="***Lưu ý: Sản phẩm được hoàn/đổi trong vòng 3 ngày sau khi nhận hàng, nếu là lỗi do nhà sản xuất và phải có video khui mở kiện hàng."
+                    android:text="@string/note_return_exchange"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="13sp" />
 
@@ -362,7 +362,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Sắp hết hàng: Còn "
+                        android:text="@string/low_stock"
                         android:textSize="14sp" />
 
                     <TextView
@@ -378,7 +378,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" sản phẩm"
+                        android:text="@string/product"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -390,7 +390,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Details"
+                android:text="@string/details"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -416,7 +416,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Feedback"
+                android:text="@string/feedback_order_his"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

@@ -321,7 +321,7 @@
                         style="@style/TEXT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Được đồng kiểm"
+                        android:text="@string/approved_check"
                         android:textSize="14sp" />
                     <!-- Icon thông tin đồng kiểm -->
                     <ImageView
@@ -361,7 +361,7 @@
                         style="@style/TEXT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lời nhắn cho Shop"
+                        android:text="@string/message_for_shop"
                         android:textSize="16sp" />
 
                     <EditText
@@ -371,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="8dp"
-                        android:hint="Để lại lời nhắn"
+                        android:hint="@string/leave_message"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -441,7 +441,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@id/ivVoucherIcon"
-                        android:text="Shopee Voucher"
+                        android:text="@string/shop_voucher"
                         android:textSize="16sp" />
 
                     <TextView
@@ -452,7 +452,7 @@
                         android:layout_marginRight="8dp"
                         android:background="@drawable/bg_free_shipping"
                         android:padding="4dp"
-                        android:text="Miễn Phí Vận Chuyển"
+                        android:text="@string/free_shipping"
                         android:textColor="#00C853"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -508,7 +508,7 @@
                         style="@style/TEXT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thanh toán khi nhận hàng"
+                        android:text="@string/payment_on_delivery"
                         android:textSize="16sp" />
 
                     <!-- Mũi tên chỉ hướng -->
@@ -673,7 +673,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Tổng thanh toán"
+                                android:text="@string/total_pay"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
@@ -717,7 +717,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Nhấn 'Đặt hàng' đồng nghĩa với việc bạn đồng ý tuân theo"
+                            android:text="@string/agree_terms"
                             android:textColor="#888888"
                             android:textSize="14sp" />
 
@@ -727,7 +727,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="Điều khoản SoyStory"
+                            android:text="@string/soy_story_terms"
                             android:textColor="#2979FF"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -795,7 +795,7 @@
             android:layout_marginStart="5dp"
             android:background="#FF5722"
             android:gravity="center"
-            android:text="Đặt hàng"
+            android:text="@string/place_order"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 

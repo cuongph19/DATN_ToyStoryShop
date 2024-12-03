@@ -215,12 +215,11 @@
     <string name="category">Phân loại</string>
 
 
-    <string name="default_web_client_id">YOUR_CLIENT_ID_HERE</string>
     <string name="favorite_list">Danh sách ưa thích</string>
     <string name="my_store">Cửa hàng của tôi</string>
     <string name="name_pro">Tên sản phẩm</string>
     <string name="add_cart">Thêm vào giỏ hàng</string>
-    <string name="brand">Thương hiệu: </string>
+    <string name="brand">Thương hiệu </string>
 
     <string name="add_address">Thêm địa chỉ</string>
     <string name="name_address">Họ và tên</string>
@@ -244,6 +243,98 @@
     <string name="total_ship">Tổng tiền phí vận chuyển</string>
     <string name="total_pay">Tổng thanh toán</string>
     <string name="sp">Bạn cần hỗ trợ?</string>
+
+    <string name="article_title">Tiêu đề bài viết</string>
+    <string name="author">Tác giả</string>
+    <string name="publish_date">Ngày đăng</string>
+    <string name="article_content">Nội dung chi tiết của bài viết</string>
+    <string name="image_caption_1">Chú thích ảnh 1</string>
+    <string name="image_caption_2">Chú thích ảnh 2</string>
+    <string name="image_caption_3">Chú thích ảnh 3</string>
+    <string name="filter">Bộ lọc</string>
+    <string name="enter_password">Nhập mật khẩu</string>
+    <string name="chat">Trò chuyện</string>
+    <string name="purchased_products">Sản phẩm đã mua</string>
+    <string name="shop_voucher">Mã giảm giá</string>
+    <string name="save_money">Tiết kiệm</string>
+    <string name="approved_check">Được đồng kiểm</string>
+    <string name="message_for_shop">Lời nhắn cho Shop</string>
+    <string name="leave_message">Để lại lời nhắn</string>
+    <string name="free_shipping">Miễn Phí Vận Chuyển</string>
+    <string name="payment_on_delivery">Thanh toán khi nhận hàng</string>
+    <string name="agree_terms">Nhấn \'Đặt hàng\' đồng nghĩa với việc bạn đồng ý tuân theo</string>
+    <string name="soy_story_terms">Điều khoản SoyStory</string>
+    <string name="place_order">Đặt hàng</string>
+    <string name="contact_shop">Liên hệ Shop</string>
+    <string name="total_amount">Tổng số tiền</string>
+    <string name="paypal_wallet_favorite">Ví Pay Pal (Yêu thích)</string>
+    <string name="agree">ĐỒNG Ý</string>
+    ////////
+
+    <string name="fast_delivery_excluding_weekends">Nhận hàng nhanh chóng (không tính T7 - CN)</string>
+    <string name="official_distribution">ToyStory Shop phân phối chính hãng từ thương hiệu</string>
+    <string name="discount_shipping_for_all_orders">Giảm giá vận chuyển cho tất cả các đơn hàng</string>
+    <string name="note_return_exchange">***Lưu ý: Sản phẩm được hoàn/đổi trong vòng 3 ngày sau khi nhận hàng, nếu là lỗi do nhà sản xuất và phải có video khui mở kiện hàng.</string>
+    <string name="low_stock">Sắp hết hàng: Còn</string>
+    <string name="product"> sản phẩm</string>
+    <string name="details">Chi tiết sản phẩm</string>
+    <string name="shipping_methods">Các phương thức vận chuyển của ToyStory Shop\nBạn có thể theo dõi đơn hàng trên ứng dụng ToyStory Shop khi chọn một trong các phương thức vận chuyển:</string>
+    <string name="fast">Nhanh</string>
+    <string name="express_shipping">Hỏa Tốc</string>
+    <string name="guaranteed_delivery_today">Đảm bảo nhận hàng vào hôm nay</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="store_location">Vị trí cửa hàng</string>
+    <string name="toy_story_shop_description">ToyStory Shop là hệ thống bán lẻ chính hãng các mô hình đồ chơi từ các thương hiệu nổi tiếng như LEGO, Bandai, Funko, Hot Wheels,...</string>
+    <string name="enter_location_to_find_nearest_store">Nhập vị trí để tìm cửa hàng gần nhất</string>
+    <string name="enter_email">Nhập email</string>
+    <string name="enter_name">Nhập tên</string>
+    <string name="enter_phone_number">Nhập số điện thoại</string>
+    <string name="select_voucher">Chọn mã giảm giá</string>
+    <string name="shipping_fee_discount">Ưu đãi phí vận chuyển</string>
+    <string name="can_select_one_voucher">Có thể chọn 1 mã giảm giá</string>
+    <string name="see_more">Xem thêm</string>
+    <string name="change_address">Thay đổi địa chỉ</string>
+    <string name="address_details">Chi tiết địa chỉ</string>
+    <string name="wholesale_price_available">Có giá bán buôn, bán sỉ</string>
+
+    <string name="quantity">Số lượng</string>
+    <string name="warehouse">Kho</string>
+    <string name="price">Giá</string>
+    <string name="apply">Áp dụng</string>
+    <string name="from">Từ</string>
+    <string name="to">Đến</string>
+    <string name="sort">Sắp xếp</string>
+    <string name="purchase_order">Đơn mua</string>
+    <string name="view_purchase_history">Xem lịch sử mua hàng</string>
+    <string name="waiting_for_confirmation">Chờ xác nhận</string>
+    <string name="waiting_for_pickup">Chờ lấy hàng</string>
+    <string name="waiting_for_delivery">Chờ giao hàng</string>
+    <string name="free_return">Trả hàng miễn phí</string>
+    <string name="in_stock">Còn hàng</string>
+    <string name="product_description">Mô tả sản phẩm</string>
+    <string name="customer_name">Tên khách hàng</string>
+    <string name="customer_phone">Số điện thoại khách hàng</string>
+    <string name="customer_address">Địa chỉ khách hàng</string>
+    <string name="default1">Mặc định</string>
+    <string name="delete">Xóa</string>
+    <string name="review_content">Nội dung đánh giá</string>
+    <string name="product_review">Đánh giá sản phẩm</string>
+    <string name="delivered">Đã giao</string>
+    <string name="limited_stock">Số lượng có hạn</string>
+    <string name="maximum_discount">Giảm tối đa</string>
+    <string name="minimum_order_0d">Đơn tối thiểu 0đ</string>
+
+    <string name="sort_by1">Sắp xếp theo</string>
+    <string name="highlighted">Nổi bật</string>
+    <string name="best_selling">Bán chạy nhất</string>
+    <string name="alphabetical_order">Thứ tự bảng chữ cái (từ A-Z)</string>
+    <string name="reverse_alphabetical_order">Thứ tự bảng chữ cái (từ Z-A)</string>
+    <string name="price_low_to_high">Giá (từ thấp đến cao)</string>
+    <string name="price_high_to_low">Giá (từ cao xuống thấp)</string>
+    <string name="date_newest_to_oldest">Ngày (từ mới đến cũ)</string>
+    <string name="date_oldest_to_newest">Ngày (từ cũ đến mới)</string>
+
+
 
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>

@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Trần Cương"
+                android:text="@string/customer_name"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:id="@+id/address_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(+84) 382 200 084"
+                android:text="@string/customer_phone"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:text="Số Nhà 3, Ngách 21/1 Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội"
+        android:text="@string/customer_address"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Mặc định"
+            android:text="@string/default1"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="14sp" />
     </LinearLayout>
@@ -96,7 +96,7 @@
             android:id="@+id/delete_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xóa"
+            android:text="@string/delete"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
     </LinearLayout>

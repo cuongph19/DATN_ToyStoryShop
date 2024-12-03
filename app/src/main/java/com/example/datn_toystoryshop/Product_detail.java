@@ -317,7 +317,7 @@ public class Product_detail extends AppCompatActivity {
 
         productTitle.setText(productName);
         Price.setText("đ " + String.valueOf(productPrice));
-        productStock.setText("Kho : " + String.valueOf(quantity));
+        productStock.setText( String.valueOf(quantity));
         btnAddToCart.setText("Mua Ngay");
         if (!productImg.isEmpty()) {
             String firstImage = productImg.get(0);
