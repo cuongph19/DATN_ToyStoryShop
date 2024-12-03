@@ -49,6 +49,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private List<Product_Model> originalProductList = new ArrayList<>();
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
+    private APIService apiService;
 
 
     private boolean nightMode;
@@ -76,16 +77,19 @@ public class LimitedFigure_screen extends AppCompatActivity {
         Log.e("OrderHistoryAdapter", "j8888888888888888LimitedFigure_screen" + documentId);
 
 
-        APIService apiService = RetrofitClient.getAPIService();
+         apiService = RetrofitClient.getAPIService();
         apiService.getLimited().enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API Response", "Danh sách sản phẩm: " + response.body().toString());
                     originalProductList = new ArrayList<>(response.body()); // Cập nhật danh sách gốc
                     updateBrandCounts();  // Cập nhật số lượng các thương hiệu
                     adapter = new Product_Adapter(LimitedFigure_screen.this, originalProductList, documentId);
                     recyclerView.setAdapter(adapter);
+                    LoadAPI();
                 } else {
+                    Log.e("API Response", "Không có dữ liệu");
                     Toast.makeText(LimitedFigure_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -96,38 +100,36 @@ public class LimitedFigure_screen extends AppCompatActivity {
             }
         });
 
-        // Xử lý nút back
         backIcon = findViewById(R.id.back_icon);
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backIcon.setOnClickListener(v -> onBackPressed());
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            apiService.getLimited().enqueue(new Callback<List<Product_Model>>() {
-                @Override
-                public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
-                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng làm mới
-                    if (response.isSuccessful() && response.body() != null) {
-                        List<Product_Model> products = response.body();
-                        adapter.updateData(products); // Cập nhật dữ liệu trong adapter
-                        Toast.makeText(LimitedFigure_screen.this, "Làm mới thành công!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());
-                        Toast.makeText(LimitedFigure_screen.this, "Không thể làm mới dữ liệu.", Toast.LENGTH_SHORT).show();
-                    }
-                }
+            LoadAPI();
 
-                @Override
-                public void onFailure(Call<List<Product_Model>> call, Throwable t) {
-                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng làm mới
-                    Log.e("API_ERROR", "Lỗi: " + t.getMessage());
-                    Toast.makeText(LimitedFigure_screen.this, "Lỗi kết nối API.", Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    private  void LoadAPI(){
+        // Gọi lại API để làm mới danh sách sản phẩm
+        apiService.getLimited().enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                if (response.isSuccessful() && response.body() != null) {
+                    originalProductList = response.body(); // Lưu danh sách sản phẩm mới
+                    adapter.updateData(originalProductList); // Cập nhật dữ liệu trong adapter
+                } else {
+                    Toast.makeText(LimitedFigure_screen.this, "Không có dữ liệu mới.", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                Toast.makeText(LimitedFigure_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
         });
     }
     private void showFilterDialog() {
