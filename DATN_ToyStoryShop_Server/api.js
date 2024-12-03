@@ -212,22 +212,26 @@ router.get('/other', async (req, res) => {
 router.get('/blind_box', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: { $regex: "^BLIND_BOX$", $options: "i" } });
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^BLIND_BOX$", $options: "i" }
+        });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
         }
 
         newProducts.forEach(product => {
-            product.namePro = removeDiacritics(product.namePro);
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
         });
 
+        // Trả về dữ liệu
         res.json(newProducts);
     } catch (error) {
         console.error('Lỗi khi lấy sản phẩm:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
+
 
 router.get('/list-popular', async (req, res) => {
     try {
