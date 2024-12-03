@@ -47,6 +47,8 @@ public class BlindBox_screen extends AppCompatActivity {
     private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
     private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
+    private EditText searchBar;
+
 
 
     private String documentId;
@@ -60,6 +62,8 @@ public class BlindBox_screen extends AppCompatActivity {
         setContentView(R.layout.activity_blindbox);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        searchBar = findViewById(R.id.search_bar);
+
 //        if (nightMode) {
 //            imgBack.setImageResource(R.drawable.back_icon);
 //        } else {
@@ -75,6 +79,20 @@ public class BlindBox_screen extends AppCompatActivity {
         Log.e("OrderHistoryAdapter", "j8888888888888888BlindBox_screen" + documentId);
         originalProductList = new ArrayList<>();
          apiService = RetrofitClient.getAPIService();
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         apiService.getBlindBox().enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {

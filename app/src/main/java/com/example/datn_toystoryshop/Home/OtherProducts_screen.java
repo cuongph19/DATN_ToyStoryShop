@@ -51,6 +51,7 @@ public class OtherProducts_screen extends AppCompatActivity {
     private boolean nightMode;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
     private APIService apiService;
+    private EditText searchBar;
 
 
     @Override
@@ -61,12 +62,28 @@ public class OtherProducts_screen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        searchBar = findViewById(R.id.search_bar);
+
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         headerTitle = findViewById(R.id.header_title);
         headerTitle.setText("Other Products");
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
 
          apiService = RetrofitClient.getAPIService();

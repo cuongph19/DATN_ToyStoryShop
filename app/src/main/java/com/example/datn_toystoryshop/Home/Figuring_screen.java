@@ -51,6 +51,7 @@ public class Figuring_screen extends AppCompatActivity {
     private boolean nightMode;
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
     private APIService apiService;
+    private EditText searchBar;
 
 
     @Override
@@ -59,6 +60,8 @@ public class Figuring_screen extends AppCompatActivity {
         setContentView(R.layout.activity_figuring);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        searchBar = findViewById(R.id.search_bar);
+
 //        if (nightMode) {
 //            imgBack.setImageResource(R.drawable.back_icon);
 //        } else {
@@ -72,6 +75,20 @@ public class Figuring_screen extends AppCompatActivity {
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j8888888888888888Figuring_screen" + documentId);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         // Gọi API và xử lý dữ liệu
          apiService = RetrofitClient.getAPIService();
         apiService.getFiguring().enqueue(new Callback<List<Product_Model>>() {
