@@ -609,6 +609,29 @@ router.get('/orders/successful', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
     }
 });
+router.get('/orders/canceled', async (req, res) => {
+    try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'orders'
+        const orders = await OrderModel.find({ cusId, orderStatus: 'Đã hủy' }, '_id cusId revenue_all name_order phone_order address_order payment_method prodDetails content orderStatus orderDate ');
+
+        if (orders.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong đơn hàng.' });
+        }
+
+        res.json(orders);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong đơn hàng.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong đơn hàng.' });
+    }
+});
 
 router.get('/vouchers', async (req, res) => {
     try {
@@ -753,6 +776,31 @@ router.put('/update/cart/:cartId', async (req, res) => {
     }
 });
 
+router.put('/update/order/:orderId', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { orderId } = req.params; // Lấy id từ URL
+        const { orderStatus } = req.body; // Lấy các thông tin cập nhật từ body
+
+        // Tìm sản phẩm theo id
+        const orderItem = await OrderModel.findById({ _id: orderId });
+        if (!orderItem) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại trong order!' });
+        }
+
+        // Cập nhật các trường
+        if (orderStatus !== undefined) orderItem.orderStatus = orderStatus;
+    
+
+        await orderItem.save(); // Lưu cập nhật
+
+        res.status(200).json({ message: 'Cập nhật sản phẩm trong order thành công!', data: orderItem });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong order', error });
+    }
+});
 
 router.post('/add/add-to-order', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body

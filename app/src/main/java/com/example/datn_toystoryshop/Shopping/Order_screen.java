@@ -29,12 +29,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Cart;
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Register_login.Forgot_pass;
+import com.example.datn_toystoryshop.Register_login.SignIn_screen;
+import com.example.datn_toystoryshop.SendMail;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 
@@ -68,6 +72,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private SharedPreferences sharedPreferences;
     private TextView addressName, addressDetail, addressPhone;
 
+    String email = "cuongtbph19680@fpt.edu.vn"; // Email khách hàng
+    String subject = "Xác nhận đơn hàng"; // Chủ đề email
+    String message = "Cảm ơn bạn đã mua hàng tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận."; // Nội dung email
     private String getFormattedDate(int daysToAdd, String format) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
@@ -466,6 +473,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+
+                    SendMail sendMail = new SendMail(email, subject, message);
+                    sendMail.execute();
                     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
@@ -473,6 +483,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     updateProductItem(apiService, productId, quantity1 - quantity);
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
+
+                    Intent in = new Intent(Order_screen.this, Home_screen.class);
+                    startActivity(in);
 
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());

@@ -118,7 +118,7 @@ public class Email_contact extends AppCompatActivity {
                 // Tạo Intent gửi email
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("message/rfc822"); // Chỉ định ứng dụng email
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"trancuong.alok@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"toystory.shop.datn@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
                 if (imageUri != null) {

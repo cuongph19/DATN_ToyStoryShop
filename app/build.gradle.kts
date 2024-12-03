@@ -34,6 +34,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/NOTICE.md"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE"
+        }
+    }
 }
 
 dependencies {
@@ -66,5 +74,8 @@ dependencies {
     implementation ("io.realm:realm-android-library:10.7.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
+
+    implementation ("com.sun.mail:android-mail:1.6.7")
+    implementation ("com.sun.mail:android-activation:1.6.7")
 
 }
