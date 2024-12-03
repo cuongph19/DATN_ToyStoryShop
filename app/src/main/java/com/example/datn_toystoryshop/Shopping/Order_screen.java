@@ -41,6 +41,9 @@ import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 import com.example.datn_toystoryshop.SendMail;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +65,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private EditText tvLeaveMessage;
     private RecyclerView recyclerView;
     private Handler handler = new Handler();
-    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId;
+    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId, email_confirm;
     private double totalProductDiscount = 0, totalShipDiscount = 0, totalAmount, moneyPay, shippingCost = 40000;
     private int currentImageIndex = 0, currentQuantity, quantity, quantity1;
     private boolean isFavorite = false, nightMode;
@@ -71,8 +74,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private TextView addressName, addressDetail, addressPhone;
+    private FirebaseFirestore db;
 
-    String email = "cuongtbph19680@fpt.edu.vn"; // Email khách hàng
+//    String email = "cuongtbph19680@fpt.edu.vn"; // Email khách hàng
     String subject = "Xác nhận đơn hàng"; // Chủ đề email
     String message = "Cảm ơn bạn đã mua hàng tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận."; // Nội dung email
     private String getFormattedDate(int daysToAdd, String format) {
@@ -117,7 +121,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         pay = findViewById(R.id.pay);
         voucher = findViewById(R.id.voucher);
 
-
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
@@ -133,8 +136,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         productIds = intent.getStringArrayListExtra("productIds");
         totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
         totalProductDiscount = intent.getDoubleExtra("totalProductDiscount", 0);
-        Log.e("API_ERROR", "bttttttttttttttttttttt" + totalShipDiscount);
-        Log.e("API_ERROR", "btttttttttttttttttttttff " + totalProductDiscount);
+
+
         if (totalShipDiscount != 0 && totalProductDiscount != 0) {
             String text = String.format("%,.0fđ", shippingCost);
             SpannableString spannableString = new SpannableString(text);
@@ -160,6 +163,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         quantity1 = intent.getIntExtra("quantity1", 0);
         selectedColor = intent.getStringExtra("selectedColor");
         productImg = intent.getStringExtra("productImg");
+
+        db = FirebaseFirestore.getInstance();
+        loadUserDataByDocumentId(documentId);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
@@ -473,9 +479,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
-
-                    SendMail sendMail = new SendMail(email, subject, message);
-                    sendMail.execute();
+                    if (email_confirm != null && !email_confirm.isEmpty()) {
+                        SendMail sendMail = new SendMail(email_confirm, subject, message);
+                        sendMail.execute();
+                    }
                     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
@@ -560,6 +567,22 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+                    notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
+                    createNotificationChannel();
+                    updateProductItem(apiService, productId, quantity1 - quantity);
+                    // Hiển thị thông báo chào mừng nếu thông báo đang được bật
+                    showWelcomeNotification();
+
+                    if (email_confirm != null && !email_confirm.isEmpty()) {
+                        SendMail sendMail = new SendMail(email_confirm, subject, message);
+                        sendMail.execute();
+                    }
+
+                    Intent in = new Intent(Order_screen.this, Home_screen.class);
+                    startActivity(in);
+
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
                     Toast.makeText(getApplicationContext(), "Thêm order thất bại", Toast.LENGTH_SHORT).show();
@@ -610,5 +633,21 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             Toast.makeText(this, "Thông báo đang bị tắt.", Toast.LENGTH_SHORT).show();
         }
     }
+    private void loadUserDataByDocumentId(String documentId) {
+        DocumentReference docRef = db.collection("users").document(documentId);
 
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Lấy tất cả dữ liệu từ tài liệu
+                    email_confirm = document.getString("email");
+                } else {
+                    Log.d("UserData", "No such document");
+                }
+            } else {
+                Log.w("UserData", "get failed with ", task.getException());
+            }
+        });
+    }
 }
