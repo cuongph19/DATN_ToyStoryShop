@@ -122,6 +122,9 @@ public interface APIService {
     @DELETE("/api/deleteCart/{id}")
     Call<Void> deleteCart(@Path("id") String productId);
 
+    @DELETE("/api/deleteCartId/{cartId}")
+    Call<Void> deleteCartId(@Path("cartId") String cartId);
+
     @GET("api/list-popular")
     Call<List<Product_Model>> getPopular();
 

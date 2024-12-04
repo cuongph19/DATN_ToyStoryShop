@@ -137,7 +137,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         totalShipDiscount = intent.getDoubleExtra("totalShipDiscount", 0);
         totalProductDiscount = intent.getDoubleExtra("totalProductDiscount", 0);
 
-
         if (totalShipDiscount != 0 && totalProductDiscount != 0) {
             String text = String.format("%,.0fđ", shippingCost);
             SpannableString spannableString = new SpannableString(text);
@@ -492,6 +491,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     showWelcomeNotification();
 
                     Intent in = new Intent(Order_screen.this, Home_screen.class);
+                    in.putExtra("documentId", documentId);
                     startActivity(in);
 
                 } else {
@@ -504,32 +504,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onFailure(Call<Order_Model> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm đánh giá", t);
-            }
-        });
-    }
-
-    public void updateProductItem(APIService apiService, String prodId, int inventory) {
-
-        // Chuẩn bị dữ liệu cập nhật
-        Product_Model productModel = new Product_Model();
-        productModel.set_id(prodId);
-        productModel.setQuantity(inventory);
-        // Gọi API
-        Call<Product_Model> call = apiService.putProductUpdate(prodId, productModel);
-        call.enqueue(new Callback<Product_Model>() {
-            @Override
-            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(Order_screen.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(Order_screen.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product_Model> call, Throwable t) {
-                Toast.makeText(Order_screen.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -568,10 +542,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
                     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
+                    Log.d("CartScreen", "Danh sách sản phẩm: " + productIds);
+                    for (String cartId : productIds) {
+                        Log.d("CartScreen", "Danh sách sản phẩm: 11 " + cartId);
+                        deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
+                    }
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
-                    updateProductItem(apiService, productId, quantity1 - quantity);
+                  //  updateProductItem(apiService, productId, quantity1 - quantity);
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
@@ -581,6 +559,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     }
 
                     Intent in = new Intent(Order_screen.this, Home_screen.class);
+                    in.putExtra("documentId", documentId);
                     startActivity(in);
 
                 } else {
@@ -597,6 +576,31 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         });
     }
 
+    public void updateProductItem(APIService apiService, String prodId, int inventory) {
+
+        // Chuẩn bị dữ liệu cập nhật
+        Product_Model productModel = new Product_Model();
+        productModel.set_id(prodId);
+        productModel.setQuantity(inventory);
+        // Gọi API
+        Call<Product_Model> call = apiService.putProductUpdate(prodId, productModel);
+        call.enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Order_screen.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(Order_screen.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Toast.makeText(Order_screen.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Home Notification Channel";
@@ -633,7 +637,27 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             Toast.makeText(this, "Thông báo đang bị tắt.", Toast.LENGTH_SHORT).show();
         }
     }
-    private void loadUserDataByDocumentId(String documentId) {
+    private void deleteCartItem(APIService apiService,String cartId) {
+        Call<Void> call = apiService.deleteCartId(cartId);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Order_screen.this, "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Order_screen.this, "Không thể xóa sản phẩm!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(Order_screen.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+        private void loadUserDataByDocumentId(String documentId) {
         DocumentReference docRef = db.collection("users").document(documentId);
 
         docRef.get().addOnCompleteListener(task -> {
