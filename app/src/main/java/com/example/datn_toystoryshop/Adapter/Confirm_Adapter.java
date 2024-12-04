@@ -25,11 +25,13 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
     private Context context;
     private List<Order_Model> orderList;
     private APIService apiService;
+    private String documentId;
 
-    public Confirm_Adapter(Context context, List<Order_Model> orderList, APIService apiService) {
+    public Confirm_Adapter(Context context, List<Order_Model> orderList, APIService apiService, String documentId) {
         this.context = context;
         this.orderList = orderList;
         this.apiService = apiService;
+        this.documentId = documentId;
     }
 
     @NonNull
@@ -43,12 +45,16 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
     public void onBindViewHolder(@NonNull Confirm_Adapter.OrderViewHolder holder, int position) {
         Order_Model order = orderList.get(position);
 
-        Log.e("OrderHistoryAdapter", "j66666666666666666gggghhhhConfirm_Adapter " );
         holder.textStatus.setText(order.getOrderStatus());
-        holder.textRevenueAll.setText(String.format("Tổng số tiền: %,.0f Đ", (double) order.getRevenue_all()));
+        holder.textRevenueAll.setText(String.format(": %,.0f Đ", (double) order.getRevenue_all()));
 
-        // Setup RecyclerView con để hiển thị sản phẩm
-        Confirm_Product_Adapter productAdapter = new Confirm_Product_Adapter(context, order.getProdDetails(),apiService, order.get_id());
+        List<Order_Model.ProductDetail> productDetails = order.getProdDetails();
+        boolean isMoreThanTwo = productDetails.size() > 2;
+
+        // Hiển thị tối đa 2 sản phẩm đầu tiên
+        List<Order_Model.ProductDetail> displayProductDetails = isMoreThanTwo ? productDetails.subList(0, 2) : productDetails;
+
+        Confirm_Product_Adapter productAdapter = new Confirm_Product_Adapter(context, displayProductDetails,apiService, order.get_id(), documentId);
         holder.recyclerViewProducts.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerViewProducts.setAdapter(productAdapter);
 
@@ -64,6 +70,28 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
             Intent intent = new Intent(context, ContactSupport_screen.class);
             context.startActivity(intent);
         });
+        // Hiển thị/ẩn nút "Xem thêm" dựa vào số lượng sản phẩm
+        if (isMoreThanTwo) {
+            holder.showMoreOrder.setVisibility(View.VISIBLE);
+
+            // Flag để theo dõi trạng thái của nút "Xem thêm"
+            final boolean[] isExpanded = {false};
+
+            holder.showMoreOrder.setOnClickListener(v -> {
+                if (isExpanded[0]) {
+                    // Nếu đang mở rộng, thu gọn lại về 2 sản phẩm đầu tiên
+                    productAdapter.updateProductList(productDetails.subList(0, 2));
+                    holder.showMoreOrder.setText("Xem thêm"); // Đổi text về "Xem thêm"
+                } else {
+                    // Nếu đang thu gọn, hiển thị tất cả sản phẩm
+                    productAdapter.updateProductList(productDetails);
+                    holder.showMoreOrder.setText("Thu gọn"); // Đổi text thành "Thu gọn"
+                }
+                isExpanded[0] = !isExpanded[0]; // Đảo trạng thái
+            });
+        } else {
+            holder.showMoreOrder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" nếu không có nhiều hơn 2 sản phẩm
+        }
     }
 
     @Override
@@ -72,13 +100,14 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView textStatus, textRevenueAll, textContactShop;
+        TextView textStatus, textRevenueAll, textContactShop, showMoreOrder;
         RecyclerView recyclerViewProducts;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             textStatus = itemView.findViewById(R.id.tvOrderStatus);
             textRevenueAll = itemView.findViewById(R.id.tvTotalPrice);
+            showMoreOrder  = itemView.findViewById(R.id.show_more_oder);
             textContactShop = itemView.findViewById(R.id.btnContactShop);
             recyclerViewProducts = itemView.findViewById(R.id.rvProductList);
         }

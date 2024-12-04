@@ -60,7 +60,7 @@ public class ConfirmFragment extends Fragment {
 
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        Log.e("OrderHistoryAdapter", "j66666666666666666gggghhhhConfirmFragment " );
+
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -74,7 +74,7 @@ public class ConfirmFragment extends Fragment {
         // Khởi tạo RecyclerView và Adapter
         setUpSpinners();
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Confirm_Adapter(getContext(), filteredOrderList, apiService);
+        adapter = new Confirm_Adapter(getContext(), filteredOrderList, apiService, documentId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

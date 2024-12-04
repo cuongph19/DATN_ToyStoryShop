@@ -68,7 +68,8 @@ public class Confirm_Detail extends AppCompatActivity {
 
         Intent intent = getIntent();
         String orderId = intent.getStringExtra("orderId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666gggghhhhConfirm_Detail " );
+        String documentId = intent.getStringExtra("documentId");
+        Log.d("API Response", "Số lượng đơn hàngggggggggggg Confirm_Product_Adapter  : " + documentId);
         loadOrderDetails(orderId);
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -94,6 +95,7 @@ public class Confirm_Detail extends AppCompatActivity {
 
                         // Chuyển về Home_screen
                         Intent intent1 = new Intent(Confirm_Detail.this, Home_screen.class);
+                        intent1.putExtra("documentId", documentId);
                         startActivity(intent1);
                     })
                     .setNegativeButton("Hủy", (dialog, which) -> {
