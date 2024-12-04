@@ -26,13 +26,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
+import com.example.datn_toystoryshop.Home.Figuring_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +59,8 @@ public class Browse_Fragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private EditText searchBar;
+    private APIService apiService;
+    private Button btnSort;
 
     @Nullable
     @Override
@@ -62,6 +71,7 @@ public class Browse_Fragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_products);
         btnFilter = view.findViewById(R.id.btnFilter);
          searchBar = view.findViewById(R.id.search_bar);
+         btnSort = view.findViewById(R.id.btnSort);
 
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
@@ -91,6 +101,9 @@ public class Browse_Fragment extends Fragment {
 
         // Xử lý sự kiện nhấn nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
+        btnSort.setOnClickListener(v -> showSortDialog());
+
+
         // Tìm kiếm theo tên sản phẩm
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -108,13 +121,170 @@ public class Browse_Fragment extends Fragment {
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            getProductsFromApi(); // Gọi lại API để làm mới danh sách
+            apiService.getProducts().enqueue(new Callback<List<Product_Model>>() {
+                @Override
+                public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                    if (response.isSuccessful() && response.body() != null) {
+                        originalProductList = response.body(); // Lưu danh sách sản phẩm mới
+                        productAdapter.updateData(originalProductList); // Cập nhật dữ liệu trong adapter
+                    } else {
+                        Toast.makeText(getContext(), "Không có dữ liệu mới.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                    swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                    Toast.makeText(getContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
         return view;
     }
+    private Date parseDate(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            return null; // Ngày null hoặc rỗng
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Trả về null nếu không parse được
+        }
+    }
+
+    private void sortProducts(String sortBy) {
+        if (originalProductList == null || originalProductList.isEmpty()) {
+            Toast.makeText(getContext(), "Không có sản phẩm để sắp xếp.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        switch (sortBy) {
+            case "name_asc": // Sắp xếp A-Z
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
+                    String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
+                    return lhsName.compareTo(rhsName);
+                });
+                break;
+
+            case "name_desc": // Sắp xếp Z-A
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
+                    String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
+                    return rhsName.compareTo(lhsName);
+                });
+                break;
+
+            case "price_asc": // Sắp xếp giá từ thấp đến cao
+                originalProductList.sort((lhs, rhs) -> Double.compare(lhs.getPrice(), rhs.getPrice()));
+                break;
+
+            case "price_desc": // Sắp xếp giá từ cao đến thấp
+                originalProductList.sort((lhs, rhs) -> Double.compare(rhs.getPrice(), lhs.getPrice()));
+                break;
+
+            case "date_asc": // Sắp xếp ngày từ cũ đến mới
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsDateStr = lhs.getCreatDatePro();
+                    String rhsDateStr = rhs.getCreatDatePro();
+
+                    // Nếu một trong hai ngày null, để nguyên vị trí
+                    if (lhsDateStr == null || rhsDateStr == null) {
+                        return 0;
+                    }
+
+                    // Parse ngày
+                    Date lhsDate = parseDate(lhsDateStr);
+                    Date rhsDate = parseDate(rhsDateStr);
+
+                    // Nếu không parse được ngày, để nguyên vị trí
+                    if (lhsDate == null || rhsDate == null) {
+                        return 0;
+                    }
+
+                    return lhsDate.compareTo(rhsDate);
+                });
+                break;
+
+            case "date_desc": // Sắp xếp ngày từ mới đến cũ
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsDateStr = lhs.getCreatDatePro();
+                    String rhsDateStr = rhs.getCreatDatePro();
+
+                    // Nếu một trong hai ngày null, để nguyên vị trí
+                    if (lhsDateStr == null || rhsDateStr == null) {
+                        return 0;
+                    }
+
+                    // Parse ngày
+                    Date lhsDate = parseDate(lhsDateStr);
+                    Date rhsDate = parseDate(rhsDateStr);
+
+                    // Nếu không parse được ngày, để nguyên vị trí
+                    if (lhsDate == null || rhsDate == null) {
+                        return 0;
+                    }
+
+                    return rhsDate.compareTo(lhsDate);
+                });
+                break;
+
+
+            default:
+                break;
+        }
+
+        productAdapter.updateData(originalProductList); // Cập nhật lại RecyclerView
+    }
+
+
+
+    private void showSortDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        String[] sortOptions = {
+                "Sắp xếp theo A-Z",
+                "Sắp xếp theo Z-A",
+                "Giá từ thấp đến cao",
+                "Giá từ cao đến thấp",
+                "Ngày từ cũ đến mới",
+                "Ngày từ mới đến cũ"
+        };
+
+        builder.setTitle("Chọn cách sắp xếp")
+                .setItems(sortOptions, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            sortProducts("name_asc");
+                            break;
+                        case 1:
+                            sortProducts("name_desc");
+                            break;
+                        case 2:
+                            sortProducts("price_asc");
+                            break;
+                        case 3:
+                            sortProducts("price_desc");
+                            break;
+                        case 4:
+                            sortProducts("date_asc");
+                            break;
+                        case 5:
+                            sortProducts("date_desc");
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        builder.show();
+    }
+
 
     private void getProductsFromApi() {
-        APIService apiService = RetrofitClient.getAPIService();
+         apiService = RetrofitClient.getAPIService();
         Call<List<Product_Model>> call = apiService.getProducts();
 
         call.enqueue(new Callback<List<Product_Model>>() {
@@ -137,7 +307,12 @@ public class Browse_Fragment extends Fragment {
             }
         });
     }
-
+    private String removeDiacritics(String input) {
+        if (input == null) return "";
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("").replace('đ', 'd').replace('Đ', 'D');
+    }
 
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
