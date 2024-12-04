@@ -43,7 +43,7 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
         Order_Model order = orderList.get(position);
 
         holder.textStatus.setText(order.getOrderStatus());
-        holder.textRevenueAll.setText(String.format("Tổng số tiền: %,.0f Đ", (double) order.getRevenue_all()));
+        holder.textRevenueAll.setText(String.format(": %,.0f Đ", (double) order.getRevenue_all()));
 
         List<Order_Model.ProductDetail> productDetails = order.getProdDetails();
         boolean isMoreThanTwo = productDetails.size() > 2;

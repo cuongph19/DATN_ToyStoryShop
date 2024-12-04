@@ -76,7 +76,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private TextView addressName, addressDetail, addressPhone;
     private FirebaseFirestore db;
 
-//    String email = "cuongtbph19680@fpt.edu.vn"; // Email khách hàng
     String subject = "Xác nhận đơn hàng"; // Chủ đề email
     String message = "Cảm ơn bạn đã mua hàng tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận."; // Nội dung email
     private String getFormattedDate(int daysToAdd, String format) {
@@ -191,7 +190,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                         // Thêm sản phẩm vào danh sách productDetails
                         productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
 
-                        Log.d("MainActivity", "aaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhh " + productId + ", Total Price: " + moneyPay);
                     }
                     // Gán vào TextView
                     Log.e("API_ERROR", "Thêm oder thất bại, mã phản hồi: 2 " + totalAmount1);
@@ -211,16 +209,16 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
             // Hiển thị nút "Xem thêm" nếu danh sách có hơn 2 sản phẩm
-            if (productIds.size() > 2) {
-                show_more_oder.setVisibility(View.VISIBLE);
-            }
-
-            // Xử lý sự kiện nhấn "Xem thêm"
-            show_more_oder.setOnClickListener(v -> {
-                adapter.toggleShowAll(); // Gọi phương thức trong adapter để hiển thị tất cả
-                show_more_oder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" sau khi nhấn
-
-            });
+//            if (productIds.size() > 2) {
+//                show_more_oder.setVisibility(View.VISIBLE);
+//            }
+//
+//            // Xử lý sự kiện nhấn "Xem thêm"
+//            show_more_oder.setOnClickListener(v -> {
+//                adapter.toggleShowAll(); // Gọi phương thức trong adapter để hiển thị tất cả
+//                show_more_oder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" sau khi nhấn
+//
+//            });
         } else {
             List<Order_Detail_Model> productList = new ArrayList<>();
             productList.add(new Order_Detail_Model(productId, currentQuantity, customerId, selectedColor, productImg));

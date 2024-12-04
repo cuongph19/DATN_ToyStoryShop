@@ -32,12 +32,14 @@ public class Confirm_Product_Adapter extends RecyclerView.Adapter<Confirm_Produc
     private List<Order_Model.ProductDetail> productList;
     private APIService apiService;
     private String orderId;
+    private String documentId;
 
-    public Confirm_Product_Adapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId) {
+    public Confirm_Product_Adapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId, String documentId) {
         this.context = context;
         this.productList = productList;
         this.apiService = apiService;
         this.orderId = orderId;
+        this.documentId = documentId;
     }
 
     @NonNull
@@ -50,7 +52,7 @@ public class Confirm_Product_Adapter extends RecyclerView.Adapter<Confirm_Produc
     @Override
     public void onBindViewHolder(@NonNull Confirm_Product_Adapter.ProductViewHolder holder, int position) {
         Order_Model.ProductDetail product = productList.get(position);
-        Log.e("OrderHistoryAdapter", "j66666666666666666gggg 11 2" + orderId);
+
         // Hiển thị thông tin sản phẩm
         holder.productQuantity.setText(String.format("x %d", product.getQuantity()));
         holder.tvProductType.setText(product.getProdSpecification());
@@ -58,6 +60,7 @@ public class Confirm_Product_Adapter extends RecyclerView.Adapter<Confirm_Produc
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
             Intent intent = new Intent(context, Confirm_Detail.class);
+            intent.putExtra("documentId", documentId);
             intent.putExtra("orderId", orderId);
             context.startActivity(intent);
         });
@@ -84,6 +87,10 @@ public class Confirm_Product_Adapter extends RecyclerView.Adapter<Confirm_Produc
         return productList.size();
     }
 
+    public void updateProductList(List<Order_Model.ProductDetail> newProductList) {
+        this.productList = newProductList;
+        notifyDataSetChanged();
+    }
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         TextView productName, productQuantity, productPrice,tvProductType;
