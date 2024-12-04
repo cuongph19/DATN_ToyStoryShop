@@ -29,10 +29,16 @@ import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,6 +131,150 @@ public class LimitedFigure_screen extends AppCompatActivity {
 
         });
 
+        Button btnSort = findViewById(R.id.btnSort);
+        btnSort.setOnClickListener(v -> showSortDialog());
+    }
+
+    private void showSortDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LimitedFigure_screen.this);
+        String[] sortOptions = {
+                "Sắp xếp theo A-Z",
+                "Sắp xếp theo Z-A",
+                "Giá từ thấp đến cao",
+                "Giá từ cao đến thấp",
+                "Ngày từ cũ đến mới",
+                "Ngày từ mới đến cũ"
+        };
+
+        builder.setTitle("Chọn cách sắp xếp")
+                .setItems(sortOptions, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            sortProducts("name_asc");
+                            break;
+                        case 1:
+                            sortProducts("name_desc");
+                            break;
+                        case 2:
+                            sortProducts("price_asc");
+                            break;
+                        case 3:
+                            sortProducts("price_desc");
+                            break;
+                        case 4:
+                            sortProducts("date_asc");
+                            break;
+                        case 5:
+                            sortProducts("date_desc");
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        builder.show();
+    }
+    private String removeDiacritics(String input) {
+        if (input == null) return "";
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("").replace('đ', 'd').replace('Đ', 'D');
+    }
+    private void sortProducts(String sortBy) {
+        if (originalProductList == null || originalProductList.isEmpty()) {
+            Toast.makeText(LimitedFigure_screen.this, "Không có sản phẩm để sắp xếp.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        switch (sortBy) {
+            case "name_asc": // Sắp xếp A-Z
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
+                    String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
+                    return lhsName.compareTo(rhsName);
+                });
+                break;
+
+            case "name_desc": // Sắp xếp Z-A
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
+                    String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
+                    return rhsName.compareTo(lhsName);
+                });
+                break;
+
+            case "price_asc": // Sắp xếp giá từ thấp đến cao
+                originalProductList.sort((lhs, rhs) -> Double.compare(lhs.getPrice(), rhs.getPrice()));
+                break;
+
+            case "price_desc": // Sắp xếp giá từ cao đến thấp
+                originalProductList.sort((lhs, rhs) -> Double.compare(rhs.getPrice(), lhs.getPrice()));
+                break;
+
+            case "date_asc": // Sắp xếp ngày từ cũ đến mới
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsDateStr = lhs.getCreatDatePro();
+                    String rhsDateStr = rhs.getCreatDatePro();
+
+                    // Nếu một trong hai ngày null, để nguyên vị trí
+                    if (lhsDateStr == null || rhsDateStr == null) {
+                        return 0;
+                    }
+
+                    // Parse ngày
+                    Date lhsDate = parseDate(lhsDateStr);
+                    Date rhsDate = parseDate(rhsDateStr);
+
+                    // Nếu không parse được ngày, để nguyên vị trí
+                    if (lhsDate == null || rhsDate == null) {
+                        return 0;
+                    }
+
+                    return lhsDate.compareTo(rhsDate);
+                });
+                break;
+
+            case "date_desc": // Sắp xếp ngày từ mới đến cũ
+                originalProductList.sort((lhs, rhs) -> {
+                    String lhsDateStr = lhs.getCreatDatePro();
+                    String rhsDateStr = rhs.getCreatDatePro();
+
+                    // Nếu một trong hai ngày null, để nguyên vị trí
+                    if (lhsDateStr == null || rhsDateStr == null) {
+                        return 0;
+                    }
+
+                    // Parse ngày
+                    Date lhsDate = parseDate(lhsDateStr);
+                    Date rhsDate = parseDate(rhsDateStr);
+
+                    // Nếu không parse được ngày, để nguyên vị trí
+                    if (lhsDate == null || rhsDate == null) {
+                        return 0;
+                    }
+
+                    return rhsDate.compareTo(lhsDate);
+                });
+                break;
+
+
+            default:
+                break;
+        }
+
+        adapter.updateData(originalProductList); // Cập nhật lại RecyclerView
+    }
+    private Date parseDate(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            return null; // Ngày null hoặc rỗng
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Trả về null nếu không parse được
+        }
     }
 
     private  void LoadAPI(){
