@@ -36,8 +36,6 @@ import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Register_login.Forgot_pass;
-import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 import com.example.datn_toystoryshop.SendMail;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -76,8 +74,8 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private TextView addressName, addressDetail, addressPhone;
     private FirebaseFirestore db;
 
-    String subject = "Xác nhận đơn hàng"; // Chủ đề email
-    String message = "Cảm ơn bạn đã mua hàng tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận."; // Nội dung email
+
+
     private String getFormattedDate(int daysToAdd, String format) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
@@ -477,8 +475,19 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
                     if (email_confirm != null && !email_confirm.isEmpty()) {
-                        SendMail sendMail = new SendMail(email_confirm, subject, message);
-                        sendMail.execute();
+                        fetchProductById(productId, new OnProductFetchedListener() {
+                            @Override
+                            public void onFetched(String productName) {
+                                if (productName != null) {
+                                    Log.d("Product Info", "Fetched Product Name: " + productName);
+                                    // Xử lý tên sản phẩm (ví dụ: thêm vào danh sách)
+                                } else {
+                                    Log.e("Product Info", "Không thể lấy tên sản phẩm.");
+                                }
+                            }
+                        });
+
+                        sendOrderConfirmationEmail(orderModel);
                     }
                     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -505,6 +514,103 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
+    public void sendOrderConfirmationEmail(Order_Model order) {
+        StringBuilder productListBuilder = new StringBuilder();
+
+        for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
+            fetchProductById(productDetail.getProdId(), productName -> {
+                if (productName != null) {
+                    productListBuilder.append(String.format("- %s (Số lượng: %d) - Giá: %,d VNĐ\n",
+                            productName,
+                            productDetail.getQuantity(),
+                            (int) productDetail.getRevenue()));
+
+                    // Khi hoàn thành tất cả sản phẩm, gửi email
+                    if (productListBuilder.toString().split("\n").length == order.getProdDetails().size()) {
+                        sendEmail(order, productListBuilder.toString());
+                    }
+                }
+            });
+        }
+    }
+
+    private void sendEmail(Order_Model order, String productList) {
+        double totalDiscount = 0;
+        if (totalShipDiscount != 0 && totalProductDiscount != 0) {
+            totalDiscount = totalShipDiscount + totalProductDiscount;
+        } else if (totalShipDiscount != 0) {
+            totalDiscount = totalShipDiscount;
+        } else if (totalProductDiscount != 0) {
+            totalDiscount = totalProductDiscount;
+        }
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff1 " + totalShipDiscount);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff 2 " + totalProductDiscount);
+        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff 3 " + totalDiscount);
+        String message = String.format(
+                "Kính gửi Quý khách hàng,\n\n" +
+                        "Cảm ơn bạn đã mua sắm tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận thành công. Dưới đây là thông tin chi tiết về đơn hàng:\n\n" +
+                        "Ngày đặt hàng: %s\n" +
+                        "Danh sách sản phẩm:\n%s\n" +
+                        "Phí vận chuyển: %,d VNĐ\n\n" +
+                        "Tổng tiền giảm giá: %,d VNĐ\n\n" +
+                        "Tổng cộng: %,d VNĐ\n\n" +
+                        "Địa chỉ giao hàng:\n%s\n" +
+                        "Họ tên: %s\n" +
+                        "Số điện thoại: %s\n\n" +
+                        "Hình thức thanh toán: %s\n" +
+                        "Thời gian dự kiến giao hàng: 3-5 ngày làm việc.\n\n" +
+                        "Liên hệ hỗ trợ:\n" +
+                        "Nếu bạn cần hỗ trợ thêm, vui lòng liên hệ bộ phận CSKH:\n" +
+                        "- Số điện thoại: 0123987456\n" +
+                        "- Email: toystory.shop.datn@gmail.com\n\n" +
+                        "Cảm ơn bạn đã tin tưởng và ủng hộ ToyStory Shop!\n" +
+                        "Trân trọng,\n" +
+                        "Đội ngũ ToyStory Shop.",
+                order.getOrderDate(),
+                productList,
+                (int) shippingCost,
+                (int) totalDiscount,
+                order.getRevenue_all(),
+                order.getAddress_order(),
+                order.getName_order(),
+                order.getPhone_order(),
+                order.getPayment_method()
+        );
+
+        // Gửi email bằng SendMail
+        SendMail sendMail = new SendMail(email_confirm, "ToyStory Shop - Xác nhận đơn hàng của bạn!", message);
+        sendMail.execute();
+    }
+
+    public interface OnProductFetchedListener {
+        void onFetched(String productName);
+    }
+    private void fetchProductById(String prodId, OnProductFetchedListener listener) {
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Product_Model> call = apiService.getProductById(prodId);
+
+        call.enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Product_Model product = response.body();
+                    Log.d("Product Info", "Product Name: " + product.getNamePro());
+                    // Truyền tên sản phẩm về qua listener
+                    listener.onFetched(product.getNamePro());
+                } else {
+                    Log.e("API Error", "Response code: " + response.code());
+                    listener.onFetched(null); // Trả về null nếu lỗi
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Log.e("API Error", "Network Error: " + t.getMessage());
+                listener.onFetched(null); // Trả về null nếu lỗi
+            }
+        });
+    }
+
 
     private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
         String content = tvLeaveMessage.getText().toString();
@@ -552,8 +658,20 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     showWelcomeNotification();
 
                     if (email_confirm != null && !email_confirm.isEmpty()) {
-                        SendMail sendMail = new SendMail(email_confirm, subject, message);
-                        sendMail.execute();
+                        fetchProductById(productId, new OnProductFetchedListener() {
+                            @Override
+                            public void onFetched(String productName) {
+                                if (productName != null) {
+                                    Log.d("Product Info", "Fetched Product Name: " + productName);
+                                    // Xử lý tên sản phẩm (ví dụ: thêm vào danh sách)
+                                } else {
+                                    Log.e("Product Info", "Không thể lấy tên sản phẩm.");
+                                }
+                            }
+                        });
+
+                        sendOrderConfirmationEmail(orderModel);
+
                     }
 
                     Intent in = new Intent(Order_screen.this, Home_screen.class);
