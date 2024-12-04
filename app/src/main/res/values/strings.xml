@@ -336,7 +336,7 @@
 
     <string name="view_cancel_history">Xem lịch sử hủy</string>
     <string name="canceled_products">Sản phẩm đã hủy</string>
-
+    <string name="cancel_order">Hủy đơn hàng</string>
 
 
     <string-array name="sort_options">

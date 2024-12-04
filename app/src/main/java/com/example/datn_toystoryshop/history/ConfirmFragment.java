@@ -23,7 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
+
+import com.example.datn_toystoryshop.Adapter.Confirm_Adapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -42,7 +43,7 @@ public class ConfirmFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner spinnerMonth, spinnerYear;
     private RecyclerView recyclerView;
-    private OrderHistoryAdapter adapter;
+    private Confirm_Adapter adapter;
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
@@ -59,7 +60,7 @@ public class ConfirmFragment extends Fragment {
 
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-
+        Log.e("OrderHistoryAdapter", "j66666666666666666gggghhhhConfirmFragment " );
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -73,7 +74,7 @@ public class ConfirmFragment extends Fragment {
         // Khởi tạo RecyclerView và Adapter
         setUpSpinners();
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new OrderHistoryAdapter(getContext(), filteredOrderList, apiService);
+        adapter = new Confirm_Adapter(getContext(), filteredOrderList, apiService);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

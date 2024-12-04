@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Confirm_Detail;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.OrderHist_Detail;
@@ -26,13 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistoryProductAdapter.ProductViewHolder> {
+public class Confirm_Product_Adapter extends RecyclerView.Adapter<Confirm_Product_Adapter.ProductViewHolder> {
     private Context context;
     private List<Order_Model.ProductDetail> productList;
     private APIService apiService;
     private String orderId;
 
-    public OrderHistoryProductAdapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId) {
+    public Confirm_Product_Adapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId) {
         this.context = context;
         this.productList = productList;
         this.apiService = apiService;
@@ -41,13 +42,13 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Confirm_Product_Adapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_history_1, parent, false);
-        return new ProductViewHolder(view);
+        return new Confirm_Product_Adapter.ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Confirm_Product_Adapter.ProductViewHolder holder, int position) {
         Order_Model.ProductDetail product = productList.get(position);
         Log.e("OrderHistoryAdapter", "j66666666666666666gggg 11 2" + orderId);
         // Hiển thị thông tin sản phẩm
@@ -56,7 +57,7 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
         holder.productPrice.setText(String.format("₫%,.0f", product.getRevenue()));
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
-            Intent intent = new Intent(context, OrderHist_Detail.class);
+            Intent intent = new Intent(context, Confirm_Detail.class);
             intent.putExtra("orderId", orderId);
             context.startActivity(intent);
         });
@@ -83,11 +84,6 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
         return productList.size();
     }
 
-    public void updateProductList(List<Order_Model.ProductDetail> newProductList) {
-        this.productList = newProductList;
-        notifyDataSetChanged();
-    }
-    
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         TextView productName, productQuantity, productPrice,tvProductType;

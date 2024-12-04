@@ -45,6 +45,7 @@ public class history_cancel_screen extends AppCompatActivity {
     private String documentId;
     private ImageView imgBack;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +80,7 @@ public class history_cancel_screen extends AppCompatActivity {
         fetchOrders();
 
         swipeRefreshLayout.setOnRefreshListener(() -> fetchOrders());
+
     }
 
     private void fetchOrders() {

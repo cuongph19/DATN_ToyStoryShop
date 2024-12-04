@@ -45,8 +45,14 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
         holder.textStatus.setText(order.getOrderStatus());
         holder.textRevenueAll.setText(String.format("Tổng số tiền: %,.0f Đ", (double) order.getRevenue_all()));
 
+        List<Order_Model.ProductDetail> productDetails = order.getProdDetails();
+        boolean isMoreThanTwo = productDetails.size() > 2;
+
+        // Hiển thị tối đa 2 sản phẩm đầu tiên
+        List<Order_Model.ProductDetail> displayProductDetails = isMoreThanTwo ? productDetails.subList(0, 2) : productDetails;
+
         // Setup RecyclerView con để hiển thị sản phẩm
-        OrderHistoryProductAdapter productAdapter = new OrderHistoryProductAdapter(context, order.getProdDetails(),apiService, order.get_id());
+        OrderHistoryProductAdapter productAdapter = new OrderHistoryProductAdapter(context, displayProductDetails,apiService, order.get_id());
         holder.recyclerViewProducts.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerViewProducts.setAdapter(productAdapter);
 
@@ -57,6 +63,28 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
             intent.putExtra("orderId", order.get_id());
             context.startActivity(intent);
         });
+        // Hiển thị/ẩn nút "Xem thêm" dựa vào số lượng sản phẩm
+        if (isMoreThanTwo) {
+            holder.showMoreOrder.setVisibility(View.VISIBLE);
+
+            // Flag để theo dõi trạng thái của nút "Xem thêm"
+            final boolean[] isExpanded = {false};
+
+            holder.showMoreOrder.setOnClickListener(v -> {
+                if (isExpanded[0]) {
+                    // Nếu đang mở rộng, thu gọn lại về 2 sản phẩm đầu tiên
+                    productAdapter.updateProductList(productDetails.subList(0, 2));
+                    holder.showMoreOrder.setText("Xem thêm"); // Đổi text về "Xem thêm"
+                } else {
+                    // Nếu đang thu gọn, hiển thị tất cả sản phẩm
+                    productAdapter.updateProductList(productDetails);
+                    holder.showMoreOrder.setText("Thu gọn"); // Đổi text thành "Thu gọn"
+                }
+                isExpanded[0] = !isExpanded[0]; // Đảo trạng thái
+            });
+        } else {
+            holder.showMoreOrder.setVisibility(View.GONE); // Ẩn nút "Xem thêm" nếu không có nhiều hơn 2 sản phẩm
+        }
     }
 
     @Override
@@ -65,12 +93,13 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView textStatus, textRevenueAll;
+        TextView textStatus, textRevenueAll, showMoreOrder ;
         RecyclerView recyclerViewProducts;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             textStatus = itemView.findViewById(R.id.tvOrderStatus);
+            showMoreOrder  = itemView.findViewById(R.id.show_more_oder);
             textRevenueAll = itemView.findViewById(R.id.tvTotalPrice);
             recyclerViewProducts = itemView.findViewById(R.id.rvProductList);
         }
