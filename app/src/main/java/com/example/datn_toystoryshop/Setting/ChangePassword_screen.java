@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,8 @@ import java.util.Map;
 public class ChangePassword_screen extends AppCompatActivity {
 
     private EditText etpass;
-    private Button btnSave;
+    private TextView btnSave;
+    private ImageView imgBack;
     private String documentId, phone, name, email, password;
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
@@ -35,13 +38,15 @@ public class ChangePassword_screen extends AppCompatActivity {
         setContentView(R.layout.activity_change_password_screen);
         etpass = findViewById(R.id.et_pass);
         btnSave = findViewById(R.id.btn_save);
+        imgBack = findViewById(R.id.ivBack);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
 

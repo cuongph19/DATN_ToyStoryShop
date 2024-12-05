@@ -13,6 +13,8 @@ import com.example.datn_toystoryshop.R;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -24,7 +26,8 @@ import java.util.Map;
 
 public class UpdateInfo_screen extends AppCompatActivity {
     private EditText etEmail, etName, etPhone;
-    private Button btnSave;
+    private TextView btnSave;
+    private ImageView imgBack;
     private String documentId, phone, name, email, password;
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
@@ -36,17 +39,18 @@ public class UpdateInfo_screen extends AppCompatActivity {
         setContentView(R.layout.activity_update_info_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
+        imgBack = findViewById(R.id.ivBack);
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
 
         etEmail = findViewById(R.id.et_email);
         etName = findViewById(R.id.et_name);
         etPhone = findViewById(R.id.et_phone);
         btnSave = findViewById(R.id.btn_save);
-
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Khởi tạo Firestore
         db = FirebaseFirestore.getInstance();
 
