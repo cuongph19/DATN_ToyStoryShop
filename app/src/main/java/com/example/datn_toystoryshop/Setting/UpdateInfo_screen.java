@@ -80,6 +80,7 @@ public class UpdateInfo_screen extends AppCompatActivity {
                     btnSave.setEnabled(true); // Kích hoạt lại nút nếu không có Document ID
                 }
                 Intent intent = new Intent(UpdateInfo_screen.this, Setting_screen.class);
+                intent.putExtra("documentId", documentId);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();

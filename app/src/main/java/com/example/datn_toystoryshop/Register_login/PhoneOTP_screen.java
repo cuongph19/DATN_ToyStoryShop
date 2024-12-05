@@ -18,6 +18,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,11 +113,11 @@ public class PhoneOTP_screen extends AppCompatActivity {
         if (phoneNumber.startsWith("0")) {
             phoneNumber = phoneNumber.replaceFirst("0", "+84");
         }
-
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("phoneNumber", phoneNumber);
-        user.put("password", password);
+        user.put("password", hashedPassword);
         user.put("name", name);
 
         // Thêm thông tin người dùng vào Firestore
