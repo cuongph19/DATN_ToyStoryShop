@@ -4,9 +4,9 @@
     <!-- Fragment -->
     <!-- Home_Fragment -->
     <string name="search_product_homefm">Tìm kiếm sản phẩm</string>
-    <string name="new_arrivals_homefm">Hàng mới về</string>
-    <string name="blind_box_homefm">Hộp mù</string>
-    <string name="figuring_homefm">Hình dung</string>
+    <string name="new_arrivals_homefm">Sản phẩm mới</string>
+    <string name="blind_box_homefm">Sản phẩm ngẫu nhiên</string>
+    <string name="figuring_homefm">Mô hình</string>
     <string name="other_products_homefm">Sản phẩm khác</string>
     <string name="sale_homefm">Giảm giá</string>
     <string name="limited_figure_homefm">Phiên bản giới hạn</string>

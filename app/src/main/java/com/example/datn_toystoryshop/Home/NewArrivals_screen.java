@@ -49,7 +49,6 @@ public class NewArrivals_screen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Product_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
     private List<Product_Model> productList;
-    private TextView headerTitle;
     private ImageView backIcon;
     private String documentId;
     private List<Product_Model> originalProductList = new ArrayList<>();
@@ -75,8 +74,6 @@ public class NewArrivals_screen extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_list);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        headerTitle = findViewById(R.id.header_title);
-        headerTitle.setText("New Arrivals"); // Đặt tiêu đề là "Blind Box"
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,7 +115,7 @@ public class NewArrivals_screen extends AppCompatActivity {
             }
         });
 
-        backIcon = findViewById(R.id.back_icon);
+        backIcon = findViewById(R.id.ivBack);
         backIcon.setOnClickListener(v -> onBackPressed());
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
