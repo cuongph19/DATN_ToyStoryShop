@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
                 android:padding="8dp"
-                android:text="@string/address"
+                android:text="@string/addressModel"
                 android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

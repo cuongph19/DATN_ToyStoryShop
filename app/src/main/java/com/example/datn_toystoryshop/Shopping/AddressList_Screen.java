@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.AddressAdapter;
-import com.example.datn_toystoryshop.Model.Address;
+import com.example.datn_toystoryshop.Model.Address_model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class AddressList_Screen extends AppCompatActivity {
     private RecyclerView recyclerViewAddress;
     private AddressAdapter addressAdapter;
-    private List<Address> addressList;
+    private List<Address_model> addressModelList;
     ImageView imgBack;
     LinearLayout linAdd;
     private SharedPreferences sharedPreferences;
@@ -90,10 +90,10 @@ public class AddressList_Screen extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                Address address = addressList.get(position);
+                Address_model addressModel = addressModelList.get(position);
 
                 // Hiển thị dialog xác nhận xóa
-                showDeleteConfirmationDialog(address, position);
+                showDeleteConfirmationDialog(addressModel, position);
             }
         };
 
@@ -105,13 +105,13 @@ public class AddressList_Screen extends AppCompatActivity {
         APIService apiService = RetrofitClient.getAPIService();
 
         // Gọi API để lấy danh sách địa chỉ
-        Call<List<Address>> call = apiService.getAllAddresses();
-        call.enqueue(new Callback<List<Address>>() {
+        Call<List<Address_model>> call = apiService.getAllAddresses();
+        call.enqueue(new Callback<List<Address_model>>() {
             @Override
-            public void onResponse(Call<List<Address>> call, Response<List<Address>> response) {
+            public void onResponse(Call<List<Address_model>> call, Response<List<Address_model>> response) {
                 if (response.isSuccessful()) {
-                    addressList = response.body();
-                    addressAdapter = new AddressAdapter(addressList);
+                    addressModelList = response.body();
+                    addressAdapter = new AddressAdapter(addressModelList);
 
                     // Đăng ký listener để nhận thông báo khi địa chỉ được cập nhật
                     addressAdapter.setOnAddressUpdatedListener(new AddressAdapter.OnAddressUpdatedListener() {
@@ -121,13 +121,13 @@ public class AddressList_Screen extends AppCompatActivity {
                             getAddressesFromAPI();  // Hoặc bạn có thể gọi lại API nếu cần
                         }
                         @Override
-                        public void onAddressSelected(Address selectedAddress) {
+                        public void onAddressSelected(Address_model selectedAddressModel) {
                             // Khi địa chỉ được chọn, chuẩn bị dữ liệu để gửi về
                             Intent resultIntent = new Intent();
-                            resultIntent.putExtra("selectedAddressId", selectedAddress.get_id());
-                            resultIntent.putExtra("selectedAddressName", selectedAddress.getName());
-                            resultIntent.putExtra("selectedAddressPhone", selectedAddress.getPhone());
-                            String fullAddress = selectedAddress.getAddressDetail() + ", " + selectedAddress.getAddress();
+                            resultIntent.putExtra("selectedAddressId", selectedAddressModel.get_id());
+                            resultIntent.putExtra("selectedAddressName", selectedAddressModel.getName());
+                            resultIntent.putExtra("selectedAddressPhone", selectedAddressModel.getPhone());
+                            String fullAddress = selectedAddressModel.getAddressDetail() + ", " + selectedAddressModel.getAddress();
                             resultIntent.putExtra("selectedAddress", fullAddress);
                             setResult(RESULT_OK, resultIntent);
                             finish(); // Kết thúc màn hình hiện tại và trả kết quả
@@ -141,20 +141,20 @@ public class AddressList_Screen extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Address>> call, Throwable t) {
+            public void onFailure(Call<List<Address_model>> call, Throwable t) {
                 Log.e("API Error", "Lỗi kết nối: " + t.getMessage());
             }
         });
     }
 
-    private void showDeleteConfirmationDialog(Address address, int position) {
+    private void showDeleteConfirmationDialog(Address_model addressModel, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận xóa");
         builder.setMessage("Bạn có chắc chắn muốn xóa địa chỉ này?");
 
         builder.setPositiveButton("Xóa", (dialog, which) -> {
             // Gọi API xóa địa chỉ
-            deleteAddress(address, position);
+            deleteAddress(addressModel, position);
         });
 
         builder.setNegativeButton("Hủy", (dialog, which) -> {
@@ -164,16 +164,16 @@ public class AddressList_Screen extends AppCompatActivity {
         builder.show();
     }
 
-    private void deleteAddress(Address address, int position) {
+    private void deleteAddress(Address_model addressModel, int position) {
         APIService apiService = RetrofitClient.getAPIService();
-        Call<Void> call = apiService.deleteAddress(address.get_id());
+        Call<Void> call = apiService.deleteAddress(addressModel.get_id());
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Xóa item trong danh sách và cập nhật RecyclerView
-                    addressList.remove(position);
+                    addressModelList.remove(position);
                     addressAdapter.notifyItemRemoved(position);
                     Toast.makeText(AddressList_Screen.this, "Địa chỉ đã được xóa", Toast.LENGTH_SHORT).show();
                 } else {

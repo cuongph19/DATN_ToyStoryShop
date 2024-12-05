@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import com.example.datn_toystoryshop.Profile.Evaluate_screen;
 import com.example.datn_toystoryshop.Profile.Introduce_Friends_screen;
 import com.example.datn_toystoryshop.Profile.Privacy_Security_screen;
 import com.example.datn_toystoryshop.Profile.Setting_screen;
-import com.example.datn_toystoryshop.Profile.Store_screen;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Register_login.SignIn_screen;
@@ -34,7 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class Profile_Fragment extends Fragment {
 
-    private TextView tvSettings, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation, tvPrivacySecurity, tvContactSupport, tvStore;
+    private TextView tvSettings, tvRate, tvIntroduceFriend, tvTerms, tvLogout, tvname, tvtvinformation, tvPrivacySecurity, tvContactSupport;
     private ImageView ivAvatar;
     private FirebaseFirestore db;
     private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
@@ -61,7 +59,6 @@ public class Profile_Fragment extends Fragment {
         tvtvinformation = view.findViewById(R.id.tv_information);
         tvSettings = view.findViewById(R.id.tv_settings);
         tvContactSupport = view.findViewById(R.id.tv_contact_support);
-        tvStore = view.findViewById(R.id.tv_Store);
         tvRate = view.findViewById(R.id.tv_rate);
         tvIntroduceFriend = view.findViewById(R.id.tv_introducefriend);
         tvTerms = view.findViewById(R.id.tv_terms);
@@ -85,7 +82,6 @@ public class Profile_Fragment extends Fragment {
 
         // Gắn sự kiện cho các TextView
         setOnClickListener(tvSettings, Setting_screen.class, documentId);
-        setOnClickListener(tvStore, Store_screen.class, documentId);
         setOnClickListener(tvRate, Evaluate_screen.class, documentId);
         setOnClickListener(tvContactSupport, ContactSupport_screen.class, documentId);
         setOnClickListener(tvIntroduceFriend, Introduce_Friends_screen.class, null);

@@ -238,7 +238,7 @@
     <string name="add_address">添加地址</string>
     <string name="name_address">姓名</string>
     <string name="phone_address">电话号码</string>
-    <string name="address">地址</string>
+    <string name="addressModel">地址</string>
     <string name="address_rev">收货地址</string>
     <string name="address_detail">详细地址</string>
     <string name="save">保存</string>

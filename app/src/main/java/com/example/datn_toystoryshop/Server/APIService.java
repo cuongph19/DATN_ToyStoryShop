@@ -1,6 +1,6 @@
 package com.example.datn_toystoryshop.Server;
 
-import com.example.datn_toystoryshop.Model.Address;
+import com.example.datn_toystoryshop.Model.Address_model;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.ChatHistoryResponse_Model;
@@ -29,7 +29,7 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-   String BASE_URL = "http://192.168.69.248:3000/";// cương
+   String BASE_URL = "http://192.168.16.101:3000/";// cương
    //   String BASE_URL  = "http://192.168.1.10:3000/";// huy
     // String BASE_URL = "http://192.168.101.10:3000/";
 
@@ -144,16 +144,16 @@ public interface APIService {
     Call<List<Voucher>> getVouchers();
 
     @GET("/api/addresses")
-    Call<List<Address>> getAllAddresses();
+    Call<List<Address_model>> getAllAddresses();
 
     @GET("/api/addresses/{id}")
-    Call<Address> getAddressById(@Path("id") String addressId);
+    Call<Address_model> getAddressById(@Path("id") String addressId);
 
     @POST("/api/addresses")
-    Call<Address> addAddress(@Body Address address);
+    Call<Address_model> addAddress(@Body Address_model addressModel);
 
     @PUT("/api/addresses/{id}")
-    Call<Address> updateAddress(@Path("id") String addressId, @Body Address address);
+    Call<Address_model> updateAddress(@Path("id") String addressId, @Body Address_model addressModel);
 
     @DELETE("/api/addresses/{id}")
     Call<Void> deleteAddress(@Path("id") String addressId);
