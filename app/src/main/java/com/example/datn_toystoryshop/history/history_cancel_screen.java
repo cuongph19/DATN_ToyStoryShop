@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -72,7 +73,7 @@ public class history_cancel_screen extends AppCompatActivity {
 
         // Cấu hình RecyclerView và Adapter
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService);
+        adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService,documentId);
         rvOrderHistory.setAdapter(adapter);
         rvOrderHistory.setLayoutManager(new LinearLayoutManager(this));
 
@@ -112,6 +113,14 @@ public class history_cancel_screen extends AppCompatActivity {
                 Toast.makeText(history_cancel_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(history_cancel_screen.this, History_purchase_screen.class);
+        intent.putExtra("documentId", documentId);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 
 }

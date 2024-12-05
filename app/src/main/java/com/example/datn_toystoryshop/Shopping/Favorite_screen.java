@@ -43,7 +43,7 @@ public class Favorite_screen extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Favorite_screen" + documentId);
+
 
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
@@ -58,14 +58,7 @@ public class Favorite_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Favorite_screen.this, Home_screen.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
     }
 
     private void loadFavoriteProducts() {

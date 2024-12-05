@@ -4,6 +4,8 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,15 +14,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-
-        <!-- Hình ảnh chính ở đầu trang -->
-        <ImageView
-            android:id="@+id/mainImage"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_logo" />
+            android:layout_height="200dp">
+
+            <!-- Hình ảnh chính -->
+            <ImageView
+                android:id="@+id/mainImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_logo" />
+
+            <!-- Nút Back nằm đè lên mainImage và ở góc trái trên cùng -->
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:contentDescription="Back"
+                android:padding="8dp"
+                android:src="@drawable/back_icon_1" />
+        </FrameLayout>
+
+
 
         <!-- Tiêu đề bài viết -->
         <TextView

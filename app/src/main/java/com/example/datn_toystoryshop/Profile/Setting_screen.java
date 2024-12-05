@@ -100,7 +100,7 @@ public class Setting_screen extends AppCompatActivity {
             }
         });
 
-        setOnClickListener(tvLanguageCurrency, Currency_Language_screen.class, null);
+        setOnClickListener(tvLanguageCurrency, Currency_Language_screen.class, documentId);
         setOnClickListener(tvUpdateInfo, UpdateInfo_screen.class, documentId);
         setOnClickListener(tvChangePassword, ChangePassword_screen.class, documentId);
         imgBack.setOnClickListener(v -> onBackPressed());

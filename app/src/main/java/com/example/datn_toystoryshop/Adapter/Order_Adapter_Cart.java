@@ -113,9 +113,9 @@ public class Order_Adapter_Cart extends RecyclerView.Adapter<Order_Adapter_Cart.
 
     @Override
     public int getItemCount() {
-        if (!showAll && productIds.size() > 2) {
-            return 2; // Chỉ hiển thị tối đa 2 sản phẩm khi chưa nhấn "Xem thêm"
-        }
+//        if (!showAll && productIds.size() > 2) {
+//            return 2; // Chỉ hiển thị tối đa 2 sản phẩm khi chưa nhấn "Xem thêm"
+//        }
         return productIds.size(); // Hiển thị tất cả khi nhấn "Xem thêm"
     }
 

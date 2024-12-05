@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,7 @@ public class Product_detail extends AppCompatActivity {
     private Feedback_Adapter_Product feedbackAdapterProduct;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,7 @@ public class Product_detail extends AppCompatActivity {
         viewDetail3 = findViewById(R.id.view_detail_3);
         cart_full_icon = findViewById(R.id.cart_full_icon);
         heartIcon = findViewById(R.id.heart_icon);
+        scrollView = findViewById(R.id.scrollView);
         recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
 
         // Khởi tạo APIService bằng RetrofitClient
@@ -250,6 +253,12 @@ public class Product_detail extends AppCompatActivity {
                     heartIcon.setColorFilter(Color.parseColor("#A09595"));
                     deleteFavorite(productId); // Xóa khỏi yêu thích trước khi thêm lại
                 }
+            }
+        });
+        swipeRefreshLayout.setOnChildScrollUpCallback(new SwipeRefreshLayout.OnChildScrollUpCallback() {
+            @Override
+            public boolean canChildScrollUp(SwipeRefreshLayout parent, View child) {
+                return scrollView.getScrollY() > 0;
             }
         });
 

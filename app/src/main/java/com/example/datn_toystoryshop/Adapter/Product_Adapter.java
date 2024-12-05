@@ -56,7 +56,7 @@ public class Product_Adapter extends RecyclerView.Adapter<Product_Adapter.Produc
             String shortId = product.get_id().substring(0, 6);
 //            holder.tvSKU.setText("Mã SP: " + product.get_id());
             holder.tvSKU.setText("Mã SP: " + shortId);
-            holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
+            holder.tvPrice.setText(String.format(": %,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

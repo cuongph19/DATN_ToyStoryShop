@@ -25,6 +25,7 @@ import com.example.datn_toystoryshop.Register_login.Forgot_pass;
 import com.example.datn_toystoryshop.Register_login.SignIn_screen;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.Shopping.Favorite_screen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class History_purchase_screen extends AppCompatActivity {
 
         // Cấu hình RecyclerView và Adapter
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService);
+        adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService,documentId);
         rvOrderHistory.setAdapter(adapter);
         rvOrderHistory.setLayoutManager(new LinearLayoutManager(this));
 
@@ -209,4 +210,13 @@ public class History_purchase_screen extends AppCompatActivity {
             default: return "01";
         }
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(History_purchase_screen.this, Home_screen.class);
+        intent.putExtra("documentId", documentId);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
+
 }

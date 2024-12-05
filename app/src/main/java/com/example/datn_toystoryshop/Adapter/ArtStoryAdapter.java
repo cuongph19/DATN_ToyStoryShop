@@ -25,11 +25,12 @@ import java.util.Locale;
 public class ArtStoryAdapter extends RecyclerView.Adapter<ArtStoryAdapter.ViewHolder> {
     private Context context;
     private List<ArtStoryModel> artStoryList;
+    private String documentId;
 
-
-    public ArtStoryAdapter(Context context, List<ArtStoryModel> artStoryList) {
+    public ArtStoryAdapter(Context context, List<ArtStoryModel> artStoryList,String documentId) {
         this.context = context;
         this.artStoryList = artStoryList;
+        this.documentId = documentId;
     }
 
 
@@ -68,6 +69,7 @@ public class ArtStoryAdapter extends RecyclerView.Adapter<ArtStoryAdapter.ViewHo
         // Thiết lập sự kiện click để mở ArtStoryDetailActivity và truyền dữ liệu
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ArtStory_detail.class);
+            intent.putExtra("documentId", documentId);
             intent.putExtra("title", artStory.getTitle());
             intent.putExtra("author", artStory.getAuthor());
             intent.putExtra("date", artStory.getDate().getTime()); // truyền date dưới dạng milliseconds

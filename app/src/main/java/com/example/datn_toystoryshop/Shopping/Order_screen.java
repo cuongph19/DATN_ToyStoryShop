@@ -206,7 +206,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-            // Hiển thị nút "Xem thêm" nếu danh sách có hơn 2 sản phẩm
+       //      Hiển thị nút "Xem thêm" nếu danh sách có hơn 2 sản phẩm
 //            if (productIds.size() > 2) {
 //                show_more_oder.setVisibility(View.VISIBLE);
 //            }
@@ -294,9 +294,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         productType = productType2;
 
         String formattedTotalAmount = String.format("%,.0fđ", totalAmount2);
-        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh " + totalAmount);
-        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh" + quantity);
-        Log.e("API_ERROR", "hhhhhhhhhhhhhhhhhhhhhhh" + productType);
+
         tvTotalAmount.setText(formattedTotalAmount);
         total_amount.setText(formattedTotalAmount);
         tvTotalAmountLabel.setText("Tổng số tiền (1 sản phẩm):");
@@ -408,9 +406,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         addressName.setText(name);
         addressPhone.setText(phone);
         addressDetail.setText(address);
-                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 1 " + name);
-                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 2 " + phone);
-                        Log.e("OrderHistoryAdapter", "j66666666666666666Order_screen111 3 " + address);
                     break;
             }
         }
@@ -439,11 +434,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
     private void sumitOrder_Detail() {
         content = tvLeaveMessage.getText().toString();
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:1 " + content);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:2 " + productId);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:3 " + totalAmount);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:4 " + quantity);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:5 " + productType);
         // Tạo một danh sách các sản phẩm trong đơn hàng
         List<Order_Model.ProductDetail> productDetails = new ArrayList<>();
         productDetails.add(new Order_Model.ProductDetail(productId, totalAmount, quantity, productType));
@@ -614,10 +604,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
     private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
         String content = tvLeaveMessage.getText().toString();
-
-        Log.e("API_ERROR", "Content: " + content);
-        Log.e("API_ERROR", "Product Details: " + productDetails.toString());
-        Log.e("API_ERROR", "Total Amount: " + moneyPay);
         name = name != null ? name : defaultName;
         phone = phone != null ? phone : defaultPhone;
         address = address != null ? address : defaultAddress;
