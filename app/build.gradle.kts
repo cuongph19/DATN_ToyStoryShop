@@ -74,7 +74,7 @@ dependencies {
     implementation ("io.realm:realm-android-library:10.7.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
-
+    implementation ("org.mindrot:jbcrypt:0.4")
     implementation ("com.sun.mail:android-mail:1.6.7")
     implementation ("com.sun.mail:android-activation:1.6.7")
 

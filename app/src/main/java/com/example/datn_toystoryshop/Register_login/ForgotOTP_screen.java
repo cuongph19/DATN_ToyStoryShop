@@ -22,6 +22,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -167,11 +169,12 @@ public class ForgotOTP_screen extends AppCompatActivity {
     // Cập nhật mật khẩu mới trong Firestore
     private void updatePasswordInFirestore(String phoneNumber, String newPassword) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
         db.collection("users").whereEqualTo("phoneNumber", phoneNumber).get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && !task.getResult().isEmpty()) {
                 DocumentSnapshot document = task.getResult().getDocuments().get(0);
-                document.getReference().update("password", newPassword).addOnSuccessListener(aVoid -> {
+                document.getReference().update("password", hashedPassword).addOnSuccessListener(aVoid -> {
                     Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_success), Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
                     Toast.makeText(ForgotOTP_screen.this, getString(R.string.forgot_otp_error), Toast.LENGTH_SHORT).show();

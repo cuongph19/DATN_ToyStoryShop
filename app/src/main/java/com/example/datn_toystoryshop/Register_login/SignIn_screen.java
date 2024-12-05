@@ -32,6 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -210,8 +212,7 @@ public class SignIn_screen extends AppCompatActivity {
                         if (!documents.isEmpty()) {
                             DocumentSnapshot document = documents.get(0);
                             String storedPassword = document.getString("password");
-                            if (storedPassword != null && storedPassword.equals(password)) {
-                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
+                            if (storedPassword != null && BCrypt.checkpw(password, storedPassword)) {                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                                 String documentId = document.getId();
                                 intent.putExtra("documentId", documentId);
@@ -223,7 +224,7 @@ public class SignIn_screen extends AppCompatActivity {
                             Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        // Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong_sdt), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
