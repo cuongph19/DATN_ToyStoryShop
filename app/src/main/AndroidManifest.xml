@@ -143,7 +143,7 @@
             android:name=".Home.NewArrivals_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.Welcome_screen"
+            android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
             android:name=".Product_detail"
@@ -167,7 +167,7 @@
             android:name=".Register_login.SignUp_screen"
             android:exported="false" />
         <activity
-            android:name=".Register_login.SignIn_screen"
+            android:name=".Register_login.Welcome_screen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
