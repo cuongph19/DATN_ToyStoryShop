@@ -48,7 +48,8 @@ public class ArtStory_Fragment extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.product_list);
-
+        Bundle bundle = getArguments();
+        documentId = bundle.getString("documentId");
         if (nightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -79,7 +80,7 @@ public class ArtStory_Fragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
 
                 if (response.isSuccessful() && response.body() != null) {
-                    adapter = new ArtStoryAdapter(getContext(), response.body());
+                    adapter = new ArtStoryAdapter(getContext(), response.body(),documentId);
                     recyclerView.setAdapter(adapter);
                 }
             }

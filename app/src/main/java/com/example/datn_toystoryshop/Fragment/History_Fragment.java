@@ -83,10 +83,7 @@ public class History_Fragment extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         Bundle bundle = getArguments();
-        if (bundle != null) {
             documentId = bundle.getString("documentId");
-
-        }
         currentSelectedTextView = confirmText; // Mặc định chọn Confirm
         highlightTextView(confirmText); // Tô màu ban đầu
         replaceFragment(new ConfirmFragment());

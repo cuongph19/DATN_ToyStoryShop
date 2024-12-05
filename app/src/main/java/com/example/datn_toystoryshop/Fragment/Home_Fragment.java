@@ -170,27 +170,27 @@ public class Home_Fragment extends Fragment {
             Intent intent;
             switch (position) {
                 case 0:
-                    intent = new Intent(getActivity(), Add_address_screen.class);
-                    intent.putExtra("documentId", documentId);
-                    break;
-                case 1:
-                    intent = new Intent(getActivity(), Figuring_screen.class);
-                    intent.putExtra("documentId", documentId);
-                    break;
-                case 2:
-                    intent = new Intent(getActivity(), OtherProducts_screen.class);
-                    intent.putExtra("documentId", documentId);
-                    break;
-                case 3:
                     intent = new Intent(getActivity(), Sale_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
+                case 1:
+                    intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    intent.putExtra("documentId", documentId);
+                    break;
+                case 2:
+                    intent = new Intent(getActivity(), Figuring_screen.class);
+                    intent.putExtra("documentId", documentId);
+                    break;
+                case 3:
+                    intent = new Intent(getActivity(), BlindBox_screen.class);
+                    intent.putExtra("documentId", documentId);
+                    break;
                 case 4:
-                    intent = new Intent(getActivity(), LimitedFigure_screen.class);
+                    intent = new Intent(getActivity(), NewArrivals_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 5:
-                    intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    intent = new Intent(getActivity(), Sale_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 // Thêm các case cho các hình ảnh khác

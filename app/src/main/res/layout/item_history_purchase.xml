@@ -82,6 +82,17 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 </LinearLayout>
+            <TextView
+                android:id="@+id/btnBuyBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_background"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="@string/buy_back"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

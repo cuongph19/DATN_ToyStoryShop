@@ -110,7 +110,7 @@ public class Home_screen extends AppCompatActivity {
                 } else if (itemId == R.id.nav_history) {
                     loadFragment(new History_Fragment(), bundle);
                 } else if (itemId == R.id.nav_ArtStory) {
-                    loadFragment(new ArtStory_Fragment(), null);
+                    loadFragment(new ArtStory_Fragment(), bundle);
                 } else {
                     loadFragment(new Profile_Fragment(), bundle);
                 }

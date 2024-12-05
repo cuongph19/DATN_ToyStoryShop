@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.history.History_purchase_screen;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,23 +22,17 @@ import java.util.Locale;
 public class ArtStory_detail extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView titleView, authorView, dateView, contentView;
-    private ImageView mainImageView, imageView1, imageView2, imageView3;
+    private ImageView mainImageView, imageView1, imageView2, imageView3,imgBack;
     private TextView captionView1, captionView2, captionView3;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_art_story_detail);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-//        if (nightMode) {
-//            imgBack.setImageResource(R.drawable.back_icon);
-//        } else {
-//            imgBack.setImageResource(R.drawable.back_icon_1);
-//        }
         // Ánh xạ các view
         titleView = findViewById(R.id.detailTitle);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -48,19 +43,25 @@ public class ArtStory_detail extends AppCompatActivity {
         imageView1 = findViewById(R.id.image1);
         imageView2 = findViewById(R.id.image2);
         imageView3 = findViewById(R.id.image3);
+        imgBack = findViewById(R.id.imgBack);
         captionView1 = findViewById(R.id.imageCaption1);
         captionView2 = findViewById(R.id.imageCaption2);
         captionView3 = findViewById(R.id.imageCaption3);
-
+        if (nightMode) {
+            imgBack.setImageResource(R.drawable.back_icon);
+        } else {
+            imgBack.setImageResource(R.drawable.back_icon_1);
+        }
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
         String title = intent.getStringExtra("title");
         String author = intent.getStringExtra("author");
         long dateMillis = intent.getLongExtra("date", 0);
         String content = intent.getStringExtra("content");
         ArrayList<String> imageUrl = intent.getStringArrayListExtra("imageUrl");
         ArrayList<String> caption = intent.getStringArrayListExtra("caption");
-
+        imgBack.setOnClickListener(v -> onBackPressed());
         // Đặt dữ liệu lên các view
         titleView.setText(title);
         authorView.setText(author);
@@ -150,6 +151,13 @@ public class ArtStory_detail extends AppCompatActivity {
         // Tắt làm mới sau khi hoàn thành
         swipeRefreshLayout.setRefreshing(false);
     }
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ArtStory_detail.this, Home_screen.class);
+        intent.putExtra("documentId", documentId);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
 
 }

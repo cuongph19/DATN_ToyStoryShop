@@ -61,7 +61,7 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
             holder.tvName.setText(product.getNamePro());
             String shortId = product.get_id().substring(0, 6);
             holder.tvSKU.setText("Mã SP: " + shortId);
-            holder.tvPrice.setText(String.format("%,.0fđ", product.getPrice()));
+            holder.tvPrice.setText(String.format(": %,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
             if (isInHomeFragment) {
                 holder.newIcon.setVisibility(View.VISIBLE);

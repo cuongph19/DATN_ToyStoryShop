@@ -31,13 +31,14 @@ public class Currency_Language_screen extends AppCompatActivity {
     private boolean isSpinnerInitial = true;  // Biến để kiểm soát lần đầu khởi tạo Spinner
     private String currentLanguage;  // Ngôn ngữ hiện tại
     private Spinner spinnerLanguages;
-
+    private String documentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currency_language_screen);
 
+        documentId = getIntent().getStringExtra("documentId");
         // Đọc ngôn ngữ và tiền tệ hiện tại từ SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         currentLanguage = prefs.getString(LANGUAGE_KEY, Locale.getDefault().getLanguage());
@@ -153,6 +154,7 @@ public class Currency_Language_screen extends AppCompatActivity {
         // Tạo Intent để trở về Home_screen
         super.onBackPressed();
         Intent intent = new Intent(Currency_Language_screen.this, Home_screen.class);
+        intent.putExtra("documentId", documentId);
         startActivity(intent);
         finish(); // Kết thúc activity hiện tại
     }

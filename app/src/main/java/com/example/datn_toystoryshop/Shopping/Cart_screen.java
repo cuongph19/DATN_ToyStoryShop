@@ -110,12 +110,7 @@ public class Cart_screen extends AppCompatActivity {
         currentQuantity = intent.getIntExtra("currentQuantity", 1);
         selectedColor = intent.getStringExtra("selectedColor");
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imgBack.setOnClickListener(v -> onBackPressed());
         swipeRefreshLayout.setOnRefreshListener(() -> {
             loadCartProducts(); // Gọi lại API để làm mới danh sách
         });

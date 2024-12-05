@@ -49,7 +49,7 @@ public class Payment_method_screen extends AppCompatActivity {
             if ("Thanh toán khi nhận hàng".equals(currentPayment)) {
                 radioCOD.setChecked(true);
                 radioShopeePay.setChecked(false);
-            } else if ("Ví ShopeePay (Yêu thích)".equals(currentPayment)) {
+            } else if ("Ví Pay Pal (Yêu thích)".equals(currentPayment)) {
                 radioShopeePay.setChecked(true);
                 radioCOD.setChecked(false);
             }
@@ -85,7 +85,7 @@ public class Payment_method_screen extends AppCompatActivity {
                 if (radioCOD.isChecked()) {
                     paytext = "Thanh toán khi nhận hàng";
                 } else if (radioShopeePay.isChecked()) {
-                    paytext = "Ví ShopeePay (Yêu thích)";
+                    paytext = "Ví Pay Pal";
                 }
                 Intent intent = new Intent();
                 intent.putExtra("paytext", paytext);
