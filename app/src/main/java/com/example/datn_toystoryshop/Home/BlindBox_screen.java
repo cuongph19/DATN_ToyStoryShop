@@ -48,7 +48,6 @@ public class BlindBox_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private Product_Adapter adapter;
-    private TextView headerTitle;
     private ImageView backIcon;
     private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
     private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
@@ -61,6 +60,7 @@ public class BlindBox_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private  APIService apiService;
+    private Button btnSort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class BlindBox_screen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         searchBar = findViewById(R.id.search_bar);
-
+        btnSort = findViewById(R.id.btnSort);
 //        if (nightMode) {
 //            imgBack.setImageResource(R.drawable.back_icon);
 //        } else {
@@ -78,8 +78,6 @@ public class BlindBox_screen extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        headerTitle = findViewById(R.id.header_title);
-        headerTitle.setText("Blind Box"); // Đặt tiêu đề là "Blind Box"
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j8888888888888888BlindBox_screen" + documentId);
@@ -121,7 +119,7 @@ public class BlindBox_screen extends AppCompatActivity {
             }
         });
 
-        backIcon = findViewById(R.id.back_icon);
+        backIcon = findViewById(R.id.ivBack);
         backIcon.setOnClickListener(v -> onBackPressed());
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
@@ -130,7 +128,6 @@ public class BlindBox_screen extends AppCompatActivity {
 
         });
 
-        Button btnSort = findViewById(R.id.btnSort);
         btnSort.setOnClickListener(v -> showSortDialog());
     }
 

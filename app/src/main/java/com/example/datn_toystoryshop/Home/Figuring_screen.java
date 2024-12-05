@@ -48,7 +48,6 @@ public class Figuring_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private Product_Adapter adapter;
-    private TextView headerTitle;
     private ImageView backIcon;
     private List<Product_Model> originalProductList = new ArrayList<>();
 
@@ -80,8 +79,6 @@ public class Figuring_screen extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        headerTitle = findViewById(R.id.header_title);
-        headerTitle.setText("Figuring"); // Đặt tiêu đề là "Figuring"
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j8888888888888888Figuring_screen" + documentId);
@@ -123,7 +120,7 @@ public class Figuring_screen extends AppCompatActivity {
             }
         });
 
-        backIcon = findViewById(R.id.back_icon);
+        backIcon = findViewById(R.id.ivBack);
         backIcon.setOnClickListener(v -> onBackPressed());
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());

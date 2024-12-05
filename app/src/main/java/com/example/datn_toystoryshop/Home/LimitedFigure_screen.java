@@ -49,7 +49,6 @@ public class LimitedFigure_screen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Product_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
     private List<Product_Model> productList;
-    private TextView headerTitle;
     private ImageView backIcon;
     private String documentId;
     private SharedPreferences sharedPreferences;
@@ -78,8 +77,6 @@ public class LimitedFigure_screen extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_list);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        headerTitle = findViewById(R.id.header_title);
-        headerTitle.setText("Limited Figure"); // Đặt tiêu đề là "Blind Box"
 
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
@@ -122,7 +119,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
             }
         });
 
-        backIcon = findViewById(R.id.back_icon);
+        backIcon = findViewById(R.id.ivBack);
         backIcon.setOnClickListener(v -> onBackPressed());
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
