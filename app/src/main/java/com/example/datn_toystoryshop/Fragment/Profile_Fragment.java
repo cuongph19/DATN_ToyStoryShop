@@ -36,7 +36,7 @@ public class Profile_Fragment extends Fragment {
     private ImageView ivAvatar;
     private FirebaseFirestore db;
     private static final String PREFS_NAME = "MyPrefs"; // Khai báo hằng số cho tên SharedPreferences
-    private static final String NOTIFICATION_SHOWN_KEY = "notificationShown"; // Khai báo hằng số cho trạng thái thông báo
+    private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked"; // Khai báo hằng số cho trạng thái thông báo
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
 
@@ -96,7 +96,7 @@ public class Profile_Fragment extends Fragment {
 
             // Đặt lại trạng thái thông báo
             SharedPreferences.Editor editor = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-            editor.putBoolean(NOTIFICATION_SHOWN_KEY, false); // Đặt lại trạng thái thông báo
+            editor.putBoolean(NOTIFICATION_BLOCKED_KEY, false); // Đặt lại trạng thái thông báo
             editor.apply();
 
             // Chuyển tới màn hình đăng nhập

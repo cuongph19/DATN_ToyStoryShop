@@ -67,6 +67,11 @@ public class Home_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        // Nhận dữ liệu từ Intent
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+
+
         // Khởi tạo NotificationManager
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -77,14 +82,9 @@ public class Home_screen extends AppCompatActivity {
         showWelcomeNotification();
 
         // Khởi tạo và bắt đầu WebSocketClient
-        webSocketClient = new WebSocketClient(this, notificationManager);
+        webSocketClient = new WebSocketClient(this, notificationManager, documentId);
         webSocketClient.start();
 
-
-        // Nhận dữ liệu từ Intent
-        Intent intent = getIntent();
-        documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Home_screen" + documentId);
 
         // Truyền dữ liệu cho Fragment
         Profile_Fragment profileFragment = new Profile_Fragment();

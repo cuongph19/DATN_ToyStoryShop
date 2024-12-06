@@ -8,14 +8,6 @@ public class Cart_Model {
     private String prodSpecification;
     private boolean selected;
 
-    //    public Cart_Model() {
-//        this._id = _id;
-//        this.prodId = prodId;
-//        this.quantity = quantity;
-//        this.cusId = cusId;
-//        this.prodSpecification = prodSpecification;
-//        this.selected = false;
-//    }
     public Cart_Model() {
         this.selected = false;
     }

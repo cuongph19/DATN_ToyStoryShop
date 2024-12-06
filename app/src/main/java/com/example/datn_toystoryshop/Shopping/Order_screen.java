@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -43,6 +46,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -510,7 +514,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
             fetchProductById(productDetail.getProdId(), productName -> {
                 if (productName != null) {
-                    productListBuilder.append(String.format("- %s (Số lượng: %d) - Giá: %,d VNĐ\n",
+                    productListBuilder.append(String.format( "<li>%s (Số lượng: %d, Giá: %,d VNĐ)</li>",
                             productName,
                             productDetail.getQuantity(),
                             (int) productDetail.getRevenue()));
@@ -533,29 +537,35 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         } else if (totalProductDiscount != 0) {
             totalDiscount = totalProductDiscount;
         }
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff1 " + totalShipDiscount);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff 2 " + totalProductDiscount);
-        Log.e("API_ERROR", "AAAAAAAAAAAAAAA mã phản hồi:ffff 3 " + totalDiscount);
+
         String message = String.format(
-                "Kính gửi Quý khách hàng,\n\n" +
-                        "Cảm ơn bạn đã mua sắm tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận thành công. Dưới đây là thông tin chi tiết về đơn hàng:\n\n" +
-                        "Ngày đặt hàng: %s\n" +
-                        "Danh sách sản phẩm:\n%s\n" +
-                        "Phí vận chuyển: %,d VNĐ\n\n" +
-                        "Tổng tiền giảm giá: %,d VNĐ\n\n" +
-                        "Tổng cộng: %,d VNĐ\n\n" +
-                        "Địa chỉ giao hàng:\n%s\n" +
-                        "Họ tên: %s\n" +
-                        "Số điện thoại: %s\n\n" +
-                        "Hình thức thanh toán: %s\n" +
-                        "Thời gian dự kiến giao hàng: 3-5 ngày làm việc.\n\n" +
-                        "Liên hệ hỗ trợ:\n" +
-                        "Nếu bạn cần hỗ trợ thêm, vui lòng liên hệ bộ phận CSKH:\n" +
-                        "- Số điện thoại: 0123987456\n" +
-                        "- Email: toystory.shop.datn@gmail.com\n\n" +
-                        "Cảm ơn bạn đã tin tưởng và ủng hộ ToyStory Shop!\n" +
-                        "Trân trọng,\n" +
-                        "Đội ngũ ToyStory Shop.",
+                "<html>" +
+                        "<body>" +
+                        "<p>Kính gửi Quý khách hàng,</p>" +
+                        "<p>Cảm ơn bạn đã mua sắm tại ToyStory Shop! Đơn hàng của bạn đã được xác nhận thành công. Dưới đây là thông tin chi tiết về đơn hàng:</p>" +
+                        "<p><strong>Ngày đặt hàng:</strong> %s</p>" +
+                        "<p><strong>Danh sách sản phẩm:</strong></p>" +
+                        "<p>%s</p>" +
+                        "<p><strong>Phí vận chuyển:</strong> %,d VNĐ</p>" +
+                        "<p><strong>Tổng tiền giảm giá:</strong> %,d VNĐ</p>" +
+                        "<p><strong>Tổng cộng:</strong> %,d VNĐ</p>" +
+                        "<p><strong>Địa chỉ giao hàng:</strong></p>" +
+                        "<p>%s</p>" +
+                        "<p><strong>Họ tên:</strong> %s</p>" +
+                        "<p><strong>Số điện thoại:</strong> %s</p>" +
+                        "<p><strong>Hình thức thanh toán:</strong> %s</p>" +
+                        "<p><strong>Thời gian dự kiến giao hàng:</strong> 3-5 ngày làm việc.</p>" +
+                        "<p>Liên hệ hỗ trợ:</p>" +
+                        "<p>Nếu bạn cần hỗ trợ thêm, vui lòng liên hệ bộ phận CSKH:</p>" +
+                        "<ul>" +
+                        "<li>Số điện thoại: 0123987456</li>" +
+                        "<li>Email: toystory.shop.datn@gmail.com</li>" +
+                        "</ul>" +
+                        "<p>Cảm ơn bạn đã tin tưởng và ủng hộ ToyStory Shop!</p>" +
+                        "<p>Trân trọng,</p>" +
+                        "<p><strong>Đội ngũ ToyStory Shop</strong></p>" +
+                        "</body>" +
+                        "</html>",
                 order.getOrderDate(),
                 productList,
                 (int) shippingCost,
@@ -635,7 +645,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     Log.d("CartScreen", "Danh sách sản phẩm: " + productIds);
                     for (String cartId : productIds) {
                         Log.d("CartScreen", "Danh sách sản phẩm: 11 " + cartId);
-                        deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
+                      //  deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
                     }
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
