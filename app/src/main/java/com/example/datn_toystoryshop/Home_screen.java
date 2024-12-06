@@ -32,6 +32,7 @@ import com.example.datn_toystoryshop.Fragment.History_Fragment;
 import com.example.datn_toystoryshop.Fragment.Home_Fragment;
 import com.example.datn_toystoryshop.Fragment.Profile_Fragment;
 
+import com.example.datn_toystoryshop.Server.WebSocketClient;
 import com.example.datn_toystoryshop.Shopping.Favorite_screen;
 import com.example.datn_toystoryshop.Shopping.Cart_screen;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,6 +47,8 @@ public class Home_screen extends AppCompatActivity {
     private static final String CHANNEL_ID = "home_notification_channel";
     private static final String PREFS_NAME = "NotificationPrefs";
     private static final String NOTIFICATION_BLOCKED_KEY = "isNotificationBlocked";
+    private WebSocketClient webSocketClient;
+
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
@@ -72,6 +75,11 @@ public class Home_screen extends AppCompatActivity {
 
         // Hiển thị thông báo chào mừng nếu thông báo đang được bật
         showWelcomeNotification();
+
+        // Khởi tạo và bắt đầu WebSocketClient
+        webSocketClient = new WebSocketClient(this, notificationManager);
+        webSocketClient.start();
+
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
@@ -193,5 +201,13 @@ public class Home_screen extends AppCompatActivity {
             Toast.makeText(this, "Thông báo đang bị tắt.", Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        // Dừng WebSocketClient khi Activity bị hủy
+        if (webSocketClient != null) {
+            webSocketClient.stop();
+        }
+    }
 }
