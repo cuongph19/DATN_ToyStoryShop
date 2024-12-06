@@ -100,7 +100,8 @@ public class SignIn_screen extends AppCompatActivity {
                 edPassword.setText(newPassword);
             }
         }
-
+        edInput.setText("0382200084");
+        edPassword.setText("A111111");
         // Đăng nhập bằng Google
         btnGoogleLogin.setOnClickListener(view -> signInWithGoogle());
         btnGoogleLogin1.setOnClickListener(view -> signInWithGoogle());
@@ -192,7 +193,7 @@ public class SignIn_screen extends AppCompatActivity {
                                     startActivity(intent);
                                 })
                                 .addOnFailureListener(e -> {
-                                    //  Toast.makeText(SignIn_screen.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                      Toast.makeText(SignIn_screen.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
                                 });
                     } else {
                         Toast.makeText(SignIn_screen.this, getString(R.string.Toast_wrong), Toast.LENGTH_SHORT).show();

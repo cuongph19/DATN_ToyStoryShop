@@ -2,7 +2,7 @@ package com.example.datn_toystoryshop.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Address {
+public class Address_model {
     @SerializedName("_id")
     private String _id;          // _id từ MongoDB
     private String userId;      // userId từ Firebase (nếu có)
@@ -12,10 +12,10 @@ public class Address {
     private String addressDetail; // chi tiết địa chỉ (số nhà, tầng...)
     private boolean isDefault;
 
-    public Address() {
+    public Address_model() {
     }
 
-    public Address(String name, String phone, String address, String addressDetail, boolean isDefault) {
+    public Address_model(String name, String phone, String address, String addressDetail, boolean isDefault) {
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -23,7 +23,7 @@ public class Address {
         this.isDefault = isDefault;
     }
 
-    public Address(String _id, String userId, String name, String phone, String address, String addressDetail, boolean isDefault) {
+    public Address_model(String _id, String userId, String name, String phone, String address, String addressDetail, boolean isDefault) {
         this._id = _id;
         this.userId = userId;
         this.name = name;

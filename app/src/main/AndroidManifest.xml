@@ -43,9 +43,6 @@
             android:name=".Home.Sale_screen"
             android:exported="false" />
         <activity
-            android:name=".Profile.Store_screen"
-            android:exported="false" />
-        <activity
             android:name=".PayPalActivity"
             android:exported="false" />
         <activity
@@ -59,9 +56,6 @@
             android:exported="false" />
         <activity
             android:name=".ArtStory_detail"
-            android:exported="false" />
-        <activity
-            android:name=".Shopping.Add_address_screen"
             android:exported="false" />
 
         <meta-data
@@ -165,6 +159,9 @@
             android:exported="false" />
         <activity
             android:name=".Register_login.SignUp_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Shopping.Add_address_screen"
             android:exported="false" />
         <activity
             android:name=".Register_login.Welcome_screen"

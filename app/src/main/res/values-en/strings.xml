@@ -60,7 +60,7 @@
     ToyStory Shop is committed to protecting your privacy and personal information security. Please read the following terms carefully to understand how we use and protect your information.\n\n
 
     1. Collection and Use of Personal Data:\n
-    We collect personal information such as your name, address, phone number, email, and payment details to provide the best service. This information is used solely to complete orders, support customers, and enhance your experience.\n\n
+    We collect personal information such as your name, addressModel, phone number, email, and payment details to provide the best service. This information is used solely to complete orders, support customers, and enhance your experience.\n\n
 
     2. Cookies and Tracking Technologies:\n
     ToyStory Shop uses cookies and tracking technologies to personalize your experience and monitor browsing behavior for service improvements. You can choose to decline or manage cookies as needed.\n\n
@@ -154,7 +154,7 @@
         <string name="forgot_text1">Please enter your information to reset your password</string>
         <string name="send_button">Send Request</string>
         <string name="Toast_send">We have sent a mail to your inbox to reset your password!</string>
-        <string name="Toast_send_error">Cannot send mail. Please check your email address again.</string>
+        <string name="Toast_send_error">Cannot send mail. Please check your email addressModel again.</string>
 
         <!-- forgotOTP -->
         <string name="forgot_otp_pass">Please enter a new password</string>
@@ -194,7 +194,7 @@
 
         <!-- Toast Register_login -->
         <string name="Toast_infor">Please fill in all the information!</string>
-        <string name="Toast_email">Please enter a valid email address!</string>
+        <string name="Toast_email">Please enter a valid email addressModel!</string>
         <string name="Toast_format">Please enter the correct format!</string>
         <string name="Toast_google">Google Sign-In failed!</string>
         <string name="Toast_success">Sign in successful</string>
@@ -236,14 +236,14 @@
         <string name="add_cart">Add to Cart</string>
         <string name="brand">Brand: </string>
 
-        <string name="add_address">Add address</string>
+        <string name="add_address">Add addressModel</string>
         <string name="name_address">Full name</string>
         <string name="phone_address">Phone number</string>
-        <string name="address">Address</string>
-        <string name="address_rev">Delivery address</string>
-        <string name="address_detail">Detailed address</string>
+        <string name="addressModel">Address</string>
+        <string name="address_rev">Delivery addressModel</string>
+        <string name="address_detail">Detailed addressModel</string>
         <string name="save">Save</string>
-        <string name="choose_address">Choose your address</string>
+        <string name="choose_address">Choose your addressModel</string>
         <string name="enter_mess">Enter message</string>
         <string name="send">Send</string>
         <string name="cart">Cart</string>

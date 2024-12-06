@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:contentDescription="Back"
         android:padding="8dp"
-        android:src="@drawable/back_icon_1" />
+        android:src="@drawable/back_icon_1"
+        android:layout_margin="2dp"/>
 
     <!-- Tiêu đề -->
     <TextView
@@ -46,14 +47,33 @@
         android:padding="12dp" />
 
     <!-- Địa chỉ -->
-    <EditText
-        android:id="@+id/etAddress"
-        style="@style/TEXT"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/address"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- EditText cho địa chỉ -->
+        <EditText
+            android:id="@+id/etAddress"
+            style="@style/TEXT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        android:hint="@string/addressModel"
         android:inputType="textPostalAddress"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:layout_marginEnd="8dp" />
+
+        <!-- ImageView (Ví dụ: biểu tượng thêm) -->
+        <ImageView
+            android:id="@+id/imgADD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+        android:src="@drawable/add"
+        android:padding="8dp" />
+    </LinearLayout>
 
     <!-- Chi tiết địa chỉ -->
     <EditText
