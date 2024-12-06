@@ -73,15 +73,6 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_Store"
-            style="@style/TEXT"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="@string/store_location"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/tv_introducefriend"
             style="@style/TEXT"
             android:layout_width="match_parent"

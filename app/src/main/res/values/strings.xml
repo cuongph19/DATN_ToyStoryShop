@@ -224,7 +224,7 @@
     <string name="add_address">Thêm địa chỉ</string>
     <string name="name_address">Họ và tên</string>
     <string name="phone_address">Số điện thoại</string>
-    <string name="address">Địa chỉ</string>
+    <string name="addressModel">Địa chỉ</string>
     <string name="address_rev">Địa chỉ nhận hàng</string>
     <string name="address_detail">Địa chỉ chi tiết</string>
     <string name="save">Lưu</string>

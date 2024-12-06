@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datn_toystoryshop.Model.Address;
+import com.example.datn_toystoryshop.Model.Address_model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -31,17 +31,17 @@ import retrofit2.Response;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
     private OnAddressUpdatedListener listener;
-    private List<Address> addressList;
+    private List<Address_model> addressModelList;
     private int selectedPosition = -1;
 
     public void setOnAddressUpdatedListener(OnAddressUpdatedListener listener) {
         this.listener = listener;
     }
 
-    public AddressAdapter(List<Address> addressList) {
-        this.addressList = (addressList != null) ? addressList : new ArrayList<>();
-        for (int i = 0; i < addressList.size(); i++) {
-            if (addressList.get(i).isDefault()) {
+    public AddressAdapter(List<Address_model> addressModelList) {
+        this.addressModelList = (addressModelList != null) ? addressModelList : new ArrayList<>();
+        for (int i = 0; i < addressModelList.size(); i++) {
+            if (addressModelList.get(i).isDefault()) {
                 selectedPosition = i;  // Đặt vị trí của địa chỉ mặc định
                 break;
             }
@@ -58,13 +58,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
-        Address address = addressList.get(position);
+        Address_model addressModel = addressModelList.get(position);
 
         // Set dữ liệu cho các trường cần thiết
-        holder.nameTextView.setText(address.getName() != null ? address.getName() : "Chưa có tên");
-        holder.phoneTextView.setText(address.getPhone() != null ? address.getPhone() : "Chưa có số điện thoại");
-        holder.addressTextView.setText(address.getAddress() != null ? address.getAddress() : "Chưa có địa chỉ");
-        holder.addressDetailTextView.setText(address.getAddressDetail() != null ? address.getAddressDetail() : "Chưa có chi tiết địa chỉ");
+        holder.nameTextView.setText(addressModel.getName() != null ? addressModel.getName() : "Chưa có tên");
+        holder.phoneTextView.setText(addressModel.getPhone() != null ? addressModel.getPhone() : "Chưa có số điện thoại");
+        holder.addressTextView.setText(addressModel.getAddress() != null ? addressModel.getAddress() : "Chưa có địa chỉ");
+        holder.addressDetailTextView.setText(addressModel.getAddressDetail() != null ? addressModel.getAddressDetail() : "Chưa có chi tiết địa chỉ");
         holder.radioButton.setChecked(position == selectedPosition);
 
         holder.itemView.setOnClickListener(v -> {
@@ -78,7 +78,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
         holder.itemView.setOnLongClickListener(v -> {
             // Sử dụng đúng context từ itemView
-            showEditDialog(holder.itemView.getContext(), address);
+            showEditDialog(holder.itemView.getContext(), addressModel);
             return true;
         });
 
@@ -87,7 +87,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
     @Override
     public int getItemCount() {
-        return addressList.size();
+        return addressModelList.size();
     }
 
     public class AddressViewHolder extends RecyclerView.ViewHolder {
@@ -111,20 +111,20 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         // Chỉ cập nhật hai item thay đổi, không cần refresh toàn bộ
         notifyItemChanged(previousPosition);
         notifyItemChanged(selectedPosition);
-        Address selectedAddress = getSelectedAddress();
-        if (selectedAddress != null && listener != null) {
-            listener.onAddressSelected(selectedAddress); // Gửi địa chỉ được chọn
+        Address_model selectedAddressModel = getSelectedAddress();
+        if (selectedAddressModel != null && listener != null) {
+            listener.onAddressSelected(selectedAddressModel); // Gửi địa chỉ được chọn
         }
     }
 
-    public Address getSelectedAddress() {
-        if (selectedPosition >= 0 && selectedPosition < addressList.size()) {
-            return addressList.get(selectedPosition);
+    public Address_model getSelectedAddress() {
+        if (selectedPosition >= 0 && selectedPosition < addressModelList.size()) {
+            return addressModelList.get(selectedPosition);
         }
         return null;
     }
 
-    private void showEditDialog(Context context, Address address) {
+    private void showEditDialog(Context context, Address_model addressModel) {
         // Kiểm tra context
         if (context == null) {
             Log.e("AddressAdapter", "Context is null");
@@ -145,10 +145,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         ImageView btnBack = dialog.findViewById(R.id.btnBack);
 
         // Điền thông tin vào các trường trong dialog từ đối tượng address
-        etName.setText(address.getName());
-        etPhoneNumber.setText(address.getPhone());
-        etAddress.setText(address.getAddress());
-        etAddressDetail.setText(address.getAddressDetail());
+        etName.setText(addressModel.getName());
+        etPhoneNumber.setText(addressModel.getPhone());
+        etAddress.setText(addressModel.getAddress());
+        etAddressDetail.setText(addressModel.getAddressDetail());
 
         // Khi nhấn nút quay lại, đóng dialog
         btnBack.setOnClickListener(v -> dialog.dismiss());
@@ -169,13 +169,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
                 }
 
                 // Cập nhật đối tượng Address (không phải String)
-                address.setName(name);  // Gọi setName trên đối tượng Address
-                address.setPhone(phone);  // Gọi setPhone trên đối tượng Address
-                address.setAddress(addressText);  // Gọi setAddress trên đối tượng Address
-                address.setAddressDetail(addressDetail);  // Gọi setAddressDetail trên đối tượng Address
+                addressModel.setName(name);  // Gọi setName trên đối tượng Address
+                addressModel.setPhone(phone);  // Gọi setPhone trên đối tượng Address
+                addressModel.setAddress(addressText);  // Gọi setAddress trên đối tượng Address
+                addressModel.setAddressDetail(addressDetail);  // Gọi setAddressDetail trên đối tượng Address
 
                 // Gọi API PUT để cập nhật
-                updateAddress(dialog.getContext(), address);  // Gọi phương thức updateAddress
+                updateAddress(dialog.getContext(), addressModel);  // Gọi phương thức updateAddress
                 dialog.dismiss(); // Đóng dialog sau khi lưu
             }
         });
@@ -189,26 +189,26 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         dialog.show();
     }
 
-    private void updateAddress(Context context, Address address) {
+    private void updateAddress(Context context, Address_model addressModel) {
         // Lấy APIService từ Retrofit
         APIService apiService = RetrofitClient.getAPIService();
 
         // Gọi API PUT (Cập nhật địa chỉ)
-        Call<Address> call = apiService.updateAddress(address.get_id(), address);
+        Call<Address_model> call = apiService.updateAddress(addressModel.get_id(), addressModel);
 
         // Thực hiện yêu cầu và xử lý phản hồi
-        call.enqueue(new Callback<Address>() {
+        call.enqueue(new Callback<Address_model>() {
             @Override
-            public void onResponse(Call<Address> call, Response<Address> response) {
+            public void onResponse(Call<Address_model> call, Response<Address_model> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Address updatedAddress = response.body();
+                    Address_model updatedAddressModel = response.body();
 
                     // Nếu ID trả về là null, sử dụng ID gốc
-                    String addressId = updatedAddress.get_id() != null ? updatedAddress.get_id() : address.get_id();
+                    String addressId = updatedAddressModel.get_id() != null ? updatedAddressModel.get_id() : addressModel.get_id();
 
                     int position = getAddressPositionById(addressId);
                     if (position != -1) {
-                        addressList.set(position, updatedAddress);  // Cập nhật địa chỉ trong list
+                        addressModelList.set(position, updatedAddressModel);  // Cập nhật địa chỉ trong list
                         notifyDataSetChanged();  // Cập nhật item trong RecyclerView
                         Toast.makeText(context, "Cập nhật địa chỉ thành công", Toast.LENGTH_SHORT).show();
 
@@ -225,7 +225,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             }
 
             @Override
-            public void onFailure(Call<Address> call, Throwable t) {
+            public void onFailure(Call<Address_model> call, Throwable t) {
                 Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -235,9 +235,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         if (id == null) {
             return -1;  // Nếu id là null, không thể so sánh, trả về -1
         }
-        for (int i = 0; i < addressList.size(); i++) {
-            Log.d("AddressAdapter", "Checking ID: " + addressList.get(i).get_id());  // In ra các id trong danh sách
-            if (addressList.get(i).get_id() != null && addressList.get(i).get_id().equals(id)) {
+        for (int i = 0; i < addressModelList.size(); i++) {
+            Log.d("AddressAdapter", "Checking ID: " + addressModelList.get(i).get_id());  // In ra các id trong danh sách
+            if (addressModelList.get(i).get_id() != null && addressModelList.get(i).get_id().equals(id)) {
                 return i;  // Trả về vị trí nếu tìm thấy
             }
         }
@@ -246,7 +246,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
     public interface OnAddressUpdatedListener {
         void onAddressUpdated(); // Cập nhật địa chỉ
-        void onAddressSelected(Address selectedAddress); // Khi địa chỉ được chọn
+        void onAddressSelected(Address_model selectedAddressModel); // Khi địa chỉ được chọn
     }
 
 
