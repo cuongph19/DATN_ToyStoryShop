@@ -36,7 +36,9 @@ const ProductSchema = mongoose.Schema({
         type: String,
         maxlength: 255
     },
-    cateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    cateId: { 
+        type: String,
+        maxlength: 255 },
 
     brand: {
         type: String,
