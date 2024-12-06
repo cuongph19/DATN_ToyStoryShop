@@ -51,7 +51,16 @@ const OrderSchema = mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        maxlength: 255
+        enum: [
+            'Chờ xác nhận',
+            'Chờ lấy hàng',
+            'Chờ giao hàng',
+            'Đã giao',
+            'Đã hủy',
+            'Hoàn hàng'
+        ],
+        maxlength: 255,
+        required: true
     },
     orderDate: {
         type: Date

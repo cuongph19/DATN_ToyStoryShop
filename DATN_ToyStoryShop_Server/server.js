@@ -23,9 +23,12 @@ app.listen(port, () => {
 
 const uri = 'mongodb+srv://hoalacanh2508:FnXN4Z9PhHQdRbcv@cluster0.x6cjq.mongodb.net/DATN_ToyStoryShop';
 
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
+
 mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     connectTimeoutMS: 30000 // Thời gian chờ kết nối là 30 giây
 })
 .then(() => {
@@ -87,15 +90,17 @@ const productModel = require('./model/productModel');
 
 
 
-app.get('/', async (req, res)=>{
-    await mongoose.connect(uri);
-
-    let products = await productModel.find();
-
-    console.log(products);
-
-    res.send(products);
+app.get('/', async (req, res) => {
+    try {
+        let products = await productModel.find();
+        console.log(products);
+        res.json(products);
+    } catch (error) {
+        console.error('Lỗi khi truy vấn sản phẩm:', error);
+        res.status(500).send('Lỗi server');
+    }
 });
+
 
 exports.uri = uri;
 exports.mongoose = mongoose;

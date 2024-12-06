@@ -12,6 +12,8 @@ const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
 const Address = require('./model/AddressModel');
 const Chat = require('./model/ChatModel');
+const Refund = require('./model/RefunModel');
+
 const server = require('./server');
 
 

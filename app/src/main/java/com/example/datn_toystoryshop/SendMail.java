@@ -43,7 +43,7 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
             mimeMessage.setFrom(new InternetAddress("toystory.shop.datn@gmail.com")); // Email gửi
             mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); // Email nhận
             mimeMessage.setSubject(subject); // Chủ đề
-            mimeMessage.setText(message); // Nội dung
+            mimeMessage.setContent(message, "text/html; charset=utf-8");// Nội dung
 
             // Gửi email
             Transport.send(mimeMessage);
