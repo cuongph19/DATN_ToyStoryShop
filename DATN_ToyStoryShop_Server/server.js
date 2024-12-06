@@ -4,6 +4,9 @@ const WebSocket = require('ws');
 const bodyParser = require("body-parser");
 const api = require('./api');
 
+const OrderModel = require('./model/OrderModel'); 
+
+
 const app = express();
 const port = 3000;
 const WS_PORT = 8080; // Cổng cho WebSocket server
@@ -34,21 +37,33 @@ const orderCollection = mongoose.connection.collection('orders');
 const changeStream = orderCollection.watch();
 
 // Lắng nghe sự kiện thay đổi dữ liệu trong MongoDB
-changeStream.on('change', (change) => {
+changeStream.on('change', async (change) => {
     if (change.operationType === 'update') {
-        const updatedFields = change.updateDescription.updatedFields;
-        const orderId = change.documentKey._id;
-        const orderStatus = updatedFields.orderStatus;
+        const orderId = change.documentKey._id; // Lấy ID đơn hàng
 
-        if (orderStatus) {
-            console.log(`Order ID: ${orderId} có trạng thái mới: ${orderStatus}`);
-
-            // Gửi thông báo qua WebSocket
-            wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({ orderId, orderStatus }));
-                }
+        try {
+            // Truy vấn tất cả thông tin của đơn hàng từ MongoDB
+            const fullOrder = await OrderModel.findById(orderId).populate({
+                path: 'prodDetails.prodId', // Liên kết tới sản phẩm
+                select: 'namePro price'    // Chỉ lấy trường namePro và price
             });
+
+            if (fullOrder) {
+                console.log(`Order ID: ${orderId} có thay đổi, thông tin đầy đủ:`, fullOrder);
+
+                // Gửi toàn bộ thông tin đơn hàng qua WebSocket
+                wss.clients.forEach((client) => {
+                    console.log(`Client trạng thái: ${client.readyState}`);
+                    if (client.readyState === WebSocket.OPEN) {
+                        console.log(`Gửi dữ liệu tới client: ${JSON.stringify(fullOrder)}`);
+                        client.send(JSON.stringify(fullOrder));
+                    }
+                });
+            } else {
+                console.log(`Không tìm thấy đơn hàng với ID: ${orderId}`);
+            }
+        } catch (error) {
+            console.error(`Lỗi khi lấy thông tin đơn hàng với ID: ${orderId}`, error);
         }
     }
 });
@@ -65,6 +80,7 @@ const wss = new WebSocket.Server({ port: WS_PORT });
 console.log(`WebSocket server đang chạy trên cổng ${WS_PORT}`);
 wss.on('connection', (ws) => {
     console.log('Client đã kết nối WebSocket');
+    ws.send('Kết nối thành công với WebSocket server');
 });
 
 const productModel = require('./model/productModel');
