@@ -21,12 +21,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.OrderHist_Detail_Adapter;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
+import com.example.datn_toystoryshop.Model.LoadConfirm_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
+import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.Shopping.Order_screen;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -44,6 +49,10 @@ public class Confirm_Detail extends AppCompatActivity {
     private boolean nightMode;
     private RecyclerView rvProductList;
     private OrderHist_Detail_Adapter adapter;
+    // Biến toàn cục
+    private List<LoadConfirm_Model> productStates = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +101,14 @@ public class Confirm_Detail extends AppCompatActivity {
                     .setPositiveButton("Đồng ý", (dialog, which) -> {
                         String newStatus = "Đã hủy"; // Trạng thái mới
                         deleteOrder(orderId, newStatus);
-
-                        // Chuyển về Home_screen
+                        for (LoadConfirm_Model state : productStates) {
+                            String prodId = state.getProductId();
+                            int updatedQuantity = state.getQuantity() + state.getQuantity1();
+                            updateProductItem(apiService, prodId, updatedQuantity);
+                            Log.d("Queue Processing", "Đã cập nhật sản phẩm: " + prodId + ", Số lượng: " + updatedQuantity);
+                        }
                         Intent intent1 = new Intent(Confirm_Detail.this, Home_screen.class);
+                        Log.d("Queue Processing", "Tất cả sản phẩm đã được xử lý! "+documentId);
                         intent1.putExtra("documentId", documentId);
                         startActivity(intent1);
                     })
@@ -115,6 +129,110 @@ public class Confirm_Detail extends AppCompatActivity {
             loadOrderDetails(orderId); // Gọi lại API để làm mới danh sách
         });
     }
+    private void fetchProductById(String prodId) {
+        apiService.getProductById(prodId).enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    int quantity1 = response.body().getQuantity();
+                    for (LoadConfirm_Model state : productStates) {
+                        if (state.getProductId().equals(prodId)) {
+                            state.setQuantity1(quantity1);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Log.e("Queue Processing", "Network Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void loadOrderDetails(String orderId) {
+        // Gọi API để lấy thông tin sản phẩm
+        apiService.getOrderById(orderId).enqueue(new Callback<Order_Model>() {
+            @Override
+            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Order_Model orderModel = response.body();
+
+                    // Cập nhật thông tin đơn hàng
+                    tvOrderStatus.setText(orderModel.getOrderStatus());
+                    tvPaymentMethod.setText(orderModel.getPayment_method());
+                    address_name.setText(orderModel.getName_order());
+                    address_phone.setText(orderModel.getPhone_order());
+                    address_detail.setText(orderModel.getAddress_order());
+
+                    int revenueAll = orderModel.getRevenue_all();
+                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    String formattedRevenue = currencyFormat.format(revenueAll);
+                    tvTotalPrice.setText( formattedRevenue);
+
+                    if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
+                        productStates.clear();
+                        for (Order_Model.ProductDetail productDetail : orderModel.getProdDetails()) {
+                            String productId = productDetail.getProdId();
+                            int quantity = productDetail.getQuantity();
+                            productStates.add(new LoadConfirm_Model(productId, quantity, 0)); // 0 là placeholder cho quantity1
+
+                            // Gọi hàm fetchProductById để lấy quantity1
+                            fetchProductById(productId);
+                            Log.d("OrderDetails", "Product ID: " + productId + ", Quantity: " + quantity);
+
+                            // Thực hiện các thao tác khác nếu cần
+                        }
+                        adapter = new OrderHist_Detail_Adapter(Confirm_Detail.this, orderModel.getProdDetails(),apiService);
+                        rvProductList.setAdapter(adapter);
+                    } else {
+                        Log.e("OrderHist_Detail", "Danh sách sản phẩm rỗng hoặc null");
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                } else {
+                    Log.e("OrderHist_Detail", "Response thất bại hoặc body null");
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order_Model> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
+                // Xử lý khi gọi API thất bại
+            }
+        });
+    }
+
+
+
+    public void updateProductItem(APIService apiService, String prodId, int quantity) {
+        // Chuẩn bị dữ liệu cập nhật
+        Product_Model productModel = new Product_Model();
+        productModel.set_id(prodId);
+        productModel.setQuantity(quantity);
+        // Gọi API
+        Call<Product_Model> call = apiService.putProductUpdate(prodId, productModel);
+        call.enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Confirm_Detail.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Confirm_Detail.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Toast.makeText(Confirm_Detail.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void deleteOrder(String orderId, String newStatus) {
         // Tạo model để gửi dữ liệu
         Order_Model orderModel = new Order_Model();
@@ -145,46 +263,4 @@ public class Confirm_Detail extends AppCompatActivity {
         });
     }
 
-    private void loadOrderDetails(String orderId) {
-        // Gọi API để lấy thông tin sản phẩm
-        apiService.getOrderById(orderId).enqueue(new Callback<Order_Model>() {
-            @Override
-            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    Order_Model orderModel = response.body();
-
-                    // Cập nhật thông tin đơn hàng
-                    tvOrderStatus.setText(orderModel.getOrderStatus());
-                    tvPaymentMethod.setText(orderModel.getPayment_method());
-                    address_name.setText(orderModel.getName_order());
-                    address_phone.setText(orderModel.getPhone_order());
-                    address_detail.setText(orderModel.getAddress_order());
-
-                    int revenueAll = orderModel.getRevenue_all();
-                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    String formattedRevenue = currencyFormat.format(revenueAll);
-                    tvTotalPrice.setText( formattedRevenue);
-
-                    if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
-                        APIService apiService = RetrofitClient.getAPIService();
-                        adapter = new OrderHist_Detail_Adapter(Confirm_Detail.this, orderModel.getProdDetails(),apiService);
-                        rvProductList.setAdapter(adapter);
-                    } else {
-                        Log.e("OrderHist_Detail", "Danh sách sản phẩm rỗng hoặc null");
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                } else {
-                    Log.e("OrderHist_Detail", "Response thất bại hoặc body null");
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Order_Model> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                // Xử lý khi gọi API thất bại
-            }
-        });
-    }
 }

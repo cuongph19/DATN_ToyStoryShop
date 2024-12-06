@@ -6,8 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -46,13 +43,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -200,7 +197,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     calculateMoneyPay();
 
                     btnOrder.setOnClickListener(v -> {
-                        submitOrder_Cart(productDetails, totalAmount1);
+                        submitOrder_Cart(productDetails );
                         // Khởi tạo NotificationManager
 
                     });
@@ -471,7 +468,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     if (email_confirm != null && !email_confirm.isEmpty()) {
                         fetchProductById(productId, new OnProductFetchedListener() {
                             @Override
-                            public void onFetched(String productName) {
+                            public void onFetched(String productName, int quantity) {
                                 if (productName != null) {
                                     Log.d("Product Info", "Fetched Product Name: " + productName);
                                     // Xử lý tên sản phẩm (ví dụ: thêm vào danh sách)
@@ -511,23 +508,28 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     public void sendOrderConfirmationEmail(Order_Model order) {
         StringBuilder productListBuilder = new StringBuilder();
 
+        AtomicInteger counter = new AtomicInteger(0); // Bộ đếm để kiểm tra số sản phẩm đã xử lý
+        int totalProducts = order.getProdDetails().size();
+
         for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
-            fetchProductById(productDetail.getProdId(), productName -> {
+            fetchProductById(productDetail.getProdId(), (productName, quantity) -> {
                 if (productName != null) {
                     productListBuilder.append(String.format( "<li>%s (Số lượng: %d, Giá: %,d VNĐ)</li>",
                             productName,
                             productDetail.getQuantity(),
                             (int) productDetail.getRevenue()));
+                } else {
 
-                    // Khi hoàn thành tất cả sản phẩm, gửi email
-                    if (productListBuilder.toString().split("\n").length == order.getProdDetails().size()) {
-                        sendEmail(order, productListBuilder.toString());
-                    }
+                    productListBuilder.append("<li>Không thể lấy thông tin sản phẩm</li>");
+                }
+
+                // Kiểm tra nếu tất cả sản phẩm đã được xử lý
+                if (counter.incrementAndGet() == totalProducts) {
+                    sendEmail(order, productListBuilder.toString());
                 }
             });
         }
     }
-
     private void sendEmail(Order_Model order, String productList) {
         double totalDiscount = 0;
         if (totalShipDiscount != 0 && totalProductDiscount != 0) {
@@ -537,7 +539,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         } else if (totalProductDiscount != 0) {
             totalDiscount = totalProductDiscount;
         }
-
         String message = String.format(
                 "<html>" +
                         "<body>" +
@@ -582,37 +583,9 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         sendMail.execute();
     }
 
-    public interface OnProductFetchedListener {
-        void onFetched(String productName);
-    }
-    private void fetchProductById(String prodId, OnProductFetchedListener listener) {
-        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Product_Model> call = apiService.getProductById(prodId);
-
-        call.enqueue(new Callback<Product_Model>() {
-            @Override
-            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Product_Model product = response.body();
-                    Log.d("Product Info", "Product Name: " + product.getNamePro());
-                    // Truyền tên sản phẩm về qua listener
-                    listener.onFetched(product.getNamePro());
-                } else {
-                    Log.e("API Error", "Response code: " + response.code());
-                    listener.onFetched(null); // Trả về null nếu lỗi
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product_Model> call, Throwable t) {
-                Log.e("API Error", "Network Error: " + t.getMessage());
-                listener.onFetched(null); // Trả về null nếu lỗi
-            }
-        });
-    }
 
 
-    private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails, double totalAmount) {
+    private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails) {
         String content = tvLeaveMessage.getText().toString();
         name = name != null ? name : defaultName;
         phone = phone != null ? phone : defaultPhone;
@@ -645,30 +618,17 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     Log.d("CartScreen", "Danh sách sản phẩm: " + productIds);
                     for (String cartId : productIds) {
                         Log.d("CartScreen", "Danh sách sản phẩm: 11 " + cartId);
-                      //  deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
+                         // deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
                     }
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
-                  //  updateProductItem(apiService, productId, quantity1 - quantity);
+                    // Tạo bản sao danh sách sản phẩm và gọi phương thức xử lý tuần tự
+                    List<Order_Model.ProductDetail> productDetailsCopy = new ArrayList<>(productDetails);
+                    updateProductsSequentially(productDetailsCopy,apiService);
+                    sendOrderConfirmationEmail(orderModel);
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
-                    if (email_confirm != null && !email_confirm.isEmpty()) {
-                        fetchProductById(productId, new OnProductFetchedListener() {
-                            @Override
-                            public void onFetched(String productName) {
-                                if (productName != null) {
-                                    Log.d("Product Info", "Fetched Product Name: " + productName);
-                                    // Xử lý tên sản phẩm (ví dụ: thêm vào danh sách)
-                                } else {
-                                    Log.e("Product Info", "Không thể lấy tên sản phẩm.");
-                                }
-                            }
-                        });
-
-                        sendOrderConfirmationEmail(orderModel);
-
-                    }
 
                     Intent in = new Intent(Order_screen.this, Home_screen.class);
                     in.putExtra("documentId", documentId);
@@ -688,8 +648,35 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         });
     }
 
-    public void updateProductItem(APIService apiService, String prodId, int inventory) {
+    public interface OnProductFetchedListener {
+        void onFetched(String productName, int quantity);
+    }
+    private void fetchProductById(String prodId, OnProductFetchedListener listener) {
+        APIService apiService = RetrofitClient.getInstance().create(APIService.class);
+        Call<Product_Model> call = apiService.getProductById(prodId);
 
+        call.enqueue(new Callback<Product_Model>() {
+            @Override
+            public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Product_Model product = response.body();
+                    Log.d("Queue Processing", "Product Name: " + product.getNamePro());
+                    // Truyền tên sản phẩm về qua listener
+                    listener.onFetched(product.getNamePro(), product.getQuantity());
+                } else {
+                    Log.e("Queue Processing", "Response code: " + response.code());
+                    listener.onFetched(null,0); // Trả về null nếu lỗi
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product_Model> call, Throwable t) {
+                Log.e("Queue Processing", "Network Error: " + t.getMessage());
+                listener.onFetched(null,0); // Trả về null nếu lỗi
+            }
+        });
+    }
+    public void updateProductItem(APIService apiService, String prodId, int inventory) {
         // Chuẩn bị dữ liệu cập nhật
         Product_Model productModel = new Product_Model();
         productModel.set_id(prodId);
@@ -701,7 +688,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(Order_screen.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(Order_screen.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -713,6 +699,41 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
+
+    private void updateProductsSequentially(List<Order_Model.ProductDetail> productDetails,APIService apiService) {
+        // Nếu danh sách rỗng, kết thúc
+        if (productDetails.isEmpty()) {
+            Log.d("Queue Processing", "Tất cả sản phẩm đã được xử lý!");
+            return;
+        }
+
+        // Lấy sản phẩm đầu tiên
+        Order_Model.ProductDetail detail = productDetails.remove(0); // Xóa sản phẩm đầu khỏi danh sách
+        String productId = detail.getProdId();
+        int quantity = detail.getQuantity();
+
+        // Gọi API để lấy thông tin sản phẩm
+        fetchProductById(productId, (productName, inventory) -> {
+            if (productName != null) {
+                int newQuantity = inventory - quantity;
+                // Cập nhật số lượng sản phẩm trong kho
+                if (newQuantity >= 0) {
+                    updateProductItem(apiService, productId, newQuantity);
+
+                } else {
+                    Log.e("Queue Processing", "Không thể cập nhật sản phẩm: " + productId + ", tồn kho không đủ!");
+                }
+            } else {
+                Log.e("Queue Processing", "Không thể xử lý sản phẩm: " + productId);
+            }
+
+            // Tiếp tục xử lý sản phẩm tiếp theo
+            updateProductsSequentially(productDetails,apiService);
+        });
+    }
+
+
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Home Notification Channel";
