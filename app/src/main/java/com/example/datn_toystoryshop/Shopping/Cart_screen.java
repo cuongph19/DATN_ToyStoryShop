@@ -52,7 +52,6 @@ public class Cart_screen extends AppCompatActivity {
     private String favoriteId;
     private List<Product_Model> productList;
     private int currentQuantity;
-    private String customerId;
     private String documentId;
     private String selectedColor;
     private RecyclerView recyclerViewCart;

@@ -396,7 +396,6 @@ public class Product_detail extends AppCompatActivity {
 
                 // Truyền tất cả dữ liệu qua Intent
                 intent.putExtra("productId", productId);
-                // Truyền thêm các thuộc tính currentQuantity, customerId, và productSpecification
                 intent.putExtra("quantity1", quantity);
                 intent.putExtra("currentQuantity", currentQuantity);
                 intent.putExtra("documentId", documentId); // ID khách hàng

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datn_toystoryshop.Confirm_Detail;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Refund_Model;
@@ -87,16 +88,13 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
         holder.btnreturn.setOnClickListener(v -> {
             for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
                 String productId = productDetail.getProdId();
-                int currentQuantity = productDetail.getQuantity();
-                String selectedColor = productDetail.getProdSpecification();
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ productId);
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ currentQuantity);
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ selectedColor);
 
-                // Gọi hàm addToCart với thông tin từ sản phẩm
-             //   addToRefund(productId, currentQuantity, documentId, selectedColor);
+                // Gọi hàm addToRefund với các tham số
+                addToRefund(order.get_id(), documentId, productId);
+                deleteOrder(order.get_id(),"Hoàn hàng");
             }
         });
+
 
         // Hiển thị/ẩn nút "Xem thêm" dựa vào số lượng sản phẩm
         if (isMoreThanTwo) {
@@ -174,37 +172,68 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
         });
     }
 
-//    private void addToRefund(String orderId, String content, String orderRefundDate, String refundStatus) {
-//
-//        Refund_Model refundModel = new Refund_Model(
-////                productId,                 // ID của sản phẩm
-////                currentQuantity,        // Số lượng sản phẩm
-////                documentId,                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
-////                selectedColor              // Thông số sản phẩm (ví dụ: màu sắc đã chọn)
-//        );
-//
-//        // Gọi API để thêm sản phẩm vào giỏ hàng
-//        Call<Refund_Model> call = apiService.addToRefund(refundModel);
-//        call.enqueue(new Callback<Refund_Model>() {
-//            @Override
-//            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
-//                    // Chuyển đến màn hình Cart_screen
+    private void addToRefund(String orderId, String cusId, String productId) {
+
+        Refund_Model refundModel = new Refund_Model(
+                null, // ID sẽ được backend tạo tự động
+                orderId, // ID đơn hàng
+                cusId, // ID khách hàng
+                "Yêu cầu hoàn hàng cho sản phẩm: " + productId, // Nội dung lý do hoàn hàng
+                String.valueOf(System.currentTimeMillis()), // Thời gian hoàn hàng
+                "Chờ xác nhận" // Trạng thái mặc định là đang chờ xử lý
+        );
+
+        // Gọi API để thêm sản phẩm vào giỏ hàng
+        Call<Refund_Model> call = apiService.addToRefund(refundModel);
+        call.enqueue(new Callback<Refund_Model>() {
+            @Override
+            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Thêm vào refund thành công!", Toast.LENGTH_SHORT).show();
+                    // Chuyển đến màn hình Cart_screen
 //                    Intent intent = new Intent(context, Cart_screen.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    intent.putExtra("documentId", documentId);
 //                    context.startActivity(intent);
-//                } else {
-//                    Toast.makeText(context, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Refund_Model> call, Throwable t) {
-//                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+                } else {
+                    Toast.makeText(context, "Không thể thêm refund", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Refund_Model> call, Throwable t) {
+                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void deleteOrder(String orderId, String newStatus) {
+        // Tạo model để gửi dữ liệu
+        Order_Model orderModel = new Order_Model();
+        orderModel.setOrderStatus(newStatus); // Thiết lập trạng thái đơn hàng mới
+
+        // Gọi API qua Retrofit
+        Call<Order_Model> call = apiService.putorderUpdate(orderId, orderModel);
+        call.enqueue(new Callback<Order_Model>() {
+            @Override
+            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Thành công, hiển thị kết quả
+                    Toast.makeText(context, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Log.d("API", "Cập nhật thành công: " + response.body().toString());
+                } else {
+                    // Xử lý lỗi trả về từ server
+                    Toast.makeText(context, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+                    Log.e("API", "Lỗi trả về: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order_Model> call, Throwable t) {
+                // Lỗi kết nối hoặc các lỗi khác
+                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("API", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
 
 }

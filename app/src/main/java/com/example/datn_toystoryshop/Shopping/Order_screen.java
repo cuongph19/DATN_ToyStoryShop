@@ -290,18 +290,22 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
     @Override
     public void onTotalAmountCalculated(double totalAmount2, int quantity2, String productType2) {
+
         totalAmount = totalAmount2;
         quantity = quantity2;
         productType = productType2;
-
+        if ("Nguyên set 12 hộp".equalsIgnoreCase(productType)) {
+            totalAmount *= 12; // Nhân totalAmount với 12
+        }
         String formattedTotalAmount = String.format("%,.0fđ", totalAmount2);
 
         tvTotalAmount.setText(formattedTotalAmount);
         total_amount.setText(formattedTotalAmount);
-        tvTotalAmountLabel.setText("Tổng số tiền (1 sản phẩm):");
+        tvTotalAmountLabel.setText("Tổng số tiền :");
         calculateMoneyPay();
         btnOrder.setOnClickListener(v -> {
             sumitOrder_Detail();
+
             finish();
         });
     }
@@ -442,6 +446,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         phone = phone != null ? phone : defaultPhone;
         address = address != null ? address : defaultAddress;
         paytext = paytext != null ? paytext : defaultPayText;
+
         // Tạo đối tượng Order_Model với danh sách sản phẩm
         Order_Model orderModel = new Order_Model(
                 null,                // _id
