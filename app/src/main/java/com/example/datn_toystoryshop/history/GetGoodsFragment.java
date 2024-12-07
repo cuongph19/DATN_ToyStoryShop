@@ -68,9 +68,7 @@ public class GetGoodsFragment extends Fragment {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         Bundle bundle = getArguments();
-        if (bundle != null) {
             documentId = bundle.getString("documentId");
-        }
         // Khởi tạo RecyclerView và Adapter
         setUpSpinners();
         APIService apiService = RetrofitClient.getAPIService();
@@ -78,13 +76,11 @@ public class GetGoodsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Gọi API để lấy danh sách đơn hàng
         fetchOrders();
-        // Xử lý sự kiện khi người dùng chọn tháng hoặc năm
         spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                filterOrders(); // Lọc lại danh sách khi chọn tháng
+                filterOrders();
             }
 
             @Override

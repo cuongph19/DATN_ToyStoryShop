@@ -67,7 +67,8 @@ public class All_new_screen extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
         productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
         recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
-        // Thiết lập Adapter
+
+
         productNewAdapter = new ProductNewAdapter(this, productList, false, documentId);
         recyclerViewAllNewProducts.setAdapter(productNewAdapter);
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc

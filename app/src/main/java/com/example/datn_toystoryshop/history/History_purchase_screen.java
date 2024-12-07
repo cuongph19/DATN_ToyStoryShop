@@ -51,7 +51,6 @@ public class History_purchase_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_purchase_screen);
 
-        // Khởi tạo các thành phần UI
         spinnerMonth = findViewById(R.id.spinnerMonth);
         spinnerYear = findViewById(R.id.spinnerYear);
         rvOrderHistory = findViewById(R.id.rvOrderHistory);

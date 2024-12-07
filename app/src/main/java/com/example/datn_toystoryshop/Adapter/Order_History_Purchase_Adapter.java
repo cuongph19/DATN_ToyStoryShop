@@ -79,9 +79,6 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
                 String productId = productDetail.getProdId();
                 int currentQuantity = productDetail.getQuantity();
                 String selectedColor = productDetail.getProdSpecification();
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ productId);
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ currentQuantity);
-                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ selectedColor);
 
                 // Gọi hàm addToCart với thông tin từ sản phẩm
                addToCart(productId, currentQuantity, documentId, selectedColor);
