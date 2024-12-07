@@ -12,7 +12,7 @@ const VoucherModel = require('./model/VoucherModel');
 const ArtStory = require('./model/ArtStoryModel');
 const Address = require('./model/AddressModel');
 const Chat = require('./model/ChatModel');
-const Refund = require('./model/RefunModel');
+const RefundModel = require('./model/RefunModel');
 
 const server = require('./server');
 
@@ -347,6 +347,29 @@ router.get('/carts', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong giỏ hàng.' });
     }
 });
+router.get('/refund', async (req, res) => {
+    try {
+        const { cusId } = req.query;
+
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId không được để trống.' });
+        }
+        console.log('cusId truyền vào:', cusId);
+        await mongoose.connect(server.uri);
+
+        // Tìm tất cả các sản phẩm trong collection 'refund'
+        const refund = await RefundModel.find({ cusId }, '_id orderId cusId content orderRefundDate refundStatus');
+        console.log('Kết quả truy vấn:', refund);
+        if (refund.length === 0) {
+            return res.status(404).json({ error: 'Không có sản phẩm nào trong refund.' });
+        }
+
+        res.json(refund);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm trong refund.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong refund.' });
+    }
+});
 
 router.get('/feebacks', async (req, res) => {
     try {
@@ -496,12 +519,34 @@ router.post('/add-feedback', async (req, res) => {
         await newFeedback.save();
 
         // Trả về phản hồi thành công
-        res.status(201).json({ message: 'Đánh giá đã được thêm thành công.', feedback: newFeedback });
+        res.status(201).json({ message: 'Đánh giá đã được thêm thành công.', data: newFeedback });
     } catch (error) {
         console.error("Error:", error); // Ghi log lỗi chi tiết
         res.status(500).json({ message: 'Có lỗi xảy ra.', error });
     }
 });
+
+router.post('/add-Refund', async (req, res) => {
+    console.log(req.body);  // Ghi log dữ liệu nhận được
+
+    try {
+        // Lấy dữ liệu từ request body
+        const { orderId, cusId, content, orderRefundDate, refundStatus } = req.body;
+
+        // Tạo feedback mới
+        const newRefund = new RefundModel({ orderId, cusId, content, orderRefundDate, refundStatus });
+
+        // Lưu vào cơ sở dữ liệu
+        await newRefund.save();
+
+        // Trả về phản hồi thành công
+        res.status(201).json({ message: 'Refund đã được thêm thành công.', data: newRefund });
+    } catch (error) {
+        console.error("Error:", error); // Ghi log lỗi chi tiết
+        res.status(500).json({ message: 'Có lỗi xảy ra.', error });
+    }
+});
+
 
 
 // API thêm đáng giá

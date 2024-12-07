@@ -31,6 +31,6 @@ const refundSchema = new mongoose.Schema({
     }
 });
 
-const Refund = mongoose.model('refund', refundSchema);
+const RefunModel = mongoose.model('refund', refundSchema);
 
-module.exports = Refund;
+module.exports = RefunModel;
