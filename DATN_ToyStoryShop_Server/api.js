@@ -588,7 +588,9 @@ router.get('/all-product-details', async (req, res) => {
         const orders = await OrderModel.aggregate([
             // Lọc theo cusId trong bảng Order
             {
-                $match: { cusId: cusId }
+                $match: { cusId: cusId,
+                    orderStatus: { $in: ['Hoàn hàng', 'Đã giao'] } // Điều kiện lọc trạng thái đơn hàng
+                 }
             },
             { 
                 $unwind: "$prodDetails"  // Tách từng sản phẩm trong danh sách prodDetails
