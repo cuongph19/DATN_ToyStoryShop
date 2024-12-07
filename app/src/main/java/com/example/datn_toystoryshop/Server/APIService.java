@@ -12,6 +12,7 @@ import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
+import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.Model.Voucher;
 import com.google.gson.JsonObject;
 
@@ -30,10 +31,16 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-   String BASE_URL = "http://192.168.16.101:3000/";// cương
-   //   String BASE_URL  = "http://192.168.1.10:3000/";// huy
-    // String BASE_URL = "http://192.168.101.10:3000/";
 
+    // Địa chỉ IP server
+    String SERVER_IP = "192.168.16.101";// cương
+   // String SERVER_IP = "192.168.1.10";// huy
+   // String SERVER_IP = "192.168.101.10.101";// đức
+
+
+
+    String BASE_URL = "http://" + SERVER_IP + ":3000/";
+    String WS_URL = "ws://" + SERVER_IP + ":8080";
 
     @GET("/api/list")
     Call<List<Product_Model>> getProducts();
@@ -66,6 +73,9 @@ public interface APIService {
     @GET("/api/carts")
     Call<List<Cart_Model>> getCarts(@Query("cusId") String cusId);
 
+    @GET("/api/refund")
+    Call<List<Refund_Model>> getRefund(@Query("cusId") String cusId);
+
     @GET("/api/orders/confirm")
     Call<List<Order_Model>> getOrders_Confirm(@Query("cusId") String cusId);
 
@@ -95,6 +105,9 @@ public interface APIService {
 
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
+
+    @POST("/api/add-Refund")
+    Call<Refund_Model> addToRefund(@Body Refund_Model refundModel);
 
     @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);

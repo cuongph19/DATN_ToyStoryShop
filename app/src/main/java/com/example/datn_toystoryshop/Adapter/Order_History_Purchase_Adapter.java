@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
+import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.OrderHist_Detail;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Shopping.Cart_screen;
 import com.example.datn_toystoryshop.history.History_purchase_screen;
 
 import java.util.List;
@@ -85,6 +87,19 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
                addToCart(productId, currentQuantity, documentId, selectedColor);
             }
         });
+        holder.btnreturn.setOnClickListener(v -> {
+            for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
+                String productId = productDetail.getProdId();
+                int currentQuantity = productDetail.getQuantity();
+                String selectedColor = productDetail.getProdSpecification();
+                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ productId);
+                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ currentQuantity);
+                Log.e("HistoryPurchase", "documentId không được để trống11111111111111 "+ selectedColor);
+
+                // Gọi hàm addToCart với thông tin từ sản phẩm
+             //   addToRefund(productId, currentQuantity, documentId, selectedColor);
+            }
+        });
 
         // Hiển thị/ẩn nút "Xem thêm" dựa vào số lượng sản phẩm
         if (isMoreThanTwo) {
@@ -116,12 +131,13 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView textStatus, textRevenueAll, showMoreOrder,btnBuyBack ;
+        TextView textStatus, textRevenueAll, showMoreOrder,btnBuyBack,btnreturn ;
         RecyclerView recyclerViewProducts;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             textStatus = itemView.findViewById(R.id.tvOrderStatus);
+            btnreturn = itemView.findViewById(R.id.btnreturn);
             showMoreOrder  = itemView.findViewById(R.id.show_more_oder);
             textRevenueAll = itemView.findViewById(R.id.tvTotalPrice);
             btnBuyBack = itemView.findViewById(R.id.btnBuyBack);
@@ -144,6 +160,11 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
             public void onResponse(Call<Cart_Model> call, Response<Cart_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                    // Chuyển đến màn hình Cart_screen
+                    Intent intent = new Intent(context, Cart_screen.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("documentId", documentId);
+                    context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
                 }
@@ -155,5 +176,38 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
             }
         });
     }
+
+//    private void addToRefund(String orderId, String content, String orderRefundDate, String refundStatus) {
+//
+//        Refund_Model refundModel = new Refund_Model(
+////                productId,                 // ID của sản phẩm
+////                currentQuantity,        // Số lượng sản phẩm
+////                documentId,                   // ID khách hàng (thay thế bằng ID thực tế của người dùng)
+////                selectedColor              // Thông số sản phẩm (ví dụ: màu sắc đã chọn)
+//        );
+//
+//        // Gọi API để thêm sản phẩm vào giỏ hàng
+//        Call<Refund_Model> call = apiService.addToRefund(refundModel);
+//        call.enqueue(new Callback<Refund_Model>() {
+//            @Override
+//            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(context, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+//                    // Chuyển đến màn hình Cart_screen
+//                    Intent intent = new Intent(context, Cart_screen.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    intent.putExtra("documentId", documentId);
+//                    context.startActivity(intent);
+//                } else {
+//                    Toast.makeText(context, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Refund_Model> call, Throwable t) {
+//                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 }

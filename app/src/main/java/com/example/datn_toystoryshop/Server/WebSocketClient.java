@@ -49,7 +49,7 @@ public class WebSocketClient {
                 .build();
 
 
-        Request request = new Request.Builder().url("ws://192.168.16.101:8080").build();
+        Request request = new Request.Builder().url(APIService.WS_URL).build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {
