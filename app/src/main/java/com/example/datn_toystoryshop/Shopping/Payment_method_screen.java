@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.datn_toystoryshop.R;
 
 public class Payment_method_screen extends AppCompatActivity {
-    private RadioButton radioCOD, radioShopeePay;
+    private RadioButton radioShopeePay;
     private TextView tvAgree;
-    private LinearLayout layoutShopeePay, layoutCOD;
+    private LinearLayout layoutShopeePay;
     private String paytext = "";
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
@@ -35,56 +35,58 @@ public class Payment_method_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-        radioCOD = findViewById(R.id.radioCOD);
+       // radioCOD = findViewById(R.id.radioCOD);
         radioShopeePay = findViewById(R.id.radioShopeePay);
         tvAgree = findViewById(R.id.tvAgree);
         layoutShopeePay = findViewById(R.id.layoutShopeePay);
-        layoutCOD = findViewById(R.id.layoutCOD);
+      //  layoutCOD = findViewById(R.id.layoutCOD);
 
         Intent intent = getIntent();
         String currentPayment = intent.getStringExtra("currentPayment");
 
         // Thiết lập RadioButton theo giá trị hiện tại
         if (currentPayment != null) {
-            if ("Thanh toán khi nhận hàng".equals(currentPayment)) {
-                radioCOD.setChecked(true);
-                radioShopeePay.setChecked(false);
-            } else if ("Ví Pay Pal (Yêu thích)".equals(currentPayment)) {
+//            if ("Thanh toán khi nhận hàng".equals(currentPayment)) {
+//                radioCOD.setChecked(true);
+//                radioShopeePay.setChecked(false);
+//            } else
+                if ("Ví Pay Pal (Yêu thích)".equals(currentPayment)) {
                 radioShopeePay.setChecked(true);
-                radioCOD.setChecked(false);
+              //  radioCOD.setChecked(false);
             }
         }
-        layoutCOD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Khi click vào layout, đánh dấu RadioButton là checked
-                radioCOD.setChecked(true);
-                radioShopeePay.setChecked(false);
-            }
-        });
+//        layoutCOD.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Khi click vào layout, đánh dấu RadioButton là checked
+//                radioCOD.setChecked(true);
+//                radioShopeePay.setChecked(false);
+//            }
+//        });
         layoutShopeePay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Khi click vào layout, đánh dấu RadioButton là checked
                 radioShopeePay.setChecked(true);
-                radioCOD.setChecked(false);
+             //   radioCOD.setChecked(false);
             }
         });
-        radioCOD.setOnClickListener(v -> {
-            radioCOD.setChecked(true);
-            radioShopeePay.setChecked(false);
-        });
+//        radioCOD.setOnClickListener(v -> {
+//            radioCOD.setChecked(true);
+//            radioShopeePay.setChecked(false);
+//        });
         radioShopeePay.setOnClickListener(v -> {
             radioShopeePay.setChecked(true);
-            radioCOD.setChecked(false);
+           // radioCOD.setChecked(false);
         });
 
         tvAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioCOD.isChecked()) {
-                    paytext = "Thanh toán khi nhận hàng";
-                } else if (radioShopeePay.isChecked()) {
+//                if (radioCOD.isChecked()) {
+//                    paytext = "Thanh toán khi nhận hàng";
+//                } else
+                    if (radioShopeePay.isChecked()) {
                     paytext = "Ví Pay Pal";
                 }
                 Intent intent = new Intent();

@@ -244,8 +244,6 @@ router.delete('/deleteCart/:id', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi xóa sản phẩm trong giỏ hàng:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm trong giỏ hàng.' });
-    } finally {
-        mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
 
@@ -265,8 +263,6 @@ router.delete('/deleteCartId/:cartId', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi xóa sản phẩm trong giỏ hàng:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi xóa sản phẩm trong giỏ hàng.' });
-    } finally {
-        mongoose.connection.close(); // Đảm bảo kết nối được đóng
     }
 });
 

@@ -34,37 +34,37 @@
 
 
     <!-- Phương thức thanh toán: Thanh toán khi nhận hàng -->
-    <LinearLayout
-        android:id="@+id/layoutCOD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="#F5F5F5"
-        android:orientation="horizontal"
-        android:padding="12dp">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/layoutCOD"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="#F5F5F5"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="12dp">-->
 
-        <ImageView
-            android:id="@+id/iconCOD"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_logo" />
+<!--        <ImageView-->
+<!--            android:id="@+id/iconCOD"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginRight="8dp"-->
+<!--            android:src="@drawable/ic_logo" />-->
 
-        <TextView
-            android:id="@+id/tvCOD"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/payment_on_delivery"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvCOD"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@string/payment_on_delivery"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp" />-->
 
-        <RadioButton
-            android:id="@+id/radioCOD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioCOD"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </LinearLayout>-->
 
     <!-- Phương thức thanh toán: Ví ShopeePay -->
     <LinearLayout
