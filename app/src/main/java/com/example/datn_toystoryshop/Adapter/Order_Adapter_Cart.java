@@ -75,23 +75,31 @@ public class Order_Adapter_Cart extends RecyclerView.Adapter<Order_Adapter_Cart.
                     loadProductById(apiService, cartModel.getProdId(), new ProductCallback() {
                         @Override
                         public void onSuccess(Product_Model product) {
-                            double itemTotal = product.getPrice() * cartModel.getQuantity();
-                            totalAmount += itemTotal;
-                            productDetails.add(new OderProductDetail_Model(cartModel.getProdId(), itemTotal, cartModel.getQuantity(), cartModel.getProdSpecification()));
-                            // Gửi tổng tiền về Activity/Fragment
-                            if (totalAmountChangeListener != null) {
-                                totalAmountChangeListener.onTotalAmountChanged(totalAmount, productDetails);
+                            double totalPrice;
+
+                            // Kiểm tra nếu prodSpecification là "Nguyên set 12 hộp"
+                            if ("Nguyên set 12 hộp".equals(cartModel.getProdSpecification())) {
+                                totalPrice = product.getPrice() * cartModel.getQuantity() * 12; // Nhân thêm 12
+                            } else {
+                                totalPrice = product.getPrice() * cartModel.getQuantity(); // Không nhân thêm
                             }
-                            holder.productName.setText(product.getNamePro());
+
+                            // Hiển thị giá tổng
                             holder.productPrice.setText(String.format("%,.0fđ", product.getPrice()));
+
+                            holder.productName.setText(product.getNamePro());
                             List<String> images = product.getImgPro();
                             Glide.with(holder.productImage.getContext())
                                     .load(images.get(0))
                                     .into(holder.productImage);
 
-
+                            // Cập nhật tổng tiền cho Activity/Fragment
+                            totalAmount += totalPrice;
+                            productDetails.add(new OderProductDetail_Model(cartModel.getProdId(), totalPrice, cartModel.getQuantity(), cartModel.getProdSpecification()));
+                            if (totalAmountChangeListener != null) {
+                                totalAmountChangeListener.onTotalAmountChanged(totalAmount, productDetails);
+                            }
                         }
-
                         @Override
                         public void onFailure(Throwable t) {
                             Log.e("cartAdapter", "Failed to load product details: " + t.getMessage());

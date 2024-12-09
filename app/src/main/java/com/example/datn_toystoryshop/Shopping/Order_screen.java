@@ -297,8 +297,10 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         if ("Nguyên set 12 hộp".equalsIgnoreCase(productType)) {
             totalAmount *= 12; // Nhân totalAmount với 12
         }
-        String formattedTotalAmount = String.format("%,.0fđ", totalAmount2);
+        String formattedTotalAmount = String.format("%,.0fđ", totalAmount);
 
+        Log.e("API_ERROR", "Thêm order thất bạiThêm order thất bại, mã phản hồi: " + totalAmount2);
+        Log.e("API_ERROR", "Thêm order thất bạiThêm order thất bại, mã phản hồi: " + totalAmount);
         tvTotalAmount.setText(formattedTotalAmount);
         total_amount.setText(formattedTotalAmount);
         tvTotalAmountLabel.setText("Tổng số tiền :");

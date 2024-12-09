@@ -325,7 +325,7 @@ public class Product_detail extends AppCompatActivity {
         Button btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
 
         productTitle.setText(productName);
-        Price.setText("đ " + String.valueOf(productPrice));
+        Price.setText(String.format("%,.0fđ", productPrice));
         productStock.setText( String.valueOf(quantity));
         btnAddToCart.setText("Mua Ngay");
         if (!productImg.isEmpty()) {
