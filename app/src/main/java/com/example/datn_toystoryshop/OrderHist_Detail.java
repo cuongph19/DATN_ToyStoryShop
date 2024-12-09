@@ -109,7 +109,7 @@ public class OrderHist_Detail extends AppCompatActivity {
                     int revenueAll = orderModel.getRevenue_all();
                     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
                     String formattedRevenue = currencyFormat.format(revenueAll);
-                    tvTotalPrice.setText( formattedRevenue);
+                    tvTotalPrice.setText(": "+ formattedRevenue);
 
                     if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
                         APIService apiService = RetrofitClient.getAPIService();

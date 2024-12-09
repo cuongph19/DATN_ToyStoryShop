@@ -399,12 +399,23 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             // Kiểm tra sản phẩm có được chọn và có giá không
             if (cart.isSelected() && productPriceMap.containsKey(cart.getProdId())) {
                 double productPrice = productPriceMap.get(cart.getProdId());
-                totalPayment += productPrice * cart.getQuantity(); // Cộng tiền sản phẩm được chọn
-                Log.d("CartAdapter", "Adding product price: " + productPrice +
-                        " for product ID: " + cart.getProdId() +
-                        " Quantity: " + cart.getQuantity() +
-                        " Subtotal: " + (productPrice * cart.getQuantity()));
-            } else if (cart.isSelected()) {
+                double subtotal;
+                // Kiểm tra nếu sản phẩm có prodSpecification bằng "Nguyên set 12 hộp"
+                if ("Nguyên set 12 hộp".equals(cart.getProdSpecification())) {
+                    subtotal = productPrice * cart.getQuantity() * 12; // Nhân thêm 12
+                    Log.d("CartAdapter", "CartAdapterCartAdapterSpecial calculation for product ID: " + cart.getProdId() +
+                            " Specification: " + cart.getProdSpecification() +
+                            " Price: " + productPrice + " Quantity: " + cart.getQuantity() +
+                            " Subtotal: " + subtotal);
+                } else {
+                    subtotal = productPrice * cart.getQuantity(); // Tính bình thường
+                    Log.d("CartAdapter", "CartAdapterCartAdapterRegular calculation for product ID: " + cart.getProdId() +
+                            " Price: " + productPrice + " Quantity: " + cart.getQuantity() +
+                            " Subtotal: " + subtotal);
+                }
+
+                totalPayment += subtotal; // Cộng vào tổng tiền
+                  } else if (cart.isSelected()) {
                 // Ghi log nếu không tìm thấy giá sản phẩm
                 Log.d("CartAdapter", "Price not found for product ID: " + cart.getProdId());
             }

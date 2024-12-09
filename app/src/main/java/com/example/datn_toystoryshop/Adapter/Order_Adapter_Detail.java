@@ -60,16 +60,19 @@ public class Order_Adapter_Detail extends RecyclerView.Adapter<Order_Adapter_Det
         loadProductById(apiService, product.getProductId(), new ProductCallback() {
             @Override
             public void onSuccess(Product_Model productModel) {
-                holder.productName.setText(productModel.getNamePro()); // Cập nhật tên sản phẩm
-                holder.productPrice.setText(String.format("%,.0fđ", productModel.getPrice())); // Cập nhật tên sản phẩm
+                double totalPrice;
                 double Price = productModel.getPrice();
                 int quantity = product.getCurrentQuantity();
                 double totalAmount = Price * quantity;
+
+                holder.productName.setText(productModel.getNamePro()); // Cập nhật tên sản phẩm
+                holder.productPrice.setText(String.format("%,.0fđ", productModel.getPrice())); // Cập nhật tên sản phẩm
                 Log.e("Oder_Adapter", "aaaaaaaaaaaaaaaaaaaaaavdv: " + totalAmount);
                 // Truyền totalAmount về màn hình chính
                 if (totalAmountCallback != null) {
                     totalAmountCallback.onTotalAmountCalculated(totalAmount, quantity, ProductType);
                 }
+
             }
 
             @Override
