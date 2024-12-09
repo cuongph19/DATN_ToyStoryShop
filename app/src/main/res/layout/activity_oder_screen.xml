@@ -508,7 +508,7 @@
                         style="@style/TEXT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/payment_on_delivery"
+                        android:text="@string/paypal_wallet_favorite"
                         android:textSize="16sp" />
 
                     <!-- Mũi tên chỉ hướng -->

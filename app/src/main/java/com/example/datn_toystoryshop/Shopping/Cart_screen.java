@@ -90,7 +90,7 @@ public class Cart_screen extends AppCompatActivity {
 // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
-        Log.e("OrderHistoryAdapter", "j66666666666666666Cart_screen" + documentId);
+
         productId = intent.getStringExtra("productId");
         owerId = intent.getIntExtra("owerId", -1);
         statusPro = intent.getBooleanExtra("statusPro", false);
@@ -244,21 +244,39 @@ public class Cart_screen extends AppCompatActivity {
         apiService.getCarts(cusId).enqueue(new Callback<List<Cart_Model>>() {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    Log.d("CartScreen", "Cart items retrieved: " + response.body().size());
+                swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng làm mới
 
-                    // Tạo và thiết lập Cart_Adapter
-                    cartAdapter = new Cart_Adapter(Cart_screen.this, response.body(), apiService, documentId);
-                    recyclerViewCart.setAdapter(cartAdapter);
-                    // Thiết lập ItemTouchHelper cho RecyclerView
-                    setupItemTouchHelper();
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Cart_Model> cartItems = response.body();
+
+                    if (cartItems.isEmpty()) {
+                        // Xử lý khi danh sách trống
+                        Log.d("CartScreen", "Giỏ hàng trống");
+                        recyclerViewCart.setAdapter(null); // Xóa adapter nếu không có dữ liệu
+                       // emptyCartTextView.setVisibility(View.VISIBLE); // Hiển thị thông báo
+                    } else {
+                        // Xử lý khi có dữ liệu
+                        Log.d("CartScreen", "Cart items retrieved: " + cartItems.size());
+                      //  emptyCartTextView.setVisibility(View.GONE); // Ẩn thông báo nếu có dữ liệu
+
+                        // Tạo và thiết lập Cart_Adapter
+                        cartAdapter = new Cart_Adapter(Cart_screen.this, cartItems, apiService, documentId);
+                        cartAdapter.setOnCartDataChangeListener(() -> checkBoxSelectAll.setChecked(false));
+                        recyclerViewCart.setAdapter(cartAdapter);
+
+                        // Thiết lập ItemTouchHelper cho RecyclerView
+                        setupItemTouchHelper();
+                    }
+                } else {
+                    Log.e("CartScreen", "Lỗi: " + response.message());
+                   // emptyCartTextView.setVisibility(View.VISIBLE); // Hiển thị thông báo
+                    recyclerViewCart.setAdapter(null); // Xóa adapter
                 }
             }
-
             @Override
             public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
+                Log.e("CartScreen", "Lỗi: " );
                 // Xử lý lỗi khi gọi API thất bại
             }
         });
