@@ -57,7 +57,7 @@ router.post('/addresses', async (req, res) => {
 
         // Tạo đối tượng Address mới
         const newAddress = new Address({
-            userId: "defaultUserId", // Giá trị mặc định tạm thời
+            cusId: "defaultUserId", // Giá trị mặc định tạm thời
             name,
             phone,
             address,
@@ -348,8 +348,8 @@ router.get('/chat/history', async (req, res) => {
 
         const chatHistory = await Chat.find({
             $or: [
-                { senderId: user1, receiverId: realUser2 },
-                { senderId: realUser2, receiverId: user1 },
+                { cusId: user1, userId: realUser2 },
+                { cusId: realUser2, userId: user1 },
             ],
         }).sort({ timestamp: 1 });
 
@@ -361,27 +361,27 @@ router.get('/chat/history', async (req, res) => {
 
 router.post('/chat/send', async (req, res) => {
     try {
-        const { senderId, receiverId, message, chatType } = req.body;
+        const { cusId, userId, message, chatType } = req.body;
 
-        if (!senderId || !message || !chatType) {
+        if (!cusId || !message || !chatType) {
             return res.status(400).json({ error: 'Thiếu thông tin cần thiết!' });
         }
 
-        let realReceiverId = receiverId;
+        let realuserId = userId;
 
-        // Nếu không truyền receiverId, giả định người gửi là khách hàng và gửi tới bộ phận hỗ trợ
-        if (!receiverId) {
+        // Nếu không truyền userId, giả định người gửi là khách hàng và gửi tới bộ phận hỗ trợ
+        if (!userId) {
             const supportIds = ['support1', 'support2', 'support3'];
-            realReceiverId = supportIds.find(id => id !== senderId);
+            realuserId = supportIds.find(id => id !== cusId);
 
-            if (!realReceiverId) {
+            if (!realuserId) {
                 return res.status(404).json({ error: 'Không tìm thấy bộ phận hỗ trợ!' });
             }
         }
 
         const newMessage = new Chat({
-            senderId,
-            receiverId: realReceiverId,
+            cusId,
+            userId: realuserId,
             message,
             chatType,
             timestamp: Date.now(),

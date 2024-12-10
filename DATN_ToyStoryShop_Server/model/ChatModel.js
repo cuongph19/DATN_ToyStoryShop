@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 // Khai báo schema cho Chat
 const ChatSchema = mongoose.Schema({
     // ObjectId ngẫu nhiên của MongoDB sẽ được tự động tạo
-    senderId: {
+    cusId: {
         type: String, // ID người gửi
         maxlength: 255,
         required: true,
     },
-    receiverId: {
+    userId: {
         type: String, // ID người nhận
         maxlength: 255,
         required: true,
