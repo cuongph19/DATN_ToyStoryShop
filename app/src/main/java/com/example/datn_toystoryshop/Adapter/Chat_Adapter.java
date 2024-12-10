@@ -34,7 +34,7 @@ public class Chat_Adapter extends RecyclerView.Adapter<Chat_Adapter.ChatViewHold
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         ChatMessage_Model message = chatList.get(position);
         // Kiểm tra người gửi
-        if (message.getSenderId() != null && message.getSenderId().equals(documentId)) {            // Tin nhắn của khách hàng (bên trái)
+        if (message.getcusId() != null && message.getcusId().equals(documentId)) {            // Tin nhắn của khách hàng (bên trái)
             holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_sent);
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.textViewMessage.getLayoutParams();
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID; // Căn trái

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class Address_model {
     @SerializedName("_id")
     private String _id;          // _id từ MongoDB
-    private String userId;      // userId từ Firebase (nếu có)
+    private String cusId;      // cusId từ Firebase (nếu có)
     private String name;        // tên người nhận
     private String phone;       // số điện thoại
     private String address;     // địa chỉ chính
@@ -23,9 +23,9 @@ public class Address_model {
         this.isDefault = isDefault;
     }
 
-    public Address_model(String _id, String userId, String name, String phone, String address, String addressDetail, boolean isDefault) {
+    public Address_model(String _id, String cusId, String name, String phone, String address, String addressDetail, boolean isDefault) {
         this._id = _id;
-        this.userId = userId;
+        this.cusId = cusId;
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -41,12 +41,12 @@ public class Address_model {
         this._id = _id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getcusId() {
+        return cusId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setcusId(String cusId) {
+        this.cusId = cusId;
     }
 
     public String getName() {

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const WebSocket = require('ws');
+const ChatModel = require('./model/ChatModel');
 const bodyParser = require("body-parser");
 const api = require('./api');
 
@@ -37,10 +38,12 @@ mongoose.connect(uri, {
 
 // Theo dõi thay đổi trong bộ sưu tập MongoDB
 const orderCollection = mongoose.connection.collection('orders');
-const changeStream = orderCollection.watch();
+const chatCollection = mongoose.connection.collection('chats');
+const orderChangeStream = orderCollection.watch();
+const chatChangeStream = chatCollection.watch();
 
 // Lắng nghe sự kiện thay đổi dữ liệu trong MongoDB
-changeStream.on('change', async (change) => {
+orderChangeStream.on('change', async (change) => {
     if (change.operationType === 'update') {
         const orderId = change.documentKey._id; // Lấy ID đơn hàng
 
@@ -67,6 +70,35 @@ changeStream.on('change', async (change) => {
             }
         } catch (error) {
             console.error(`Lỗi khi lấy thông tin đơn hàng với ID: ${orderId}`, error);
+        }
+    }
+});
+
+
+chatChangeStream.on('change', async (change) => {
+
+    if (change.operationType === 'insert') {
+        // Lấy ID của tin nhắn mới
+        const chatId = change.documentKey._id;
+
+        try {
+            // Truy vấn chi tiết tin nhắn mới
+            const fullChat = await ChatModel.findById(chatId);
+
+            if (fullChat) {
+                console.log('Tin nhắn mới:', fullChat);
+
+                // Gửi tin nhắn qua WebSocket tới tất cả client
+                wss.clients.forEach((client) => {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify(fullChat));
+                    }
+                });
+            } else {
+                console.log(`Không tìm thấy tin nhắn với ID: ${chatId}`);
+            }
+        } catch (error) {
+            console.error(`Lỗi khi lấy thông tin tin nhắn với ID: ${chatId}`, error);
         }
     }
 });
