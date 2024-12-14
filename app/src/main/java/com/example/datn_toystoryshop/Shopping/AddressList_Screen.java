@@ -35,6 +35,7 @@ public class AddressList_Screen extends AppCompatActivity {
     LinearLayout linAdd;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private String documentId;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -62,6 +63,9 @@ public class AddressList_Screen extends AppCompatActivity {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
         // Khởi tạo RecyclerView
+        Intent intent = getIntent();
+         documentId = intent.getStringExtra("documentId");
+
         recyclerViewAddress = findViewById(R.id.recyclerViewAddress);
 
         recyclerViewAddress.setLayoutManager(new LinearLayoutManager(this));  // Sử dụng LinearLayoutManager cho RecyclerView
@@ -76,6 +80,7 @@ public class AddressList_Screen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddressList_Screen.this, Add_address_screen.class);
+                intent.putExtra("documentId", documentId);
                 startActivityForResult(intent, 1);  // Request code 1
             }
         });
@@ -105,13 +110,13 @@ public class AddressList_Screen extends AppCompatActivity {
         APIService apiService = RetrofitClient.getAPIService();
 
         // Gọi API để lấy danh sách địa chỉ
-        Call<List<Address_model>> call = apiService.getAllAddresses();
+        Call<List<Address_model>> call = apiService.getAllAddresses(documentId);
         call.enqueue(new Callback<List<Address_model>>() {
             @Override
             public void onResponse(Call<List<Address_model>> call, Response<List<Address_model>> response) {
                 if (response.isSuccessful()) {
                     addressModelList = response.body();
-                    addressAdapter = new AddressAdapter(addressModelList);
+                    addressAdapter = new AddressAdapter(addressModelList,documentId);
 
                     // Đăng ký listener để nhận thông báo khi địa chỉ được cập nhật
                     addressAdapter.setOnAddressUpdatedListener(new AddressAdapter.OnAddressUpdatedListener() {
@@ -183,7 +188,7 @@ public class AddressList_Screen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AddressList_Screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddressList_Screen.this, "Lỗi kết nối11111: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

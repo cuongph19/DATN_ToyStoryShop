@@ -12,16 +12,6 @@ public class Address_model {
     private String addressDetail; // chi tiết địa chỉ (số nhà, tầng...)
     private boolean isDefault;
 
-    public Address_model() {
-    }
-
-    public Address_model(String name, String phone, String address, String addressDetail, boolean isDefault) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.addressDetail = addressDetail;
-        this.isDefault = isDefault;
-    }
 
     public Address_model(String _id, String cusId, String name, String phone, String address, String addressDetail, boolean isDefault) {
         this._id = _id;

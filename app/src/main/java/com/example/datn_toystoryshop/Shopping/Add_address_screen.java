@@ -19,6 +19,7 @@ import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +48,7 @@ public class Add_address_screen extends AppCompatActivity {
     private ImageView imgBack,imgADD;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-
+    private String documentId;
     private static final int LOCATION_REQUEST_CODE = 1000;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -72,7 +73,8 @@ public class Add_address_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
-
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         imgADD.setOnClickListener(view -> {
@@ -106,13 +108,56 @@ public class Add_address_screen extends AppCompatActivity {
             boolean isDefault = cbDefault.isChecked();
 
             // Kiểm tra các trường nhập liệu
-            if (name.isEmpty() || phone.isEmpty() || address.isEmpty() || addressDetail.isEmpty()) {
-                Toast.makeText(Add_address_screen.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            } else {
-                // Gọi API để thêm địa chỉ
-                addAddressToServer(name, phone, address, addressDetail, isDefault);
+            if (!validateInput(name, phone, address, addressDetail)) {
+                return;
             }
+                // Gọi API để thêm địa chỉ
+                addAddressToServer(documentId, name, phone, address, addressDetail, isDefault);
+
         });
+    }
+    private boolean validateInput(String name, String phone, String address, String addressDetail) {
+        if (name.isEmpty()) {
+            etName.setError("Tên không được để trống");
+            etName.requestFocus();
+            return false;
+        } else if (!name.matches("^[\\u00C0-\\u1EF9a-zA-Z\\s]{2,50}$")) {
+            etName.setError("Tên chỉ được chứa ký tự chữ và có độ dài 2-50 ký tự");
+            etName.requestFocus();
+            return false;
+        }
+
+        if (phone.isEmpty()) {
+            etPhoneNumber.setError("Số điện thoại không được để trống");
+            etPhoneNumber.requestFocus();
+            return false;
+        } else if (!phone.matches("^0[0-9]{9}$")) {
+            etPhoneNumber.setError("Số điện thoại không hợp lệ (bắt đầu bằng 0 và có 10 chữ số)");
+            etPhoneNumber.requestFocus();
+            return false;
+        }
+
+        if (address.isEmpty()) {
+            etAddress.setError("Địa chỉ không được để trống");
+            etAddress.requestFocus();
+            return false;
+        } else if (address.length() < 5 || address.length() > 100) {
+            etAddress.setError("Địa chỉ phải có độ dài từ 5-100 ký tự");
+            etAddress.requestFocus();
+            return false;
+        }
+
+        if (addressDetail.isEmpty()) {
+            etAddressDetail.setError("Chi tiết địa chỉ không được để trống");
+            etAddressDetail.requestFocus();
+            return false;
+        } else if (addressDetail.length() < 5 || addressDetail.length() > 100) {
+            etAddressDetail.setError("Chi tiết địa chỉ phải có độ dài từ 5-100 ký tự");
+            etAddressDetail.requestFocus();
+            return false;
+        }
+
+        return true;
     }
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -192,12 +237,17 @@ public class Add_address_screen extends AppCompatActivity {
     }
 
 
-    private void addAddressToServer(String name, String phone, String address, String addressDetail, boolean isDefault) {
+    private void addAddressToServer(String cusId,String name, String phone, String address, String addressDetail, boolean isDefault) {
+        // Nếu là địa chỉ mặc định, gọi API để cập nhật các địa chỉ cũ thành không mặc định
+        if (isDefault) {
+            updateAllAddressesToNonDefault(cusId);
+        }
+
         // Khởi tạo Retrofit client
         APIService apiService = RetrofitClient.getAPIService();
 
         // Tạo đối tượng địa chỉ để gửi đi
-        Address_model newAddressModel = new Address_model(name, phone, address, addressDetail, isDefault);
+        Address_model newAddressModel = new Address_model(null, cusId, name, phone, address, addressDetail, isDefault);
 
         // Gọi API POST để thêm địa chỉ
         Call<Address_model> call = apiService.addAddress(newAddressModel);
@@ -218,10 +268,34 @@ public class Add_address_screen extends AppCompatActivity {
             @Override
             public void onFailure(Call<Address_model> call, Throwable t) {
                 // Xử lý lỗi kết nối
-                Toast.makeText(Add_address_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Add_address_screen.this, "Lỗi kết nối2222: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    // API để cập nhật tất cả các địa chỉ có isDefault = true thành false
+    private void updateAllAddressesToNonDefault(String cusId) {
+        APIService apiService = RetrofitClient.getAPIService();
 
+        Call<ResponseBody> call = apiService.updateDefault(cusId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    // Địa chỉ mặc định đã được cập nhật thành công
+                    Log.d("UpdateDefault", "Tất cả các địa chỉ đã được cập nhật thành không mặc định.");
+                } else {
+                    // Nếu thất bại, thông báo lỗi
+                    Toast.makeText(Add_address_screen.this, "Có lỗi xảy ra khi cập nhật địa chỉ mặc định", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Xử lý lỗi kết nối
+                Log.e("APIError", "Lỗi kết nối: " + t.getMessage(), t);
+                Toast.makeText(Add_address_screen.this, "Lỗi kết nối3333: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

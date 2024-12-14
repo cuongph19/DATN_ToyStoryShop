@@ -158,20 +158,22 @@ public interface APIService {
     Call<List<Voucher>> getVouchers();
 
     @GET("/api/addresses")
-    Call<List<Address_model>> getAllAddresses();
+    Call<List<Address_model>> getAllAddresses(@Query("cusId") String cusId);
 
     @GET("/api/addresses/{id}")
     Call<Address_model> getAddressById(@Path("id") String addressId);
 
-    @POST("/api/addresses")
+    @POST("/api/add/addresses")
     Call<Address_model> addAddress(@Body Address_model address);
 
-    @PUT("/api/addresses/{id}")
+    @PUT("/api/update/addresses/{id}")
     Call<Address_model> updateAddress(@Path("id") String addressId, @Body Address_model address);
 
-    @DELETE("/api/addresses/{id}")
+    @DELETE("/api/deleteAddresses/{id}")
     Call<Void> deleteAddress(@Path("id") String addressId);
 
+    @PUT("/api/update-default-address")
+    Call<ResponseBody> updateDefault(@Query("cusId") String cusId);
 
     @GET("/api/cart/check-product")
     Call<JsonObject> checkProductInCart(@Query("prodId") String prodId, @Query("cusId") String cusId);
