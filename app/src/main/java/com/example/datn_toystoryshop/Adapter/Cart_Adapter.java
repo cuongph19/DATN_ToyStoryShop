@@ -159,6 +159,9 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
 // Tìm vị trí của `prodSpecification` trong adapter
         int defaultPosition = adapter.getPosition(prodSpecification);
 
+        // Cờ để kiểm soát trạng thái mặc định
+        final boolean[] isDefaultSelected = {true};
+
 // Nếu tìm thấy, thiết lập vị trí mặc định cho Spinner
         if (defaultPosition >= 0) {
             holder.colorSpinner.setSelection(defaultPosition);
@@ -167,30 +170,35 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             holder.colorSpinner.setSelection(0);
         }
 
-//        // Thiết lập onItemSelectedListener cho colorSpinner
-//        holder.colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String newItem = parent.getItemAtPosition(position).toString();
-//                // Ngăn chặn vòng lặp gọi lại
-//                if (newItem.equals(selectedItem)) {
-//                    return; // Không làm gì nếu giá trị không thay đổi
-//                }
-//                if (isDefaultSelected) {
-//                    isDefaultSelected = false; // Đánh dấu đã vượt qua giá trị mặc định
-//                    return;// Bỏ qua lần chọn đầu tiên (giá trị mặc định)
-//                }
-//                selectedItem = newItem;
-//                updateCartItem(apiService, cart.get_id(), selectedItem, quantity);
-//                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy111111111111111111 " + selectedItem);
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Không làm gì khi không có gì được chọn
-//            }
-//        });
+        // Thiết lập onItemSelectedListener cho colorSpinner
+        holder.colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String newItem = parent.getItemAtPosition(position).toString();
+                // Ngăn chặn vòng lặp gọi lại
+                // Ngăn chặn vòng lặp gọi lại do giá trị mặc định
+                if (isDefaultSelected[0]) {
+                    isDefaultSelected[0] = false; // Đánh dấu đã vượt qua giá trị mặc định
+                    Log.d("CartAdapter", "Lần chọn mặc định, bỏ qua callback");
+                    return; // Không làm gì
+                }
+
+                // Kiểm tra giá trị có thay đổi không
+                if (newItem.equals(selectedItem)) {
+                    Log.d("CartAdapter", "Giá trị không thay đổi, không cần cập nhật");
+                    return; // Không làm gì nếu giá trị không thay đổi
+                }
+                selectedItem = newItem;
+                updateCartItem(apiService, cart.get_id(), selectedItem, quantity);
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy111111111111111111 " + selectedItem);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Không làm gì khi không có gì được chọn
+            }
+        });
         //lấy giá để tính tổng
         loadProductPrices();
 

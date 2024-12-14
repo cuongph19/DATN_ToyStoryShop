@@ -214,10 +214,10 @@ public class Cart_screen extends AppCompatActivity {
                 if (discountAmount >= 1000) {
                     // Chia cho 1000 để hiển thị theo dạng nghìn đồng
                     int thousands = (int) (discountAmount / 1000);
-                    formattedDiscount = String.format("₫%dk", thousands);
+                    formattedDiscount = String.format("%,.0fđ", thousands);
                 } else {
                     // Nếu giá trị dưới 1000, hiển thị giá trị trực tiếp
-                    formattedDiscount = String.format("₫%.0f", discountAmount);
+                    formattedDiscount = String.format("%,.0fđ", discountAmount);
                 }
                 Lldiscount.setVisibility(View.VISIBLE);
                 tvDiscount.setText(formattedDiscount);
@@ -229,7 +229,7 @@ public class Cart_screen extends AppCompatActivity {
     }
 
     public void updateTotalPayment(double total) {
-        TotalPayment.setText(String.format("%,.0f VND", total));
+        TotalPayment.setText(String.format("%,.0fđ", total));
         updateCheckoutButton();
     }
 

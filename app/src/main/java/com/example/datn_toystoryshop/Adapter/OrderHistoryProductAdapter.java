@@ -53,7 +53,7 @@ public class OrderHistoryProductAdapter extends RecyclerView.Adapter<OrderHistor
         // Hiển thị thông tin sản phẩm
         holder.productQuantity.setText(String.format("x %d", product.getQuantity()));
         holder.tvProductType.setText(product.getProdSpecification());
-        holder.productPrice.setText(String.format("₫%,.0f", product.getRevenue()));
+        holder.productPrice.setText(String.format("%,.0fđ", product.getRevenue()));
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
             Intent intent = new Intent(context, OrderHist_Detail.class);
