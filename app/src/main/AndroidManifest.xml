@@ -30,6 +30,7 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
+
         <activity
             android:name=".Confirm_Detail"
             android:exported="false" />

@@ -33,7 +33,7 @@ public interface APIService {
 
 
     // Địa chỉ IP server
-    String SERVER_IP = "192.168.16.101";// cương
+    String SERVER_IP = "192.168.16.100";// cương
    // String SERVER_IP = "192.168.1.10";// huy
    // String SERVER_IP = "192.168.101.10.101";// đức
 
@@ -184,6 +184,6 @@ public interface APIService {
 
     // Lấy lịch sử tin nhắn
     @GET("/api/chat/history")
-    Call<ChatHistoryResponse_Model> getChatHistory(@Query("user1") String user1, @Query("user2") String user2);
+    Call<ChatHistoryResponse_Model> getChatHistory(@Query("cusId") String user1, @Query("cusId") String user2);
 
 }

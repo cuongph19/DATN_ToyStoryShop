@@ -1,6 +1,10 @@
 package com.example.datn_toystoryshop.Contact_support;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +27,7 @@ import com.example.datn_toystoryshop.Model.ChatMessage_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.Server.WebSocketClient;
 import com.example.datn_toystoryshop.Shopping.Cart_screen;
 
 import java.util.ArrayList;
@@ -35,7 +40,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Chat_contact extends AppCompatActivity {
+public class Chat_contact extends AppCompatActivity implements OnChatUpdateListener{
 
     private RecyclerView chatRecyclerView;
     private EditText messageInput;
@@ -46,7 +51,7 @@ public class Chat_contact extends AppCompatActivity {
     private String documentId;// ID của khách hàng
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-
+    private WebSocketClient webSocketClient;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,14 @@ public class Chat_contact extends AppCompatActivity {
         }
         documentId = getIntent().getStringExtra("documentId");
         imgBack.setOnClickListener(v -> onBackPressed());
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        webSocketClient = new WebSocketClient(this, notificationManager, documentId);
+        webSocketClient.setOnChatUpdateListener(this); // Đăng ký lắng nghe sự kiện từ WebSocket
+
+        // Bắt đầu WebSocketClient
+        webSocketClient.start();
+
         // Gọi API để lấy lịch sử tin nhắn
         getChatHistory();
         // Tự động hiển thị tin nhắn hỗ trợ sau 2 giây
@@ -122,7 +135,7 @@ public class Chat_contact extends AppCompatActivity {
     }
 
     private void sendMessage(String message) {
-        ChatMessage_Model chatMessage = new ChatMessage_Model(documentId, null, message, "Văn bản");
+        ChatMessage_Model chatMessage = new ChatMessage_Model(documentId, "support1", message, "Văn bản");
         APIService apiService = RetrofitClient.getAPIService();
         apiService.sendMessage(chatMessage).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -142,6 +155,23 @@ public class Chat_contact extends AppCompatActivity {
                 Log.e("Chat", "Lỗi mạng: " + t.getMessage());
             }
         });
+
+    }
+    @Override
+    public void onNewChatMessage(String message) {
+        // Cập nhật giao diện khi có tin nhắn mới
+        runOnUiThread(() -> {
+            ChatMessage_Model newMessage = new ChatMessage_Model(null, documentId, message, "Văn bản");
+            chatMessageList.add(newMessage);
+            chatAdapter.notifyItemInserted(chatMessageList.size() - 1);
+            chatRecyclerView.scrollToPosition(chatMessageList.size() - 1);
+        });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webSocketClient != null) {
+            webSocketClient.stop();
+        }
     }
 }
-

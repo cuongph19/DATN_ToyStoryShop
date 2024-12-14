@@ -13,6 +13,7 @@ public class ChatMessage_Model {
         this.chatType = chatType;
     }
 
+
     public String getcusId() {
         return cusId;
     }
@@ -44,4 +45,5 @@ public class ChatMessage_Model {
     public void setChatType(String chatType) {
         this.chatType = chatType;
     }
+
 }
