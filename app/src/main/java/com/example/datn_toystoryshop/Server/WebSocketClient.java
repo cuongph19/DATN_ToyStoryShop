@@ -7,10 +7,12 @@ import okhttp3.WebSocketListener;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.datn_toystoryshop.Contact_support.OnChatUpdateListener;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.SendMail;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,11 +36,17 @@ public class WebSocketClient {
     private FirebaseFirestore db;
     private String email_confirm;
 
+    private OnChatUpdateListener chatUpdateListener;
+
+
     public WebSocketClient(Context context, NotificationManager notificationManager, String documentId) {
         this.context = context;
         this.notificationManager = notificationManager;
         this.documentId = documentId;
         this.db = FirebaseFirestore.getInstance();
+    }
+    public void setOnChatUpdateListener(OnChatUpdateListener listener) {
+        this.chatUpdateListener = listener;
     }
 
     public void start() {
@@ -61,20 +69,37 @@ public class WebSocketClient {
                 Log.d(TAG, "WebSocket11111111111 Received: " + text);
                 try {
                     JSONObject jsonObject = new JSONObject(text);
-                    String orderId = jsonObject.getString("_id");
                     String cusId = jsonObject.getString("cusId");
-                    String orderStatus = jsonObject.getString("orderStatus");
 
-                    // Gửi thông báo cho người dùng khi trạng thái đơn hàng thay đổi
-                    if (cusId.equals(documentId)) {
-                        sendNotification(orderId, cusId, orderStatus);
-                        // Kiểm tra nếu orderStatus là "Đã giao" và gửi email xác nhận
-                        if ("Đã giao".equals(orderStatus)) {
-                            loadUserDataByDocumentId(cusId,jsonObject);                        }
+                    // Kiểm tra nếu có thay đổi trong bảng order
+                    if (jsonObject.has("orderStatus")) {
+                        String orderId = jsonObject.getString("_id");
+                        String orderStatus = jsonObject.getString("orderStatus");
+
+                        if (cusId.equals(documentId)) {
+                            sendNotification(orderId, cusId, orderStatus);
+
+                            // Gửi email xác nhận nếu trạng thái là "Đã giao"
+                            if ("Đã giao".equals(orderStatus)) {
+                                loadUserDataByDocumentId(cusId, jsonObject);
+                            }
+                        }
+                    }
+                    // Kiểm tra nếu có thay đổi trong bảng chat
+                    else if (jsonObject.has("chatType")) {
+                        String message = jsonObject.getString("message");
+                        String userId = jsonObject.optString("userId", null);
+                        if (cusId.equals(documentId)&& (userId == null || !userId.equals("support1"))) {
+                            // Gửi thông báo cập nhật giao diện chat
+                            if (chatUpdateListener != null) {
+                                chatUpdateListener.onNewChatMessage(message);
+                            }
+                        }
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "Error parsing JSON", e);
                 }
+
             }
 
             @Override

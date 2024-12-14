@@ -34,18 +34,18 @@ public class Chat_Adapter extends RecyclerView.Adapter<Chat_Adapter.ChatViewHold
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         ChatMessage_Model message = chatList.get(position);
         // Kiểm tra người gửi
-        if (message.getcusId() != null && message.getcusId().equals(documentId)) {            // Tin nhắn của khách hàng (bên trái)
-            holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_sent);
-            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.textViewMessage.getLayoutParams();
-            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID; // Căn trái
-            params.endToEnd = ConstraintLayout.LayoutParams.UNSET; // Không căn phải
-            holder.textViewMessage.setLayoutParams(params);
-        } else {
-            // Tin nhắn của chăm sóc khách hàng (bên phải)
+        if (message.getuserId() != null && message.getuserId().equals("support1")) {            // Tin nhắn của khách hàng (bên trái)
             holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_received);
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.textViewMessage.getLayoutParams();
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID; // Căn phải
             params.startToStart = ConstraintLayout.LayoutParams.UNSET; // Không căn trái
+            holder.textViewMessage.setLayoutParams(params);
+        } else {
+            // Tin nhắn của chăm sóc khách hàng (bên phải)
+            holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_sent);
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.textViewMessage.getLayoutParams();
+            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID; // Căn trái
+            params.endToEnd = ConstraintLayout.LayoutParams.UNSET; // Không căn phải
             holder.textViewMessage.setLayoutParams(params);
         }
 

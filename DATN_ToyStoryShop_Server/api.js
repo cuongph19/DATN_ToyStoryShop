@@ -329,29 +329,24 @@ router.get('/cart/check-product', async (req, res) => {
 
 
 /////////////////ChatModel/////////////////
-const supportIds = ['support1', 'support2', 'support3']; // Danh sách ID hỗ trợ
-
 router.get('/chat/history', async (req, res) => {
     try {
-        const { user1, user2 } = req.query;
+        const { cusId } = req.query;
 
-        if (!user1) {
+        if (!cusId) {
             return res.status(400).json({ error: 'Thiếu thông tin người dùng!' });
-        }
-
-        // Nếu user2 không được truyền, giả định đây là chat với bộ phận hỗ trợ
-        const realUser2 = user2 || supportIds.find(id => id !== user1);
-
-        if (!realUser2) {
-            return res.status(404).json({ error: 'Không tìm thấy bộ phận hỗ trợ!' });
         }
 
         const chatHistory = await Chat.find({
             $or: [
-                { cusId: user1, userId: realUser2 },
-                { cusId: realUser2, userId: user1 },
+                { cusId, userId: { $ne: cusId } },
+                { cusId: { $ne: cusId }, userId: cusId },
             ],
         }).sort({ timestamp: 1 });
+
+        if (!chatHistory.length) {
+            return res.status(404).json({ error: 'Không tìm thấy lịch sử chat!' });
+        }
 
         res.status(200).json({ data: chatHistory });
     } catch (error) {
@@ -366,22 +361,9 @@ router.post('/chat/send', async (req, res) => {
         if (!cusId || !message || !chatType) {
             return res.status(400).json({ error: 'Thiếu thông tin cần thiết!' });
         }
-
-        let realuserId = userId;
-
-        // Nếu không truyền userId, giả định người gửi là khách hàng và gửi tới bộ phận hỗ trợ
-        if (!userId) {
-            const supportIds = ['support1', 'support2', 'support3'];
-            realuserId = supportIds.find(id => id !== cusId);
-
-            if (!realuserId) {
-                return res.status(404).json({ error: 'Không tìm thấy bộ phận hỗ trợ!' });
-            }
-        }
-
         const newMessage = new Chat({
             cusId,
-            userId: realuserId,
+            userId,
             message,
             chatType,
             timestamp: Date.now(),
