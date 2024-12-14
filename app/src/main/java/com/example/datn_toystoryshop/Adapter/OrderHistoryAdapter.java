@@ -44,7 +44,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         Order_Model order = orderList.get(position);
 
         holder.textStatus.setText(order.getOrderStatus());
-        holder.textRevenueAll.setText(String.format(": %,.0f Đ", (double) order.getRevenue_all()));
+        holder.textRevenueAll.setText(String.format(": %,.0fđ", (double) order.getRevenue_all()));
 
         List<Order_Model.ProductDetail> productDetails = order.getProdDetails();
         boolean isMoreThanTwo = productDetails.size() > 2;

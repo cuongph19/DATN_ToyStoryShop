@@ -85,15 +85,11 @@
         android:inputType="text"
         android:padding="12dp" />
 
-    <!-- Checkbox đặt làm mặc định -->
-    <!--    <CheckBox-->
-    <!--        android:id="@+id/cbDefault"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Đặt làm địa chỉ mặc định"-->
-    <!--        android:paddingVertical="8dp"-->
-    <!--        style="@style/TEXT"  />-->
-
+    <CheckBox
+        android:id="@+id/cbDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_as_default_address" />
     <!-- Nút lưu -->
     <Button
         android:id="@+id/btnSave"
@@ -105,10 +101,6 @@
         android:text="@string/save"
         android:textColor="#FFFFFF" />
 
-    <CheckBox
-        android:id="@+id/cbDefault"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CheckBox" />
+
 
 </LinearLayout>

@@ -22,12 +22,44 @@ router.get('/', (req, res) => {
 /////////////////AddressModel/////////////////
 router.get('/addresses', async (req, res) => {
     try {
+        const { cusId } = req.query;
+                // Kiểm tra nếu không có cusId được truyền vào
+                if (!cusId) {
+                    return res.status(400).json({ error: 'cusId là bắt buộc.' });
+                }
+
         // Lấy tất cả các địa chỉ trong database
-        const addresses = await Address.find();
+        const addresses = await Address.find({ cusId }).sort({ isDefault: -1 });
         res.json(addresses);
     } catch (error) {
         console.error('Lỗi khi lấy tất cả địa chỉ:', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy tất cả địa chỉ.' });
+    }
+});
+router.put('/update-default-address', async (req, res) => {
+    try {
+        const { cusId } = req.query; // Lấy cusId từ body (hoặc có thể là query string nếu cần)
+
+        // Kiểm tra nếu không có cusId được truyền vào
+        if (!cusId) {
+            return res.status(400).json({ error: 'cusId là bắt buộc.' });
+        }
+
+        // Cập nhật tất cả các địa chỉ có isDefault = true thành false cho cusId tương ứng
+        const result = await Address.updateMany(
+            { cusId, isDefault: true },  // Điều kiện lọc: cusId và isDefault = true
+            { $set: { isDefault: false } }  // Cập nhật isDefault thành false
+        );
+
+        // Kiểm tra xem có địa chỉ nào được cập nhật không
+        if (result.modifiedCount > 0) {
+            res.json({ message: `Cập nhật thành công ${result.modifiedCount} địa chỉ.` });
+        } else {
+            res.json({ message: 'Không tìm thấy địa chỉ nào với isDefault = true.' });
+        }
+    } catch (error) {
+        console.error('Lỗi khi cập nhật địa chỉ:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật địa chỉ.' });
     }
 });
 
@@ -51,13 +83,13 @@ router.get('/addresses/:id', async (req, res) => {
     }
 });
 
-router.post('/addresses', async (req, res) => {
+router.post('/add/addresses', async (req, res) => {
     try {
-        const { name, phone, address, addressDetail, isDefault } = req.body;
+        const { cusId, name, phone, address, addressDetail, isDefault } = req.body;
 
         // Tạo đối tượng Address mới
         const newAddress = new Address({
-            cusId: "defaultUserId", // Giá trị mặc định tạm thời
+            cusId, // Giá trị mặc định tạm thời
             name,
             phone,
             address,
@@ -82,10 +114,10 @@ router.post('/addresses', async (req, res) => {
     }
 });
 
-router.put('/addresses/:id', async (req, res) => {
+router.put('/update/addresses/:id', async (req, res) => {
     try {
         const addressId = req.params.id; // Lấy `id` từ URL
-        const { name, phone, address, addressDetail } = req.body; // Lấy các trường khác (loại bỏ `isDefault`)
+        const { name, phone, address, addressDetail,isDefault } = req.body; // Lấy các trường khác (loại bỏ `isDefault`)
 
         // Tìm và cập nhật địa chỉ theo ID (bỏ qua isDefault)
         const updatedAddress = await Address.findByIdAndUpdate(
@@ -94,7 +126,8 @@ router.put('/addresses/:id', async (req, res) => {
                 name,
                 phone,
                 address,
-                addressDetail
+                addressDetail,
+                isDefault
             }, // Chỉ cập nhật các trường này
             { new: true, runValidators: true } // Tùy chọn trả về bản ghi sau khi cập nhật và kiểm tra ràng buộc
         );
@@ -120,7 +153,7 @@ router.put('/addresses/:id', async (req, res) => {
     }
 });
 
-router.delete('/addresses/:id', async (req, res) => {
+router.delete('/deleteAddresses/:id', async (req, res) => {
     try {
         const addressId = req.params.id; // Lấy ID từ tham số URL
 

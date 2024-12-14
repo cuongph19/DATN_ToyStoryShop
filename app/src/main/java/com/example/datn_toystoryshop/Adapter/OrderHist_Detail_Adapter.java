@@ -52,7 +52,7 @@ public class OrderHist_Detail_Adapter extends RecyclerView.Adapter<OrderHist_Det
        // holder.tvProductName.setText(product.getProdSpecification());
         holder.tvProductType.setText(product.getProdSpecification());
         holder.tvProductQuantity.setText("x" + product.getQuantity());
-        holder.tvProductPrice.setText(String.format("₫%,.0f", product.getRevenue()));
+        holder.tvProductPrice.setText(String.format("%,.0fđ", product.getRevenue()));
         String prodId = product.getProdId();
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override

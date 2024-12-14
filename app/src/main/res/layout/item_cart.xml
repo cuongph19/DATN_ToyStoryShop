@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="4dp"
-                            android:text="₫759.000"
+                            android:text="759.000đ"
                             android:textColor="#D32F2F"
                             android:textSize="16sp"
                             android:textStyle="bold" />
