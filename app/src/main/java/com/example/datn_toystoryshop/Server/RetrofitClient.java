@@ -17,7 +17,16 @@ public class RetrofitClient {
         return retrofit;
     }
 
+    public static Retrofit getRetrofitPayment() {
+        return new Retrofit.Builder().baseUrl(APIService.PAYMENT_SERVER_URL) // Sử dụng BASE_URL từ APIService
+                .addConverterFactory(GsonConverterFactory.create()).build();
+    }
+
     public static APIService getAPIService() {
         return getInstance().create(APIService.class);
+    }
+
+    public static APIService getAPIServicePayment() {
+        return getRetrofitPayment().create(APIService.class);
     }
 }

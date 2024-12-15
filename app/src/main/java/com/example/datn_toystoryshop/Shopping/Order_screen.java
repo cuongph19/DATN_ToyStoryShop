@@ -34,6 +34,7 @@ import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.PayPalActivity;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.SendMail;
@@ -495,9 +496,15 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
-                    Intent in = new Intent(Order_screen.this, Home_screen.class);
-                    in.putExtra("documentId", documentId);
-                    startActivity(in);
+                    // Chuyển sang màn hình thanh toán
+
+                    Intent intent = new Intent(Order_screen.this, PayPalActivity.class);
+                    System.out.println("MoneyPay: " + moneyPay);
+                    System.out.println("documentId: " + documentId);
+                    intent.putExtra("amount", (long) Math.floor(moneyPay));
+                    intent.putExtra("user_id", documentId);
+                    startActivity(intent);
+                    System.out.println("Đã chuyển sang màn hình thanh toán");
 
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
@@ -636,10 +643,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
-
-                    Intent in = new Intent(Order_screen.this, Home_screen.class);
-                    in.putExtra("documentId", documentId);
+                    //Goto payment
+                    Intent in = new Intent(Order_screen.this, PayPalActivity.class);
+                    System.out.println("MoneyPay: " + moneyPay);
+                    System.out.println("documentId: " + documentId);
+                    in.putExtra("amount", (long) Math.floor(moneyPay));
+                    in.putExtra("user_id", documentId);
                     startActivity(in);
+                    System.out.println("Đã chuyển sang màn hình thanh toán");
 
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
