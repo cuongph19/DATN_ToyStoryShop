@@ -13,6 +13,8 @@ import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
 import com.example.datn_toystoryshop.Model.Refund_Model;
+import com.example.datn_toystoryshop.Model.VnPayCreate_Model;
+import com.example.datn_toystoryshop.Model.Vnpay_Model;
 import com.example.datn_toystoryshop.Model.Voucher;
 import com.google.gson.JsonObject;
 
@@ -33,12 +35,12 @@ public interface APIService {
 
 
     // Địa chỉ IP server
-    String SERVER_IP = "192.168.16.100";// cương
+    String SERVER_IP = "192.168.16.101";// cương
    // String SERVER_IP = "192.168.1.10";// huy
    // String SERVER_IP = "192.168.101.10.101";// đức
 
 
-
+    String PAYMENT_SERVER_URL = "http://" + SERVER_IP + ":28017";
     String BASE_URL = "http://" + SERVER_IP + ":3000/";
     String WS_URL = "ws://" + SERVER_IP + ":8080";
 
@@ -184,8 +186,11 @@ public interface APIService {
     @POST("/api/chat/send")
     Call<ResponseBody> sendMessage(@Body ChatMessage_Model chatMessage);
 
-    // Lấy lịch sử tin nhắn
     @GET("/api/chat/history")
     Call<ChatHistoryResponse_Model> getChatHistory(@Query("cusId") String user1, @Query("cusId") String user2);
+
+    @POST("/create-checkout-vnpay")
+    Call<Vnpay_Model> createCheckoutVnPay(@Body VnPayCreate_Model body);
+
 
 }

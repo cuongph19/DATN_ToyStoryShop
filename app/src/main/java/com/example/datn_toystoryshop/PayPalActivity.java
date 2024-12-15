@@ -2,120 +2,171 @@ package com.example.datn_toystoryshop;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-//import com.paypal.android.sdk.payments.PayPalConfiguration;
-//import com.paypal.android.sdk.payments.PayPalPayment;
-//import com.paypal.android.sdk.payments.PayPalService;
-//import com.paypal.android.sdk.payments.PaymentActivity;
-//import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.example.datn_toystoryshop.Model.VnPayCreate_Model;
+import com.example.datn_toystoryshop.Model.Vnpay_Model;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 
-import java.math.BigDecimal;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PayPalActivity extends Activity {
 
-    public static final String PAYPAL_CLIENT_ID = "AT0xBhMFqCfxlpeEKUpJsYxVmoBEtMUWU3Ig_Fbt6F3LNmK48D55nJ2cv3qKw_u51Kodb6PsdAX4DQpd";  // Sử dụng clientId sandbox
+    public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_USER_ID = "user_id";
     public static final int REQUEST_CODE_PAYMENT = 1;
 
-    // Cấu hình PayPal
-//    public static PayPalConfiguration config = new PayPalConfiguration()
-//            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) // Môi trường Sandbox
-//            .clientId(PAYPAL_CLIENT_ID); // Dùng Client ID của app trong Sandbox
+    private WebView webView;
 
+    private Long amount;
+    private String userId;
+
+    private String redirectedUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_pal);  // Set layout cho activity này
-//
-//        // Khởi tạo PayPalService khi Activity được khởi tạo
-//        Log.d("PayPalActivity", "Starting PayPal service...");
-//        Intent intent = new Intent(this, com.paypal.android.sdk.payments.PayPalService.class);
-//        intent.putExtra(com.paypal.android.sdk.payments.PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-//        startService(intent);
-//
-//        // Tạo Button và thiết lập sự kiện khi người dùng chọn thanh toán
-//        Button payButton = findViewById(R.id.btn_pay);
-//        payButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("PayPalActivity", "Payment button clicked.");
-//                startPayPalPayment();
-//            }
-//        });
+
+        webView = findViewById(R.id.web_view);
+
+        System.out.println("PayPalActivity.onCreate");
+
+        // Check key và lấy dữ liệu từ Intent, nếu không thì về screen trước
+        Intent intent = getIntent();
+//        if (intent == null || !intent.hasExtra(KEY_AMOUNT) || !intent.hasExtra(KEY_USER_ID)) {
+//            Log.e("PayPalActivity", "No amount or user_id passed to PayPalActivity.");
+//            finish();
+//            return;
+//        }
+        amount = intent.getLongExtra(KEY_AMOUNT, 0);
+        userId = intent.getStringExtra(KEY_USER_ID);
+
+        System.out.println("PayPalActivity.onCreate: amount = " + amount + ", user_id = " + userId);
+
+        APIService paymentService = RetrofitClient.getAPIServicePayment();
+        Call<Vnpay_Model> call = paymentService.createCheckoutVnPay(new VnPayCreate_Model(amount, userId, "https://github.com/naustudio/vn-payments/issues/25"));
+
+        System.out.println("PayPalActivity.onCreate: call = " + call.request().url());
+
+        call.enqueue(new Callback<Vnpay_Model>() {
+            @Override
+            public void onResponse(Call<Vnpay_Model> call, Response<Vnpay_Model> response) {
+                if (response.isSuccessful()) {
+                    Vnpay_Model vnpayModel = response.body();
+                    if (vnpayModel != null) {
+                        // Lấy url thanh toán từ response
+                        String paymentUrl = vnpayModel.getUrl();
+                        Log.d("PayPalActivity", "Payment URL: " + paymentUrl);
+                        // Chuyển sang trang thanh toán
+                        openWebView(paymentUrl);
+                    }
+                } else {
+                    Log.e("PayPalActivity", "Failed to get payment URL: " + response.message());
+                    Log.e("PayPalActivity", "Response code: " + response.code());
+                    Log.e("PayPalActivity", "Response body: " + response.errorBody());
+                    Toast.makeText(PayPalActivity.this, "Failed to get payment URL", Toast.LENGTH_LONG).show();
+                    // Trở về màn hình home
+                    Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                    in.putExtra("documentId", userId);
+                    startActivity(in);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Vnpay_Model> call, Throwable t) {
+                t.printStackTrace();
+                Log.e("PayPalActivity", "Failed to get payment URL: " + t.getMessage());
+                Toast.makeText(PayPalActivity.this, "Failed to get payment URL", Toast.LENGTH_LONG).show();
+                // Trở về màn hình home
+                Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                in.putExtra("documentId", userId);
+                startActivity(in);
+            }
+        });
+    }
+    private void openWebView(String url) {
+        webView.setVisibility(View.VISIBLE);
+        webView.getSettings().setJavaScriptEnabled(true);
+
+
+
+        WebViewClient client = new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                redirectedUrl = url;
+                super.onPageFinished(view, url);
+                handlePaymentResult();
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                redirectedUrl = url;
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                redirectedUrl = url;
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                redirectedUrl= failingUrl;
+                handlePaymentResult();
+            }
+        };
+
+        webView.setWebViewClient(client);
+        webView.loadUrl(url);
     }
 
-    // Phương thức để bắt đầu thanh toán
-//    private void startPayPalPayment() {
-//        Log.d("PayPalActivity", "Starting PayPal payment...");
-//        PayPalPayment payment = new PayPalPayment(
-//                new BigDecimal("19.99"), // Số tiền
-//                "USD",                   // Mã tiền tệ (đúng format ISO 4217)
-//                "Toy Item",              // Mô tả sản phẩm
-//                PayPalPayment.PAYMENT_INTENT_SALE); // Loại giao dịch (sale)
-//
-//
-//        Intent intent = new Intent(this, PaymentActivity.class);
-//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-//        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-//        startActivityForResult(intent, REQUEST_CODE_PAYMENT);
-//    }
-//
-//    // Xử lý kết quả trả về từ PayPal
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == REQUEST_CODE_PAYMENT) {
-//            if (resultCode == RESULT_OK) {
-//                PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-//                if (confirmation != null) {
-//                    // Log thông tin xác nhận thanh toán
-//                    Log.i("PayPalActivity", "Payment successful: " + confirmation.toJSONObject().toString());
-//                    Toast.makeText(this, "Payment successful!", Toast.LENGTH_LONG).show();
-//                } else {
-//                    // Log nếu xác nhận thanh toán bị null
-//                    Log.e("PayPalActivity", "Payment confirmation is null.");
-//                    Toast.makeText(this, "Payment confirmation failed.", Toast.LENGTH_LONG).show();
-//                }
-//            } else if (resultCode == RESULT_CANCELED) {
-//                // Người dùng hủy thanh toán
-//                Log.i("PayPalActivity", "User canceled the payment.");
-//                Toast.makeText(this, "Payment canceled!", Toast.LENGTH_LONG).show();
-//            } else {
-//                // Thanh toán thất bại, thêm log chi tiết
-//                Log.e("PayPalActivity", "Payment failed with result code: " + resultCode);
-//
-//                // Kiểm tra chi tiết lỗi từ dữ liệu trả về
-//                if (data != null) {
-//                    // Lấy thêm thông tin lỗi nếu có
-//                    String errorDetails = data.getStringExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-//                    if (errorDetails != null) {
-//                        Log.e("PayPalActivity", "Error details: " + errorDetails);
-//                    } else {
-//                        Log.e("PayPalActivity", "Error but no additional details provided.");
-//                    }
-//                } else {
-//                    Log.e("PayPalActivity", "No data received from PayPal.");
-//                }
-//
-//
-//                Toast.makeText(this, "Payment failed! Result code: " + resultCode, Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
+    private void handlePaymentResult() {
+        // Check url của trang web
+        if (redirectedUrl != null) {
+            if (redirectedUrl.contains("vnp_TransactionStatus=00")) {
+                // Nếu url chứa "vnp_TransactionStatus=00" thì thanh toán thành công
+                Log.d("PayPalActivity", "Payment successful.");
+                Toast.makeText(this, "Payment successful!", Toast.LENGTH_LONG).show();
 
+                //go to home screen
+                Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                in.putExtra("documentId", userId);
+                startActivity(in);
+                finish();
+            } else if (redirectedUrl.contains("vnp_TransactionStatus=02")) {
+                // Nếu url chứa "vnp_TransactionStatus=02" thì người dùng hủy thanh toán
+                Log.d("PayPalActivity", "Payment canceled.");
+                Toast.makeText(this, "Payment canceled!", Toast.LENGTH_LONG).show();
 
-//
-//    // Dừng PayPalService khi Activity bị hủy
-//    @Override
-//    protected void onDestroy() {
-//        Log.d("PayPalActivity", "Stopping PayPal service...");
-//        stopService(new Intent(this, com.paypal.android.sdk.payments.PayPalService.class));
-//        super.onDestroy();
-//    }
+                //go to home screen
+                Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                in.putExtra("documentId", userId);
+                startActivity(in);
+                finish();
+            } else if (redirectedUrl.contains("Error")) {
+                // Nếu url chứa "vnp_TransactionStatus=02" thì người dùng hủy thanh toán
+                Log.d("PayPalActivity", "Payment canceled.");
+                Toast.makeText(this, "Payment canceled!", Toast.LENGTH_LONG).show();
+
+                //go to home screen
+                Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                in.putExtra("documentId", userId);
+                startActivity(in);
+            }
+        }
+    }
 }
+
+
