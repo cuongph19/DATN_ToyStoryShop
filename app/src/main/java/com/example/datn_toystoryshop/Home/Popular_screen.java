@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
-import com.example.datn_toystoryshop.Adapter.Product_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_Viewpopular_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
@@ -28,7 +28,7 @@ import java.util.List;
 public class Popular_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewPopular;
-    private Product_Adapter productAdapter;
+    private Product_Viewpopular_Adapter productAdapter;
     private List<Product_Model> productList;
     private String documentId;
     private SharedPreferences sharedPreferences;
@@ -60,7 +60,7 @@ public class Popular_screen extends AppCompatActivity {
 
 
         // Thiết lập Adapter
-        productAdapter = new Product_Adapter(this, productList, documentId);
+        productAdapter = new Product_Viewpopular_Adapter(this, productList, documentId);
         recyclerViewPopular.setAdapter(productAdapter);
 
         // Thêm ItemDecoration để tạo khoảng cách dưới mỗi item

@@ -9,15 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -25,12 +29,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
     private List<Product_Model> productModelListFull; // List gốc để lọc
     private Context context;
     private String documentId;
+
 
     public Sale_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
         this.context = context;
@@ -54,9 +63,6 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
             holder.tvName.setText(product.getNamePro());
-            String shortId = product.get_id().substring(0, 6);
-//            holder.tvSKU.setText("Mã SP: " + product.get_id());
-            holder.tvSKU.setText("Mã SP: " + shortId);
             holder.tvPrice.setText(String.format(": %,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +108,7 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvSKU, tvPrice, tvStatus;
+        TextView tvName, tvPrice, tvStatus;
         ImageView imgProduct;
         private Handler handler = new Handler();
         private Runnable runnable;
@@ -111,7 +117,6 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvTen);
-            tvSKU = itemView.findViewById(R.id.tvId);
             tvPrice = itemView.findViewById(R.id.tvGia);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             imgProduct = itemView.findViewById(R.id.imgAvatar);

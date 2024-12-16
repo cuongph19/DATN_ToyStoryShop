@@ -11,4 +11,5 @@
     <color name="accept_enabled_color">#001A61</color>
     <color name="highlight_color">#FF5722</color>
     <color name="gray_with_opacity">#33000000</color>
+    <color name="yellow">#FFD700</color>
 </resources>

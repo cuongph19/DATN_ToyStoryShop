@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_Viewpopular_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
 import com.example.datn_toystoryshop.Home.Sale_screen;
 import com.example.datn_toystoryshop.Shopping.Add_address_screen;
@@ -67,7 +68,7 @@ public class Home_Fragment extends Fragment {
     private RecyclerView recyclerViewNew, recyclerViewPopu, recyclerViewSuggestions;
     private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
     private ProductNewAdapter productNewAdapter;
-    private Product_Adapter productAdapter;
+    private Product_Viewpopular_Adapter product_viewpopular_adapter;
     private Suggestion_Adapter suggestionAdapter;
     private List<Product_Model> listProductModel, popularProductList;
     private Handler handler = new Handler();
@@ -306,8 +307,8 @@ public class Home_Fragment extends Fragment {
                     if (popularProductList.isEmpty()) {
                         Log.d("HomeFragment", "No popular products available");
                     } else {
-                        productAdapter = new Product_Adapter(requireContext(), popularProductList, documentId);
-                        recyclerViewPopu.setAdapter(productAdapter);
+                        product_viewpopular_adapter = new Product_Viewpopular_Adapter(requireContext(), popularProductList, documentId);
+                        recyclerViewPopu.setAdapter(product_viewpopular_adapter);
                     }
                 } else {
                     Log.e("HomeFragment", "Response unsuccessful or body is null for popular products");
