@@ -9,6 +9,7 @@ import com.example.datn_toystoryshop.Model.ChatMessage_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.FeebackApp_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
+import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
@@ -106,7 +107,7 @@ public interface APIService {
     Call<JsonObject> checkFeedback(@Query("cusId") String cusId, @Query("prodId") String prodId);
 
     @GET("/api/average-rating/{prodId}")
-    Call<List<Feeback_Model>> getAverageRating(@Path("prodId") String prodId);
+    Call<Feeback_Rating_Model> getAverageRating(@Path("prodId") String prodId);
 
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);

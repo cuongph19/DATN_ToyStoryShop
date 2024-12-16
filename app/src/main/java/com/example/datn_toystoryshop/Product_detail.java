@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -39,6 +40,7 @@ import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
+import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -84,6 +86,7 @@ public class Product_detail extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
     private ScrollView scrollView;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,7 @@ public class Product_detail extends AppCompatActivity {
         cart_full_icon = findViewById(R.id.cart_full_icon);
         heartIcon = findViewById(R.id.heart_icon);
         scrollView = findViewById(R.id.scrollView);
+        ratingBar = findViewById(R.id.ratingBar);
         recyclerViewFeedback = findViewById(R.id.recyclerViewFeedback);
 
         // Khởi tạo APIService bằng RetrofitClient
@@ -149,6 +153,9 @@ public class Product_detail extends AppCompatActivity {
         tvproductDescription.setText(desPro);
         productBrandValue1.setText(brand);
         productBrandValue2.setText(brand);
+        fetchAndDisplayAverageRating(productId);
+
+
 
         if (quantity == 0) {
             // Ẩn các view cartIcon và voucherText
@@ -274,7 +281,33 @@ public class Product_detail extends AppCompatActivity {
         // Hủy Handler khi Activity bị hủy để tránh rò rỉ bộ nhớ
         handler.removeCallbacks(imageSwitcherRunnable);
     }
+    public void fetchAndDisplayAverageRating(String prodId) {
+        Log.e("OrderHistoryAdapter", "Fetching average rating for prodId: " + prodId);
 
+        APIService apiService = RetrofitClient.getAPIService();
+        apiService.getAverageRating(prodId).enqueue(new Callback<Feeback_Rating_Model>() {
+            @Override
+            public void onResponse(Call<Feeback_Rating_Model> call, Response<Feeback_Rating_Model> response) {
+                Log.e("API_RESPONSE", "Response code: " + response.code() + ", Message: " + response.message());
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Feeback_Rating_Model feedback = response.body();
+                    float averageRating = feedback.getAverageRating(); // Lấy số sao trung bình
+                    Log.e("AverageRating", "Calculated average rating: " + averageRating);
+                    ratingBar.setRating(averageRating); // Hiển thị rating trên RatingBar
+                } else {
+                    Log.e("API_RESPONSE", "Response is not successful or body is null.");
+                    ratingBar.setRating(0); // Không có dữ liệu -> đặt rating mặc định
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Feeback_Rating_Model> call, Throwable t) {
+                Log.e("API_ERROR", "Failed to fetch data: " + t.getMessage());
+                ratingBar.setRating(0); // Khi lỗi -> đặt rating mặc định
+            }
+        });
+    }
     public void loadFeedback(String prodId) {
 
         APIService apiService = RetrofitClient.getAPIService();

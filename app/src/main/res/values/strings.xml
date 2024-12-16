@@ -343,6 +343,7 @@
     <string name="enter_new1_password">Nhập lại mật khẩu mới</string>
     <string name="set_as_default_address">Đặt làm địa chỉ mặc định</string>
 
+
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
         <item>Giá cao - thấp</item>
