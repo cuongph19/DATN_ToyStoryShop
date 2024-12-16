@@ -22,9 +22,8 @@
             <!-- Nội dung sản phẩm -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <!-- ImageView for product image -->
                 <ImageView
@@ -40,33 +39,27 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp">
+                    android:orientation="vertical">
 
                     <!-- Product Name -->
                     <TextView
                         android:id="@+id/tvTen"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="@string/name_pro"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <!-- Product ID -->
-                    <TextView
-                        android:id="@+id/tvId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mã SP: 12345"
-                        android:textColor="#666666"
-                        android:textSize="14sp" />
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
@@ -90,6 +83,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="4dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
                         android:text="@string/in_stock"
                         android:textColor="#4CAF50"
                         android:textSize="14sp" />

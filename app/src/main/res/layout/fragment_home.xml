@@ -1,5 +1,6 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/SCREEN"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
@@ -78,7 +79,8 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/header_layout"
+            />
 
         <androidx.gridlayout.widget.GridLayout
             android:id="@+id/product_grid"
