@@ -9,21 +9,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Server.APIService;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.ProductViewHolder> {
 
@@ -32,6 +39,7 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
     private Context context;
     private boolean isInHomeFragment;
     private String documentId;
+    private APIService apiService;
 
     public ProductNewAdapter(Context context, List<Product_Model> productModelList) {
         this.context = context;
@@ -44,6 +52,9 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
         this.productModelList = productModelList;
         this.isInHomeFragment = isInHomeFragment;
         this.documentId = documentId;
+
+        this.apiService = RetrofitClient.getAPIService();
+
     }
 
     @NonNull
@@ -55,12 +66,44 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Log.e("OrderHistoryAdapter", "j66666666666666666ProductNewAdapter" + documentId);
+
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
             holder.tvName.setText(product.getNamePro());
-            String shortId = product.get_id().substring(0, 6);
-            holder.tvSKU.setText("Mã SP: " + shortId);
+            String prodId  = product.get_id();
+            Log.e("OrderHistoryAdapter", "j66666666666666666ProductNewAdapterj66666666666666666ProductNewAdapter1  " + prodId);
+
+//            apiService.getAverageRating(prodId).enqueue(new Callback<List<Feeback_Model>>() {
+//                @Override
+//                public void onResponse(Call<List<Feeback_Model>> call, Response<List<Feeback_Model>> response) {
+//                    Log.e("API_ERROR", "j66666666666666666ProductNewAdapterj66666666666666666ProductNewAdapter: " + response.code() + ", Message: " + response.message());
+//
+//                    if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+//
+//                        List<Feeback_Model> feedbacks = response.body();
+//                        // Tính toán số sao trung bình
+//                        int totalStars = 0;
+//                        for (Feeback_Model feedback : feedbacks) {
+//                            totalStars += feedback.getStart();
+//                        }
+//
+//                        float averageRating = (float) totalStars / feedbacks.size();
+//                        Log.e("OrderHistoryAdapter", "j66666666666666666ProductNewAdapterj66666666666666666ProductNewAdapter2  " + averageRating);
+//                        Log.e("OrderHistoryAdapter", "j66666666666666666ProductNewAdapterj66666666666666666ProductNewAdapter3  " + totalStars);
+//                        // Hiển thị rating trung bình trên RatingBar
+//                        holder.ratingBar.setRating(averageRating);
+//                    } else {
+//                        // Không có feedback -> đặt rating mặc định
+//                        holder.ratingBar.setRating(0);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<Feeback_Model>> call, Throwable t) {
+//                    // Khi lỗi -> đặt rating mặc định
+//                    holder.ratingBar.setRating(0);
+//                }
+//            });
             holder.tvPrice.setText(String.format(": %,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
             if (isInHomeFragment) {
@@ -107,8 +150,9 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvSKU, tvPrice, tvStatus;
+        TextView tvName, tvPrice, tvStatus;
         ImageView imgProduct, newIcon;
+        RatingBar ratingBar;
         private Handler handler = new Handler();
         private Runnable runnable;
         private int currentImageIndex = 0;
@@ -116,9 +160,9 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvTen);
-            tvSKU = itemView.findViewById(R.id.tvId);
             tvPrice = itemView.findViewById(R.id.tvGia);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
             imgProduct = itemView.findViewById(R.id.imgAvatar);
             newIcon = itemView.findViewById(R.id.new_icon);
         }

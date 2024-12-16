@@ -533,6 +533,37 @@ router.get('/feebacks', async (req, res) => {
     }
 });
 
+router.get('/average-rating/:prodId', async (req, res) => {
+    try {
+        const { prodId } = req.params;
+
+        // Lấy tất cả feedback của sản phẩm theo prodId
+        const feedbacks = await FeebackModel.find({ prodId });
+
+        if (feedbacks.length === 0) {
+            return res.status(404).json({
+                message: 'No feedback found for this product.',
+                averageRating: 0
+            });
+        }
+
+        // Tính số sao trung bình
+        const totalStars = feedbacks.reduce((sum, feedback) => sum + feedback.start, 0);
+        const averageRating = Math.max(1, Math.min(5, totalStars / feedbacks.length)); // Đảm bảo trong khoảng [1, 5]
+
+        res.status(200).json({
+            prodId,
+            averageRating: averageRating.toFixed(2), // Làm tròn 2 chữ số thập phân
+            totalFeedbacks: feedbacks.length
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+});
+
 router.get('/check-feedback', async (req, res) => {
     try {
         const { cusId, prodId } = req.query;

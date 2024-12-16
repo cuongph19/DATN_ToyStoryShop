@@ -105,6 +105,9 @@ public interface APIService {
     @GET("/api/check-feedback")
     Call<JsonObject> checkFeedback(@Query("cusId") String cusId, @Query("prodId") String prodId);
 
+    @GET("/api/average-rating/{prodId}")
+    Call<List<Feeback_Model>> getAverageRating(@Path("prodId") String prodId);
+
     @POST("/api/add/add-to-favorites")
     Call<Favorite_Model> addToFavorites(@Body Favorite_Model favoriteModel);
 
