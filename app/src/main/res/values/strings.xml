@@ -336,6 +336,7 @@
 
     <string name="view_cancel_history">Xem lịch sử hủy</string>
     <string name="canceled_products">Sản phẩm đã hủy</string>
+    <string name="canceled">Đã hủy</string>
     <string name="cancel_order">Hủy đơn hàng</string>
     <string name="buy_back">Mua lại</string>
     <string name="return_goods">Trả hàng</string>
@@ -380,5 +381,7 @@
         <item>Tháng 11</item>
         <item>Tháng 12</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

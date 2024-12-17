@@ -35,7 +35,7 @@
             android:name=".Confirm_Detail"
             android:exported="false" />
         <activity
-            android:name=".history.history_cancel_screen"
+            android:name=".History_purchase.history_cancel_screen"
             android:exported="false" />
         <activity
             android:name=".history.History_purchase_screen"
