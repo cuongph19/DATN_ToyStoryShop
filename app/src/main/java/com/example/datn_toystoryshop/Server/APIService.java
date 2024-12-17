@@ -50,6 +50,19 @@ public interface APIService {
 
     @GET("/api/new-arrivals")
     Call<List<Product_Model>> getNewArrivals();
+    @GET("/api/heyone")
+    Call<List<Product_Model>> getHeyOne();
+    @GET("/api/finding_unicorn")
+    Call<List<Product_Model>> getFindingUnicorn();
+    @GET("/api/bandai_candy")
+    Call<List<Product_Model>> getBandaiCandy();
+    @GET("/api/squid_game")
+    Call<List<Product_Model>> getSquidGame();
+    @GET("/api/blokees")
+    Call<List<Product_Model>> getBlokees();
+    @GET("/api/52_toys")
+    Call<List<Product_Model>> get52Toys();
+
 
     @GET("/api/sale")
     Call<List<Product_Model>> getSale();

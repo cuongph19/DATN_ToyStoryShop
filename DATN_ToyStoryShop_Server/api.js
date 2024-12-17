@@ -1033,6 +1033,138 @@ router.get('/blind_box', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
     }
 });
+router.get('/52_toys', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^52TOYS$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/blokees', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^BLOKEES$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/heyone', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^HEYONE$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/squid_game', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^SQUID GAME$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/bandai_candy', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^BANDAI CANDY$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
+router.get('/finding_unicorn', async (req, res) => {
+    try {
+        await mongoose.connect(server.uri);
+        const newProducts = await server.productModel.find({
+            listPro: { $regex: "^FINDING UNICORN$", $options: "i" }
+        });
+
+        if (newProducts.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
+        }
+
+        newProducts.forEach(product => {
+            product.namePro = removeDiacritics(product.namePro); // Đảm bảo thông tin được xử lý đúng
+        });
+
+        // Trả về dữ liệu
+        res.json(newProducts);
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm.', details: error.message });
+    }
+});
 
 router.get('/list-popular', async (req, res) => {
     try {
