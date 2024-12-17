@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
@@ -34,10 +35,7 @@ public class Delivered_Fragment extends Fragment {
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
-
-    public Delivered_Fragment() {
-        // Required empty public constructor
-    }
+    private LinearLayout llnot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +47,7 @@ public class Delivered_Fragment extends Fragment {
         }
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         rvOrderHistory = view.findViewById(R.id.rvOrderHistory);
-
+        llnot = view.findViewById(R.id.llnot);
         // Thiết lập RecyclerView
         APIService apiService = RetrofitClient.getAPIService();
         adapter = new Order_History_Purchase_Adapter(requireContext(), filteredOrderList, apiService, documentId);
@@ -84,6 +82,8 @@ public class Delivered_Fragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(requireContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -91,6 +91,8 @@ public class Delivered_Fragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setVisibility(View.GONE);
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }

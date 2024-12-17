@@ -419,11 +419,6 @@ router.get('/favorites', async (req, res) => {
             return res.status(400).json({ error: 'cusId không được để trống.' });
         }
 
-        // Kiểm tra kết nối MongoDB đã thành công trước khi thực hiện query
-        if (mongoose.connection.readyState !== 1) {
-            return res.status(500).json({ error: 'Kết nối MongoDB chưa thành công.' });
-        }
-
         // Tìm tất cả các sản phẩm trong collection 'favorites'
         const favorites = await FavoriteModel.find({ cusId }, '_id prodId cusId');
 
@@ -441,10 +436,6 @@ router.get('/favorites', async (req, res) => {
 router.delete('/deleteFavorite/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        // Kiểm tra kết nối MongoDB đã thành công
-        if (mongoose.connection.readyState !== 1) {
-            return res.status(500).json({ error: 'Kết nối MongoDB chưa thành công.' });
-        }
 
         const result = await FavoriteModel.deleteOne({ prodId: id });
         if (result.deletedCount === 0) {

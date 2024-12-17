@@ -58,7 +58,7 @@ public class Cart_screen extends AppCompatActivity {
     private Cart_Adapter cartAdapter;
     private CheckBox checkBoxSelectAll;
     private TextView TotalPayment, btnCheckout, tvDiscount, tvFreeShipping;
-    private LinearLayout tvVoucher, Lldiscount;
+    private LinearLayout tvVoucher, Lldiscount, llnot;
     private double totalProductDiscount = 0;
     private double totalShipDiscount = 0;
     private SharedPreferences sharedPreferences;
@@ -74,6 +74,7 @@ public class Cart_screen extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         imgBack = findViewById(R.id.imgBackCart);
+        llnot = findViewById(R.id.llnot);
         recyclerViewCart = findViewById(R.id.recyclerViewCart);
         checkBoxSelectAll = findViewById(R.id.checkBoxSelectAll);
         TotalPayment = findViewById(R.id.tvTotalPayment);
@@ -252,8 +253,12 @@ public class Cart_screen extends AppCompatActivity {
                     if (cartItems.isEmpty()) {
                         // Xử lý khi danh sách trống
                         Log.d("CartScreen", "Giỏ hàng trống");
-                        recyclerViewCart.setAdapter(null); // Xóa adapter nếu không có dữ liệu
-                       // emptyCartTextView.setVisibility(View.VISIBLE); // Hiển thị thông báo
+                        swipeRefreshLayout.setVisibility(View.GONE);
+                        llnot.setVisibility(View.VISIBLE);
+                        tvVoucher.setEnabled(false);
+                        checkBoxSelectAll.setEnabled(false);
+                        btnCheckout.setEnabled(false);
+
                     } else {
                         // Xử lý khi có dữ liệu
                         Log.d("CartScreen", "Cart items retrieved: " + cartItems.size());
@@ -268,9 +273,11 @@ public class Cart_screen extends AppCompatActivity {
                         setupItemTouchHelper();
                     }
                 } else {
-                    Log.e("CartScreen", "Lỗi: " + response.message());
-                   // emptyCartTextView.setVisibility(View.VISIBLE); // Hiển thị thông báo
-                    recyclerViewCart.setAdapter(null); // Xóa adapter
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
+                    tvVoucher.setEnabled(false);
+                    checkBoxSelectAll.setEnabled(false);
+                    btnCheckout.setEnabled(false);
                 }
             }
             @Override

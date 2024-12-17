@@ -49,6 +49,7 @@ public class GetGoodsFragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private LinearLayout llnot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class GetGoodsFragment extends Fragment {
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
+        llnot = view.findViewById(R.id.llnot);
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
@@ -143,14 +144,16 @@ public class GetGoodsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setVisibility(View.GONE);
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -36,6 +37,7 @@ public class Confirm_Fragment extends Fragment {
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
+    private LinearLayout llnot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +46,7 @@ public class Confirm_Fragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
+        llnot = view.findViewById(R.id.llnot);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -91,7 +93,8 @@ public class Confirm_Fragment extends Fragment {
                         }
                     } else {
                         Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.setVisibility(View.GONE);
+                        llnot.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -101,7 +104,8 @@ public class Confirm_Fragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
         });

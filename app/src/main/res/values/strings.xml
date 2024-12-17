@@ -344,8 +344,10 @@
     <string name="enter_new1_password">Nhập lại mật khẩu mới</string>
     <string name="set_as_default_address">Đặt làm địa chỉ mặc định</string>
     <string name="enter_shop_voucher_code">Nhập mã shop voucher</string>
-
-
+    <string name="the_shopping_cart_has_no_products">Giỏ hàng không có sản phẩm</string>
+    <string name="the_favorite_cart_has_no_products">Không có sản phẩm yêu thích</string>
+    <string name="no_order">Bạn chưa có đơn hàng nào</string>
+    <string name="no_feedback">Bạn chưa có đánh giá nào</string>
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
         <item>Giá cao - thấp</item>
@@ -381,7 +383,6 @@
         <item>Tháng 11</item>
         <item>Tháng 12</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
