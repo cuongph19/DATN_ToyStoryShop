@@ -342,6 +342,7 @@
     <string name="enter_new_password">Nhập mật khẩu mới</string>
     <string name="enter_new1_password">Nhập lại mật khẩu mới</string>
     <string name="set_as_default_address">Đặt làm địa chỉ mặc định</string>
+    <string name="enter_shop_voucher_code">Nhập mã shop voucher</string>
 
 
     <string-array name="sort_options">
