@@ -493,7 +493,6 @@ public class Product_detail extends AppCompatActivity {
                     currentQuantity--;
                     quantityText.setText(String.valueOf(currentQuantity));
 
-                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -502,10 +501,12 @@ public class Product_detail extends AppCompatActivity {
         btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentQuantity++;
-                quantityText.setText(String.valueOf(currentQuantity));
-
-                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
+                if (currentQuantity < quantity) { // Kiểm tra giới hạn không vượt quá tồn kho
+                    currentQuantity++;
+                    quantityText.setText(String.valueOf(currentQuantity));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Số lượng không được vượt quá kho (" + quantity + " sản phẩm)", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.color_options, android.R.layout.simple_spinner_item);
@@ -540,9 +541,12 @@ public class Product_detail extends AppCompatActivity {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAndAddToCart(productId, documentId);
-
-                dialog.dismiss();
+                if (currentQuantity > quantity) { // Kiểm tra lần cuối trước khi thêm vào giỏ
+                    Toast.makeText(getApplicationContext(), "Số lượng vượt quá tồn kho!", Toast.LENGTH_SHORT).show();
+                } else {
+                    checkAndAddToCart(productId, documentId); // Hàm xử lý thêm vào giỏ
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -668,18 +672,30 @@ public class Product_detail extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     JsonObject jsonResponse = response.body();
+
                     String cartId = jsonResponse.get("cartId").getAsString();
                     String prodSpecification = jsonResponse.get("prodSpecification").getAsString();
-                    int quantity = Integer.parseInt(jsonResponse.get("quantity").getAsString());
-                    // Xử lý với _id của cart
-                    if (!prodSpecification.equals(selectedColor)) {
-                        // Gọi hàm addToCart() nếu khác nhau
-                        addToCart();
+                    int currentCartQuantity = Integer.parseInt(jsonResponse.get("quantity").getAsString());
 
+                    // Tính tổng số lượng mới sau khi thêm
+                    int updatedQuantity = currentQuantity + currentCartQuantity;
+
+                    if (!prodSpecification.equals(selectedColor)) {
+                        // Nếu thông số sản phẩm khác, thêm vào giỏ hàng như một item mới
+                        addToCart();
                     } else {
-                        int updatedQuantity = currentQuantity + quantity;
-                        updateCartItem(apiService, cartId, prodSpecification, updatedQuantity);
-                        // cộng tổng số lượng sản phẩm và cập nhâp
+                        // Kiểm tra tổng số lượng có vượt quá tồn kho hay không
+                        if (updatedQuantity > quantity) {
+                            Toast.makeText(Product_detail.this,
+                                    "Tổng số lượng vượt quá tồn kho! Tồn kho: " + quantity,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Cập nhật số lượng trong giỏ hàng
+                            updateCartItem(apiService, cartId, prodSpecification, updatedQuantity);
+                            Toast.makeText(Product_detail.this,
+                                    "Cập nhật giỏ hàng thành công! Số lượng mới: " + updatedQuantity,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Log.e("CartCheck", "Không thể lấy _id của cart! Response: " + response.code());
@@ -694,6 +710,7 @@ public class Product_detail extends AppCompatActivity {
             }
         });
     }
+
 
     private void addFavorite() {
         Favorite_Model favoriteModel = new Favorite_Model(null, productId, documentId);
