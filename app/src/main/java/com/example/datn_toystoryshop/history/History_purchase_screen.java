@@ -3,61 +3,67 @@ package com.example.datn_toystoryshop.history;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
+import com.example.datn_toystoryshop.History_purchase.Canceled_Fragment;
+import com.example.datn_toystoryshop.History_purchase.Confirm_Fragment;
+import com.example.datn_toystoryshop.History_purchase.Delivered_Fragment;
+import com.example.datn_toystoryshop.History_purchase.Delivery_Fragment;
+import com.example.datn_toystoryshop.History_purchase.GetGoods_Fragment;
+import com.example.datn_toystoryshop.History_purchase.ReturnGoods_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
-import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Register_login.Forgot_pass;
-import com.example.datn_toystoryshop.Register_login.SignIn_screen;
-import com.example.datn_toystoryshop.Server.APIService;
-import com.example.datn_toystoryshop.Server.RetrofitClient;
-import com.example.datn_toystoryshop.Shopping.Favorite_screen;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class History_purchase_screen extends AppCompatActivity {
-    private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-    private Spinner spinnerMonth, spinnerYear;
-    private RecyclerView rvOrderHistory;
-    private Order_History_Purchase_Adapter adapter;
-    private List<Order_Model> orderList = new ArrayList<>();
-    private List<Order_Model> filteredOrderList = new ArrayList<>();
+    private HorizontalScrollView horizontalScrollView;
     private String documentId;
     private ImageView imgBack;
-    private LinearLayout history_cancel;
+    private LinearLayout confirm, get_goods, delivery, return_goods, delivered, canceled;
+    private TextView confirmText, getGoodsText, deliveryText, return_goodsText, deliveredText, canceledText;
+    private View confirmView, getGoodsView, deliveryView, return_goodsView, deliveredView, canceledView;
+    private ViewPager2 viewPager;
+    private FragmentStateAdapter fragmentStateAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_purchase_screen);
 
-        spinnerMonth = findViewById(R.id.spinnerMonth);
-        spinnerYear = findViewById(R.id.spinnerYear);
-        rvOrderHistory = findViewById(R.id.rvOrderHistory);
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        imgBack = findViewById(R.id.ivBack);
-        history_cancel = findViewById(R.id.history_cancel);
+        confirm = findViewById(R.id.confirm);
+        get_goods = findViewById(R.id.get_goods);
+        delivery = findViewById(R.id.delivery);
+        return_goods = findViewById(R.id.return_goods);
+        horizontalScrollView = findViewById(R.id.horizontalScrollView);
+        delivered = findViewById(R.id.delivered);
+        canceled = findViewById(R.id.canceled);
+        confirmText = findViewById(R.id.confirmText);
+        getGoodsText = findViewById(R.id.getGoodsText);
+        deliveryText = findViewById(R.id.deliveryText);
+        return_goodsText = findViewById(R.id.return_goodsText);
+        deliveredText = findViewById(R.id.deliveredText);
+        canceledText = findViewById(R.id.canceledText);
+        confirmView = findViewById(R.id.confirmView);
+        getGoodsView = findViewById(R.id.getGoodsView);
+        deliveryView = findViewById(R.id.deliveryView);
+        return_goodsView = findViewById(R.id.return_goodsView);
+        deliveredView = findViewById(R.id.deliveredView);
+        canceledView = findViewById(R.id.canceledView);
+        viewPager = findViewById(R.id.viewPager);
 
+
+        imgBack = findViewById(R.id.ivBack);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         if (nightMode) {
@@ -66,149 +72,166 @@ public class History_purchase_screen extends AppCompatActivity {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
 
+
+
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
 
         imgBack.setOnClickListener(v -> onBackPressed());
-        history_cancel.setOnClickListener(view -> {
-            Intent intent1 = new Intent(History_purchase_screen.this, history_cancel_screen.class);
-            intent1.putExtra("documentId", documentId);
-            startActivity(intent1);
-        });
 
-        // Thiết lập Spinner
-        setUpSpinners();
-
-        // Cấu hình RecyclerView và Adapter
-        APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_History_Purchase_Adapter(this, filteredOrderList, apiService,documentId);
-        rvOrderHistory.setAdapter(adapter);
-        rvOrderHistory.setLayoutManager(new LinearLayoutManager(this));
-
-        // Lấy dữ liệu từ API
-        fetchOrders();
-
-        // Xử lý sự kiện chọn Spinner
-        spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        horizontalScrollView.post(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterOrders();
+            public void run() {
+                // Lấy vị trí của delivered trong HorizontalScrollView
+                int scrollToX = delivered.getLeft();
+                horizontalScrollView.smoothScrollTo(scrollToX, 0); // Cuộn mượt đến LinearLayout "delivered"
+            }
+        });
+        // Cài đặt ViewPager2 và FragmentStateAdapter
+        fragmentStateAdapter = new FragmentStateAdapter(getSupportFragmentManager(), getLifecycle()) {
+            @Override
+            public Fragment createFragment(int position) {
+                Fragment fragment;
+                switch (position) {
+                    case 0:
+                        fragment = new Confirm_Fragment();
+                        break;
+                    case 1:
+                        fragment = new GetGoods_Fragment();
+                        break;
+                    case 2:
+                        fragment = new Delivery_Fragment();
+                        break;
+                    case 3:
+                        fragment = new ReturnGoods_Fragment();
+                        break;
+                    case 4:
+                        fragment = new Delivered_Fragment();
+                        break;
+                    case 5:
+                        fragment = new Canceled_Fragment();
+                        break;
+                    default:
+                        fragment = new Delivered_Fragment();
+                }
+                if (documentId != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("documentId", documentId);
+                    fragment.setArguments(bundle);
+                }
+                return fragment;
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterOrders();
+            public int getItemCount() {
+                return 6; // Số lượng Fragment
             }
+        };
 
+        viewPager.setAdapter(fragmentStateAdapter);
+
+        // Đồng bộ tab và ViewPager2
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                switch (position) {
+                    case 0:
+                        highlightTextView(confirmText);
+                        break;
+                    case 1:
+                        highlightTextView(getGoodsText);
+                        break;
+                    case 2:
+                        highlightTextView(deliveryText);
+                        break;
+                    case 3:
+                        highlightTextView(return_goodsText);
+                        break;
+                    case 4:
+                        highlightTextView(deliveredText);
+                        break;
+                    case 5:
+                        highlightTextView(canceledText);
+                        break;
+                }
+                LinearLayout targetLayout = null;
+                switch (position) {
+                    case 0: targetLayout = confirm; break;
+                    case 1: targetLayout = get_goods; break;
+                    case 2: targetLayout = delivery; break;
+                    case 3: targetLayout = return_goods; break;
+                    case 4: targetLayout = delivered; break;
+                    case 5: targetLayout = canceled; break;
+                }
 
-        swipeRefreshLayout.setOnRefreshListener(() -> fetchOrders());
-    }
-
-    private void setUpSpinners() {
-        // Thiết lập Adapter cho Spinner tháng
-        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.months_array,
-                android.R.layout.simple_spinner_item
-        );
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMonth.setAdapter(monthAdapter);
-
-        // Thiết lập Adapter cho Spinner năm
-        ArrayList<String> years = new ArrayList<>();
-        for (int i = 2024; i <= 2030; i++) {
-            years.add(String.valueOf(i));
-        }
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                years
-        );
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerYear.setAdapter(yearAdapter);
-    }
-
-    private void fetchOrders() {
-        if (documentId == null || documentId.isEmpty()) {
-            Log.e("HistoryPurchase", "documentId không được để trống");
-            return;
-        }
-
-        APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_successful(documentId);
-        call.enqueue(new Callback<List<Order_Model>>() {
-            @Override
-            public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
-                swipeRefreshLayout.setRefreshing(false);
-                if (response.isSuccessful() && response.body() != null) {
-                    orderList.clear();
-                    orderList.addAll(response.body());
-                    filteredOrderList.clear();
-                    filteredOrderList.addAll(orderList);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(History_purchase_screen.this, "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                if (targetLayout != null) {
+                    final LinearLayout finalTargetLayout = targetLayout;
+                    horizontalScrollView.post(() -> {
+                        int scrollToX = finalTargetLayout.getLeft() - (horizontalScrollView.getWidth() / 2) + (finalTargetLayout.getWidth() / 2);
+                        horizontalScrollView.smoothScrollTo(scrollToX, 0);
+                    });
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(History_purchase_screen.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
         });
+
+        // Đặt sự kiện click cho các tab
+        setupTab(confirm, 0);
+        setupTab(get_goods, 1);
+        setupTab(delivery, 2);
+        setupTab(return_goods, 3);
+        setupTab(delivered, 4);
+        setupTab(canceled, 5);
+
+        // Đặt ViewPager mặc định hiển thị "Delivered"
+        viewPager.setCurrentItem(4, false);
+        highlightTextView(deliveredText);
     }
 
-    private void filterOrders() {
-        String selectedMonth = spinnerMonth.getSelectedItem().toString();
-        String selectedYear = spinnerYear.getSelectedItem().toString();
+    private void setupTab(LinearLayout layout, int position) {
+        layout.setOnClickListener(v -> viewPager.setCurrentItem(position, true));
+    }
 
-        if (selectedMonth.equals("...")) {
-            filteredOrderList.clear();
-            filteredOrderList.addAll(orderList);
-        } else {
-            String monthNumber = convertMonthNameToNumber(selectedMonth);
-            filteredOrderList.clear();
+    private void highlightTextView(TextView textView) {
+        confirmView.setVisibility(View.GONE);
+        getGoodsView.setVisibility(View.GONE);
+        deliveryView.setVisibility(View.GONE);
+        return_goodsView.setVisibility(View.GONE);
+        deliveredView.setVisibility(View.GONE);
+        canceledView.setVisibility(View.GONE);
 
-            for (Order_Model order : orderList) {
-                String orderDate = order.getOrderDate();
-                String orderMonth = orderDate.substring(5, 7);
-                String orderYear = orderDate.substring(0, 4);
+        confirmText.setTextColor(getResources().getColor(android.R.color.black));
+        getGoodsText.setTextColor(getResources().getColor(android.R.color.black));
+        deliveryText.setTextColor(getResources().getColor(android.R.color.black));
+        return_goodsText.setTextColor(getResources().getColor(android.R.color.black));
+        deliveredText.setTextColor(getResources().getColor(android.R.color.black));
+        canceledText.setTextColor(getResources().getColor(android.R.color.black));
 
-                if (orderMonth.equals(monthNumber) && orderYear.equals(selectedYear)) {
-                    filteredOrderList.add(order);
-                }
-            }
+        confirmText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+        getGoodsText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+        deliveryText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+        return_goodsText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+        deliveredText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+        canceledText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+
+        if (textView == confirmText) {
+            confirmView.setVisibility(View.VISIBLE);
+        } else if (textView == getGoodsText) {
+            getGoodsView.setVisibility(View.VISIBLE);
+        } else if (textView == deliveryText) {
+            deliveryView.setVisibility(View.VISIBLE);
+        } else if (textView == return_goodsText) {
+            return_goodsView.setVisibility(View.VISIBLE);
+        } else if (textView == deliveredText) {
+            deliveredView.setVisibility(View.VISIBLE);
+        } else if (textView == canceledText) {
+            canceledView.setVisibility(View.VISIBLE);
         }
 
-        adapter.notifyDataSetChanged();
+        textView.setTextColor(getResources().getColor(R.color.highlight_color));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
     }
 
-    private String convertMonthNameToNumber(String monthName) {
-        switch (monthName) {
-            case "Tháng 1": return "01";
-            case "Tháng 2": return "02";
-            case "Tháng 3": return "03";
-            case "Tháng 4": return "04";
-            case "Tháng 5": return "05";
-            case "Tháng 6": return "06";
-            case "Tháng 7": return "07";
-            case "Tháng 8": return "08";
-            case "Tháng 9": return "09";
-            case "Tháng 10": return "10";
-            case "Tháng 11": return "11";
-            case "Tháng 12": return "12";
-            default: return "01";
-        }
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(History_purchase_screen.this, Home_screen.class);
@@ -217,5 +240,4 @@ public class History_purchase_screen extends AppCompatActivity {
         finish();
         super.onBackPressed();
     }
-
 }
