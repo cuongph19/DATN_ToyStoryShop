@@ -11,11 +11,16 @@ const VoucherSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    quantity_voucher : {
+    type_voucher:{
         type: String,
-       // enum: ['Giảm giá vận chuyển', 'Giảm giá sản phẩm'],
-        required: true
+        // enum: ['Giảm giá vận chuyển', 'Giảm giá sản phẩm'],
+         required: true
     },
+    quantity_voucher : {
+        type: Number,
+        required: true 
+    },
+
 });
 
 // Khởi tạo model cho Cart

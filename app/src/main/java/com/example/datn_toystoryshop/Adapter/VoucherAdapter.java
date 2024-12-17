@@ -3,14 +3,18 @@ package com.example.datn_toystoryshop.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Model.Voucher;
+import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
 
 import java.util.List;
@@ -41,13 +45,19 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
 
         Voucher voucher = voucherList.get(index);
 
-        holder.voucherPrice.setText("đ" + voucher.getPriceReduced() / 1000 + "k");
+        holder.voucherPrice.setText("đ" + voucher.getPrice_reduced() / 1000 + "k");
         holder.minimumPrice.setText("Đơn tối thiểu 0đ");
+
+        if (voucher.getQuantity_voucher() == 0) {
+            holder.radioButton.setEnabled(false);
+            holder.llfull.setAlpha(0.5f);
+            holder.out_of_stock_overlay.setVisibility(View.VISIBLE);
+        }
         holder.voucherDescription.setText("Giảm tối đa");
 
-        if (voucher.getQuantityVoucher().equals("Giảm giá sản phẩm")) {
+        if (voucher.getType_voucher().equals("Giảm giá sản phẩm")) {
             holder.icon.setImageResource(R.drawable.ic_logo);
-        } else if (voucher.getQuantityVoucher().equals("Giảm giá vận chuyển")) {
+        } else if (voucher.getType_voucher().equals("Giảm giá vận chuyển")) {
             holder.icon.setImageResource(R.drawable.ic_logo);
         }
 
@@ -100,7 +110,9 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
     static class VoucherViewHolder extends RecyclerView.ViewHolder {
         TextView voucherPrice, voucherDescription, minimumPrice;
         ImageView icon;
+        LinearLayout llfull;
         RadioButton radioButton;
+        FrameLayout out_of_stock_overlay;
 
         public VoucherViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +121,9 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
             minimumPrice = itemView.findViewById(R.id.minimunPrice);
             icon = itemView.findViewById(R.id.icon);
             radioButton = itemView.findViewById(R.id.radio_button);
+            llfull = itemView.findViewById(R.id.llfull);
+            out_of_stock_overlay = itemView.findViewById(R.id.out_of_stock_overlay);
+
         }
     }
 

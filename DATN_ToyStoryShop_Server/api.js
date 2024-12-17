@@ -1148,13 +1148,13 @@ router.get('/vouchers', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
 
-        // Lấy tất cả các voucher từ database và loại bỏ khoảng trắng ở đầu và cuối của trường `quantity_voucher`
-        const vouchers = await VoucherModel.find({}, '_id price_reduced quantity_voucher discount_code');
+        // Lấy tất cả các voucher từ database và loại bỏ khoảng trắng ở đầu và cuối của trường `type_voucher`
+        const vouchers = await VoucherModel.find({}, '_id price_reduced discount_code type_voucher quantity_voucher');
 
-        // Loại bỏ khoảng trắng thừa trong trường `quantity_voucher` trước khi trả về
+        // Loại bỏ khoảng trắng thừa trong trường `type_voucher` trước khi trả về
         const cleanedVouchers = vouchers.map(voucher => {
-            // Trim khoảng trắng ở đầu và cuối của `quantity_voucher`
-            voucher.quantity_voucher = voucher.quantity_voucher.trim();
+            // Trim khoảng trắng ở đầu và cuối của `type_voucher`
+            voucher.type_voucher = voucher.type_voucher.trim();
             return voucher;
         });
 
@@ -1166,6 +1166,36 @@ router.get('/vouchers', async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi lấy mã giảm giá.', error);
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy mã giảm giá.' });
+    }
+});
+router.put('/update/vouchers/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await mongoose.connect(server.uri);
+
+        // Trừ 1 vào quantity_voucher
+        const updatedVoucher = await VoucherModel.findByIdAndUpdate(
+            id,
+            { $inc: { quantity_voucher: -1 } }, // Giảm 1
+            { new: true } // Trả về document đã cập nhật
+        );
+
+        if (!updatedVoucher) {
+            return res.status(404).json({ error: 'Voucher không tồn tại.' });
+        }
+
+        if (updatedVoucher.quantity_voucher < 0) {
+            return res.status(400).json({ error: 'Không thể trừ thêm, số lượng voucher đã hết.' });
+        }
+
+        res.json({
+            message: 'Đã cập nhật số lượng voucher.',
+            voucher: updatedVoucher
+        });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật số lượng voucher.', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật voucher.' });
     }
 });
 

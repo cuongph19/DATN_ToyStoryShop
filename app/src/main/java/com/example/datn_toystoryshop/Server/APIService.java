@@ -166,6 +166,9 @@ public interface APIService {
     @GET("api/voucher/{discount_code}")
     Call<Voucher> getVoucherByCode(@Path("discount_code") String discountCode);
 
+    @PUT("api/update/vouchers/{id}")
+    Call<Voucher> updateVoucherQuantity(@Path("id") String voucherId);
+
     @GET("/api/addresses")
     Call<List<Address_model>> getAllAddresses(@Query("cusId") String cusId);
 

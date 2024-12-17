@@ -3,46 +3,61 @@ package com.example.datn_toystoryshop.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Voucher {
-
-    @SerializedName("quantity_voucher")  // Đảm bảo rằng tên trường trùng với tên trong MongoDB
-    private String quantityVoucher;
-
-    @SerializedName("price_reduced")
-    private int priceReduced;
-
-    @SerializedName("discount_code")
-    private String discountCode;
+    private String _id;
+    private String type_voucher;
+    private int quantity_voucher;
+    private int price_reduced;
+    private String discount_code;
     private boolean isSelected; // Thêm thuộc tính isSelected
 
-    public Voucher(String quantityVoucher, int priceReduced, String discountCode, boolean isSelected) {
-        this.quantityVoucher = quantityVoucher;
-        this.priceReduced = priceReduced;
-        this.discountCode = discountCode;
-        this.isSelected = false;
+
+    public Voucher(String _id, String type_voucher, int quantity_voucher, int price_reduced, String discount_code, boolean isSelected) {
+        this._id = _id;
+        this.type_voucher = type_voucher;
+        this.quantity_voucher = quantity_voucher;
+        this.price_reduced = price_reduced;
+        this.discount_code = discount_code;
+        this.isSelected = isSelected;
     }
 
-    public String getQuantityVoucher() {
-        return quantityVoucher;
+    public String get_id() {
+        return _id;
     }
 
-    public void setQuantityVoucher(String quantityVoucher) {
-        this.quantityVoucher = quantityVoucher;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public int getPriceReduced() {
-        return priceReduced;
+    public String getType_voucher() {
+        return type_voucher;
     }
 
-    public void setPriceReduced(int priceReduced) {
-        this.priceReduced = priceReduced;
+    public void setType_voucher(String type_voucher) {
+        this.type_voucher = type_voucher;
     }
 
-    public String getDiscountCode() {
-        return discountCode;
+    public int getQuantity_voucher() {
+        return quantity_voucher;
     }
 
-    public void setDiscountCode(String discountCode) {
-        this.discountCode = discountCode;
+    public void setQuantity_voucher(int quantity_voucher) {
+        this.quantity_voucher = quantity_voucher;
+    }
+
+    public int getPrice_reduced() {
+        return price_reduced;
+    }
+
+    public void setPrice_reduced(int price_reduced) {
+        this.price_reduced = price_reduced;
+    }
+
+    public String getDiscount_code() {
+        return discount_code;
+    }
+
+    public void setDiscount_code(String discount_code) {
+        this.discount_code = discount_code;
     }
 
     public boolean isSelected() {

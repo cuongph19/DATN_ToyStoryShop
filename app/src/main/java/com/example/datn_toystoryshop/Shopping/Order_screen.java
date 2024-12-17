@@ -34,6 +34,7 @@ import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.Model.Voucher;
 import com.example.datn_toystoryshop.PayPalActivity;
 import com.example.datn_toystoryshop.Profile.Terms_Conditions_screen;
 import com.example.datn_toystoryshop.R;
@@ -65,7 +66,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private EditText tvLeaveMessage;
     private RecyclerView recyclerView;
     private Handler handler = new Handler();
-    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId, email_confirm;
+    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId, email_confirm,voucherId;
     private double totalProductDiscount = 0, totalShipDiscount = 0, totalAmount, moneyPay, shippingCost = 40000;
     private int currentImageIndex = 0, currentQuantity, quantity, quantity1;
     private boolean isFavorite = false, nightMode;
@@ -323,6 +324,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Nhận dữ liệu từ màn hình Voucher
                     totalProductDiscount = data.getDoubleExtra("totalProductDiscount", 0.0);
                     totalShipDiscount = data.getDoubleExtra("totalShipDiscount", 0.0);
+                    voucherId = data.getStringExtra("voucherId");
                     //set gạch ngang cho giá cũ
                     String text = String.format("%,.0fđ", shippingCost);
                     SpannableString spannableString = new SpannableString(text);
@@ -354,7 +356,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Nhận dữ liệu từ màn hình phương thức vận chuyển
                     String shipping_price = data.getStringExtra("shipping_price");
                     String shipping_method = data.getStringExtra("shipping_method");
-
                     if (totalShipDiscount != 0) {
                         new_price.setVisibility(View.VISIBLE);
                         // Tính giá mới và set cho new_price
@@ -473,6 +474,15 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+                    if (voucherId != null ) {
+                        String[] voucherIds = voucherId.split(",");
+
+                        // Gọi hàm updateVoucherQuantity cho từng voucherId
+                        for (String id : voucherIds) {
+                            if (id != null && !id.trim().isEmpty()) {
+                                updateVoucherQuantity(id); // Gọi hàm update cho mỗi voucherId
+                            }
+                        }                    }
                     if (email_confirm != null && !email_confirm.isEmpty()) {
                         fetchProductById(productId, new OnProductFetchedListener() {
                             @Override
@@ -628,6 +638,17 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+                    if (voucherId != null) {
+                        String[] voucherIds = voucherId.split(",");
+
+                        // Gọi hàm updateVoucherQuantity cho từng voucherId
+                        for (String id : voucherIds) {
+                            if (id != null && !id.trim().isEmpty()) {
+                                updateVoucherQuantity(id); // Gọi hàm update cho mỗi voucherId
+                            }
+                        }
+                    }
+
                     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     Log.d("CartScreen", "Danh sách sản phẩm: " + productIds);
                     for (String cartId : productIds) {
@@ -825,4 +846,30 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
+    public void updateVoucherQuantity(String voucherId) {
+        // Lấy instance của APIService
+        APIService apiService = RetrofitClient.getAPIService();
+        Log.d("Voucher Update", "Số lượng còn lại:id3 " + voucherId);
+        // Gửi yêu cầu đến server
+        Call<Voucher> call = apiService.updateVoucherQuantity(voucherId);
+        call.enqueue(new Callback<Voucher>() {
+            @Override
+            public void onResponse(Call<Voucher> call, Response<Voucher> response) {
+                if (response.isSuccessful()) {
+                    Voucher updatedVoucher = response.body();
+                    if (updatedVoucher != null) {
+                        // Xử lý kết quả trả về, ví dụ:
+                    }
+                } else {
+                    Log.e("Voucher Update", "Không thể cập nhật voucher: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Voucher> call, Throwable t) {
+                Log.e("Voucher Update", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
 }
