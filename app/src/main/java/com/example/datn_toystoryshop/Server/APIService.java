@@ -36,8 +36,8 @@ public interface APIService {
 
 
     // Địa chỉ IP server
-//    String SERVER_IP = "192.168.16.101";// cương
-    String SERVER_IP = "192.168.1.15";// huy
+    String SERVER_IP = "192.168.16.101";// cương
+   // String SERVER_IP = "192.168.1.15";// huy
    // String SERVER_IP = "192.168.101.10.101";// đức
 
 
@@ -79,10 +79,6 @@ public interface APIService {
     @GET("/api/other")
     Call<List<Product_Model>> getOther();
 
-    @GET("/api/art-story")
-    Call<List<Product_Model>> getArtStory();
-
-    ///
     @GET("/api/favorites")
     Call<List<Favorite_Model>> getFavorites(@Query("cusId") String cusId);
 
@@ -185,8 +181,8 @@ public interface APIService {
     @GET("/api/addresses")
     Call<List<Address_model>> getAllAddresses(@Query("cusId") String cusId);
 
-    @GET("/api/addresses/{id}")
-    Call<Address_model> getAddressById(@Path("id") String addressId);
+//    @GET("/api/addresses/{id}")
+//    Call<Address_model> getAddressById(@Path("id") String addressId);
 
     @POST("/api/add/addresses")
     Call<Address_model> addAddress(@Body Address_model address);

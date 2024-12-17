@@ -49,6 +49,8 @@ public class ConfirmFragment extends Fragment {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private LinearLayout llnot;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm, container, false);
@@ -57,7 +59,7 @@ public class ConfirmFragment extends Fragment {
         spinnerYear = view.findViewById(R.id.spinnerYear);
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
+        llnot = view.findViewById(R.id.llnot);
         sharedPreferences = requireContext().getSharedPreferences("Settings", requireContext().MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
 
@@ -151,8 +153,8 @@ public class ConfirmFragment extends Fragment {
                         }
                     } else {
                         Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
-
+                        swipeRefreshLayout.setVisibility(View.GONE);
+                        llnot.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -161,7 +163,8 @@ public class ConfirmFragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -97,7 +97,7 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
                     @Override
                     public void onClick(View v) {
                         deleteFavorite(favorite.getProdId(), holder);
-
+                        Log.e("FavoriteAdapter", "hhhhhhhhhhhhhhh " + favorite.getProdId());
                         holder.heartIcon.setColorFilter(Color.parseColor("#A09595"));
                         // Nếu bạn muốn thêm hiệu ứng thì có thể thêm logic ở đây
                     }
@@ -161,7 +161,6 @@ public class Favorite_Adapter extends RecyclerView.Adapter<Favorite_Adapter.Favo
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Xóa sản phẩm yêu thích thành công
-                    holder.heartIcon.setColorFilter(Color.parseColor("#A09595")); // Chỉnh màu trái tim
                     favoriteList.remove(holder.getAdapterPosition()); // Xóa sản phẩm khỏi danh sách hiển thị
                     notifyItemRemoved(holder.getAdapterPosition()); // Cập nhật RecyclerView
                     notifyItemRangeChanged(holder.getAdapterPosition(), favoriteList.size()); // Cập nhật lại vị trí của các item

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
@@ -34,10 +35,7 @@ public class Canceled_Fragment extends Fragment {
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
-
-    public Canceled_Fragment() {
-
-    }
+    private LinearLayout llnot;
 
 
     @Override
@@ -48,6 +46,7 @@ public class Canceled_Fragment extends Fragment {
         // Khởi tạo các thành phần UI
         rvOrderHistory = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        llnot = view.findViewById(R.id.llnot);
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
@@ -88,6 +87,8 @@ public class Canceled_Fragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(requireContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -95,6 +96,8 @@ public class Canceled_Fragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setVisibility(View.GONE);
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }

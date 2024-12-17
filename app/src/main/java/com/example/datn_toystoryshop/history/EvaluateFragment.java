@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.example.datn_toystoryshop.Adapter.FeedbackAdapter;
@@ -37,6 +38,7 @@ public class EvaluateFragment extends Fragment {
     private List<Product_feedback> filteredOrderList = new ArrayList<>();
     private String documentId;
     private APIService apiService;
+    private LinearLayout llnot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class EvaluateFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
+        llnot = view.findViewById(R.id.llnot);
         Bundle bundle = getArguments();
         if (bundle != null) {
             documentId = bundle.getString("documentId");
@@ -83,7 +85,8 @@ public class EvaluateFragment extends Fragment {
                     }
                 } else {
                     Log.e("EvaluateFragment", "Failed to load product details");
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    llnot.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -91,7 +94,8 @@ public class EvaluateFragment extends Fragment {
             public void onFailure(Call<List<Product_feedback>> call, Throwable t) {
                 Log.e("EvaluateFragment", "Error: " + t.getMessage());
                 t.printStackTrace();
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setVisibility(View.GONE);
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }

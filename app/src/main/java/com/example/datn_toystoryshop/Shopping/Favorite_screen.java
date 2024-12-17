@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Favorite_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -33,6 +35,7 @@ public class Favorite_screen extends AppCompatActivity {
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
+    private LinearLayout llnot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +51,18 @@ public class Favorite_screen extends AppCompatActivity {
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            loadFavoriteProducts(); // Gọi lại API để làm mới danh sách
-        });
-        loadFavoriteProducts();
         imgBack = findViewById(R.id.btnBack);
+        llnot = findViewById(R.id.llnot);
         if (nightMode) {
             imgBack.setImageResource(R.drawable.back_icon);
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
         imgBack.setOnClickListener(v -> onBackPressed());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadFavoriteProducts(); // Gọi lại API để làm mới danh sách
+        });
+        loadFavoriteProducts();
     }
 
     private void loadFavoriteProducts() {
@@ -74,11 +78,21 @@ public class Favorite_screen extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Favorite_Model>> call, Response<List<Favorite_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    Log.d("FavoriteScreen", "Favorites retrieved: " + response.body().size());
-                    favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService, documentId);
-                    recyclerViewFavorites.setAdapter(favoriteAdapter);
-                }
+                    List<Favorite_Model> favoriteItems = response.body();
+                    if (favoriteItems.isEmpty()) {
+                        // Xử lý khi danh sách trống
+                        swipeRefreshLayout.setVisibility(View.GONE);
+                        llnot.setVisibility(View.VISIBLE);
+                    } else {
+
+                        Log.d("FavoriteScreen", "Favorites retrieved: " + response.body().size());
+                        favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService, documentId);
+                        recyclerViewFavorites.setAdapter(favoriteAdapter);
+                    }
+                }  else {
+                        swipeRefreshLayout.setVisibility(View.GONE);
+                        llnot.setVisibility(View.VISIBLE);
+                    }
             }
 
             @Override
