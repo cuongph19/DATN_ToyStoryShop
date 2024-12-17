@@ -11,10 +11,10 @@ public class Voucher {
     private int priceReduced;
 
     @SerializedName("discount_code")
-    private int discountCode;
+    private String discountCode;
     private boolean isSelected; // Thêm thuộc tính isSelected
 
-    public Voucher(String quantityVoucher, int priceReduced, int discountCode, boolean isSelected) {
+    public Voucher(String quantityVoucher, int priceReduced, String discountCode, boolean isSelected) {
         this.quantityVoucher = quantityVoucher;
         this.priceReduced = priceReduced;
         this.discountCode = discountCode;
@@ -37,11 +37,11 @@ public class Voucher {
         this.priceReduced = priceReduced;
     }
 
-    public int getDiscountCode() {
+    public String getDiscountCode() {
         return discountCode;
     }
 
-    public void setDiscountCode(int discountCode) {
+    public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
     }
 
