@@ -36,36 +36,36 @@
     <!-- Ảnh hoặc banner quảng cáo -->
     <ImageView
         android:id="@+id/imgBanner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="228dp"
+        android:layout_height="255dp"
         android:layout_marginBottom="20dp"
-        android:background="#001A61"
+        android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_google" /> <!-- Nền banner có màu chủ đạo -->
+        android:src="@drawable/ic_logoa" /> <!-- Nền banner có màu chủ đạo -->
 
     <!-- Mã giới thiệu -->
-    <TextView
-        android:id="@+id/tvReferralCodeLabel"
-        style="@style/TEXT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:text="@string/share_referral_code_int"
-        android:textSize="18sp" /> <!-- Màu chủ đạo -->
+<!--    <TextView-->
+<!--        android:id="@+id/tvReferralCodeLabel"-->
+<!--        style="@style/TEXT"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:text="@string/share_referral_code_int"-->
+<!--        android:textSize="18sp" /> &lt;!&ndash; Màu chủ đạo &ndash;&gt;-->
 
-    <TextView
-        android:id="@+id/tvReferralCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:background="#001A61"
-        android:padding="8dp"
-        android:text="TOYSTORY123"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/tvReferralCode"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:background="#001A61"-->
+<!--        android:padding="8dp"-->
+<!--        android:text="TOYSTORY123"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textStyle="bold" />-->
 
     <!-- Hướng dẫn chia sẻ -->
     <TextView

@@ -32,12 +32,12 @@ public class Introduce_Friends_screen extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
 
         imgBack = findViewById(R.id.btnBack);
-        tvReferralCode = findViewById(R.id.tvReferralCode);
+      //  tvReferralCode = findViewById(R.id.tvReferralCode);
         btnShare = findViewById(R.id.btnShare);
 
 
         String referralCode = getRandomReferralCode();
-        tvReferralCode.setText(referralCode);
+     //   tvReferralCode.setText(referralCode);
 
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override

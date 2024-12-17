@@ -47,10 +47,10 @@
     <string name="share_with_friends_int">Chia sẻ với bạn bè qua</string>
     <string name="intro_rewards_int">Giới thiệu &amp; nhận ngay quà ưu đãi</string>
     <string name="share_referral_code_int">Chia sẻ mã giới thiệu của bạn</string>
-    <string name="steps_to_get_rewards_int">Hướng dẫn bạn bè thực hiện qua các bước sau để cả hai nhận quà:</string>
-    <string name="step_1_int">1. Mở ứng dụng ToyStory Shop và chọn mục Giới thiệu.</string>
-    <string name="step_2_int">2. Nhập mã giới thiệu khi đăng ký tài khoản.</string>
-    <string name="step_3_int">3. Sau khi hoàn tất, cả hai bạn sẽ nhận ưu đãi đặc biệt.</string>
+    <string name="steps_to_get_rewards_int">Hướng dẫn bạn bè thực hiện qua các bước sau để nhận quà:</string>
+    <string name="step_1_int">1. Mở ứng dụng ToyStory Shop và thực hiện mua sắm .</string>
+    <string name="step_2_int">2. Nhập mã giới thiệu vào phần mã giảm giá.</string>
+    <string name="step_3_int">3. Có một mã ưu đãi đặc biệt dành cho bạn của bạn.</string>
     <string name="share_button_int">Chia sẻ với bạn bè</string>
 
     <!--  Privacy_Security_screen-->

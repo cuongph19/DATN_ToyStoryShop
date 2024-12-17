@@ -99,9 +99,9 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
                     productVoucherList.clear();
 
                     for (Voucher voucher : response.body()) {
-                        if ("Giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
+                        if ("Giảm giá sản phẩm".equals(voucher.getType_voucher())) {
                             productVoucherList.add(voucher);
-                        } else if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
+                        } else if ("Giảm giá vận chuyển".equals(voucher.getType_voucher())) {
                             shipVoucherList.add(voucher);
                         }
                     }
@@ -146,18 +146,27 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
                 // Tính toán tổng giá trị giảm giá từ các voucher đã chọn
                 double totalProductDiscount = 0;
                 double totalShipDiscount = 0;
+                StringBuilder voucherIdBuilder = new StringBuilder();
                 for (Voucher voucher : selectedVouchers) {
-                    if ("Giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
-                        totalProductDiscount += voucher.getPriceReduced();
-                    } else if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
-                        totalShipDiscount += voucher.getPriceReduced();
+                    if ("Giảm giá sản phẩm".equals(voucher.getType_voucher())) {
+                        totalProductDiscount += voucher.getPrice_reduced();
+                    } else if ("Giảm giá vận chuyển".equals(voucher.getType_voucher())) {
+                        totalShipDiscount += voucher.getPrice_reduced();
                     }
+                    // Nối ID vào chuỗi, thêm dấu phân cách nếu cần
+                    if (voucherIdBuilder.length() > 0) {
+                        voucherIdBuilder.append(","); // Dấu phân cách
+                    }
+                    voucherIdBuilder.append(voucher.get_id());
                 }
+                String voucherId = voucherIdBuilder.toString();
+                Log.e("Product Info", "Không thể lấy tên sản phẩm. "+ voucherId );
 
                 // Chuyển dữ liệu voucher đã chọn về màn hình Order
                 Intent intent = new Intent();
                 intent.putExtra("totalProductDiscount", totalProductDiscount);
                 intent.putExtra("totalShipDiscount", totalShipDiscount);
+                intent.putExtra("voucherId", voucherId);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -184,15 +193,18 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
 
 
                     // Hiển thị Toast với thông tin voucher
-                    if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
-                        totalShipDiscount = voucher.getPriceReduced();
+                    if ("Giảm giá vận chuyển".equals(voucher.getType_voucher())) {
+                        totalShipDiscount = voucher.getPrice_reduced();
                     } else {
-                        totalProductDiscount = voucher.getPriceReduced();
+                        totalProductDiscount = voucher.getPrice_reduced();
                     }
+                    String voucherId = voucher.get_id();
+                    Log.e("Product Info", "Không thể lấy tên sản phẩm. "+ voucherId );
 
                     Intent intent = new Intent();
                     intent.putExtra("totalProductDiscount", totalProductDiscount);
                     intent.putExtra("totalShipDiscount", totalShipDiscount);
+                    intent.putExtra("voucherId", voucherId);
                     setResult(RESULT_OK, intent);
                     finish();
 
