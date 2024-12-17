@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/SCREEN"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
     <!-- Back Button và Title (sử dụng horizontal LinearLayout) -->
     <LinearLayout
@@ -35,39 +40,38 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Voucher Input và Apply Button (sử dụng horizontal LinearLayout) -->
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:orientation="horizontal">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-<!--        &lt;!&ndash; Voucher Input &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/voucher_input"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/bg_input_field"-->
-<!--            android:hint="Nhập mã shop voucher"-->
-<!--            android:padding="8dp"-->
-<!--            android:textColorHint="#4E4E4E" />-->
+        <!-- Voucher Input -->
+        <EditText
+            android:id="@+id/voucher_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_field"
+            android:hint="@string/enter_shop_voucher_code"
+            android:padding="8dp"
+            android:textColorHint="#4E4E4E" />
 
-<!--        &lt;!&ndash; Apply Button &ndash;&gt;-->
-<!--        &lt;!&ndash; TextView thay thế cho Apply Button &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/apply_button"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:background="@drawable/button_gray_background"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="8dp"-->
-<!--            android:text="Áp dụng"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="15dp" />-->
-<!--    </LinearLayout>-->
+        <!-- Apply Button -->
+        <!-- TextView thay thế cho Apply Button -->
+        <TextView
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/button_gray_background"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/apply"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -198,3 +202,4 @@
         android:textColor="#FFFFFF"
         android:textSize="16dp" />
 </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1169,6 +1169,23 @@ router.get('/vouchers', async (req, res) => {
     }
 });
 
+router.get('/voucher/:discount_code', async (req, res) => {
+    try {
+        const { discount_code } = req.params; // Lấy discount_code từ URL
+
+        // Tìm voucher dựa trên discount_code
+        const voucher = await VoucherModel.findOne({ discount_code });
+
+        if (!voucher) {
+            return res.status(404).json({ message: 'Voucher không tồn tại!' });
+        }
+
+        return res.status(200).json(voucher);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi lấy voucher.' });
+    }
+});
 
 
 

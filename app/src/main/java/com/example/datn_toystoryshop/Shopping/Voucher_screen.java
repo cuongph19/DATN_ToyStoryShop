@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,8 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     private List<Voucher> shipVoucherList = new ArrayList<>();
     private List<Voucher> productVoucherList = new ArrayList<>();
     private TextView seeMoreTextViewShip, seeMoreTextViewProduct;
-    private TextView selectedVoucherCountTextView, btnApplyVoucher;
+    private TextView selectedVoucherCountTextView, btnApplyVoucher, apply_button;
+    private EditText voucher_input;
     private double totalShipDiscount;
     private double totalProductDiscount;
     private SharedPreferences sharedPreferences;
@@ -54,6 +56,8 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         selectedVoucherCountTextView = findViewById(R.id.countVoucher);
         btnApplyVoucher = findViewById(R.id.confirm_button);
         imgBack = findViewById(R.id.imgBack);
+        apply_button = findViewById(R.id.apply_button);
+        voucher_input = findViewById(R.id.voucher_input);
 
         recyclerViewShip.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
@@ -72,6 +76,19 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
         Intent intent1 = getIntent();
         totalShipDiscount = intent1.getDoubleExtra("totalShipDiscount", 0);
         totalProductDiscount = intent1.getDoubleExtra("totalProductDiscount", 0);
+        apply_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String discountCode = voucher_input.getText().toString().trim();
+
+                if (!discountCode.isEmpty()) {
+                    // Gọi API kiểm tra mã giảm giá
+                    fetchVoucher(discountCode);
+                } else {
+                    Toast.makeText(Voucher_screen.this, "Vui lòng nhập mã giảm giá", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         APIService apiService = RetrofitClient.getAPIService();
         apiService.getVouchers().enqueue(new Callback<List<Voucher>>() {
@@ -151,6 +168,52 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
     public void onVoucherSelected(int selectedCount) {
         int totalSelected = getTotalSelectedVoucherCount();
         selectedVoucherCountTextView.setText("Số lượng voucher đã chọn: " + totalSelected);
+    }
+    public void fetchVoucher(String voucherCode) {
+        // Tạo instance của APIService
+        APIService apiService = RetrofitClient.getAPIService();
+
+        // Gọi API để lấy thông tin voucher dựa vào mã giảm giá
+        Call<Voucher> call = apiService.getVoucherByCode(voucherCode);
+
+        call.enqueue(new Callback<Voucher>() {
+            @Override
+            public void onResponse(Call<Voucher> call, Response<Voucher> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Voucher voucher = response.body();
+
+
+                    // Hiển thị Toast với thông tin voucher
+                    if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
+                        totalShipDiscount = voucher.getPriceReduced();
+                    } else {
+                        totalProductDiscount = voucher.getPriceReduced();
+                    }
+
+                    Intent intent = new Intent();
+                    intent.putExtra("totalProductDiscount", totalProductDiscount);
+                    intent.putExtra("totalShipDiscount", totalShipDiscount);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                } else {
+                    // Xử lý khi voucher không tồn tại hoặc không hợp lệ
+                    Log.d("fetchVoucher", "Voucher không hợp lệ");
+                    Toast.makeText(Voucher_screen.this,
+                            "Mã voucher không hợp lệ!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Voucher> call, Throwable t) {
+                // Xử lý lỗi kết nối hoặc server
+                Log.e("fetchVoucher", "Lỗi kết nối: " + t.getMessage());
+                Toast.makeText(Voucher_screen.this,
+                        "Có lỗi xảy ra. Vui lòng thử lại!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private int getTotalSelectedVoucherCount() {

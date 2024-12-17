@@ -13,7 +13,7 @@ const VoucherSchema = mongoose.Schema({
     },
     quantity_voucher : {
         type: String,
-        enum: ['Giảm giá vận chuyển', 'Giảm giá sản phẩm'],
+       // enum: ['Giảm giá vận chuyển', 'Giảm giá sản phẩm'],
         required: true
     },
 });
