@@ -82,9 +82,9 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
                     productVoucherList.clear();
 
                     for (Voucher voucher : response.body()) {
-                        if ("giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
+                        if ("Giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
                             productVoucherList.add(voucher);
-                        } else if ("giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
+                        } else if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
                             shipVoucherList.add(voucher);
                         }
                     }
@@ -130,9 +130,9 @@ public class Voucher_screen extends AppCompatActivity implements VoucherAdapter.
                 double totalProductDiscount = 0;
                 double totalShipDiscount = 0;
                 for (Voucher voucher : selectedVouchers) {
-                    if ("giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
+                    if ("Giảm giá sản phẩm".equals(voucher.getQuantityVoucher())) {
                         totalProductDiscount += voucher.getPriceReduced();
-                    } else if ("giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
+                    } else if ("Giảm giá vận chuyển".equals(voucher.getQuantityVoucher())) {
                         totalShipDiscount += voucher.getPriceReduced();
                     }
                 }

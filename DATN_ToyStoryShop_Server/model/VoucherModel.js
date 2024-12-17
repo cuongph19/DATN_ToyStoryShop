@@ -8,7 +8,7 @@ const VoucherSchema = mongoose.Schema({
         required: true
     },
     discount_code: {
-        type: Number,
+        type: String,
         required: true
     },
     quantity_voucher : {

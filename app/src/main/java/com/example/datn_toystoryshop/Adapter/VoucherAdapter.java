@@ -45,9 +45,9 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
         holder.minimumPrice.setText("Đơn tối thiểu 0đ");
         holder.voucherDescription.setText("Giảm tối đa");
 
-        if (voucher.getQuantityVoucher().equals("giảm giá sản phẩm")) {
+        if (voucher.getQuantityVoucher().equals("Giảm giá sản phẩm")) {
             holder.icon.setImageResource(R.drawable.ic_logo);
-        } else if (voucher.getQuantityVoucher().equals("giảm giá vận chuyển")) {
+        } else if (voucher.getQuantityVoucher().equals("Giảm giá vận chuyển")) {
             holder.icon.setImageResource(R.drawable.ic_logo);
         }
 
