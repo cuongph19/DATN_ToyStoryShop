@@ -33,9 +33,12 @@ import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Product_Viewpopular_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
 import com.example.datn_toystoryshop.Home.BandaiCandy_screen;
+import com.example.datn_toystoryshop.Home.Blokees_screen;
 import com.example.datn_toystoryshop.Home.FindingUnicorn_screen;
 import com.example.datn_toystoryshop.Home.Heyone_screen;
 import com.example.datn_toystoryshop.Home.Sale_screen;
+import com.example.datn_toystoryshop.Home.SquidGame_screen;
+import com.example.datn_toystoryshop.Home.Toys_52_screen;
 import com.example.datn_toystoryshop.Shopping.Add_address_screen;
 import com.example.datn_toystoryshop.Home.All_new_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
@@ -186,15 +189,15 @@ public class Home_Fragment extends Fragment {
                     intent.putExtra("documentId", documentId);
                     break;
                 case 3:
-                    intent = new Intent(getActivity(), BlindBox_screen.class);
+                    intent = new Intent(getActivity(), SquidGame_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 4:
-                    intent = new Intent(getActivity(), NewArrivals_screen.class);
+                    intent = new Intent(getActivity(), Toys_52_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 5:
-                    intent = new Intent(getActivity(), Sale_screen.class);
+                    intent = new Intent(getActivity(), Blokees_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 // Thêm các case cho các hình ảnh khác

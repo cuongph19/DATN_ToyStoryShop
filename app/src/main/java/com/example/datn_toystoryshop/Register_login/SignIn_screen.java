@@ -15,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datn_toystoryshop.Home.BandaiCandy_screen;
+import com.example.datn_toystoryshop.Home.Blokees_screen;
 import com.example.datn_toystoryshop.Home.FindingUnicorn_screen;
 import com.example.datn_toystoryshop.Home.Heyone_screen;
 import com.example.datn_toystoryshop.Home.Popular_screen;
 import com.example.datn_toystoryshop.Home.Sale_screen;
+import com.example.datn_toystoryshop.Home.SquidGame_screen;
+import com.example.datn_toystoryshop.Home.Toys_52_screen;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Shopping.Add_address_screen;
@@ -221,7 +224,7 @@ public class SignIn_screen extends AppCompatActivity {
                             DocumentSnapshot document = documents.get(0);
                             String storedPassword = document.getString("password");
                             if (storedPassword != null && BCrypt.checkpw(password, storedPassword)) {                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignIn_screen.this, Heyone_screen.class);
+                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                                 String documentId = document.getId();
                                 intent.putExtra("documentId", documentId);
                                 startActivity(intent);
