@@ -32,6 +32,9 @@ import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
 import com.example.datn_toystoryshop.Adapter.Product_Adapter;
 import com.example.datn_toystoryshop.Adapter.Product_Viewpopular_Adapter;
 import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
+import com.example.datn_toystoryshop.Home.BandaiCandy_screen;
+import com.example.datn_toystoryshop.Home.FindingUnicorn_screen;
+import com.example.datn_toystoryshop.Home.Heyone_screen;
 import com.example.datn_toystoryshop.Home.Sale_screen;
 import com.example.datn_toystoryshop.Shopping.Add_address_screen;
 import com.example.datn_toystoryshop.Home.All_new_screen;
@@ -171,15 +174,15 @@ public class Home_Fragment extends Fragment {
             Intent intent;
             switch (position) {
                 case 0:
-                    intent = new Intent(getActivity(), Sale_screen.class);
+                    intent = new Intent(getActivity(), BandaiCandy_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 1:
-                    intent = new Intent(getActivity(), OtherProducts_screen.class);
+                    intent = new Intent(getActivity(), FindingUnicorn_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 2:
-                    intent = new Intent(getActivity(), Figuring_screen.class);
+                    intent = new Intent(getActivity(), Heyone_screen.class);
                     intent.putExtra("documentId", documentId);
                     break;
                 case 3:
