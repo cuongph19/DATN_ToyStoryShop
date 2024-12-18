@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.History_purchase;
+package com.example.datn_toystoryshop.history.History_purchase;
 
 import android.os.Bundle;
 
@@ -28,9 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+public class GetGoods_Fragment extends Fragment {
 
-
-public class Delivery_Fragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private OrderHistoryAdapter adapter;
@@ -42,23 +41,21 @@ public class Delivery_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_delivery_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_get_goods_1, container, false);
 
         recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         llnot = view.findViewById(R.id.llnot);
         Bundle bundle = getArguments();
-        if (bundle != null) {
-            documentId = bundle.getString("documentId");
-        }
+        documentId = bundle.getString("documentId");
 
         APIService apiService = RetrofitClient.getAPIService();
         adapter = new OrderHistoryAdapter(getContext(), filteredOrderList, apiService);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Gọi API để lấy danh sách đơn hàng
         fetchOrders();
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             fetchOrders(); // Gọi lại API để làm mới danh sách
         });
@@ -74,7 +71,7 @@ public class Delivery_Fragment extends Fragment {
             return;
         }
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_delivery(cusId);
+        Call<List<Order_Model>> call = apiService.getOrders_getgoods(cusId);
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {

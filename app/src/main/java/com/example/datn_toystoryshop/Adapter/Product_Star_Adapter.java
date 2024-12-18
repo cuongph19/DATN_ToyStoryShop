@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
-import com.example.datn_toystoryshop.Product_detail;
+import com.example.datn_toystoryshop.Detail.Product_detail;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Product_Viewpopular_Adapter extends RecyclerView.Adapter<Product_Viewpopular_Adapter.ProductViewHolder> {
+public class Product_Star_Adapter extends RecyclerView.Adapter<Product_Star_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
     private List<Product_Model> productModelListFull; // List gốc để lọc
@@ -40,7 +40,7 @@ public class Product_Viewpopular_Adapter extends RecyclerView.Adapter<Product_Vi
     private String documentId;
     private APIService apiService;
 
-    public Product_Viewpopular_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
+    public Product_Star_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
         this.context = context;
         this.productModelList = productModelList;
         this.productModelListFull = new ArrayList<>(productModelList); // Khởi tạo bản sao cho danh sách đầy đủ
@@ -51,13 +51,13 @@ public class Product_Viewpopular_Adapter extends RecyclerView.Adapter<Product_Vi
 
     @NonNull
     @Override
-    public Product_Viewpopular_Adapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Product_Star_Adapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_viewpopular, parent, false);
-        return new Product_Viewpopular_Adapter.ProductViewHolder(itemView);
+        return new Product_Star_Adapter.ProductViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Product_Viewpopular_Adapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Product_Star_Adapter.ProductViewHolder holder, int position) {
         Log.e("OrderHistoryAdapter", "Product_Viewpopular_Adapter" + documentId);
         // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
         if (position < productModelList.size()) {
@@ -128,7 +128,7 @@ public class Product_Viewpopular_Adapter extends RecyclerView.Adapter<Product_Vi
 
 
     @Override
-    public void onViewRecycled(@NonNull Product_Viewpopular_Adapter.ProductViewHolder holder) {
+    public void onViewRecycled(@NonNull Product_Star_Adapter.ProductViewHolder holder) {
         super.onViewRecycled(holder);
         holder.stopImageRotation(); // Dừng Handler khi ViewHolder bị tái chế
     }

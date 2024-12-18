@@ -1,18 +1,14 @@
 package com.example.datn_toystoryshop.history;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.datn_toystoryshop.Adapter.Confirm_Adapter;
+import com.example.datn_toystoryshop.Adapter.Order_Confirm_Adapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -43,7 +38,7 @@ public class ConfirmFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner spinnerMonth, spinnerYear;
     private RecyclerView recyclerView;
-    private Confirm_Adapter adapter;
+    private Order_Confirm_Adapter adapter;
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
@@ -76,7 +71,7 @@ public class ConfirmFragment extends Fragment {
         // Khởi tạo RecyclerView và Adapter
         setUpSpinners();
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Confirm_Adapter(getContext(), filteredOrderList, apiService, documentId);
+        adapter = new Order_Confirm_Adapter(getContext(), filteredOrderList, apiService, documentId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.datn_toystoryshop.Adapter.Product_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_No_Star_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -47,7 +47,7 @@ import retrofit2.Response;
 public class LimitedFigure_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private Product_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
+    private Product_No_Star_Adapter adapter; // Adapter để hiển thị danh sách sản phẩm
     private List<Product_Model> productList;
     private ImageView backIcon;
     private String documentId;
@@ -104,7 +104,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
                     Log.d("API Response", "Danh sách sản phẩm: " + response.body().toString());
                     originalProductList = new ArrayList<>(response.body()); // Cập nhật danh sách gốc
                     updateBrandCounts();  // Cập nhật số lượng các thương hiệu
-                    adapter = new Product_Adapter(LimitedFigure_screen.this, originalProductList, documentId);
+                    adapter = new Product_No_Star_Adapter(LimitedFigure_screen.this, originalProductList, documentId);
                     recyclerView.setAdapter(adapter);
                     LoadAPI();
                 } else {

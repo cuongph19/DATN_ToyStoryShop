@@ -2,7 +2,6 @@ package com.example.datn_toystoryshop.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datn_toystoryshop.Confirm_Detail;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
-import com.example.datn_toystoryshop.Model.Refund_Model;
-import com.example.datn_toystoryshop.OrderHist_Detail;
-import com.example.datn_toystoryshop.Product_detail;
-import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
+import com.example.datn_toystoryshop.Detail.OrderHist_Detail;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Shopping.Cart_screen;
-import com.example.datn_toystoryshop.history.History_purchase_screen;
 
 import java.util.List;
 
@@ -31,12 +25,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_History_Purchase_Adapter.OrderViewHolder> {
+public class Order_Canceled_Adapter extends RecyclerView.Adapter<Order_Canceled_Adapter.OrderViewHolder> {
     private Context context;
     private List<Order_Model> orderList;
     private APIService apiService;
     private String documentId;
-    public Order_History_Purchase_Adapter(Context context, List<Order_Model> orderList, APIService apiService,String documentId) {
+    public Order_Canceled_Adapter(Context context, List<Order_Model> orderList, APIService apiService,String documentId) {
         this.context = context;
         this.orderList = orderList;
         this.apiService = apiService;
@@ -45,13 +39,13 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
 
     @NonNull
     @Override
-    public Order_History_Purchase_Adapter.OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_history_purchase, parent, false);
-        return new Order_History_Purchase_Adapter.OrderViewHolder(view);
+    public Order_Canceled_Adapter.OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_order_canceled, parent, false);
+        return new Order_Canceled_Adapter.OrderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Order_History_Purchase_Adapter.OrderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Order_Canceled_Adapter.OrderViewHolder holder, int position) {
         Order_Model order = orderList.get(position);
 
         holder.textStatus.setText(order.getOrderStatus());
@@ -82,16 +76,7 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
                 String selectedColor = productDetail.getProdSpecification();
 
                 // Gọi hàm addToCart với thông tin từ sản phẩm
-               addToCart(productId, currentQuantity, documentId, selectedColor);
-            }
-        });
-        holder.btnreturn.setOnClickListener(v -> {
-            for (Order_Model.ProductDetail productDetail : order.getProdDetails()) {
-                String productId = productDetail.getProdId();
-
-                // Gọi hàm addToRefund với các tham số
-                addToRefund(order.get_id(), documentId, productId);
-                deleteOrder(order.get_id(),"Hoàn hàng");
+                addToCart(productId, currentQuantity, documentId, selectedColor);
             }
         });
 
@@ -126,13 +111,12 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView textStatus, textRevenueAll, showMoreOrder,btnBuyBack,btnreturn ;
+        TextView textStatus, textRevenueAll, showMoreOrder,btnBuyBack ;
         RecyclerView recyclerViewProducts;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             textStatus = itemView.findViewById(R.id.tvOrderStatus);
-            btnreturn = itemView.findViewById(R.id.btnreturn);
             showMoreOrder  = itemView.findViewById(R.id.show_more_oder);
             textRevenueAll = itemView.findViewById(R.id.tvTotalPrice);
             btnBuyBack = itemView.findViewById(R.id.btnBuyBack);
@@ -168,70 +152,6 @@ public class Order_History_Purchase_Adapter extends RecyclerView.Adapter<Order_H
             @Override
             public void onFailure(Call<Cart_Model> call, Throwable t) {
                 Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void addToRefund(String orderId, String cusId, String productId) {
-
-        Refund_Model refundModel = new Refund_Model(
-                null, // ID sẽ được backend tạo tự động
-                orderId, // ID đơn hàng
-                cusId, // ID khách hàng
-                "Yêu cầu hoàn hàng cho sản phẩm: " + productId, // Nội dung lý do hoàn hàng
-                String.valueOf(System.currentTimeMillis()), // Thời gian hoàn hàng
-                "Chờ xác nhận" // Trạng thái mặc định là đang chờ xử lý
-        );
-
-        // Gọi API để thêm sản phẩm vào giỏ hàng
-        Call<Refund_Model> call = apiService.addToRefund(refundModel);
-        call.enqueue(new Callback<Refund_Model>() {
-            @Override
-            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(context, "Thêm vào refund thành công!", Toast.LENGTH_SHORT).show();
-                    // Chuyển đến màn hình Cart_screen
-//                    Intent intent = new Intent(context, Cart_screen.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    intent.putExtra("documentId", documentId);
-//                    context.startActivity(intent);
-                } else {
-                    Toast.makeText(context, "Không thể thêm refund", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Refund_Model> call, Throwable t) {
-                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void deleteOrder(String orderId, String newStatus) {
-        // Tạo model để gửi dữ liệu
-        Order_Model orderModel = new Order_Model();
-        orderModel.setOrderStatus(newStatus); // Thiết lập trạng thái đơn hàng mới
-
-        // Gọi API qua Retrofit
-        Call<Order_Model> call = apiService.putorderUpdate(orderId, orderModel);
-        call.enqueue(new Callback<Order_Model>() {
-            @Override
-            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Thành công, hiển thị kết quả
-                    Toast.makeText(context, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-                    Log.d("API", "Cập nhật thành công: " + response.body().toString());
-                } else {
-                    // Xử lý lỗi trả về từ server
-                    Toast.makeText(context, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
-                    Log.e("API", "Lỗi trả về: " + response.errorBody());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Order_Model> call, Throwable t) {
-                // Lỗi kết nối hoặc các lỗi khác
-                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("API", "Lỗi kết nối: " + t.getMessage());
             }
         });
     }

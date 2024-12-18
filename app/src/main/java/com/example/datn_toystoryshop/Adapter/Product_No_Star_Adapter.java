@@ -9,31 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
-import com.example.datn_toystoryshop.Product_detail;
+import com.example.datn_toystoryshop.Detail.Product_detail;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Server.APIService;
-import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewHolder> {
+public class Product_No_Star_Adapter extends RecyclerView.Adapter<Product_No_Star_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
     private List<Product_Model> productModelListFull; // List gốc để lọc
@@ -41,18 +32,17 @@ public class Sale_Adapter extends RecyclerView.Adapter<Sale_Adapter.ProductViewH
     private String documentId;
 
 
-    public Sale_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
+    public Product_No_Star_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
         this.context = context;
         this.productModelList = productModelList;
         this.productModelListFull = new ArrayList<>(productModelList); // Khởi tạo bản sao cho danh sách đầy đủ
         this.documentId = documentId;
     }
 
-
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_sale_product, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_popular, parent, false);
         return new ProductViewHolder(itemView);
     }
 
