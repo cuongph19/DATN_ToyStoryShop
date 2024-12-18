@@ -77,7 +77,15 @@ public class History_purchase_screen extends AppCompatActivity {
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
 
-        imgBack.setOnClickListener(v -> onBackPressed());
+        imgBack.setOnClickListener(v -> {
+
+                Intent intent1 = new Intent(History_purchase_screen.this, Home_screen.class);
+                intent1.putExtra("documentId", documentId);
+                startActivity(intent1);
+                finish(); // Kết thúc Activity nếu không có Fragment nào
+
+        });
+
 
         horizontalScrollView.post(new Runnable() {
             @Override
@@ -232,12 +240,4 @@ public class History_purchase_screen extends AppCompatActivity {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(History_purchase_screen.this, Home_screen.class);
-        intent.putExtra("documentId", documentId);
-        startActivity(intent);
-        finish();
-        super.onBackPressed();
-    }
 }

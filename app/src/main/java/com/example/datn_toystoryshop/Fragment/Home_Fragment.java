@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -221,7 +222,16 @@ public class Home_Fragment extends Fragment {
             loadData(apiService);
             swipeRefreshLayout.setRefreshing(false); // Tắt hiệu ứng loading của SwipeRefreshLayout
         });
-
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
         return view;
     }
     private void navigateToScreen(Class<?> targetScreen, String key, Serializable value) {

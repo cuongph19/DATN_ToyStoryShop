@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_No_Star_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -139,6 +142,18 @@ public class Browse_Fragment extends Fragment {
                 }
             });
         });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
         return view;
     }
     private Date parseDate(String dateStr) {
