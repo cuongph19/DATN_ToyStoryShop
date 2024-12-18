@@ -66,7 +66,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
     private EditText tvLeaveMessage;
     private RecyclerView recyclerView;
     private Handler handler = new Handler();
-    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Thanh toán khi nhận hàng", documentId, email_confirm,voucherId;
+    private String productId, selectedColor, customerId, productImg, content, productType, name, phone, address, paytext, defaultName = "Trần Cương", defaultPhone = "0382200084", defaultAddress = "Số Nhà 3, Ngách 21/1, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội", defaultPayText = "Ví VNPAY", documentId, email_confirm,voucherId;
     private double totalProductDiscount = 0, totalShipDiscount = 0, totalAmount, moneyPay, shippingCost = 40000;
     private int currentImageIndex = 0, currentQuantity, quantity, quantity1;
     private boolean isFavorite = false, nightMode;

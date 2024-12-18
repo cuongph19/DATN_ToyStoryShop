@@ -117,33 +117,13 @@ public class Home_Sale_Adapter extends RecyclerView.Adapter<Home_Sale_Adapter.Pr
             // Dừng runnable cũ nếu có
             stopImageRotation();
 
-            // Tải ảnh đầu tiên ngay lập tức
-            if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                currentImageIndex = 0; // Đặt chỉ số hình ảnh về 0 trước khi tải hình
+            // Chỉ hiển thị ảnh đầu tiên trong danh sách
+            if (isValidContextForGlide(imgProduct.getContext()) && images != null && !images.isEmpty()) {
                 Glide.with(imgProduct.getContext())
-                        .load(images.get(currentImageIndex))
-                        .placeholder(R.drawable.product1)
+                        .load(images.get(0)) // Chỉ lấy ảnh đầu tiên
+                        .placeholder(R.drawable.gridlayout2) // Ảnh placeholder nếu ảnh không tải được
                         .into(imgProduct);
             }
-
-            // Tạo runnable mới để thay đổi ảnh sau mỗi 3 giây
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                        currentImageIndex = (currentImageIndex + 1) % images.size(); // Cập nhật vị trí ảnh
-                        Glide.with(imgProduct.getContext())
-                                .load(images.get(currentImageIndex))
-                                .placeholder(R.drawable.product1)
-                                .into(imgProduct);
-
-                        handler.postDelayed(this, 3000); // Tiếp tục sau 3 giây
-                    }
-                }
-            };
-
-            // Bắt đầu chạy runnable sau 3 giây
-            handler.postDelayed(runnable, 3000);
         }
 
 

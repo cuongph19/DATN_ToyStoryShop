@@ -162,30 +162,13 @@ public class Product_New_Star_Adapter extends RecyclerView.Adapter<Product_New_S
         public void setImageRotation(List<String> images) {
             stopImageRotation();
 
-            if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                currentImageIndex = 0;
+            // Chỉ hiển thị ảnh đầu tiên trong danh sách
+            if (isValidContextForGlide(imgProduct.getContext()) && images != null && !images.isEmpty()) {
                 Glide.with(imgProduct.getContext())
-                        .load(images.get(currentImageIndex))
-                        .placeholder(R.drawable.product1)
+                        .load(images.get(0)) // Chỉ lấy ảnh đầu tiên
+                        .placeholder(R.drawable.gridlayout2) // Ảnh placeholder nếu ảnh không tải được
                         .into(imgProduct);
             }
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                        currentImageIndex = (currentImageIndex + 1) % images.size();
-                        Glide.with(imgProduct.getContext())
-                                .load(images.get(currentImageIndex))
-                                .placeholder(R.drawable.product1)
-                                .into(imgProduct);
-
-                        handler.postDelayed(this, 3000);
-                    }
-                }
-            };
-
-            handler.postDelayed(runnable, 3000);
         }
 
         public void stopImageRotation() {
