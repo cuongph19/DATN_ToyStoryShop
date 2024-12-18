@@ -8,7 +8,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,21 +24,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
-
-import com.example.datn_toystoryshop.Adapter.Product_Adapter;
-import com.example.datn_toystoryshop.Adapter.Sale_Adapter;
-import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Adapter.Home_Sale_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -63,7 +53,7 @@ import retrofit2.Response;
 public class Sale_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewSaleProducts;
-    private Sale_Adapter saleAdapter;
+    private Home_Sale_Adapter saleAdapter;
     private List<Product_Model> productList;
     private String documentId;
     private ImageView imgBack;
@@ -115,7 +105,7 @@ public class Sale_screen extends AppCompatActivity {
                     Log.d("API Response", "Danh sách sản phẩm: " + response.body().toString());
                     productList = new ArrayList<>(response.body()); // Cập nhật danh sách gốc
                     updateBrandCounts();  // Cập nhật số lượng các thương hiệu
-                    saleAdapter = new Sale_Adapter(Sale_screen.this, productList, documentId);
+                    saleAdapter = new Home_Sale_Adapter(Sale_screen.this, productList, documentId);
                     recyclerViewSaleProducts.setAdapter(saleAdapter);
                     loadAPI();
                 } else {
@@ -155,7 +145,7 @@ public class Sale_screen extends AppCompatActivity {
                     Log.d("API_RESPONSE", "Dữ liệu nhận được: " + products.toString()); // Kiểm tra dữ liệu trả về
 
                     // Cập nhật lại dữ liệu cho adapter
-                    saleAdapter = new Sale_Adapter(Sale_screen.this, products, documentId);
+                    saleAdapter = new Home_Sale_Adapter(Sale_screen.this, products, documentId);
                     recyclerViewSaleProducts.setAdapter(saleAdapter);
                 } else {
                     Log.e("API_RESPONSE", "Không có dữ liệu hoặc phản hồi không thành công: " + response.errorBody());

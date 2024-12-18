@@ -9,101 +9,53 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.Model.Feeback_Model;
-import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
-import com.example.datn_toystoryshop.Product_detail;
+import com.example.datn_toystoryshop.Detail.Product_detail;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Server.APIService;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
-import com.example.datn_toystoryshop.Server.RetrofitClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.ProductViewHolder> {
+public class Home_Sale_Adapter extends RecyclerView.Adapter<Home_Sale_Adapter.ProductViewHolder> {
 
     private List<Product_Model> productModelList;
-    private List<Product_Model> productModelListFull;
+    private List<Product_Model> productModelListFull; // List gốc để lọc
     private Context context;
-    private boolean isInHomeFragment;
     private String documentId;
-    private APIService apiService;
 
-    public ProductNewAdapter(Context context, List<Product_Model> productModelList) {
+
+    public Home_Sale_Adapter(Context context, List<Product_Model> productModelList, String documentId) {
         this.context = context;
         this.productModelList = productModelList;
-        this.productModelListFull = new ArrayList<>(productModelList);
-    }
-
-    public ProductNewAdapter(Context context, List<Product_Model> productModelList, boolean isInHomeFragment, String documentId) {
-        this.context = context;
-        this.productModelList = productModelList;
-        this.isInHomeFragment = isInHomeFragment;
+        this.productModelListFull = new ArrayList<>(productModelList); // Khởi tạo bản sao cho danh sách đầy đủ
         this.documentId = documentId;
-
-        this.apiService = RetrofitClient.getAPIService();
-
     }
+
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_new_product, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_sale_product, parent, false);
         return new ProductViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
+        Log.e("OrderHistoryAdapter", "j66666666666666666Product_Adapter" + documentId);
+        // Kiểm tra xem vị trí có hợp lệ không trước khi truy cập
         if (position < productModelList.size()) {
             Product_Model product = productModelList.get(position);
             holder.tvName.setText(product.getNamePro());
-            String prodId  = product.get_id();
-            Log.e("OrderHistoryAdapter", "ffffffffffffffffffffff  " + prodId);
-
-//            APIService apiService = RetrofitClient.getAPIService();
-            apiService.getAverageRating(prodId).enqueue(new Callback<Feeback_Rating_Model>() {
-                @Override
-                public void onResponse(Call<Feeback_Rating_Model> call, Response<Feeback_Rating_Model> response) {
-                    Log.e("API_RESPONSE", "ffffffffffffffffffffffResponse code: " + response.code() + ", Message: " + response.message());
-
-                    if (response.isSuccessful() && response.body() != null) {
-                        Feeback_Rating_Model feedback = response.body();
-                        float averageRating = feedback.getAverageRating(); // Lấy số sao trung bình
-                        Log.e("AverageRating", "ffffffffffffffffffffffCalculated average rating: " + averageRating);
-                        holder.ratingBar.setRating(averageRating); // Hiển thị rating trên RatingBar
-                    } else {
-                        Log.e("API_RESPONSE", "ffffffffffffffffffffffResponse is not successful or body is null.");
-                        holder.ratingBar.setRating(0); // Không có dữ liệu -> đặt rating mặc định
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Feeback_Rating_Model> call, Throwable t) {
-                    Log.e("API_ERROR", "ffffffffffffffffffffffFailed to fetch data: " + t.getMessage());
-                    holder.ratingBar.setRating(0); // Khi lỗi -> đặt rating mặc định
-                }
-            });
             holder.tvPrice.setText(String.format(": %,.0fđ", product.getPrice()));
             holder.tvStatus.setText(product.isStatusPro() ? "Còn hàng" : "Hết hàng");
-            if (isInHomeFragment) {
-                holder.newIcon.setVisibility(View.VISIBLE);
-            } else {
-                holder.newIcon.setVisibility(View.GONE);
-            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,28 +76,31 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
                     context.startActivity(intent);
                 }
             });
+
             List<String> images = product.getImgPro();
             if (images != null && !images.isEmpty()) {
                 holder.setImageRotation(images);
             }
+
         }
     }
 
     @Override
     public int getItemCount() {
+        Log.d("Product_Adapter", "Item count: " + productModelList.size());
         return productModelList.size();
     }
+
 
     @Override
     public void onViewRecycled(@NonNull ProductViewHolder holder) {
         super.onViewRecycled(holder);
-        holder.stopImageRotation();
+        holder.stopImageRotation(); // Dừng Handler khi ViewHolder bị tái chế
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPrice, tvStatus;
-        ImageView imgProduct, newIcon;
-        RatingBar ratingBar;
+        ImageView imgProduct;
         private Handler handler = new Handler();
         private Runnable runnable;
         private int currentImageIndex = 0;
@@ -155,39 +110,42 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
             tvName = itemView.findViewById(R.id.tvTen);
             tvPrice = itemView.findViewById(R.id.tvGia);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            ratingBar = itemView.findViewById(R.id.ratingBar);
             imgProduct = itemView.findViewById(R.id.imgAvatar);
-            newIcon = itemView.findViewById(R.id.new_icon);
         }
 
         public void setImageRotation(List<String> images) {
+            // Dừng runnable cũ nếu có
             stopImageRotation();
 
+            // Tải ảnh đầu tiên ngay lập tức
             if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                currentImageIndex = 0;
+                currentImageIndex = 0; // Đặt chỉ số hình ảnh về 0 trước khi tải hình
                 Glide.with(imgProduct.getContext())
                         .load(images.get(currentImageIndex))
                         .placeholder(R.drawable.product1)
                         .into(imgProduct);
             }
 
+            // Tạo runnable mới để thay đổi ảnh sau mỗi 3 giây
             runnable = new Runnable() {
                 @Override
                 public void run() {
                     if (isValidContextForGlide(imgProduct.getContext()) && !images.isEmpty()) {
-                        currentImageIndex = (currentImageIndex + 1) % images.size();
+                        currentImageIndex = (currentImageIndex + 1) % images.size(); // Cập nhật vị trí ảnh
                         Glide.with(imgProduct.getContext())
                                 .load(images.get(currentImageIndex))
                                 .placeholder(R.drawable.product1)
                                 .into(imgProduct);
 
-                        handler.postDelayed(this, 3000);
+                        handler.postDelayed(this, 3000); // Tiếp tục sau 3 giây
                     }
                 }
             };
 
+            // Bắt đầu chạy runnable sau 3 giây
             handler.postDelayed(runnable, 3000);
         }
+
 
         public void stopImageRotation() {
             if (runnable != null) {
@@ -207,11 +165,16 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
     public void updateData(List<Product_Model> newProductList) {
         productModelList.clear();
         if (newProductList != null) {
-            productModelList.addAll(newProductList);
+            productModelList.addAll(newProductList); // Cập nhật danh sách hiện tại
+            // Không cần phải xóa productModelListFull
+            productModelListFull = new ArrayList<>(newProductList); // Cập nhật lại bản sao danh sách gốc
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Cập nhật RecyclerView
+        Log.d("ApplyFilter", "Filtered product list size: " + productModelList.size());
     }
 
+
+    // Hàm lọc sản phẩm theo tên không dấu
     public void filter(String query) {
         productModelList.clear();
         if (query.isEmpty()) {
@@ -226,15 +189,6 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
         notifyDataSetChanged();
     }
 
-    public void sortByPriceDescending() {
-        Collections.sort(productModelList, (p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice()));
-        notifyDataSetChanged();
-    }
-
-    public void sortByPriceAscending() {
-        Collections.sort(productModelList, (p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
-        notifyDataSetChanged();
-    }
 
     private String removeDiacritics(String input) {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
@@ -242,3 +196,4 @@ public class ProductNewAdapter extends RecyclerView.Adapter<ProductNewAdapter.Pr
         return pattern.matcher(normalized).replaceAll("");
     }
 }
+

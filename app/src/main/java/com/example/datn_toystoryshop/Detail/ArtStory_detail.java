@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop;
+package com.example.datn_toystoryshop.Detail;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.history.History_purchase_screen;
+import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +12,12 @@ import com.example.datn_toystoryshop.R;
 
 import java.util.List;
 
-public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.ViewHolder> {
+public class Home_Image_Adapter extends RecyclerView.Adapter<Home_Image_Adapter.ViewHolder> {
 
     private List<Integer> imageList;
     private OnImageClickListener listener;
 
-    public Image_Adapter(List<Integer> imageList, OnImageClickListener listener) {
+    public Home_Image_Adapter(List<Integer> imageList, OnImageClickListener listener) {
         if (imageList == null || imageList.isEmpty()) {
             throw new IllegalArgumentException("Image list must not be null or empty");
         }

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.ArtStory_detail;
+import com.example.datn_toystoryshop.Detail.ArtStory_detail;
 import com.example.datn_toystoryshop.Model.ArtStoryModel;
 import com.example.datn_toystoryshop.R;
 

@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.History_purchase;
+package com.example.datn_toystoryshop.history.History_purchase;
 
 import android.os.Bundle;
 
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
+import com.example.datn_toystoryshop.Adapter.Order_Delivered_Adapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class Delivered_Fragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView rvOrderHistory;
-    private Order_History_Purchase_Adapter adapter;
+    private Order_Delivered_Adapter adapter;
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
@@ -50,7 +50,7 @@ public class Delivered_Fragment extends Fragment {
         llnot = view.findViewById(R.id.llnot);
         // Thiết lập RecyclerView
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_History_Purchase_Adapter(requireContext(), filteredOrderList, apiService, documentId);
+        adapter = new Order_Delivered_Adapter(requireContext(), filteredOrderList, apiService, documentId);
         rvOrderHistory.setAdapter(adapter);
         rvOrderHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
 

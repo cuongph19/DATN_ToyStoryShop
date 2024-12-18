@@ -49,7 +49,7 @@
             android:name=".Home.BandaiCandy_screen"
             android:exported="false" />
         <activity
-            android:name=".Confirm_Detail"
+            android:name=".Detail.OrderConfirm_Detail"
             android:exported="false" />
         <activity
             android:name=".History_purchase.history_cancel_screen"
@@ -64,7 +64,7 @@
             android:name=".PayPalActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderHist_Detail"
+            android:name=".Detail.OrderHist_Detail"
             android:exported="false" />
         <activity
             android:name=".Shopping.ShippingUnit_screen"
@@ -73,7 +73,7 @@
             android:name=".Shopping.Payment_method_screen"
             android:exported="false" />
         <activity
-            android:name=".ArtStory_detail"
+            android:name=".Detail.ArtStory_detail"
             android:exported="false" />
 
         <meta-data
@@ -112,7 +112,7 @@
             android:name=".Profile.Introduce_Friends_screen"
             android:exported="false" />
         <activity
-            android:name=".Setting.Currency_Language_screen"
+            android:name=".Profile.Setting.Currency_Language_screen"
             android:configChanges="locale|layoutDirection"
             android:exported="false" />
         <activity
@@ -134,10 +134,10 @@
             android:name=".Profile.ContactSupport_screen"
             android:exported="false" />
         <activity
-            android:name=".Setting.ChangePassword_screen"
+            android:name=".Profile.Setting.ChangePassword_screen"
             android:exported="false" />
         <activity
-            android:name=".Setting.UpdateInfo_screen"
+            android:name=".Profile.Setting.UpdateInfo_screen"
             android:exported="false" />
         <activity
             android:name=".Home.OtherProducts_screen"
@@ -158,7 +158,7 @@
             android:name=".Register_login.SignIn_screen"
             android:exported="false" />
         <activity
-            android:name=".Product_detail"
+            android:name=".Detail.Product_detail"
             android:exported="false" />
         <activity
             android:name=".Shopping.Favorite_screen"

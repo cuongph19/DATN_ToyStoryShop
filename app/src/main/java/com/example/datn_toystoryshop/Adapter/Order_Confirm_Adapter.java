@@ -2,7 +2,6 @@ package com.example.datn_toystoryshop.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datn_toystoryshop.Confirm_Detail;
+import com.example.datn_toystoryshop.Detail.OrderConfirm_Detail;
 import com.example.datn_toystoryshop.Model.Order_Model;
-import com.example.datn_toystoryshop.OrderHist_Detail;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 
 import java.util.List;
 
-public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderViewHolder> {
+public class Order_Confirm_Adapter extends RecyclerView.Adapter<Order_Confirm_Adapter.OrderViewHolder> {
     private Context context;
     private List<Order_Model> orderList;
     private APIService apiService;
     private String documentId;
 
-    public Confirm_Adapter(Context context, List<Order_Model> orderList, APIService apiService, String documentId) {
+    public Order_Confirm_Adapter(Context context, List<Order_Model> orderList, APIService apiService, String documentId) {
         this.context = context;
         this.orderList = orderList;
         this.apiService = apiService;
@@ -36,13 +34,13 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
 
     @NonNull
     @Override
-    public Confirm_Adapter.OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Order_Confirm_Adapter.OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_history, parent, false);
-        return new Confirm_Adapter.OrderViewHolder(view);
+        return new Order_Confirm_Adapter.OrderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Confirm_Adapter.OrderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Order_Confirm_Adapter.OrderViewHolder holder, int position) {
         Order_Model order = orderList.get(position);
 
         holder.textStatus.setText(order.getOrderStatus());
@@ -54,14 +52,14 @@ public class Confirm_Adapter extends RecyclerView.Adapter<Confirm_Adapter.OrderV
         // Hiển thị tối đa 2 sản phẩm đầu tiên
         List<Order_Model.ProductDetail> displayProductDetails = isMoreThanTwo ? productDetails.subList(0, 2) : productDetails;
 
-        Confirm_Product_Adapter productAdapter = new Confirm_Product_Adapter(context, displayProductDetails,apiService, order.get_id(), documentId);
+        Order_Confirm_Product_Adapter productAdapter = new Order_Confirm_Product_Adapter(context, displayProductDetails,apiService, order.get_id(), documentId);
         holder.recyclerViewProducts.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerViewProducts.setAdapter(productAdapter);
 
 //                 Thiết lập sự kiện click để mở màn hình chi tiết sản phẩm
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
-            Intent intent = new Intent(context, Confirm_Detail.class);
+            Intent intent = new Intent(context, OrderConfirm_Detail.class);
             intent.putExtra("orderId", order.get_id());
             context.startActivity(intent);
         });

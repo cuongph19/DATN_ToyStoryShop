@@ -15,12 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.datn_toystoryshop.History_purchase.Canceled_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Confirm_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Delivered_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Delivery_Fragment;
-import com.example.datn_toystoryshop.History_purchase.GetGoods_Fragment;
-import com.example.datn_toystoryshop.History_purchase.ReturnGoods_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Canceled_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Confirm_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Delivered_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Delivery_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.GetGoods_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.ReturnGoods_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 

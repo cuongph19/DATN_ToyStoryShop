@@ -24,11 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
-import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Adapter.Product_New_Star_Adapter;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Server.APIService;
 
 import java.text.Normalizer;
 import java.text.ParseException;
@@ -44,7 +42,7 @@ import java.util.regex.Pattern;
 public class All_new_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewAllNewProducts;
-    private ProductNewAdapter productNewAdapter;
+    private Product_New_Star_Adapter productNewStarAdapter;
     private List<Product_Model> productList;
     private String documentId;
     private SharedPreferences sharedPreferences;
@@ -70,8 +68,8 @@ public class All_new_screen extends AppCompatActivity {
         recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
 
 
-        productNewAdapter = new ProductNewAdapter(this, productList, false, documentId);
-        recyclerViewAllNewProducts.setAdapter(productNewAdapter);
+        productNewStarAdapter = new Product_New_Star_Adapter(this, productList, false, documentId);
+        recyclerViewAllNewProducts.setAdapter(productNewStarAdapter);
         Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
         btnFilter.setOnClickListener(v -> showFilterDialog());
         Button btnSort = findViewById(R.id.btnSort);
@@ -93,7 +91,7 @@ public class All_new_screen extends AppCompatActivity {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            productNewAdapter.notifyDataSetChanged();
+            productNewStarAdapter.notifyDataSetChanged();
             // Tắt hiệu ứng tải lại
             swipeRefreshLayout.setRefreshing(false);
         });
@@ -225,7 +223,7 @@ public class All_new_screen extends AppCompatActivity {
                 break;
         }
 
-        productNewAdapter.updateData(productList); // Cập nhật lại RecyclerView
+        productNewStarAdapter.updateData(productList); // Cập nhật lại RecyclerView
     }
     private Date parseDate(String dateStr) {
         if (dateStr == null || dateStr.trim().isEmpty()) {
@@ -434,7 +432,7 @@ public class All_new_screen extends AppCompatActivity {
         }
 
         // Cập nhật Adapter với danh sách sản phẩm đã lọc
-        productNewAdapter.updateData(filteredList);
+        productNewStarAdapter.updateData(filteredList);
     }
 
     private int countProductsByBrand(String brandName) {

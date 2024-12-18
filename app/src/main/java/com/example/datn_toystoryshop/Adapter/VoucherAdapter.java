@@ -8,13 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Model.Voucher;
-import com.example.datn_toystoryshop.Product_detail;
 import com.example.datn_toystoryshop.R;
 
 import java.util.List;

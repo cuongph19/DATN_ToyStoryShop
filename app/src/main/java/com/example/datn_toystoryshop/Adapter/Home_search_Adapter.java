@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_toystoryshop.Model.Product_Model;
-import com.example.datn_toystoryshop.Product_detail;
+import com.example.datn_toystoryshop.Detail.Product_detail;
 import com.example.datn_toystoryshop.R;
 
 import java.text.Normalizer;
@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Suggestion_Adapter extends RecyclerView.Adapter<Suggestion_Adapter.SuggestionViewHolder> {
+public class Home_search_Adapter extends RecyclerView.Adapter<Home_search_Adapter.SuggestionViewHolder> {
     private List<Product_Model> suggestionList;
     private List<Product_Model> originalList;
     private Context context;
     private String documentId;
 
-    public Suggestion_Adapter(Context context, List<Product_Model> suggestionList, String documentId) {
+    public Home_search_Adapter(Context context, List<Product_Model> suggestionList, String documentId) {
         this.context = context;
         this.suggestionList = suggestionList;
         this.originalList = new ArrayList<>(suggestionList); // Sao chép danh sách ban đầu

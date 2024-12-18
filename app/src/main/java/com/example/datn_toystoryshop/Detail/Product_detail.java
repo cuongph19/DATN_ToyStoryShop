@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop;
+package com.example.datn_toystoryshop.Detail;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -33,15 +33,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_toystoryshop.Adapter.Cart_Adapter;
 import com.example.datn_toystoryshop.Adapter.Feedback_Adapter_Product;
-import com.example.datn_toystoryshop.Adapter.ProductImage_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_detail_Image_Adapter;
 import com.example.datn_toystoryshop.Contact_support.Chat_contact;
 import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.Favorite_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
-import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
 import com.example.datn_toystoryshop.Shopping.Favorite_screen;
@@ -172,7 +171,7 @@ public class Product_detail extends AppCompatActivity {
 
 
         ViewPager2 productImagePager = findViewById(R.id.productImage);
-        ProductImage_Adapter adapter = new ProductImage_Adapter(this, productImg);
+        Product_detail_Image_Adapter adapter = new Product_detail_Image_Adapter(this, productImg);
         productImagePager.setAdapter(adapter);
         // Tạo dot indicator dựa trên số lượng ảnh
         createDotIndicators(productImg.size());

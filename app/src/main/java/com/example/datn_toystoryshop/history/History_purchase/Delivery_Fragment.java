@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.History_purchase;
+package com.example.datn_toystoryshop.history.History_purchase;
 
 import android.os.Bundle;
 
@@ -14,11 +14,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.datn_toystoryshop.Adapter.Order_History_Purchase_Adapter;
+import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +29,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Canceled_Fragment extends Fragment {
+
+public class Delivery_Fragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView rvOrderHistory;
-    private Order_History_Purchase_Adapter adapter;
+    private RecyclerView recyclerView;
+    private OrderHistoryAdapter adapter;
     private List<Order_Model> orderList = new ArrayList<>();
     private List<Order_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
     private LinearLayout llnot;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_canceled, container, false);
+        View view = inflater.inflate(R.layout.fragment_delivery_1, container, false);
 
-        // Khởi tạo các thành phần UI
-        rvOrderHistory = view.findViewById(R.id.rvOrderHistory);
+        recyclerView = view.findViewById(R.id.rvOrderHistory);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         llnot = view.findViewById(R.id.llnot);
         Bundle bundle = getArguments();
@@ -52,41 +52,41 @@ public class Canceled_Fragment extends Fragment {
             documentId = bundle.getString("documentId");
         }
 
-
-        // Cấu hình RecyclerView và Adapter
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_History_Purchase_Adapter(requireContext(), filteredOrderList, apiService, documentId);
-        rvOrderHistory.setAdapter(adapter);
-        rvOrderHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new OrderHistoryAdapter(getContext(), filteredOrderList, apiService);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Lấy dữ liệu từ API
+        // Gọi API để lấy danh sách đơn hàng
         fetchOrders();
-
-        swipeRefreshLayout.setOnRefreshListener(this::fetchOrders);
-
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchOrders(); // Gọi lại API để làm mới danh sách
+        });
         return view;
     }
 
+
     private void fetchOrders() {
-        if (documentId == null || documentId.isEmpty()) {
-            Log.e("CanceledFragment", "documentId không được để trống");
+        String cusId = documentId;
+        Log.e("FavoriteScreen", "cusId không được để trống " + cusId);
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
             return;
         }
-
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_canceled(documentId);
+        Call<List<Order_Model>> call = apiService.getOrders_delivery(cusId);
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
-                swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful() && response.body() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
                     orderList.clear();
                     orderList.addAll(response.body());
                     filteredOrderList.clear();
                     filteredOrderList.addAll(orderList);
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(requireContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setVisibility(View.GONE);
                     llnot.setVisibility(View.VISIBLE);
                 }
@@ -94,11 +94,12 @@ public class Canceled_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setVisibility(View.GONE);
                 llnot.setVisibility(View.VISIBLE);
             }
         });
     }
+
+
 }
