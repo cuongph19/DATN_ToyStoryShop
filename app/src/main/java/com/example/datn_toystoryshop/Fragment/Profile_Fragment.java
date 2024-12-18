@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Profile.Evaluate_screen;
 import com.example.datn_toystoryshop.Profile.Introduce_Friends_screen;
 import com.example.datn_toystoryshop.Profile.Privacy_Security_screen;
@@ -105,6 +107,18 @@ public class Profile_Fragment extends Fragment {
             getActivity().finish(); // Đóng tất cả các Activity hiện tại
 
         });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
         return view;
 
     }

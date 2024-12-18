@@ -1,6 +1,9 @@
 package com.example.datn_toystoryshop.history;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.example.datn_toystoryshop.Adapter.FeedbackAdapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Feeback_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
@@ -62,6 +66,18 @@ public class EvaluateFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getFeedbackData(documentId); // Gọi lại API để làm mới danh sách
         });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
         return view;
     }
 

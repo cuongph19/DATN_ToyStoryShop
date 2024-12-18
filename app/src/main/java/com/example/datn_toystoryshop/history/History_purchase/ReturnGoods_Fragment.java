@@ -1,7 +1,9 @@
 package com.example.datn_toystoryshop.history.History_purchase;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +18,13 @@ import android.widget.Toast;
 
 import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
 import com.example.datn_toystoryshop.Adapter.Order_ReturnGoods_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
+import com.example.datn_toystoryshop.history.History_purchase_screen;
 
 
 import java.util.ArrayList;
@@ -63,6 +67,17 @@ public class ReturnGoods_Fragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             fetchOrders(); // Gọi lại API để làm mới danh sách
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
         return view;
     }
 
