@@ -143,7 +143,6 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
                 quantity = currentQuantity;
                 Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
-                Toast.makeText(context, "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
             }

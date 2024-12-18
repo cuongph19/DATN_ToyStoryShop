@@ -36,8 +36,8 @@ public interface APIService {
 
 
     // Địa chỉ IP server
-    String SERVER_IP = "192.168.16.101";// cương
-   // String SERVER_IP = "192.168.1.15";// huy
+//    String SERVER_IP = "192.168.16.101";// cương
+    String SERVER_IP = "192.168.1.15";// huy
    // String SERVER_IP = "192.168.101.10.101";// đức
 
 
