@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
+import com.example.datn_toystoryshop.Adapter.Order_ReturnGoods_Adapter;
 import com.example.datn_toystoryshop.Model.Order_Model;
+import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
@@ -33,9 +35,9 @@ public class ReturnGoods_Fragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private OrderHistoryAdapter adapter;
-    private List<Order_Model> orderList = new ArrayList<>();
-    private List<Order_Model> filteredOrderList = new ArrayList<>();
+    private Order_ReturnGoods_Adapter adapter;
+    private List<Refund_Model> refundList = new ArrayList<>();
+    private List<Refund_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
     private LinearLayout llnot;
 
@@ -52,7 +54,7 @@ public class ReturnGoods_Fragment extends Fragment {
         documentId = bundle.getString("documentId");
 
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new OrderHistoryAdapter(getContext(), filteredOrderList, apiService);
+        adapter = new Order_ReturnGoods_Adapter(getContext(), filteredOrderList, apiService);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -73,16 +75,16 @@ public class ReturnGoods_Fragment extends Fragment {
             return;
         }
         APIService apiService = RetrofitClient.getAPIService();
-        Call<List<Order_Model>> call = apiService.getOrders_getgoods(cusId);
-        call.enqueue(new Callback<List<Order_Model>>() {
+        Call<List<Refund_Model>> call = apiService.getRefund(cusId);
+        call.enqueue(new Callback<List<Refund_Model>>() {
             @Override
-            public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
+            public void onResponse(Call<List<Refund_Model>> call, Response<List<Refund_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     swipeRefreshLayout.setRefreshing(false);
-                    orderList.clear();
-                    orderList.addAll(response.body());
+                    refundList.clear();
+                    refundList.addAll(response.body());
                     filteredOrderList.clear();
-                    filteredOrderList.addAll(orderList);
+                    filteredOrderList.addAll(refundList);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
@@ -92,7 +94,7 @@ public class ReturnGoods_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Order_Model>> call, Throwable t) {
+            public void onFailure(Call<List<Refund_Model>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setVisibility(View.GONE);
                 llnot.setVisibility(View.VISIBLE);
