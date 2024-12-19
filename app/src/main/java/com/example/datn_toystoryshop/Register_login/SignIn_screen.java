@@ -1,41 +1,28 @@
 package com.example.datn_toystoryshop.Register_login;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.datn_toystoryshop.Home.BandaiCandy_screen;
-import com.example.datn_toystoryshop.Home.Blokees_screen;
-import com.example.datn_toystoryshop.Home.FindingUnicorn_screen;
-import com.example.datn_toystoryshop.Home.Heyone_screen;
-import com.example.datn_toystoryshop.Home.Popular_screen;
-import com.example.datn_toystoryshop.Home.Sale_screen;
-import com.example.datn_toystoryshop.Home.SquidGame_screen;
-import com.example.datn_toystoryshop.Home.Toys_52_screen;
+import com.example.datn_toystoryshop.Home.Banner.Toys_52_screen;
+import com.example.datn_toystoryshop.Home.BlindBox_screen;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Shopping.Add_address_screen;
-import com.example.datn_toystoryshop.Shopping.AddressList_Screen;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -224,7 +211,7 @@ public class SignIn_screen extends AppCompatActivity {
                             DocumentSnapshot document = documents.get(0);
                             String storedPassword = document.getString("password");
                             if (storedPassword != null && BCrypt.checkpw(password, storedPassword)) {                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
+                                Intent intent = new Intent(SignIn_screen.this, Toys_52_screen.class);
                                 String documentId = document.getId();
                                 intent.putExtra("documentId", documentId);
                                 startActivity(intent);

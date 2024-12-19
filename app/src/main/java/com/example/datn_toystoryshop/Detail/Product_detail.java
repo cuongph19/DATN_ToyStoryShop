@@ -378,7 +378,6 @@ public class Product_detail extends AppCompatActivity {
                 if (currentQuantity > 1) { // Kiểm tra để không giảm dưới 1
                     currentQuantity--;
                     quantityText.setText(String.valueOf(currentQuantity));
-                    Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -387,9 +386,11 @@ public class Product_detail extends AppCompatActivity {
         btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentQuantity++;
-                quantityText.setText(String.valueOf(currentQuantity));
-                Toast.makeText(getApplicationContext(), "Số lượng: " + currentQuantity, Toast.LENGTH_SHORT).show();
+                if(currentQuantity < quantity){
+                    currentQuantity++;
+                    quantityText.setText(String.valueOf(currentQuantity));
+                }
+
             }
         });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.color_options, android.R.layout.simple_spinner_item);

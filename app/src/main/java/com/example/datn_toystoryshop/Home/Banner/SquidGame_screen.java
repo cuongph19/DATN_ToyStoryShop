@@ -1,4 +1,4 @@
-package com.example.datn_toystoryshop.Home;
+package com.example.datn_toystoryshop.Home.Banner;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FindingUnicorn_screen extends AppCompatActivity {
+public class SquidGame_screen extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -66,7 +66,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finding_unicorn_screen);
+        setContentView(R.layout.activity_squid_game_screen);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
         searchBar = findViewById(R.id.search_bar);
@@ -98,25 +98,25 @@ public class FindingUnicorn_screen extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-        apiService.getFindingUnicorn().enqueue(new Callback<List<Product_Model>>() {
+        apiService.getSquidGame().enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("API Response", "Danh sách sản phẩm: " + response.body().toString());
                     originalProductList = new ArrayList<>(response.body()); // Cập nhật danh sách gốc
                     updateBrandCounts();  // Cập nhật số lượng các thương hiệu
-                    adapter = new Product_No_Star_Adapter(FindingUnicorn_screen.this, originalProductList, documentId);
+                    adapter = new Product_No_Star_Adapter(SquidGame_screen.this, originalProductList, documentId);
                     recyclerView.setAdapter(adapter);
                     LoadAPI();
                 } else {
                     Log.e("API Response", "Không có dữ liệu");
-                    Toast.makeText(FindingUnicorn_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SquidGame_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Product_Model>> call, Throwable t) {
-                Toast.makeText(FindingUnicorn_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SquidGame_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -133,14 +133,12 @@ public class FindingUnicorn_screen extends AppCompatActivity {
     }
 
     private void showSortDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FindingUnicorn_screen.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SquidGame_screen.this);
         String[] sortOptions = {
                 "Sắp xếp theo A-Z",
                 "Sắp xếp theo Z-A",
                 "Giá từ thấp đến cao",
-                "Giá từ cao đến thấp",
-                "Ngày từ cũ đến mới",
-                "Ngày từ mới đến cũ"
+                "Giá từ cao đến thấp"
         };
 
         builder.setTitle("Chọn cách sắp xếp")
@@ -178,7 +176,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
     }
     private void sortProducts(String sortBy) {
         if (originalProductList == null || originalProductList.isEmpty()) {
-            Toast.makeText(FindingUnicorn_screen.this, "Không có sản phẩm để sắp xếp.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SquidGame_screen.this, "Không có sản phẩm để sắp xếp.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -276,7 +274,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
 
     private  void LoadAPI(){
         // Gọi lại API để làm mới danh sách sản phẩm
-        apiService.getFindingUnicorn().enqueue(new Callback<List<Product_Model>>() {
+        apiService.getSquidGame().enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
@@ -284,21 +282,21 @@ public class FindingUnicorn_screen extends AppCompatActivity {
                     originalProductList = response.body(); // Lưu danh sách sản phẩm mới
                     adapter.updateData(originalProductList); // Cập nhật dữ liệu trong adapter
                 } else {
-                    Toast.makeText(FindingUnicorn_screen.this, "Không có dữ liệu mới.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SquidGame_screen.this, "Không có dữ liệu mới.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Product_Model>> call, Throwable t) {
                 swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
-                Toast.makeText(FindingUnicorn_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SquidGame_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void showFilterDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(FindingUnicorn_screen.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(SquidGame_screen.this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.filter_dialog, null);
         builder.setView(dialogView);
@@ -354,7 +352,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
                         // Kiểm tra điều kiện min > max và xử lý nếu cần
                         int maxPrice = dialogSeekBarMax.getProgress();
                         if (minPrice > maxPrice) {
-                            Toast.makeText(FindingUnicorn_screen.this, "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SquidGame_screen.this, "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (NumberFormatException e) {
@@ -390,7 +388,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
                         dialogSeekBarMax.setProgress(maxPrice);
                         int minPrice = Integer.parseInt(dialogMinPrice.getText().toString().replace("đ", "").trim());
                         if (minPrice > maxPrice) {
-                            Toast.makeText(FindingUnicorn_screen.this, "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SquidGame_screen.this, "Giá trị min không được lớn hơn max", Toast.LENGTH_SHORT).show();
                         }
                     } catch (NumberFormatException e) {
                         dialogMaxPrice.setText("1000000đ");
@@ -428,7 +426,7 @@ public class FindingUnicorn_screen extends AppCompatActivity {
 
             // Kiểm tra xem có ít nhất một thương hiệu được chọn
             if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected)) {
-                Toast.makeText(FindingUnicorn_screen.this, "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SquidGame_screen.this, "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
             } else {
                 // Áp dụng bộ lọc với các thương hiệu đã chọn và khoảng giá min-max
                 applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, minPrice, maxPrice);
