@@ -13,24 +13,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_toystoryshop.Adapter.Order_Delivered_Product_Adapter;
-import com.example.datn_toystoryshop.Contact_support.Email_contact;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
-import com.example.datn_toystoryshop.Shopping.AddressList_Screen;
-import com.example.datn_toystoryshop.Shopping.Order_screen;
-import com.example.datn_toystoryshop.Shopping.Payment_method_screen;
 import com.example.datn_toystoryshop.history.History_purchase_screen;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -225,6 +217,7 @@ private EditText description;
                 String.valueOf(System.currentTimeMillis()), // Thời gian hoàn hàng
                 "Chờ xác nhận" // Trạng thái mặc định là đang chờ xử lý
         );
+
 
         Call<Refund_Model> call = apiService.addToRefund(refundModel);
         call.enqueue(new Callback<Refund_Model>() {

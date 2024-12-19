@@ -16,15 +16,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.datn_toystoryshop.Adapter.OrderHistoryAdapter;
-import com.example.datn_toystoryshop.Adapter.Order_ReturnGoods_Adapter;
+import com.example.datn_toystoryshop.Adapter.Order_Refund_Adapter;
 import com.example.datn_toystoryshop.Home_screen;
-import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
 import com.example.datn_toystoryshop.Server.RetrofitClient;
-import com.example.datn_toystoryshop.history.History_purchase_screen;
 
 
 import java.util.ArrayList;
@@ -34,12 +31,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReturnGoods_Fragment extends Fragment {
+public class Refund_Fragment extends Fragment {
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private Order_ReturnGoods_Adapter adapter;
+    private Order_Refund_Adapter adapter;
     private List<Refund_Model> refundList = new ArrayList<>();
     private List<Refund_Model> filteredOrderList = new ArrayList<>();
     private String documentId;
@@ -58,7 +55,7 @@ public class ReturnGoods_Fragment extends Fragment {
         documentId = bundle.getString("documentId");
 
         APIService apiService = RetrofitClient.getAPIService();
-        adapter = new Order_ReturnGoods_Adapter(getContext(), filteredOrderList, apiService);
+        adapter = new Order_Refund_Adapter(getContext(), filteredOrderList, apiService,documentId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

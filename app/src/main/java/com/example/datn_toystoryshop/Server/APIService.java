@@ -13,6 +13,7 @@ import com.example.datn_toystoryshop.Model.Feeback_Rating_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
+import com.example.datn_toystoryshop.Model.RefundResponse;
 import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.Model.VnPayCreate_Model;
 import com.example.datn_toystoryshop.Model.Vnpay_Model;
@@ -36,7 +37,7 @@ public interface APIService {
 
 
     // Địa chỉ IP server
-    String SERVER_IP = "192.168.16.101";// cương
+    String SERVER_IP = "192.168.246.248";// cương
    // String SERVER_IP = "192.168.1.15";// huy
    // String SERVER_IP = "192.168.101.10.101";// đức
 
@@ -127,6 +128,9 @@ public interface APIService {
     @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
 
+    @GET("/api/refund-by-order/{orderId}")
+    Call<RefundResponse> getRefundById(@Path("orderId") String orderId);
+
     @GET("/api/order-by/{orderId}")
     Call<Order_Model> getOrderById(@Path("orderId") String orderId);
 
@@ -135,6 +139,9 @@ public interface APIService {
 
     @PUT("/api/update/order/{orderId}")
     Call<Order_Model> putorderUpdate(@Path("orderId") String orderId, @Body Order_Model orderModel);
+
+    @PUT("/api/update/refund/{orderId}")
+    Call<Refund_Model> putRefundUpdate(@Path("orderId") String orderId, @Body Refund_Model refundModel);
 
     @PUT("/api/update/product/{prodId}")
     Call<Product_Model> putProductUpdate(@Path("prodId") String prodId, @Body Product_Model productModel);

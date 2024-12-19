@@ -353,8 +353,18 @@
     <string name="refund_return">Trả hàng hoàn tiền</string>
     <string name="refund_amount">Số tiền hoàn lại</string>
     <string name="refund_in">Hoàn tiền vào</string>
-    <string name="bank_account">tài khoản ngân hàng</string>
+    <string name="bank_account">Tài khoản ngân hàng</string>
+    <string name="requestednow">Đã yêu cầu lúc</string>
+    <string name="reason_for_return">Lý do trả hàng</string>
     <string name="email">Email*</string>
+    <string name="return_goods_detail">Chi tiết trả hàng</string>
+    <string name="return_request_code">Mã yêu cầu trả hàng</string>
+    <string name="order_details">Chi tiết đơn hàng</string>
+    <string name="cancel_request">Hủy yêu cầu</string>
+    <string name="discuss_further">Trao đổi thêm</string>
+    <string name="confirmed">Đã xác nhận</string>
+    <string name="received_complete_goods">Đã nhận hàng hoàn</string>
+    <string name="refund">Hoàn tiền</string>
 
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
