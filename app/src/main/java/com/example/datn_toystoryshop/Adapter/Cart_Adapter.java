@@ -108,18 +108,25 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         });
 
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
+
         holder.btnIncrease.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-            int maxQuantity = cart.getQuantity(); // Lấy số lượng gốc trong kho từ model
+            int productQuantity = cart.getQuantity(); // Assuming this represents the available stock of the product
 
-            if (currentQuantity < maxQuantity) {
-                currentQuantity++; // Tăng số lượng nếu chưa đạt giới hạn
+// Debug logs to check the values
+            Log.d("QuantityCheck", "currentQuantity: " + currentQuantity + ", productQuantity: " + productQuantity);
+
+// If currentQuantity < available stock, allow increasing
+            if (currentQuantity < productQuantity) {
+                currentQuantity++;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
                 updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
             } else {
-                Toast.makeText(context, "Số lượng không được vượt quá " + maxQuantity, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Không thể tăng số lượng, đã đạt giới hạn trong kho!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
         holder.checkBoxSelectItem.setOnCheckedChangeListener(null); // Xóa listener cũ để tránh gọi lại
@@ -134,15 +141,13 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             holder.checkBoxSelectItem.setChecked(cart.isSelected());
         });
 
-        // Sự kiện giảm số lượng với giá trị tối thiểu là 1
         holder.btnDecrease.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             if (currentQuantity > 1) {
                 currentQuantity--;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
                 updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
-                quantity = currentQuantity;
-                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
+                Log.d("CartAdapter", "Updated quantity: " + currentQuantity);
             } else {
                 Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
             }
@@ -205,7 +210,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
             public void onSuccess(Product_Model product) {
-
+                cart.setQuantity(product.getQuantity()); // Ensure the correct stock value is set
                 holder.productName.setText(product.getNamePro());
                 holder.productPrice.setText(String.format("%,.0fđ", product.getPrice()));
                 List<String> images = product.getImgPro();
