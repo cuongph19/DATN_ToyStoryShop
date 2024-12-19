@@ -31,6 +31,12 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:targetApi="31">
         <activity
+            android:name=".Detail.Order_refund_Detail"
+            android:exported="false" />
+        <activity
+            android:name=".Detail.Order_Delivered_Detail"
+            android:exported="false" />
+        <activity
             android:name=".Home.Toys_52_screen"
             android:exported="false" />
         <activity
@@ -49,7 +55,7 @@
             android:name=".Home.BandaiCandy_screen"
             android:exported="false" />
         <activity
-            android:name=".Detail.OrderConfirm_Detail"
+            android:name=".Detail.Order_Confirm_Detail"
             android:exported="false" />
         <activity
             android:name=".History_purchase.history_cancel_screen"

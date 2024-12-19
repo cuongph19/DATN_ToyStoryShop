@@ -349,6 +349,13 @@
     <string name="the_favorite_cart_has_no_products">Không có sản phẩm yêu thích</string>
     <string name="no_order">Bạn chưa có đơn hàng nào</string>
     <string name="no_feedback">Bạn chưa có đánh giá nào</string>
+    <string name="plan">Phương án</string>
+    <string name="refund_return">Trả hàng hoàn tiền</string>
+    <string name="refund_amount">Số tiền hoàn lại</string>
+    <string name="refund_in">Hoàn tiền vào</string>
+    <string name="bank_account">tài khoản ngân hàng</string>
+    <string name="email">Email*</string>
+
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
         <item>Giá cao - thấp</item>
