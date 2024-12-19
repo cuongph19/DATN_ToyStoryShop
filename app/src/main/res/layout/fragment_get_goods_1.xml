@@ -18,8 +18,7 @@
             android:id="@+id/rvOrderHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            tools:listitem="@layout/item_history" />
+            android:layout_marginTop="16dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <LinearLayout
         android:id="@+id/llnot"

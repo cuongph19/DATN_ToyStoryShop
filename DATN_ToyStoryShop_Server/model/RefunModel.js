@@ -24,6 +24,7 @@ const refundSchema = new mongoose.Schema({
         type: String,
         enum: [
             'Chờ xác nhận',
+            'Hủy hoàn hàng',
             'Đã xác nhận',
             'Đã nhận hàng hoàn'
         ],

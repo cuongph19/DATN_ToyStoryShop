@@ -62,11 +62,11 @@ public class OrderHist_Detail extends AppCompatActivity {
 
         Intent intent = getIntent();
         String orderId = intent.getStringExtra("orderId");
+        String documentId = intent.getStringExtra("documentId");
         Log.e("OrderHistoryAdapter", "j66666666666666666gggg " + orderId);
         loadOrderDetails(orderId);
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
 
-        imgBack.setOnClickListener(v -> onBackPressed());
         ivSupportCenter.setOnClickListener(v -> {
             Intent intent1 = new Intent(OrderHist_Detail.this, Chat_contact.class);
             startActivity(intent1);

@@ -20,12 +20,13 @@ import com.example.datn_toystoryshop.history.History_purchase.Confirm_Fragment;
 import com.example.datn_toystoryshop.history.History_purchase.Delivered_Fragment;
 import com.example.datn_toystoryshop.history.History_purchase.Delivery_Fragment;
 import com.example.datn_toystoryshop.history.History_purchase.GetGoods_Fragment;
-import com.example.datn_toystoryshop.history.History_purchase.ReturnGoods_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Refund_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 
 public class History_purchase_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
+
     private boolean nightMode;
     private HorizontalScrollView horizontalScrollView;
     private String documentId;
@@ -61,7 +62,6 @@ public class History_purchase_screen extends AppCompatActivity {
         deliveredView = findViewById(R.id.deliveredView);
         canceledView = findViewById(R.id.canceledView);
         viewPager = findViewById(R.id.viewPager);
-
 
         imgBack = findViewById(R.id.ivBack);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
@@ -111,7 +111,7 @@ public class History_purchase_screen extends AppCompatActivity {
                         fragment = new Delivery_Fragment();
                         break;
                     case 3:
-                        fragment = new ReturnGoods_Fragment();
+                        fragment = new Refund_Fragment();
                         break;
                     case 4:
                         fragment = new Delivered_Fragment();

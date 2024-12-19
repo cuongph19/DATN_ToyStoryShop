@@ -8,6 +8,9 @@ public class Refund_Model {
     private String orderRefundDate;
     private String refundStatus;
 
+    public Refund_Model() {
+    }
+
     public Refund_Model(String _id, String orderId, String cusId, String content, String orderRefundDate, String refundStatus) {
         this._id = _id;
         this.orderId = orderId;

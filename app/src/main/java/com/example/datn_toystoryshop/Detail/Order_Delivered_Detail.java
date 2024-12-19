@@ -79,7 +79,6 @@ public class Order_Delivered_Detail extends AppCompatActivity {
         loadOrderDetails(orderId);
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
 
-        imgBack.setOnClickListener(v -> onBackPressed());
         ivSupportCenter.setOnClickListener(v -> {
             Intent intent1 = new Intent(Order_Delivered_Detail.this, Chat_contact.class);
             intent1.putExtra("documentId", documentId);
@@ -106,6 +105,7 @@ public class Order_Delivered_Detail extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
+        imgBack.setOnClickListener(v -> onBackPressed());
         swipeRefreshLayout.setOnRefreshListener(() -> {
             loadOrderDetails(orderId); // Gọi lại API để làm mới danh sách
         });
@@ -148,11 +148,7 @@ public class Order_Delivered_Detail extends AppCompatActivity {
                     address_name.setText(orderModel.getName_order());
                     address_phone.setText(orderModel.getPhone_order());
                     address_detail.setText(orderModel.getAddress_order());
-
-                    int revenueAll = orderModel.getRevenue_all();
-                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    String formattedRevenue = currencyFormat.format(revenueAll);
-                    tvTotalPrice.setText(": "+ formattedRevenue);
+                    tvTotalPrice.setText(String.format(" %,.0fđ", (double) orderModel.getRevenue_all()));
 
                     if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
                         productStates.clear();
