@@ -40,22 +40,22 @@
             android:name=".Detail.Order_Delivered_Detail"
             android:exported="false" />
         <activity
-            android:name=".Home.Toys_52_screen"
+            android:name=".Home.Banner.Toys_52_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.Blokees_screen"
+            android:name=".Home.Banner.Blokees_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.SquidGame_screen"
+            android:name=".Home.Banner.SquidGame_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.Heyone_screen"
+            android:name=".Home.Banner.Heyone_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.FindingUnicorn_screen"
+            android:name=".Home.Banner.FindingUnicorn_screen"
             android:exported="false" />
         <activity
-            android:name=".Home.BandaiCandy_screen"
+            android:name=".Home.Banner.BandaiCandy_screen"
             android:exported="false" />
         <activity
             android:name=".Detail.Order_Confirm_Detail"

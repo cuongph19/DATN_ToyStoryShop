@@ -108,19 +108,19 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         });
 
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
-        // Sự kiện tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-            currentQuantity++;
-            holder.tvQuantity.setText(String.valueOf(currentQuantity));
-            updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
-            quantity = currentQuantity;
-            Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + currentQuantity);
-            Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + quantity);
+            int maxQuantity = cart.getQuantity(); // Lấy số lượng gốc trong kho từ model
 
-            //  gặp lỗi tvQuantity không cập nhập lên ngay mà phải click 2 lần thì mới cập nhập, mặc dù khi click 1 lần dữ liệu đã lên đc mongo
-
+            if (currentQuantity < maxQuantity) {
+                currentQuantity++; // Tăng số lượng nếu chưa đạt giới hạn
+                holder.tvQuantity.setText(String.valueOf(currentQuantity));
+                updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
+            } else {
+                Toast.makeText(context, "Số lượng không được vượt quá " + maxQuantity, Toast.LENGTH_SHORT).show();
+            }
         });
+
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
         holder.checkBoxSelectItem.setOnCheckedChangeListener(null); // Xóa listener cũ để tránh gọi lại
         holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
@@ -516,27 +516,27 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     }
 
     public void refreshCart() {
-        String cusId = documentId;
-
-        if (cusId == null || cusId.isEmpty()) {
-            Log.e("FavoriteScreen", "cusId không được để trống");
+        if (documentId == null || documentId.isEmpty()) {
+            Log.e("CartAdapter", "Document ID không được để trống");
             return;
         }
-        apiService.getCarts(cusId).enqueue(new Callback<List<Cart_Model>>() {
+
+        apiService.getCarts(documentId).enqueue(new Callback<List<Cart_Model>>() {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cartList.clear();
-                    cartList.addAll(response.body());
-                    notifyDataSetChanged();  // Cập nhật lại giao diện
+                    cartList.clear(); // Xóa danh sách cũ
+                    cartList.addAll(response.body()); // Cập nhật danh sách
+                    notifyDataSetChanged(); // Làm mới giao diện
                 }
             }
 
             @Override
             public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
-                // Xử lý lỗi khi gọi API thất bại
+                Log.e("CartAdapter", "Lỗi khi làm mới giỏ hàng: " + t.getMessage());
             }
         });
     }
+
 
 }

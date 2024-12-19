@@ -134,9 +134,7 @@ public class NewArrivals_screen extends AppCompatActivity {
                 "Sắp xếp theo A-Z",
                 "Sắp xếp theo Z-A",
                 "Giá từ thấp đến cao",
-                "Giá từ cao đến thấp",
-                "Ngày từ cũ đến mới",
-                "Ngày từ mới đến cũ"
+                "Giá từ cao đến thấp"
         };
 
         builder.setTitle("Chọn cách sắp xếp")
