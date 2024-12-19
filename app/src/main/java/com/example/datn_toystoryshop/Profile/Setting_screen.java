@@ -1,6 +1,5 @@
 package com.example.datn_toystoryshop.Profile;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -20,9 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Setting.ChangePassword_screen;
-import com.example.datn_toystoryshop.Setting.Currency_Language_screen;
-import com.example.datn_toystoryshop.Setting.UpdateInfo_screen;
+import com.example.datn_toystoryshop.Profile.Setting.ChangePassword_screen;
+import com.example.datn_toystoryshop.Profile.Setting.Currency_Language_screen;
+import com.example.datn_toystoryshop.Profile.Setting.UpdateInfo_screen;
 
 public class Setting_screen extends AppCompatActivity {
 

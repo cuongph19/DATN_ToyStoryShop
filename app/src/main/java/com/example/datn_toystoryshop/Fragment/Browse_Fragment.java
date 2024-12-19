@@ -1,6 +1,7 @@
 package com.example.datn_toystoryshop.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,8 +27,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.datn_toystoryshop.Adapter.Product_Adapter;
-import com.example.datn_toystoryshop.Home.Figuring_screen;
+import com.example.datn_toystoryshop.Adapter.Product_No_Star_Adapter;
+import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -49,7 +51,7 @@ public class Browse_Fragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView recyclerView;
-    private Product_Adapter productAdapter;
+    private Product_No_Star_Adapter productAdapter;
     private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
     private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
     private Button btnFilter;
@@ -93,7 +95,7 @@ public class Browse_Fragment extends Fragment {
 
         // Khởi tạo danh sách sản phẩm
         productList = new ArrayList<>();
-        productAdapter = new Product_Adapter(getContext(), productList, documentId);
+        productAdapter = new Product_No_Star_Adapter(getContext(), productList, documentId);
         recyclerView.setAdapter(productAdapter);
 
         // Gọi API để lấy sản phẩm từ MongoDB
@@ -140,6 +142,18 @@ public class Browse_Fragment extends Fragment {
                 }
             });
         });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
         return view;
     }
     private Date parseDate(String dateStr) {

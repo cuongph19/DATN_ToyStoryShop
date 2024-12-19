@@ -249,6 +249,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_bgc"
         app:tint="#CACACA" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

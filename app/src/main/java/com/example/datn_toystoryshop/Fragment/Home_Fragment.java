@@ -1,6 +1,5 @@
 package com.example.datn_toystoryshop.Fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,20 +17,19 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.datn_toystoryshop.Adapter.ProductNewAdapter;
-import com.example.datn_toystoryshop.Adapter.Product_Adapter;
-import com.example.datn_toystoryshop.Adapter.Product_Viewpopular_Adapter;
-import com.example.datn_toystoryshop.Adapter.Suggestion_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_New_Star_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_Star_Adapter;
+import com.example.datn_toystoryshop.Adapter.Home_search_Adapter;
 import com.example.datn_toystoryshop.Home.BandaiCandy_screen;
 import com.example.datn_toystoryshop.Home.Blokees_screen;
 import com.example.datn_toystoryshop.Home.FindingUnicorn_screen;
@@ -39,7 +37,6 @@ import com.example.datn_toystoryshop.Home.Heyone_screen;
 import com.example.datn_toystoryshop.Home.Sale_screen;
 import com.example.datn_toystoryshop.Home.SquidGame_screen;
 import com.example.datn_toystoryshop.Home.Toys_52_screen;
-import com.example.datn_toystoryshop.Shopping.Add_address_screen;
 import com.example.datn_toystoryshop.Home.All_new_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
 import com.example.datn_toystoryshop.Home.Figuring_screen;
@@ -51,7 +48,7 @@ import com.example.datn_toystoryshop.Home.Store_follow_screen;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
-import com.example.datn_toystoryshop.Adapter.Image_Adapter;
+import com.example.datn_toystoryshop.Adapter.Home_Image_Adapter;
 import com.example.datn_toystoryshop.Server.APIService;
 
 import java.io.Serializable;
@@ -73,9 +70,9 @@ public class Home_Fragment extends Fragment {
     private FrameLayout new_arrivals, blind_box, figuring, other_products, sale, limited_figure;
     private RecyclerView recyclerViewNew, recyclerViewPopu, recyclerViewSuggestions;
     private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4, btn_see_all_new, btn_see_all_popular, btn_view_all_stores;
-    private ProductNewAdapter productNewAdapter;
-    private Product_Viewpopular_Adapter product_viewpopular_adapter;
-    private Suggestion_Adapter suggestionAdapter;
+    private Product_New_Star_Adapter productNewStarAdapter;
+    private Product_Star_Adapter product_star_adapter;
+    private Home_search_Adapter suggestionAdapter;
     private List<Product_Model> listProductModel, popularProductList;
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -173,7 +170,7 @@ public class Home_Fragment extends Fragment {
                 R.drawable.viewpager5
         );
 
-        Image_Adapter adapter = new Image_Adapter(images, position -> {
+        Home_Image_Adapter adapter = new Home_Image_Adapter(images, position -> {
             Intent intent;
             switch (position) {
                 case 0:
@@ -225,7 +222,16 @@ public class Home_Fragment extends Fragment {
             loadData(apiService);
             swipeRefreshLayout.setRefreshing(false); // Tắt hiệu ứng loading của SwipeRefreshLayout
         });
-
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Chuyển về Home_screen
+                Intent intent = new Intent(requireActivity(), Home_screen.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
         return view;
     }
     private void navigateToScreen(Class<?> targetScreen, String key, Serializable value) {
@@ -289,8 +295,8 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    productNewAdapter = new ProductNewAdapter(getContext(), listProductModel, true, documentId);
-                    recyclerViewNew.setAdapter(productNewAdapter);
+                    productNewStarAdapter = new Product_New_Star_Adapter(getContext(), listProductModel, true, documentId);
+                    recyclerViewNew.setAdapter(productNewStarAdapter);
                 } else {
                     Log.e("ProductFragment", "Response unsuccessful or body is null");
                 }
@@ -313,8 +319,8 @@ public class Home_Fragment extends Fragment {
                     if (popularProductList.isEmpty()) {
                         Log.d("HomeFragment", "No popular products available");
                     } else {
-                        product_viewpopular_adapter = new Product_Viewpopular_Adapter(requireContext(), popularProductList, documentId);
-                        recyclerViewPopu.setAdapter(product_viewpopular_adapter);
+                        product_star_adapter = new Product_Star_Adapter(requireContext(), popularProductList, documentId);
+                        recyclerViewPopu.setAdapter(product_star_adapter);
                     }
                 } else {
                     Log.e("HomeFragment", "Response unsuccessful or body is null for popular products");
@@ -346,7 +352,7 @@ public class Home_Fragment extends Fragment {
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
                 if (response.isSuccessful() && response.body() != null && isAdded()) {
                     listProductModel = response.body();
-                    suggestionAdapter = new Suggestion_Adapter(requireContext(), listProductModel, documentId);
+                    suggestionAdapter = new Home_search_Adapter(requireContext(), listProductModel, documentId);
 
                     recyclerViewSuggestions.setAdapter(suggestionAdapter);
 

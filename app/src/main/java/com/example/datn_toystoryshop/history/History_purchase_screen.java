@@ -15,17 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.datn_toystoryshop.History_purchase.Canceled_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Confirm_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Delivered_Fragment;
-import com.example.datn_toystoryshop.History_purchase.Delivery_Fragment;
-import com.example.datn_toystoryshop.History_purchase.GetGoods_Fragment;
-import com.example.datn_toystoryshop.History_purchase.ReturnGoods_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Canceled_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Confirm_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Delivered_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Delivery_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.GetGoods_Fragment;
+import com.example.datn_toystoryshop.history.History_purchase.Refund_Fragment;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 
 public class History_purchase_screen extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
+
     private boolean nightMode;
     private HorizontalScrollView horizontalScrollView;
     private String documentId;
@@ -62,7 +63,6 @@ public class History_purchase_screen extends AppCompatActivity {
         canceledView = findViewById(R.id.canceledView);
         viewPager = findViewById(R.id.viewPager);
 
-
         imgBack = findViewById(R.id.ivBack);
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
@@ -77,7 +77,15 @@ public class History_purchase_screen extends AppCompatActivity {
         Intent intent = getIntent();
         documentId = intent.getStringExtra("documentId");
 
-        imgBack.setOnClickListener(v -> onBackPressed());
+        imgBack.setOnClickListener(v -> {
+
+                Intent intent1 = new Intent(History_purchase_screen.this, Home_screen.class);
+                intent1.putExtra("documentId", documentId);
+                startActivity(intent1);
+                finish(); // Kết thúc Activity nếu không có Fragment nào
+
+        });
+
 
         horizontalScrollView.post(new Runnable() {
             @Override
@@ -103,7 +111,7 @@ public class History_purchase_screen extends AppCompatActivity {
                         fragment = new Delivery_Fragment();
                         break;
                     case 3:
-                        fragment = new ReturnGoods_Fragment();
+                        fragment = new Refund_Fragment();
                         break;
                     case 4:
                         fragment = new Delivered_Fragment();
@@ -232,12 +240,4 @@ public class History_purchase_screen extends AppCompatActivity {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(History_purchase_screen.this, Home_screen.class);
-        intent.putExtra("documentId", documentId);
-        startActivity(intent);
-        finish();
-        super.onBackPressed();
-    }
 }

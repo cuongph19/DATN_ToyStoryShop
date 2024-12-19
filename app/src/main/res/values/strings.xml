@@ -267,7 +267,7 @@
     <string name="place_order">Đặt hàng</string>
     <string name="contact_shop">Liên hệ Shop</string>
     <string name="total_amount">Tổng số tiền</string>
-    <string name="paypal_wallet_favorite">Ví Pay Pal (Yêu thích)</string>
+    <string name="paypal_wallet_favorite">Ví VNPAY (Yêu thích)</string>
     <string name="agree">ĐỒNG Ý</string>
     ////////
 
@@ -340,6 +340,7 @@
     <string name="cancel_order">Hủy đơn hàng</string>
     <string name="buy_back">Mua lại</string>
     <string name="return_goods">Trả hàng</string>
+    <string name="view_detail">Xem chi tiết</string>
     <string name="enter_new_password">Nhập mật khẩu mới</string>
     <string name="enter_new1_password">Nhập lại mật khẩu mới</string>
     <string name="set_as_default_address">Đặt làm địa chỉ mặc định</string>
@@ -348,6 +349,23 @@
     <string name="the_favorite_cart_has_no_products">Không có sản phẩm yêu thích</string>
     <string name="no_order">Bạn chưa có đơn hàng nào</string>
     <string name="no_feedback">Bạn chưa có đánh giá nào</string>
+    <string name="plan">Phương án</string>
+    <string name="refund_return">Trả hàng hoàn tiền</string>
+    <string name="refund_amount">Số tiền hoàn lại</string>
+    <string name="refund_in">Hoàn tiền vào</string>
+    <string name="bank_account">Tài khoản ngân hàng</string>
+    <string name="requestednow">Đã yêu cầu lúc</string>
+    <string name="reason_for_return">Lý do trả hàng</string>
+    <string name="email">Email*</string>
+    <string name="return_goods_detail">Chi tiết trả hàng</string>
+    <string name="return_request_code">Mã yêu cầu trả hàng</string>
+    <string name="order_details">Chi tiết đơn hàng</string>
+    <string name="cancel_request">Hủy yêu cầu</string>
+    <string name="discuss_further">Trao đổi thêm</string>
+    <string name="confirmed">Đã xác nhận</string>
+    <string name="received_complete_goods">Đã nhận hàng hoàn</string>
+    <string name="refund">Hoàn tiền</string>
+
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
         <item>Giá cao - thấp</item>

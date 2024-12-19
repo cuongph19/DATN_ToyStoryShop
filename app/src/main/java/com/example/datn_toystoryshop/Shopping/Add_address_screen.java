@@ -111,8 +111,8 @@ public class Add_address_screen extends AppCompatActivity {
             if (!validateInput(name, phone, address, addressDetail)) {
                 return;
             }
-                // Gọi API để thêm địa chỉ
-                addAddressToServer(documentId, name, phone, address, addressDetail, isDefault);
+            // Gọi API để thêm địa chỉ
+            addAddressToServer(documentId, name, phone, address, addressDetail, isDefault);
 
         });
     }

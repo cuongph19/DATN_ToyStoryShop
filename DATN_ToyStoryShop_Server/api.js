@@ -832,6 +832,31 @@ router.put('/update/order/:orderId', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong order', error });
     }
 });
+router.put('/update/refund/:orderId', async (req, res) => {
+    console.log(req.body); // Xem dữ liệu nhận được trong body
+
+    try {
+        const { orderId } = req.params; // Lấy id từ URL
+        const { refundStatus } = req.body; // Lấy các thông tin cập nhật từ body
+
+        // Tìm sản phẩm theo orderId
+        const refundItem = await RefundModel.findOne({ orderId });
+        if (!refundItem) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại trong refund!' });
+        }
+
+        // Cập nhật các trường
+        if (refundStatus !== undefined) refundItem.refundStatus = refundStatus;
+    
+
+        await refundItem.save(); // Lưu cập nhật
+
+        res.status(200).json({ message: 'Cập nhật sản phẩm trong refund thành công!', data: refundItem });
+    } catch (error) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong refund', error });
+    }
+});
 
 router.post('/add/add-to-order', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
@@ -1410,6 +1435,22 @@ router.get('/cart-by/:cartId', async (req, res) => {
     }
 });
 
+router.get('/refund-by-order/:orderId', async (req, res) => {
+    const { orderId } = req.params; // Lấy orderId từ tham số URL
+
+    try {
+        const refunds = await RefundModel.find({ orderId: orderId });
+
+        if (!refunds || refunds.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy thông tin hoàn hàng với orderId này.' });
+        }
+
+        res.status(200).json({ message: 'Lấy thông tin thành công.', data: refunds });
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin hoàn hàng:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy thông tin hoàn hàng.', details: error.message });
+    }
+});
 router.get('/cart/get-cart-id', async (req, res) => {
     const { prodId, cusId } = req.query;
 
