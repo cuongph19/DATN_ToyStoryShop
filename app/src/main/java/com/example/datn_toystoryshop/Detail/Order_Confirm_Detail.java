@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderConfirm_Detail extends AppCompatActivity {
+public class Order_Confirm_Detail extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView tvTotalPrice, tvOrderStatus, tvPaymentMethod, address_name, address_phone, address_detail,btncancelOrder;
@@ -81,18 +81,18 @@ public class OrderConfirm_Detail extends AppCompatActivity {
 
         imgBack.setOnClickListener(v -> onBackPressed());
         ivSupportCenter.setOnClickListener(v -> {
-            Intent intent1 = new Intent(OrderConfirm_Detail.this, Chat_contact.class);
+            Intent intent1 = new Intent(Order_Confirm_Detail.this, Chat_contact.class);
             startActivity(intent1);
             finish();
         });
         ivContactShop.setOnClickListener(v -> {
-            Intent intent1 = new Intent(OrderConfirm_Detail.this, ContactSupport_screen.class);
+            Intent intent1 = new Intent(Order_Confirm_Detail.this, ContactSupport_screen.class);
             startActivity(intent1);
             finish();
         });
         btncancelOrder.setOnClickListener(v -> {
             // Tạo dialog xác nhận
-            new AlertDialog.Builder(OrderConfirm_Detail.this)
+            new AlertDialog.Builder(Order_Confirm_Detail.this)
                     .setTitle("Xác nhận hủy đơn hàng")
                     .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này không?")
                     .setPositiveButton("Đồng ý", (dialog, which) -> {
@@ -104,7 +104,7 @@ public class OrderConfirm_Detail extends AppCompatActivity {
                             updateProductItem(apiService, prodId, updatedQuantity);
                             Log.d("Queue Processing", "Đã cập nhật sản phẩm: " + prodId + ", Số lượng: " + updatedQuantity);
                         }
-                        Intent intent1 = new Intent(OrderConfirm_Detail.this, Home_screen.class);
+                        Intent intent1 = new Intent(Order_Confirm_Detail.this, Home_screen.class);
                         Log.d("Queue Processing", "Tất cả sản phẩm đã được xử lý! "+documentId);
                         intent1.putExtra("documentId", documentId);
                         startActivity(intent1);
@@ -183,7 +183,7 @@ public class OrderConfirm_Detail extends AppCompatActivity {
 
                             // Thực hiện các thao tác khác nếu cần
                         }
-                        adapter = new OrderHist_Detail_Adapter(OrderConfirm_Detail.this, orderModel.getProdDetails(),apiService);
+                        adapter = new OrderHist_Detail_Adapter(Order_Confirm_Detail.this, orderModel.getProdDetails(),apiService);
                         rvProductList.setAdapter(adapter);
                     } else {
                         Log.e("OrderHist_Detail", "Danh sách sản phẩm rỗng hoặc null");
@@ -216,15 +216,15 @@ public class OrderConfirm_Detail extends AppCompatActivity {
             @Override
             public void onResponse(Call<Product_Model> call, Response<Product_Model> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(OrderConfirm_Detail.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Order_Confirm_Detail.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(OrderConfirm_Detail.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Order_Confirm_Detail.this, "Cập nhật thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Product_Model> call, Throwable t) {
-                Toast.makeText(OrderConfirm_Detail.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Order_Confirm_Detail.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -242,11 +242,11 @@ public class OrderConfirm_Detail extends AppCompatActivity {
             public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Thành công, hiển thị kết quả
-                    Toast.makeText(OrderConfirm_Detail.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Order_Confirm_Detail.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
                     Log.d("API", "Cập nhật thành công: " + response.body().toString());
                 } else {
                     // Xử lý lỗi trả về từ server
-                    Toast.makeText(OrderConfirm_Detail.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Order_Confirm_Detail.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
                     Log.e("API", "Lỗi trả về: " + response.errorBody());
                 }
             }
@@ -254,7 +254,7 @@ public class OrderConfirm_Detail extends AppCompatActivity {
             @Override
             public void onFailure(Call<Order_Model> call, Throwable t) {
                 // Lỗi kết nối hoặc các lỗi khác
-                Toast.makeText(OrderConfirm_Detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Order_Confirm_Detail.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API", "Lỗi kết nối: " + t.getMessage());
             }
         });

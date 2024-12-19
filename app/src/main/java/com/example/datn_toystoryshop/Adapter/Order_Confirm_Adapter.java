@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datn_toystoryshop.Detail.OrderConfirm_Detail;
+import com.example.datn_toystoryshop.Detail.Order_Confirm_Detail;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.R;
@@ -59,7 +59,7 @@ public class Order_Confirm_Adapter extends RecyclerView.Adapter<Order_Confirm_Ad
 //                 Thiết lập sự kiện click để mở màn hình chi tiết sản phẩm
         holder.itemView.setOnClickListener(v -> {
             // Chuyển đến màn hình chi tiết sản phẩm
-            Intent intent = new Intent(context, OrderConfirm_Detail.class);
+            Intent intent = new Intent(context, Order_Confirm_Detail.class);
             intent.putExtra("orderId", order.get_id());
             context.startActivity(intent);
         });
