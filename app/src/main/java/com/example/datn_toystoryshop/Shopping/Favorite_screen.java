@@ -48,7 +48,7 @@ public class Favorite_screen extends AppCompatActivity {
         documentId = intent.getStringExtra("documentId");
 
 
-        recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
+        recyclerViewFavorites = findViewById(R.id.rvOrderHistory);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         imgBack = findViewById(R.id.btnBack);
@@ -81,24 +81,30 @@ public class Favorite_screen extends AppCompatActivity {
                     List<Favorite_Model> favoriteItems = response.body();
                     if (favoriteItems.isEmpty()) {
                         // Xử lý khi danh sách trống
-                        swipeRefreshLayout.setVisibility(View.GONE);
+                        recyclerViewFavorites.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
                         llnot.setVisibility(View.VISIBLE);
                     } else {
 
                         Log.d("FavoriteScreen", "Favorites retrieved: " + response.body().size());
                         favoriteAdapter = new Favorite_Adapter(Favorite_screen.this, response.body(), apiService, documentId);
                         recyclerViewFavorites.setAdapter(favoriteAdapter);
+                        swipeRefreshLayout.setRefreshing(false);
+                        llnot.setVisibility(View.GONE);
+                        recyclerViewFavorites.setVisibility(View.VISIBLE);
                     }
                 }  else {
-                        swipeRefreshLayout.setVisibility(View.GONE);
-                        llnot.setVisibility(View.VISIBLE);
+                    recyclerViewFavorites.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.VISIBLE);
                     }
             }
 
             @Override
             public void onFailure(Call<List<Favorite_Model>> call, Throwable t) {
+                recyclerViewFavorites.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                // Xử lý lỗi khi gọi API thất bại
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }

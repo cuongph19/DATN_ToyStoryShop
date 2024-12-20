@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Cart;
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
 import com.example.datn_toystoryshop.Home_screen;
+import com.example.datn_toystoryshop.Model.Cart_Model;
 import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
 import com.example.datn_toystoryshop.Model.OrderResponse;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
@@ -200,7 +201,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     calculateMoneyPay();
 
                     btnOrder.setOnClickListener(v -> {
-                        submitOrder_Cart(productDetails );
+                        submitOrder_Cart(productDetails,productId );
                         // Khởi tạo NotificationManager
 
                     });
@@ -628,7 +629,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
 
 
 
-    private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails) {
+    private void submitOrder_Cart(List<Order_Model.ProductDetail> productDetails,String productId) {
         String content = tvLeaveMessage.getText().toString();
         name = name != null ? name : defaultName;
         phone = phone != null ? phone : defaultPhone;
@@ -690,7 +691,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     Log.d("CartScreen", "Danh sách sản phẩm: " + productIds);
                     for (String cartId : productIds) {
                         Log.d("CartScreen", "Danh sách sản phẩm: 11 " + cartId);
-                         // deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
+                          deleteCartItem(apiService, cartId.trim()); // Truyền từng prodId vào hàm
                     }
                     // Tạo Notification Channel nếu cần (dành cho Android 8.0 trở lên)
                     createNotificationChannel();
@@ -908,5 +909,6 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
         });
     }
+
 
 }

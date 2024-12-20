@@ -75,7 +75,7 @@ public class Cart_screen extends AppCompatActivity {
 
         imgBack = findViewById(R.id.imgBackCart);
         llnot = findViewById(R.id.llnot);
-        recyclerViewCart = findViewById(R.id.recyclerViewCart);
+        recyclerViewCart = findViewById(R.id.rvOrderHistory);
         checkBoxSelectAll = findViewById(R.id.checkBoxSelectAll);
         TotalPayment = findViewById(R.id.tvTotalPayment);
         btnCheckout = findViewById(R.id.btnCheckout);
@@ -256,11 +256,12 @@ public class Cart_screen extends AppCompatActivity {
                     if (cartItems.isEmpty()) {
                         // Xử lý khi danh sách trống
                         Log.d("CartScreen", "Giỏ hàng trống");
-                        swipeRefreshLayout.setVisibility(View.GONE);
-                        llnot.setVisibility(View.VISIBLE);
                         tvVoucher.setEnabled(false);
                         checkBoxSelectAll.setEnabled(false);
                         btnCheckout.setEnabled(false);
+                        recyclerViewCart.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                        llnot.setVisibility(View.VISIBLE);
 
                     } else {
                         // Xử lý khi có dữ liệu
@@ -274,9 +275,13 @@ public class Cart_screen extends AppCompatActivity {
 
                         // Thiết lập ItemTouchHelper cho RecyclerView
                         setupItemTouchHelper();
+                        swipeRefreshLayout.setRefreshing(false);
+                        llnot.setVisibility(View.GONE);
+                        recyclerViewCart.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerViewCart.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                     tvVoucher.setEnabled(false);
                     checkBoxSelectAll.setEnabled(false);
@@ -285,9 +290,9 @@ public class Cart_screen extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
+                recyclerViewCart.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                Log.e("CartScreen", "Lỗi: " );
-                // Xử lý lỗi khi gọi API thất bại
+                llnot.setVisibility(View.VISIBLE);
             }
         });
     }
