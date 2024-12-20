@@ -905,7 +905,7 @@ router.get('/brand-counts', async (req, res) => {
         await mongoose.connect(server.uri);
 
         // Các thương hiệu bạn muốn đếm
-        const brands = ["BANPRESTO", "POP MART", "FUNISM"];
+        const brands = ["BANPRESTO", "POP MART", "FUNISM","FUNKO","DZNR","YOLOPARK"];
 
         const counts = await Promise.all(
             brands.map(async (brand) => {
@@ -949,7 +949,7 @@ router.get('/sale', async (req, res) => {
 router.get('/new-arrivals', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: { $regex: "^NEW_ARRIVALS$", $options: "i" } });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^NEW ARRIVALS$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
@@ -970,7 +970,7 @@ router.get('/new-arrivals', async (req, res) => {
 router.get('/limited', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: { $regex: "^LIMITED_FIGURE$", $options: "i" } });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^LIMITED FIGURE$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
@@ -1010,7 +1010,7 @@ router.get('/figuring', async (req, res) => {
 router.get('/other', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
-        const newProducts = await server.productModel.find({ listPro: { $regex: "^OTHER_PRODUCTS$", $options: "i" } });
+        const newProducts = await server.productModel.find({ listPro: { $regex: "^OTHER PRODUCTS$", $options: "i" } });
 
         if (newProducts.length === 0) {
             return res.status(404).json({ error: 'Không tìm thấy sản phẩm mới nhập.' });
@@ -1031,7 +1031,7 @@ router.get('/blind_box', async (req, res) => {
     try {
         await mongoose.connect(server.uri);
         const newProducts = await server.productModel.find({
-            listPro: { $regex: "^BLIND_BOX$", $options: "i" }
+            listPro: { $regex: "^BLIND BOX$", $options: "i" }
         });
 
         if (newProducts.length === 0) {

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.datn_toystoryshop.Adapter.Product_No_Star_Adapter;
+import com.example.datn_toystoryshop.Home.BlindBox_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -311,11 +312,21 @@ public class BandaiCandy_screen extends AppCompatActivity {
         TextView tvCountBrand1 = dialogView.findViewById(R.id.tv_count_brand_1);
         TextView tvCountBrand2 = dialogView.findViewById(R.id.tv_count_brand_2);
         TextView tvCountBrand3 = dialogView.findViewById(R.id.tv_count_brand_3);
+        CheckBox checkboxBrand4 = dialogView.findViewById(R.id.checkbox_brand_4);
+        CheckBox checkboxBrand5 = dialogView.findViewById(R.id.checkbox_brand_5);
+        CheckBox checkboxBrand6 = dialogView.findViewById(R.id.checkbox_brand_6);
+        TextView tvCountBrand4 = dialogView.findViewById(R.id.tv_count_brand_4);
+        TextView tvCountBrand5 = dialogView.findViewById(R.id.tv_count_brand_5);
+        TextView tvCountBrand6= dialogView.findViewById(R.id.tv_count_brand_6);
 
         // Hiển thị số lượng sản phẩm theo từng thương hiệu
         tvCountBrand1.setText(String.valueOf(countProductsByBrand("BANPRESTO")));
         tvCountBrand2.setText(String.valueOf(countProductsByBrand("POP MART")));
         tvCountBrand3.setText(String.valueOf(countProductsByBrand("FUNISM")));
+        tvCountBrand4.setText(String.valueOf(countProductsByBrand("YOLOPARK")));
+        tvCountBrand5.setText(String.valueOf(countProductsByBrand("DZNR")));
+        tvCountBrand6.setText(String.valueOf(countProductsByBrand("FUNKO")));
+
 
         EditText dialogMaxPrice = dialogView.findViewById(R.id.et_max_price);
         EditText dialogMinPrice = dialogView.findViewById(R.id.et_min_price);
@@ -419,30 +430,33 @@ public class BandaiCandy_screen extends AppCompatActivity {
             boolean isBrand1Selected = checkboxBrand1.isChecked();
             boolean isBrand2Selected = checkboxBrand2.isChecked();
             boolean isBrand3Selected = checkboxBrand3.isChecked();
+            boolean isBrand4Selected = checkboxBrand4.isChecked();
+            boolean isBrand5Selected = checkboxBrand5.isChecked();
+            boolean isBrand6Selected = checkboxBrand6.isChecked();
 
             // Lấy giá trị từ EditText hoặc SeekBar cho minPrice và maxPrice
             int minPrice = Integer.parseInt(dialogMinPrice.getText().toString().replace("đ", "").trim()); // Loại bỏ "đ" và khoảng trắng
             int maxPrice = dialogSeekBarMax.getProgress(); // Giá trị từ SeekBar max
 
             // Kiểm tra xem có ít nhất một thương hiệu được chọn
-            if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected)) {
+            if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected||isBrand4Selected || isBrand5Selected || isBrand6Selected)) {
                 Toast.makeText(BandaiCandy_screen.this, "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
             } else {
                 // Áp dụng bộ lọc với các thương hiệu đã chọn và khoảng giá min-max
-                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, minPrice, maxPrice);
+                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected,isBrand4Selected, isBrand5Selected, isBrand6Selected, minPrice, maxPrice);
                 dialog.dismiss();
             }
         });
 
     }
 
-    private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected, int minPrice, int maxPrice) {
+    private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected,boolean isBrand4Selected, boolean isBrand5Selected, boolean isBrand6Selected, int minPrice, int maxPrice) {
         if (originalProductList == null) {
             Toast.makeText(this, "Danh sách sản phẩm chưa được tải.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        boolean hasBrand1 = false, hasBrand2 = false, hasBrand3 = false;
+        boolean hasBrand1 = false, hasBrand2 = false, hasBrand3 = false ,hasBrand4 = false, hasBrand5 = false, hasBrand6 = false;
 
         // Kiểm tra xem có sản phẩm thuộc thương hiệu được chọn hay không
         for (Product_Model product : originalProductList) {
@@ -451,6 +465,9 @@ public class BandaiCandy_screen extends AppCompatActivity {
             if (brand.equals("BANPRESTO")) hasBrand1 = true;
             if (brand.equals("POP MART")) hasBrand2 = true;
             if (brand.equals("FUNISM")) hasBrand3 = true;
+            if (brand.equals("YOLOPARK")) hasBrand4 = true;
+            if (brand.equals("DZNR")) hasBrand5 = true;
+            if (brand.equals("FUNKO")) hasBrand6 = true;
         }
 
         // Hiển thị thông báo nếu không có sản phẩm nào thuộc thương hiệu đã chọn và dừng tiến trình lọc
@@ -466,6 +483,18 @@ public class BandaiCandy_screen extends AppCompatActivity {
             Toast.makeText(this, "Không có sản phẩm thuộc thương hiệu FUNISM.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (isBrand4Selected && !hasBrand4) {
+            Toast.makeText(this, "Không có sản phẩm thuộc thương hiệu YOLOPARK.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isBrand5Selected && !hasBrand5) {
+            Toast.makeText(this, "Không có sản phẩm thuộc thương hiệu DZNR.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isBrand6Selected && !hasBrand6) {
+            Toast.makeText(this, "Không có sản phẩm thuộc thương hiệu FUNKO.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Nếu có sản phẩm phù hợp, tiếp tục lọc
         List<Product_Model> filteredList = new ArrayList<>();
@@ -475,7 +504,10 @@ public class BandaiCandy_screen extends AppCompatActivity {
 
             if ((isBrand1Selected && brand.equals("BANPRESTO")) ||
                     (isBrand2Selected && brand.equals("POP MART")) ||
-                    (isBrand3Selected && brand.equals("FUNISM"))) {
+                    (isBrand3Selected && brand.equals("FUNISM"))||
+                    (isBrand4Selected && brand.equals("YOLOPARK")) ||
+                    (isBrand5Selected && brand.equals("DZNR")) ||
+                    (isBrand6Selected && brand.equals("FUNKO"))) {
                 if ((minPrice == 0 || price >= minPrice) && (maxPrice == 0 || price <= maxPrice)) {
                     filteredList.add(product);
                 }

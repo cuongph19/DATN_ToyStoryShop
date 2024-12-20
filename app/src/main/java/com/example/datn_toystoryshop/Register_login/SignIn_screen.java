@@ -11,8 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.datn_toystoryshop.Home.Banner.SquidGame_screen;
 import com.example.datn_toystoryshop.Home.Banner.Toys_52_screen;
 import com.example.datn_toystoryshop.Home.BlindBox_screen;
+import com.example.datn_toystoryshop.Home.LimitedFigure_screen;
+import com.example.datn_toystoryshop.Home.Sale_screen;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -211,7 +214,7 @@ public class SignIn_screen extends AppCompatActivity {
                             DocumentSnapshot document = documents.get(0);
                             String storedPassword = document.getString("password");
                             if (storedPassword != null && BCrypt.checkpw(password, storedPassword)) {                                Toast.makeText(SignIn_screen.this, getString(R.string.Toast_success), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignIn_screen.this, Toys_52_screen.class);
+                                Intent intent = new Intent(SignIn_screen.this, Home_screen.class);
                                 String documentId = document.getId();
                                 intent.putExtra("documentId", documentId);
                                 startActivity(intent);
