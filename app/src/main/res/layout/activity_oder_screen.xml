@@ -109,7 +109,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text="(+84) 382 200 084"
+                            android:text="0382200084"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -120,7 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="4dp"
-                        android:text="Số Nhà 3, Ngách 21/1 Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội"
+                        android:text="Số Nhà 3, Ngõ 80 Xuân Phương, Phường Phương Canh, Quận Nam Từ Liêm, Hà Nội"
                         android:textSize="14sp" />
                 </LinearLayout>
 

@@ -55,7 +55,8 @@ public class Order_Refund_Adapter extends RecyclerView.Adapter<Order_Refund_Adap
     public void onBindViewHolder(@NonNull Order_Refund_Adapter.OrderViewHolder holder, int position) {
         Refund_Model refund = refundList.get(position);
         String orderId = refund.getOrderId();
-        fetchRefundDetails(orderId,holder);
+        String refundId = refund.get_id();
+        fetchRefundDetails(refundId,orderId,holder);
 
         // Gọi API
         Call<Order_Model> call = apiService.getOrderById(orderId);
@@ -71,7 +72,7 @@ public class Order_Refund_Adapter extends RecyclerView.Adapter<Order_Refund_Adap
                     boolean isMoreThanTwo = productDetails.size() > 2;
                     List<Order_Model.ProductDetail> displayProductDetails = isMoreThanTwo ? productDetails.subList(0, 2) : productDetails;
 
-                    Order_Refund_Product_Adapter productAdapter = new Order_Refund_Product_Adapter(context, displayProductDetails, apiService, order.get_id(),documentId);
+                    Order_Refund_Product_Adapter productAdapter = new Order_Refund_Product_Adapter(context, displayProductDetails, apiService, order.get_id(),documentId,refundId);
                     holder.recyclerViewProducts.setLayoutManager(new LinearLayoutManager(context));
                     holder.recyclerViewProducts.setAdapter(productAdapter);
                     // Hiển thị/ẩn nút "Xem thêm" dựa vào số lượng sản phẩm
@@ -129,15 +130,13 @@ public class Order_Refund_Adapter extends RecyclerView.Adapter<Order_Refund_Adap
             recyclerViewProducts = itemView.findViewById(R.id.rvProductList);
         }
     }
-    private void fetchRefundDetails(String orderId, OrderViewHolder holder) {
-        apiService.getRefundById(orderId).enqueue(new Callback<RefundResponse>() {
+    private void fetchRefundDetails(String refundId, String orderId, OrderViewHolder holder) {
+        apiService.getRefundByID(refundId).enqueue(new Callback<Refund_Model>() {
             @Override
-            public void onResponse(Call<RefundResponse> call, Response<RefundResponse> response) {
+            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    RefundResponse refundResponse = response.body();
+                    Refund_Model refund = response.body();
 
-                    if (refundResponse.getData() != null && !refundResponse.getData().isEmpty()) {
-                        Refund_Model refund = refundResponse.getData().get(0);
                         String refundStatus = refund.getRefundStatus();
                         holder.textStatus.setText(refundStatus);
                         if ("Hủy hoàn hàng".equals(refundStatus)) {
@@ -158,12 +157,14 @@ public class Order_Refund_Adapter extends RecyclerView.Adapter<Order_Refund_Adap
                             holder.itemView.setOnClickListener(v -> {
                                 Intent intent = new Intent(context, Refund_Detail.class);
                                 intent.putExtra("orderId", orderId);
+                                intent.putExtra("refundId", refundId);
                                 intent.putExtra("documentId", documentId);
                                 context.startActivity(intent);
                             });
                             holder.btnBuyBack.setOnClickListener(v -> {
                                 Intent intent = new Intent(context, Refund_Detail.class);
                                 intent.putExtra("orderId", orderId);
+                                intent.putExtra("refundId", refundId);
                                 intent.putExtra("documentId", documentId);
                                 context.startActivity(intent);
                             });
@@ -171,13 +172,11 @@ public class Order_Refund_Adapter extends RecyclerView.Adapter<Order_Refund_Adap
                     } else {
                         Log.e("API", "Không có dữ liệu hoàn hàng.");
                     }
-                } else {
-                    Log.e("API", "Phản hồi không thành công.");
                 }
-            }
+
 
             @Override
-            public void onFailure(Call<RefundResponse> call, Throwable t) {
+            public void onFailure(Call<Refund_Model> call, Throwable t) {
                 Log.e("API", "Lỗi khi gọi API: " + t.getMessage());
             }
         });

@@ -832,22 +832,46 @@ router.put('/update/order/:orderId', async (req, res) => {
         res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong order', error });
     }
 });
-router.put('/update/refund/:orderId', async (req, res) => {
+// router.put('/update/refund/:orderId', async (req, res) => {
+//     console.log(req.body); // Xem dữ liệu nhận được trong body
+
+//     try {
+//         const { orderId } = req.params; // Lấy id từ URL
+//         const { refundStatus } = req.body; // Lấy các thông tin cập nhật từ body
+
+//         // Tìm sản phẩm theo orderId
+//         const refundItem = await RefundModel.findOne({ orderId });
+//         if (!refundItem) {
+//             return res.status(404).json({ message: 'Sản phẩm không tồn tại trong refund!' });
+//         }
+
+//         // Cập nhật các trường
+//         if (refundStatus !== undefined) refundItem.refundStatus = refundStatus;
+    
+
+//         await refundItem.save(); // Lưu cập nhật
+
+//         res.status(200).json({ message: 'Cập nhật sản phẩm trong refund thành công!', data: refundItem });
+//     } catch (error) {
+//         console.error('Lỗi chi tiết:', error);
+//         res.status(500).json({ message: 'Lỗi khi cập nhật sản phẩm trong refund', error });
+//     }
+// });
+router.put('/update/refund/:_id', async (req, res) => {
     console.log(req.body); // Xem dữ liệu nhận được trong body
 
     try {
-        const { orderId } = req.params; // Lấy id từ URL
+        const { _id } = req.params; // Lấy _id từ URL
         const { refundStatus } = req.body; // Lấy các thông tin cập nhật từ body
 
-        // Tìm sản phẩm theo orderId
-        const refundItem = await RefundModel.findOne({ orderId });
+        // Tìm sản phẩm theo _id
+        const refundItem = await RefundModel.findById(_id);
         if (!refundItem) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại trong refund!' });
         }
 
         // Cập nhật các trường
         if (refundStatus !== undefined) refundItem.refundStatus = refundStatus;
-    
 
         await refundItem.save(); // Lưu cập nhật
 
@@ -1455,6 +1479,27 @@ router.get('/refund-by-order/:orderId', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy thông tin hoàn hàng.', details: error.message });
     }
 });
+router.get('/refund-by/:_id', async (req, res) => {
+    const { _id } = req.params; // Lấy _id từ tham số URL
+
+    try {
+        // Kết nối đến MongoDB
+        await mongoose.connect(server.uri);
+
+        // Tìm refund theo _id
+        const refund = await RefundModel.findOne({ _id });
+
+        if (!refund) {
+            return res.status(404).json({ error: 'Không tìm thấy refund.' });
+        }
+
+        res.json(refund);
+    } catch (error) {
+        console.error('Lỗi khi lấy refund:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi lấy refund.', details: error.message });
+    }
+});
+
 router.get('/cart/get-cart-id', async (req, res) => {
     const { prodId, cusId } = req.query;
 
