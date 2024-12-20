@@ -439,15 +439,48 @@ public class FindingUnicorn_screen extends AppCompatActivity {
             int maxPrice = dialogSeekBarMax.getProgress(); // Giá trị từ SeekBar max
 
             // Kiểm tra xem có ít nhất một thương hiệu được chọn
-            if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected||isBrand4Selected || isBrand5Selected || isBrand6Selected)) {
-                Toast.makeText(FindingUnicorn_screen.this, "Vui lòng chọn ít nhất một thương hiệu!", Toast.LENGTH_SHORT).show();
+            if (!(isBrand1Selected || isBrand2Selected || isBrand3Selected || isBrand4Selected || isBrand5Selected || isBrand6Selected)) {
+                // Nếu không chọn thương hiệu nhưng đã chọn giá, tìm kiếm theo khoảng giá
+                if (minPrice != 0 || maxPrice != 0) {
+                    // Tìm kiếm trong tất cả sản phẩm theo khoảng giá
+                    applyFilterForAllProducts(minPrice, maxPrice);
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(FindingUnicorn_screen.this, "Vui lòng chọn ít nhất một thương hiệu hoặc một khoảng giá!", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                // Áp dụng bộ lọc với các thương hiệu đã chọn và khoảng giá min-max
-                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected,isBrand4Selected, isBrand5Selected, isBrand6Selected, minPrice, maxPrice);
+                // Nếu có ít nhất một thương hiệu được chọn, áp dụng bộ lọc theo thương hiệu và khoảng giá
+                applyFilter(isBrand1Selected, isBrand2Selected, isBrand3Selected, isBrand4Selected, isBrand5Selected, isBrand6Selected, minPrice, maxPrice);
                 dialog.dismiss();
             }
         });
 
+
+    }
+    private void applyFilterForAllProducts(int minPrice, int maxPrice) {
+        if (originalProductList == null) {
+            Toast.makeText(this, "Danh sách sản phẩm chưa được tải.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<Product_Model> filteredList = new ArrayList<>();
+        for (Product_Model product : originalProductList) {
+            int price = (int) product.getPrice();
+
+            // Kiểm tra khoảng giá
+            if ((minPrice == 0 || price >= minPrice) && (maxPrice == 0 || price <= maxPrice)) {
+                filteredList.add(product);
+            }
+        }
+
+        // Kiểm tra nếu không có sản phẩm nào phù hợp với bộ lọc giá
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "Không có sản phẩm phù hợp với bộ lọc giá.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Cập nhật Adapter với danh sách sản phẩm đã lọc
+        adapter.updateData(filteredList);
     }
 
     private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected,boolean isBrand4Selected, boolean isBrand5Selected, boolean isBrand6Selected, int minPrice, int maxPrice) {

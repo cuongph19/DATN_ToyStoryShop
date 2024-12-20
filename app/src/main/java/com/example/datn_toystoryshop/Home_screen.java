@@ -106,7 +106,7 @@ public class Home_screen extends AppCompatActivity {
 
         setupClickListeners();
         // Hiển thị Home_Fragment ngay khi vào màn hình Home
-        loadFragment(new Home_Fragment(), bundle);
+        loadFragment(new ArtStory_Fragment(), bundle);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

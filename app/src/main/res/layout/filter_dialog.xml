@@ -17,7 +17,7 @@
         android:id="@+id/seekBar_price_max"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="1000000" /> <!-- Giả sử giá tối đa là 1.000.000đ -->
+        android:max="10000000" /> <!-- Giả sử giá tối đa là 1.000.000đ -->
 
     <LinearLayout
         android:layout_width="match_parent"
