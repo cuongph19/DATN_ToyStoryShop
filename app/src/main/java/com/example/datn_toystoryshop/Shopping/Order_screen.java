@@ -31,6 +31,7 @@ import com.example.datn_toystoryshop.Adapter.Order_Adapter_Cart;
 import com.example.datn_toystoryshop.Adapter.Order_Adapter_Detail;
 import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.OderProductDetail_Model;
+import com.example.datn_toystoryshop.Model.OrderResponse;
 import com.example.datn_toystoryshop.Model.Order_Detail_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
@@ -467,12 +468,29 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         );
 
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Order_Model> call = apiService.addToOrder(orderModel);
+        Call<OrderResponse> call = apiService.addToOrder(orderModel);
 
-        call.enqueue(new Callback<Order_Model>() {
+        call.enqueue(new Callback<OrderResponse>() {
             @Override
-            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful()) {
+                    OrderResponse createdOrder = response.body(); // Đơn hàng vừa được tạo
+                    Log.d("API_RESPONSE", "aaaaaaaaaaaaaaaaaaaaaaaaaaaResponse body: " + response.body());
+                    if (createdOrder != null) {
+                        String orderId1 = createdOrder.getOrderId(); // Lấy `orderId` từ phản hồi
+                        Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+
+                        // Chuyển sang màn hình thanh toán
+                        Intent intent = new Intent(Order_screen.this, PayPalActivity.class);
+                        intent.putExtra("amount", (long) Math.floor(moneyPay));
+                        intent.putExtra("orderId", orderId1); // Truyền `orderId` vào intent
+                        intent.putExtra("user_id", documentId);
+                        startActivity(intent);
+                        System.out.println("Đã chuyển sang màn hình thanh toán");
+                    } else {
+                        Log.e("API_ERROR", "Phản hồi API trả về null.");
+                        Toast.makeText(getApplicationContext(), "Lỗi tạo đơn hàng", Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
                     if (voucherId != null ) {
                         String[] voucherIds = voucherId.split(",");
@@ -506,15 +524,16 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
-                    // Chuyển sang màn hình thanh toán
-
-                    Intent intent = new Intent(Order_screen.this, PayPalActivity.class);
-                    System.out.println("MoneyPay: " + moneyPay);
-                    System.out.println("documentId: " + documentId);
-                    intent.putExtra("amount", (long) Math.floor(moneyPay));
-                    intent.putExtra("user_id", documentId);
-                    startActivity(intent);
-                    System.out.println("Đã chuyển sang màn hình thanh toán");
+//                    // Chuyển sang màn hình thanh toán
+//
+//                    Intent intent = new Intent(Order_screen.this, PayPalActivity.class);
+//                    System.out.println("MoneyPay: " + moneyPay);
+//                    System.out.println("documentId: " + documentId);
+//                    intent.putExtra("amount", (long) Math.floor(moneyPay));
+//                    intent.putExtra("orderId", orderId);
+//                    intent.putExtra("user_id", documentId);
+//                    startActivity(intent);
+//                    System.out.println("Đã chuyển sang màn hình thanh toán");
 
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
@@ -523,7 +542,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
 
             @Override
-            public void onFailure(Call<Order_Model> call, Throwable t) {
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm đánh giá", t);
             }
@@ -631,12 +650,30 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
         );
 
         APIService apiService = RetrofitClient.getInstance().create(APIService.class);
-        Call<Order_Model> call = apiService.addToOrder(orderModel);
+        Call<OrderResponse> call = apiService.addToOrder(orderModel);
 
-        call.enqueue(new Callback<Order_Model>() {
+        call.enqueue(new Callback<OrderResponse>() {
             @Override
-            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful()) {
+                    OrderResponse createdOrder = response.body(); // Đơn hàng vừa được tạo
+                    if (createdOrder != null) {
+                        String orderId = createdOrder.getOrderId(); // Lấy `orderId` từ phản hồi
+                        System.out.println("Order ID: " + orderId); // Kiểm tra log
+
+                        Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
+
+                        // Chuyển sang màn hình thanh toán
+                        Intent intent = new Intent(Order_screen.this, PayPalActivity.class);
+                        intent.putExtra("amount", (long) Math.floor(moneyPay));
+                        intent.putExtra("orderId", orderId); // Truyền `orderId` vào intent
+                        intent.putExtra("user_id", documentId);
+                        startActivity(intent);
+                        System.out.println("Đã chuyển sang màn hình thanh toán");
+                    } else {
+                        Log.e("API_ERROR", "Phản hồi API trả về null.");
+                        Toast.makeText(getApplicationContext(), "Lỗi tạo đơn hàng", Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(getApplicationContext(), "Cảm ơn đã mua", Toast.LENGTH_SHORT).show();
                     if (voucherId != null) {
                         String[] voucherIds = voucherId.split(",");
@@ -664,14 +701,14 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
                     // Hiển thị thông báo chào mừng nếu thông báo đang được bật
                     showWelcomeNotification();
 
-                    //Goto payment
-                    Intent in = new Intent(Order_screen.this, PayPalActivity.class);
-                    System.out.println("MoneyPay: " + moneyPay);
-                    System.out.println("documentId: " + documentId);
-                    in.putExtra("amount", (long) Math.floor(moneyPay));
-                    in.putExtra("user_id", documentId);
-                    startActivity(in);
-                    System.out.println("Đã chuyển sang màn hình thanh toán");
+//                    //Goto payment
+//                    Intent in = new Intent(Order_screen.this, PayPalActivity.class);
+//                    System.out.println("MoneyPay: " + moneyPay);
+//                    System.out.println("documentId: " + documentId);
+//                    in.putExtra("amount", (long) Math.floor(moneyPay));
+//                    in.putExtra("user_id", documentId);
+//                    startActivity(in);
+//                    System.out.println("Đã chuyển sang màn hình thanh toán");
 
                 } else {
                     Log.e("API_ERROR", "Thêm order thất bại, mã phản hồi: " + response.code());
@@ -680,7 +717,7 @@ public class Order_screen extends AppCompatActivity implements Order_Adapter_Det
             }
 
             @Override
-            public void onFailure(Call<Order_Model> call, Throwable t) {
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Không thể kết nối tới API", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Lỗi kết nối API khi thêm order", t);
             }

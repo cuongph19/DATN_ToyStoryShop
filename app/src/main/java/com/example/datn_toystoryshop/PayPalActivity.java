@@ -10,6 +10,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.datn_toystoryshop.Detail.Order_Confirm_Detail;
+import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.VnPayCreate_Model;
 import com.example.datn_toystoryshop.Model.Vnpay_Model;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -24,11 +26,11 @@ public class PayPalActivity extends Activity {
     public static final String KEY_AMOUNT = "amount";
     public static final String KEY_USER_ID = "user_id";
     public static final int REQUEST_CODE_PAYMENT = 1;
-
+    private APIService apiService;
     private WebView webView;
 
     private Long amount;
-    private String userId;
+    private String userId, orderId;
 
     private String redirectedUrl = "";
 
@@ -40,14 +42,14 @@ public class PayPalActivity extends Activity {
         webView = findViewById(R.id.web_view);
 
         System.out.println("PayPalActivity.onCreate");
-
+        apiService = RetrofitClient.getAPIService();
         // Check key và lấy dữ liệu từ Intent, nếu không thì về screen trước
         Intent intent = getIntent();
-//        if (intent == null || !intent.hasExtra(KEY_AMOUNT) || !intent.hasExtra(KEY_USER_ID)) {
-//            Log.e("PayPalActivity", "No amount or user_id passed to PayPalActivity.");
-//            finish();
-//            return;
-//        }
+
+
+        orderId = getIntent().getStringExtra("orderId");
+        Log.e("PayPalActivity", "pppppppppppppp" + orderId);
+
         amount = intent.getLongExtra(KEY_AMOUNT, 0);
         userId = intent.getStringExtra(KEY_USER_ID);
 
@@ -139,7 +141,8 @@ public class PayPalActivity extends Activity {
                 // Nếu url chứa "vnp_TransactionStatus=00" thì thanh toán thành công
                 Log.d("PayPalActivity", "Payment successful.");
                 Toast.makeText(this, "Payment successful!", Toast.LENGTH_LONG).show();
-
+                String newStatus = "Chờ lấy hàng"; // Trạng thái mới
+                deleteOrder(orderId, newStatus);
                 //go to home screen
                 Intent in = new Intent(PayPalActivity.this, Home_screen.class);
                 in.putExtra("documentId", userId);
@@ -167,6 +170,36 @@ public class PayPalActivity extends Activity {
             }
         }
     }
+    private void deleteOrder(String orderId, String newStatus) {
+        // Tạo model để gửi dữ liệu
+        Order_Model orderModel = new Order_Model();
+        orderModel.setOrderStatus(newStatus); // Thiết lập trạng thái đơn hàng mới
+
+        // Gọi API qua Retrofit
+        Call<Order_Model> call = apiService.putorderUpdate(orderId, orderModel);
+        call.enqueue(new Callback<Order_Model>() {
+            @Override
+            public void onResponse(Call<Order_Model> call, Response<Order_Model> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Thành công, hiển thị kết quả
+                    Toast.makeText(PayPalActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Log.d("API", "Cập nhật thành công: " + response.body().toString());
+                } else {
+                    // Xử lý lỗi trả về từ server
+                    Toast.makeText(PayPalActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+                    Log.e("API", "Lỗi trả về: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order_Model> call, Throwable t) {
+                // Lỗi kết nối hoặc các lỗi khác
+                Toast.makeText(PayPalActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("API", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
 }
 
 

@@ -365,6 +365,7 @@
     <string name="confirmed">Đã xác nhận</string>
     <string name="received_complete_goods">Đã nhận hàng hoàn</string>
     <string name="refund">Hoàn tiền</string>
+    <string name="payment">Thanh toán</string>
 
     <string-array name="sort_options">
         <item>Giá thấp - cao</item>
