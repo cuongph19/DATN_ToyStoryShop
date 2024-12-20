@@ -104,10 +104,8 @@ public class OrderHist_Detail extends AppCompatActivity {
                     address_phone.setText(orderModel.getPhone_order());
                     address_detail.setText(orderModel.getAddress_order());
 
-                    int revenueAll = orderModel.getRevenue_all();
-                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    String formattedRevenue = currencyFormat.format(revenueAll);
-                    tvTotalPrice.setText(": "+ formattedRevenue);
+                    tvTotalPrice.setText(String.format(" %,.0fđ", (double) orderModel.getRevenue_all()));
+
 
                     if (orderModel.getProdDetails() != null && !orderModel.getProdDetails().isEmpty()) {
                         APIService apiService = RetrofitClient.getAPIService();

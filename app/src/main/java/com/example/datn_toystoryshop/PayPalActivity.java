@@ -144,8 +144,11 @@ public class PayPalActivity extends Activity {
                 String newStatus = "Chờ lấy hàng"; // Trạng thái mới
                 deleteOrder(orderId, newStatus);
                 //go to home screen
-                Intent in = new Intent(PayPalActivity.this, Home_screen.class);
+                Intent in = new Intent(PayPalActivity.this, Thanks_payment.class);
                 in.putExtra("documentId", userId);
+                in.putExtra("amount", amount);
+                Log.e("OrderHistoryAdapter", "j66666666666666666Browse_Fragment  2   " + amount);
+                in.putExtra("orderId", orderId);
                 startActivity(in);
                 finish();
             } else if (redirectedUrl.contains("vnp_TransactionStatus=02")) {
