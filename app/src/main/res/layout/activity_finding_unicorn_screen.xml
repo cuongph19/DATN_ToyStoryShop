@@ -34,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Finding unicorn"
+            android:text="@string/finding_unicorn"
             android:textColor="#ffffff"
             android:textSize="24sp"
             android:textStyle="bold" />

@@ -213,6 +213,13 @@
     <string name="art_store">Sản phẩm nghệ thuật</string>
     <string name="location">Địa chỉ</string>
     <string name="category">Phân loại</string>
+    <string name="toys_52">52 Toys</string>
+    <string name="squid_game">Squid Game</string>
+    <string name="toystoryshop">ToyStoryShop</string>
+    <string name="heyone">HeyOne</string>
+    <string name="finding_unicorn">Finding Unicorn</string>
+    <string name="blokees">Blokees</string>
+    <string name="bandai_candy">Bandai Candy</string>
 
 
     <string name="favorite_list">Danh sách ưa thích</string>
@@ -297,6 +304,7 @@
     <string name="address_details">Chi tiết địa chỉ</string>
     <string name="wholesale_price_available">Có giá bán buôn, bán sỉ</string>
 
+    <string name="remember">Ghi chú thêm</string>
     <string name="quantity">Số lượng</string>
     <string name="warehouse">Kho</string>
     <string name="price">Giá</string>
