@@ -34,7 +34,7 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:hint="@string/email_hint"
-        app:hintTextColor="@color/white">
+        app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edemailLg"
@@ -44,7 +44,7 @@
             android:background="@drawable/ic_custtomedit"
             android:paddingLeft="10dp"
             android:text="0382200084"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,7 +53,7 @@
         android:gravity="center"
         android:hint="@string/password_hint"
         app:endIconMode="password_toggle"
-        app:hintTextColor="@color/white"
+        app:hintTextColor="@color/black"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -65,7 +65,7 @@
             android:inputType="textPassword"
             android:paddingLeft="10dp"
             android:text="A111111"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -74,18 +74,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="@drawable/rounded_border"
+        android:background="@drawable/rounded_border2"
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/signin_button"
-        android:textColor="#13B48B" />
+        android:textColor="@color/accept_enabled_color" />
 
     <LinearLayout
         android:id="@+id/btnGoogleLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/rounded_border"
+        android:background="@drawable/rounded_border2"
         android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -109,7 +109,7 @@
             android:padding="12dp"
             android:paddingEnd="70dp"
             android:text="@string/google_login_button"
-            android:textColor="@color/teal_200" />
+            android:textColor="@color/accept_enabled_color" />
     </LinearLayout>
 
     <TextView

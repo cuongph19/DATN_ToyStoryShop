@@ -108,26 +108,19 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         });
 
         holder.tvQuantity.setText(String.valueOf(quantity)); // Đặt giá trị ban đầu cho số lượng là 1
-
+        // Sự kiện tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-            int productQuantity = cart.getQuantity(); // Assuming this represents the available stock of the product
+            currentQuantity++;
+            holder.tvQuantity.setText(String.valueOf(currentQuantity));
+            updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
+            quantity = currentQuantity;
+            Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + currentQuantity);
+            Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy1 " + quantity);
 
-// Debug logs to check the values
-            Log.d("QuantityCheck", "currentQuantity: " + currentQuantity + ", productQuantity: " + productQuantity);
+            //  gặp lỗi tvQuantity không cập nhập lên ngay mà phải click 2 lần thì mới cập nhập, mặc dù khi click 1 lần dữ liệu đã lên đc mongo
 
-// If currentQuantity < available stock, allow increasing
-            if (currentQuantity < productQuantity) {
-                currentQuantity++;
-                holder.tvQuantity.setText(String.valueOf(currentQuantity));
-                updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
-            } else {
-                Toast.makeText(context, "Không thể tăng số lượng, đã đạt giới hạn trong kho!", Toast.LENGTH_SHORT).show();
-            }
         });
-
-
-
 // Đặt sự kiện cho CheckBox để chọn/bỏ chọn từng sản phẩm
         holder.checkBoxSelectItem.setOnCheckedChangeListener(null); // Xóa listener cũ để tránh gọi lại
         holder.checkBoxSelectItem.setChecked(cart.isSelected()); // Đặt trạng thái cho CheckBox dựa trên giá trị hiện tại
@@ -141,13 +134,15 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
             holder.checkBoxSelectItem.setChecked(cart.isSelected());
         });
 
+        // Sự kiện giảm số lượng với giá trị tối thiểu là 1
         holder.btnDecrease.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             if (currentQuantity > 1) {
                 currentQuantity--;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
                 updateCartItem(apiService, cart.get_id(), selectedItem, currentQuantity);
-                Log.d("CartAdapter", "Updated quantity: " + currentQuantity);
+                quantity = currentQuantity;
+                Log.d("CartAdapter", "yyyyyyyyyyyyyyyyyyyyyyyyyyy " + currentQuantity);
             } else {
                 Toast.makeText(context, "Số lượng tối thiểu là 1", Toast.LENGTH_SHORT).show();
             }
@@ -210,7 +205,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
         loadProductById(apiService, prodId, new ProductCallback() {
             @Override
             public void onSuccess(Product_Model product) {
-                cart.setQuantity(product.getQuantity()); // Ensure the correct stock value is set
+
                 holder.productName.setText(product.getNamePro());
                 holder.productPrice.setText(String.format("%,.0fđ", product.getPrice()));
                 List<String> images = product.getImgPro();
@@ -446,7 +441,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
                 }
 
                 totalPayment += subtotal; // Cộng vào tổng tiền
-                  } else if (cart.isSelected()) {
+            } else if (cart.isSelected()) {
                 // Ghi log nếu không tìm thấy giá sản phẩm
                 Log.d("CartAdapter", "Price not found for product ID: " + cart.getProdId());
             }
@@ -521,27 +516,27 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.CartViewHold
     }
 
     public void refreshCart() {
-        if (documentId == null || documentId.isEmpty()) {
-            Log.e("CartAdapter", "Document ID không được để trống");
+        String cusId = documentId;
+
+        if (cusId == null || cusId.isEmpty()) {
+            Log.e("FavoriteScreen", "cusId không được để trống");
             return;
         }
-
-        apiService.getCarts(documentId).enqueue(new Callback<List<Cart_Model>>() {
+        apiService.getCarts(cusId).enqueue(new Callback<List<Cart_Model>>() {
             @Override
             public void onResponse(Call<List<Cart_Model>> call, Response<List<Cart_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cartList.clear(); // Xóa danh sách cũ
-                    cartList.addAll(response.body()); // Cập nhật danh sách
-                    notifyDataSetChanged(); // Làm mới giao diện
+                    cartList.clear();
+                    cartList.addAll(response.body());
+                    notifyDataSetChanged();  // Cập nhật lại giao diện
                 }
             }
 
             @Override
             public void onFailure(Call<List<Cart_Model>> call, Throwable t) {
-                Log.e("CartAdapter", "Lỗi khi làm mới giỏ hàng: " + t.getMessage());
+                // Xử lý lỗi khi gọi API thất bại
             }
         });
     }
-
 
 }

@@ -347,7 +347,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button_background"
+        android:background="@drawable/button_orange_background"
         android:gravity="center"
         android:padding="15dp"
         android:layout_marginStart="10dp"
@@ -355,14 +355,14 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:text="@string/order_details"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="14sp" />
     <TextView
         android:id="@+id/btnCancel_request"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button_background"
+        android:background="@drawable/button_orange_background"
         android:gravity="center"
         android:padding="15dp"
         android:layout_marginStart="8dp"
@@ -370,7 +370,7 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:text="@string/cancel_request"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
 </LinearLayout>
@@ -401,13 +401,13 @@
             android:id="@+id/btnDiscuss_further"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:padding="15dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="@string/discuss_further"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
     </LinearLayout>

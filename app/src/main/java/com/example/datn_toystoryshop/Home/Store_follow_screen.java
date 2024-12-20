@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_toystoryshop.R;
 
 public class Store_follow_screen extends AppCompatActivity {
-    private Button btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
+    private TextView btn_follow_store_1, btn_follow_store_2, btn_follow_store_3, btn_follow_store_4;
     private ImageView imgBack;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;

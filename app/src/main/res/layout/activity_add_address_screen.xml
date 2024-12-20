@@ -91,16 +91,18 @@
         android:layout_height="wrap_content"
         android:text="@string/set_as_default_address" />
     <!-- Nút lưu -->
-    <Button
+
+
+    <TextView
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#001A61"
-        android:paddingVertical="16dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_orange_background"
+        android:gravity="center"
+        android:padding="20dp"
         android:text="@string/save"
         android:textColor="#FFFFFF" />
-
-
 
 </LinearLayout>

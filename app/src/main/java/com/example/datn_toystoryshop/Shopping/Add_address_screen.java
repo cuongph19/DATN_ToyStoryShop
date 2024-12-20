@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +45,7 @@ import java.util.Locale;
 public class Add_address_screen extends AppCompatActivity {
     private EditText etName, etPhoneNumber, etAddress, etAddressDetail;
     private CheckBox cbDefault;
-    private Button btnSave;
+    private TextView btnSave;
     private ImageView imgBack,imgADD;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;

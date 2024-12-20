@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="Back"
             android:padding="8dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back1" />
 
         <!-- Title -->
         <TextView
