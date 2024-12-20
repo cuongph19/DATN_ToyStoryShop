@@ -85,12 +85,12 @@ public class Chat_contact extends AppCompatActivity implements OnChatUpdateListe
         // Gọi API để lấy lịch sử tin nhắn
         getChatHistory();
         // Tự động hiển thị tin nhắn hỗ trợ sau 2 giây
-        new android.os.Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addSupportMessage("Chào bạn, bạn cần tôi hỗ trợ gì nào?");
-            }
-        }, 1000); // 2000 milliseconds = 2 seconds
+//        new android.os.Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                addSupportMessage("Chào bạn, bạn cần tôi hỗ trợ gì nào?");
+//            }
+//        }, 1000); // 2000 milliseconds = 2 seconds
         // Xử lý sự kiện gửi tin nhắn
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
