@@ -105,13 +105,17 @@
         android:textSize="16sp" />
 
     <!-- Nút chia sẻ -->
-    <Button
-        android:id="@+id/btnShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="#001A61"
-        android:text="@string/share_button_int"
-        android:textColor="@color/white" />
 
+
+    <TextView
+        android:id="@+id/btnShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_orange_background"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/share_button_int"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

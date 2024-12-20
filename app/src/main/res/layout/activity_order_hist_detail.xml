@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/gray"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
@@ -196,7 +196,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#F2DCE1"
+            android:background="@color/white"
             android:padding="10dp">
 
             <!-- RecyclerView for Product List -->
@@ -205,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:background="#F2DCE1" />
+                android:background="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -250,7 +250,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F2DCE1"
+            android:background="#FFFFFF"
             android:orientation="vertical"
             android:padding="16dp">
 

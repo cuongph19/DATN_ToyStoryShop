@@ -18,7 +18,7 @@ import com.example.datn_toystoryshop.R;
 public class Privacy_Security_screen extends AppCompatActivity {
 
     private CheckBox checkboxAgree;
-    private Button btnAccept;
+    private TextView btnAccept;
     private TextView tvPrivacy;
     private ImageView imgBack;
     private static final String PREFS_NAME = "PrivacyPrefs";

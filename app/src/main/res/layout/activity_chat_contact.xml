@@ -66,15 +66,16 @@
             android:hint="@string/enter_mess"
             android:padding="10dp"
             android:textColor="#000000"
-            android:textColorHint="#FFA726" />
+            android:textColorHint="#000000" />
 
         <Button
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:backgroundTint="#FFA726"
+            android:backgroundTint="@color/accept_enabled_color"
             android:text="@string/send"
             android:textColor="#FFFFFF" />
+
     </LinearLayout>
 </LinearLayout>

@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white"
+    android:background="@color/GB"
     android:orientation="vertical"
    >
     <ImageView
@@ -60,13 +60,14 @@
             android:id="@+id/btnRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="@string/feedback_order_his"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
+
     </LinearLayout>
 
     <!-- Thanh đánh giá -->

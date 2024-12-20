@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#F2DCE1"
+        android:background="@color/GB"
         android:padding="8dp">
 
         <!-- Header -->
@@ -91,13 +91,13 @@
                     android:id="@+id/btnBuyBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button_background"
+                    android:background="@drawable/button_orange_background"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/view_detail"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>

@@ -19,7 +19,7 @@ public class Introduce_Friends_screen extends AppCompatActivity {
     private String[] referralCodes = {"TOYSTORY123", "TOYSTORY456", "TOYSTORY789", "TOYSTORY101"};
     private ImageView imgBack;
     private TextView tvReferralCode;
-    private Button btnShare;
+    private TextView btnShare;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
 

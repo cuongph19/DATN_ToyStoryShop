@@ -12,4 +12,5 @@
     <color name="highlight_color">#FF5722</color>
     <color name="gray_with_opacity">#33000000</color>
     <color name="yellow">#FFD700</color>
+    <color name="GB">#EDF4F2</color>
 </resources>

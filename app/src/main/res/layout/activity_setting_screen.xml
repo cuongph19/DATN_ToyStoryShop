@@ -94,7 +94,7 @@
             android:id="@+id/switch_notif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumbTint="#FFFFFF"
+            android:thumbTint="@color/accept_enabled_color"
             android:trackTint="#001A61" />
     </LinearLayout>
     <!-- Cài đặt thông báo -->
@@ -132,8 +132,8 @@
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumbTint="#FFFFFF"
-            android:trackTint="#001A61" />
+            android:thumbTint="@color/accept_enabled_color"
+            android:trackTint="@color/accept_enabled_color" />
     </LinearLayout>
 
 </LinearLayout>

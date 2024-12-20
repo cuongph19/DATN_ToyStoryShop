@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="Back"
             android:padding="8dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back1" />
 
         <!-- Title -->
         <TextView
@@ -102,15 +102,18 @@
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
-                <!-- Follow Button -->
-                <Button
+
+                <TextView
                     android:id="@+id/btn_follow_store_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#1A3B72"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_orange_background"
+                    android:gravity="center"
+                    android:padding="20dp"
                     android:text="@string/follow_homefm"
-                    android:textColor="@android:color/white" />
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <!-- Store Item 2 -->
@@ -152,15 +155,18 @@
                     android:text="Đồ Chơi Thiếu Nhi"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
-
-                <Button
+                <TextView
                     android:id="@+id/btn_follow_store_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#1A3B72"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_orange_background"
+                    android:gravity="center"
+                    android:padding="20dp"
                     android:text="@string/follow_homefm"
-                    android:textColor="@android:color/white" />
+                    android:textColor="#FFFFFF" />
+
             </LinearLayout>
 
             <!-- Store Item 3 -->
@@ -202,15 +208,18 @@
                     android:text="MYKINGDOM"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
-
-                <Button
+                <TextView
                     android:id="@+id/btn_follow_store_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#1A3B72"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_orange_background"
+                    android:gravity="center"
+                    android:padding="20dp"
                     android:text="@string/follow_homefm"
-                    android:textColor="@android:color/white" />
+                    android:textColor="#FFFFFF" />
+
             </LinearLayout>
 
             <!-- Store Item 4 -->
@@ -252,15 +261,18 @@
                     android:text="Hobiverse"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
-
-                <Button
+                <TextView
                     android:id="@+id/btn_follow_store_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#1A3B72"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_orange_background"
+                    android:gravity="center"
+                    android:padding="20dp"
                     android:text="@string/follow_homefm"
-                    android:textColor="@android:color/white" />
+                    android:textColor="#FFFFFF" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -422,7 +422,7 @@ public class LimitedFigure_screen extends AppCompatActivity {
             }
         });
 
-        Button btnApplyFilter = dialogView.findViewById(R.id.btn_apply_filter);
+        TextView btnApplyFilter = dialogView.findViewById(R.id.btn_apply_filter);
         btnApplyFilter.setOnClickListener(v -> {
             boolean isBrand1Selected = checkboxBrand1.isChecked();
             boolean isBrand2Selected = checkboxBrand2.isChecked();

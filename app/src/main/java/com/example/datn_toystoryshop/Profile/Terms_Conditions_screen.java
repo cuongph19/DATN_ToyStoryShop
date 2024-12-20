@@ -21,7 +21,7 @@ public class Terms_Conditions_screen extends AppCompatActivity {
     private static final String PREFS_NAME = "TermsPrefs";
     private static final String KEY_CHECKBOX_AGREE = "checkbox_agree";
     private CheckBox checkboxAgree;
-    private Button btnAccept;
+    private TextView btnAccept;
     private TextView tvTerms;
     private ImageView imgBack;
     // Biến để kiểm tra người dùng đã nhấn Accept h ay chưa

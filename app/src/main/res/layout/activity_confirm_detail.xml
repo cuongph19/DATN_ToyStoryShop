@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/gray"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="true">
@@ -188,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#F2DCE1"
+                android:background="#FFFFFF"
                 android:padding="10dp">
 
                 <!-- RecyclerView for Product List -->
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    android:background="#F2DCE1" />
+                    android:background="#FFFFFF" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,7 +240,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F2DCE1"
+                android:background="#FFFFFF"
                 android:orientation="vertical"
                 android:padding="16dp"
 
@@ -364,13 +364,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:padding="15dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="@string/payment"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
         <TextView
@@ -378,14 +378,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:padding="15dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:layout_marginStart="15dp"
             android:text="@string/cancel_order"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
     </LinearLayout>

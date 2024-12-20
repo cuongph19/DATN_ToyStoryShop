@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Thanks_payment">
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="Bạn đã thanh toán"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:gravity="center" />
 
         <TextView
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="0đ"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginStart="4dp" />
     </LinearLayout>
@@ -74,7 +74,7 @@
         android:text="Chỉ nhận khi đơn mua ở trạng thái 'Chờ giao hàng'."
         android:textSize="14sp"
         android:padding="15dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         android:gravity="center" />
 
     <LinearLayout
@@ -90,13 +90,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:padding="15dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="@string/home_menu"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
         <TextView
@@ -104,14 +104,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button_background"
+            android:background="@drawable/button_orange_background"
             android:gravity="center"
             android:padding="15dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:layout_marginStart="15dp"
             android:text="@string/purchase_order"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
     </LinearLayout>
