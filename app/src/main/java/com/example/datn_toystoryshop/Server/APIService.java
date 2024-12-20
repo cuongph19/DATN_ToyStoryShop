@@ -129,11 +129,14 @@ public interface APIService {
     @GET("/api/product-by/{prodId}")
     Call<Product_Model> getProductById(@Path("prodId") String prodId);
 
-    @GET("/api/refund-by-order/{orderId}")
-    Call<RefundResponse> getRefundById(@Path("orderId") String orderId);
+//    @GET("/api/refund-by-order/{orderId}")
+//    Call<RefundResponse> getRefundByID(@Path("orderId") String orderId);
 
     @GET("/api/order-by/{orderId}")
     Call<Order_Model> getOrderById(@Path("orderId") String orderId);
+
+    @GET("/api/refund-by/{id}")
+    Call<Refund_Model> getRefundByID(@Path("id") String refundId);
 
     @PUT("/api/update/cart/{cartId}")
     Call<Cart_Model> putCartUpdate(@Path("cartId") String cartId, @Body Cart_Model cartModel);
@@ -141,8 +144,11 @@ public interface APIService {
     @PUT("/api/update/order/{orderId}")
     Call<Order_Model> putorderUpdate(@Path("orderId") String orderId, @Body Order_Model orderModel);
 
-    @PUT("/api/update/refund/{orderId}")
-    Call<Refund_Model> putRefundUpdate(@Path("orderId") String orderId, @Body Refund_Model refundModel);
+//    @PUT("/api/update/refund/{orderId}")
+//    Call<Refund_Model> putRefundUpdate(@Path("orderId") String orderId, @Body Refund_Model refundModel);
+
+    @PUT("/api/update/refund/{id}")
+    Call<Refund_Model> putRefundUpdate(@Path("id") String refundId, @Body Refund_Model refundModel);
 
     @PUT("/api/update/product/{prodId}")
     Call<Product_Model> putProductUpdate(@Path("prodId") String prodId, @Body Product_Model productModel);

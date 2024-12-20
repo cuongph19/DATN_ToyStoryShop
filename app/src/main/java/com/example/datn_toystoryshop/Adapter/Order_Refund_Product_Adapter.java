@@ -31,13 +31,14 @@ public class Order_Refund_Product_Adapter extends RecyclerView.Adapter<Order_Ref
     private Context context;
     private List<Order_Model.ProductDetail> productList;
     private APIService apiService;
-    private String orderId;
+    private String orderId,refundId;
     private String documentId;
 
-    public Order_Refund_Product_Adapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId, String documentId) {
+    public Order_Refund_Product_Adapter(Context context, List<Order_Model.ProductDetail> productList , APIService apiService, String orderId, String documentId, String refundId) {
         this.context = context;
         this.productList = productList;
         this.apiService = apiService;
+        this.refundId = refundId;
         this.orderId = orderId;
         this.documentId = documentId;
     }
@@ -61,6 +62,7 @@ public class Order_Refund_Product_Adapter extends RecyclerView.Adapter<Order_Ref
             // Chuyển đến màn hình chi tiết sản phẩm
             Intent intent = new Intent(context, Refund_Detail.class);
             intent.putExtra("orderId", orderId);
+            intent.putExtra("refundId", refundId);
             intent.putExtra("documentId", documentId);
             context.startActivity(intent);
         });

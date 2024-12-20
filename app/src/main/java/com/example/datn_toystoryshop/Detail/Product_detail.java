@@ -354,7 +354,7 @@ public class Product_detail extends AppCompatActivity {
 
         TextView btnDecrease = dialog.findViewById(R.id.btnDecrease);
         TextView btnIncrease = dialog.findViewById(R.id.btnIncrease);
-        Button btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
+        TextView btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
 
         productTitle.setText(productName);
         Price.setText(String.format("%,.0fđ", productPrice));
@@ -468,7 +468,7 @@ public class Product_detail extends AppCompatActivity {
 
         TextView btnDecrease = dialog.findViewById(R.id.btnDecrease);
         TextView btnIncrease = dialog.findViewById(R.id.btnIncrease);
-        Button btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
+        TextView btnAddToCart = dialog.findViewById(R.id.btnAddToCart);
 
         productTitle.setText(productName);
         Price.setText(String.format("%,.0fđ", productPrice));

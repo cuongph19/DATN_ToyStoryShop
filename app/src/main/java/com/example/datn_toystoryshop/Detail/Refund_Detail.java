@@ -39,10 +39,10 @@ public class Refund_Detail extends AppCompatActivity {
 
     private View view_circle_1, view_circle_2, view_circle_3, view2, view3;
     private ImageView imgBack;
-    private TextView tv1, tv2, tv3, show_more_oder, refund_amount, date_refund, refundID, reason_for_return ;
+    private TextView tv1, tv2, tv3, show_more_oder, refund_amount, date_refund, refund_ID, reason_for_return ;
     private RecyclerView recycler_view_refund;
     private TextView btnOrder_details,btnCancel_request, btnDiscuss_further;
-    private String orderId, documentId;
+    private String orderId, documentId,refundId;
     private APIService apiService;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
@@ -65,7 +65,7 @@ public class Refund_Detail extends AppCompatActivity {
         show_more_oder = findViewById(R.id.show_more_oder);
         refund_amount = findViewById(R.id.refund_amount);
         date_refund = findViewById(R.id.date_refund);
-        refundID = findViewById(R.id.refundID);
+        refund_ID = findViewById(R.id.refundID);
         reason_for_return = findViewById(R.id.reason_for_return);
         recycler_view_refund = findViewById(R.id.recycler_view_refund);
         btnOrder_details = findViewById(R.id.btnOrder_details);
@@ -82,8 +82,9 @@ public class Refund_Detail extends AppCompatActivity {
         }
         apiService = RetrofitClient.getAPIService();
          orderId = getIntent().getStringExtra("orderId");
+        refundId = getIntent().getStringExtra("refundId");
         documentId = getIntent().getStringExtra("documentId");
-        fetchRefundDetails(orderId);
+        fetchRefundDetails(refundId);
         loadOrderDetails(orderId);
         btnOrder_details.setOnClickListener(v -> {
 
@@ -99,8 +100,8 @@ public class Refund_Detail extends AppCompatActivity {
                 String newStatus = "Đã giao"; // Trạng thái mới
                 deliveredOrder(orderId, newStatus);
                 String newStatus1 = "Hủy hoàn hàng"; // Trạng thái mới
-                cancelRefund(orderId, newStatus1);
-
+                cancelRefund(refundId, newStatus1);
+                Log.d("API", "bbbbbbbbbbbbbbb " + refundId);
                 Intent intent1 = new Intent(Refund_Detail.this, History_purchase_screen.class);
                 intent1.putExtra("documentId", documentId);
                 startActivity(intent1);
@@ -119,21 +120,17 @@ public class Refund_Detail extends AppCompatActivity {
         });
 
     }
-    private void fetchRefundDetails(String orderId) {
-        apiService.getRefundById(orderId).enqueue(new Callback<RefundResponse>() {
+    private void fetchRefundDetails(String refundId) {
+        apiService.getRefundByID(refundId).enqueue(new Callback<Refund_Model>() {
             @Override
-            public void onResponse(Call<RefundResponse> call, Response<RefundResponse> response) {
+            public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    RefundResponse refundResponse = response.body();
-
-                    if (refundResponse.getData() != null && !refundResponse.getData().isEmpty()) {
-                        Refund_Model refund = refundResponse.getData().get(0);
-
+                    Refund_Model refund = response.body();
                         // Cập nhật giao diện
                         String fullRefundID = refund.get_id();
                         String displayRefundID = fullRefundID.length() > 6 ? fullRefundID.substring(0, 6) + "..." : fullRefundID;
-                        refundID.setText(displayRefundID);
-                        refundID.setOnClickListener(v -> {
+                    refund_ID.setText(displayRefundID);
+                    refund_ID.setOnClickListener(v -> {
                             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clip = ClipData.newPlainText("Refund ID", fullRefundID);
                             clipboard.setPrimaryClip(clip);
@@ -175,13 +172,10 @@ public class Refund_Detail extends AppCompatActivity {
                     } else {
                         Log.e("API", "Không có dữ liệu hoàn hàng.");
                     }
-                } else {
-                    Log.e("API", "Phản hồi không thành công.");
                 }
-            }
 
             @Override
-            public void onFailure(Call<RefundResponse> call, Throwable t) {
+            public void onFailure(Call<Refund_Model> call, Throwable t) {
                 Log.e("API", "Lỗi khi gọi API: " + t.getMessage());
             }
         });
@@ -236,13 +230,13 @@ public class Refund_Detail extends AppCompatActivity {
             }
         });
     }
-    private void cancelRefund(String orderId, String newStatus) {
+    private void cancelRefund(String refundId, String newStatus) {
         // Tạo model để gửi dữ liệu
         Refund_Model refundModel = new Refund_Model();
         refundModel.setRefundStatus(newStatus); // Thiết lập trạng thái đơn hàng mới
 
         // Gọi API qua Retrofit
-        Call<Refund_Model> call = apiService.putRefundUpdate(orderId, refundModel);
+        Call<Refund_Model> call = apiService.putRefundUpdate(refundId, refundModel);
         call.enqueue(new Callback<Refund_Model>() {
             @Override
             public void onResponse(Call<Refund_Model> call, Response<Refund_Model> response) {
