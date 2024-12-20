@@ -41,13 +41,17 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
     private String documentId,textfeedback,prodId,dateFeed;
     private int rating;
     private APIService apiService;
-    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService , String documentId) {
+    private FeedbackUpdateCallback feedbackUpdateCallback;
+    public FeedbackAdapter(Context context, List<Product_feedback> productList, APIService apiService , String documentId, FeedbackUpdateCallback feedbackUpdateCallback) {
         this.context = context;
         this.productList = productList;
         this.documentId = documentId;
         this.apiService = apiService;
+        this.feedbackUpdateCallback = feedbackUpdateCallback;
     }
-
+    public interface FeedbackUpdateCallback {
+        void onFeedbackSubmitted();
+    }
     @NonNull
     @Override
     public FeedbackViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -116,6 +120,40 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }
+
+
+
+    //////////////////////////
+    private void checkFeedback(String cusId, String prodId, FeedbackViewHolder holder) {
+        apiService.checkFeedback(cusId, prodId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonObject result = response.body();
+                    boolean hasFeedback = result.get("feedback").getAsBoolean();
+
+                    if (hasFeedback) {
+                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này.", Toast.LENGTH_SHORT).show();
+                        holder.btnRate.setEnabled(false); // Vô hiệu hóa nút đánh giá
+                        holder.ratingBar.setRating(0);
+                    } else {
+                        holder.btnRate.setEnabled(true); // Kích hoạt nút đánh giá
+                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này11111.", Toast.LENGTH_SHORT).show();
+                        textfeedback = holder.edRemainingDays.getText().toString(); // Lấy thông tin phản hồi
+                        submitFeedback(holder); // Gửi đánh giá
+
+                    }
+                } else {
+                    Log.e("APIError", "Không thể kiểm tra đánh giá: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("APIError", "Lỗi mạng khi kiểm tra đánh giá: " + t.getMessage());
+            }
+        });
+    }
     private void submitFeedback(FeedbackViewHolder holder) {
         if (textfeedback == null || textfeedback.trim().isEmpty()) {
             textfeedback = null;
@@ -135,6 +173,11 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             public void onResponse(Call<Feeback_Model> call, Response<Feeback_Model> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Đánh giá đã được gửi!", Toast.LENGTH_SHORT).show();
+                    // Gọi callback để cập nhật lại dữ liệu
+                    if (feedbackUpdateCallback != null) {
+                        feedbackUpdateCallback.onFeedbackSubmitted();
+                    }
+                    holder.ratingBar.setRating(0);
                     holder.tvFeedback.setText("Cảm ơn bạn đã đánh giá!");
                 } else {
                     Log.e("APIError", "Error codeaaaaaaaaaaaaaaaaaaa: " + response.code() + ", Message: " + response.message());
@@ -145,38 +188,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             @Override
             public void onFailure(Call<Feeback_Model> call, Throwable t) {
                 Toast.makeText(context, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-
-    //////////////////////////
-    private void checkFeedback(String cusId, String prodId, FeedbackViewHolder holder) {
-        apiService.checkFeedback(cusId, prodId).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    JsonObject result = response.body();
-                    boolean hasFeedback = result.get("feedback").getAsBoolean();
-
-                    if (hasFeedback) {
-                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này.", Toast.LENGTH_SHORT).show();
-                        holder.btnRate.setEnabled(false); // Vô hiệu hóa nút đánh giá
-                    } else {
-                        holder.btnRate.setEnabled(true); // Kích hoạt nút đánh giá
-                        Toast.makeText(context, "Bạn đã đánh giá sản phẩm này11111.", Toast.LENGTH_SHORT).show();
-                        textfeedback = holder.edRemainingDays.getText().toString(); // Lấy thông tin phản hồi
-                        submitFeedback(holder); // Gửi đánh giá
-                    }
-                } else {
-                    Log.e("APIError", "Không thể kiểm tra đánh giá: " + response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("APIError", "Lỗi mạng khi kiểm tra đánh giá: " + t.getMessage());
             }
         });
     }

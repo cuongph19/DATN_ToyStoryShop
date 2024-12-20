@@ -60,7 +60,7 @@ public class Setting_screen extends AppCompatActivity {
         tvUpdateInfo = findViewById(R.id.tv_update_info);
         tvChangePassword = findViewById(R.id.tv_change_password);
         tvNotifications = findViewById(R.id.tv_notifications);
-        switchDarkMode = findViewById(R.id.switch_dark_mode);
+//        switchDarkMode = findViewById(R.id.switch_dark_mode);
         tvLanguageCurrency = findViewById(R.id.tv_languagecurrency);
         imgBack = findViewById(R.id.btnBack);
         switchNotif = findViewById(R.id.switch_notif);
@@ -73,25 +73,25 @@ public class Setting_screen extends AppCompatActivity {
         nightMode = sharedPreferences.getBoolean("night", false);
         editor = sharedPreferences.edit();
 
-        if (nightMode) {
-            switchDarkMode.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            imgBack.setImageResource(R.drawable.back_icon);
-        } else {
-            imgBack.setImageResource(R.drawable.back_icon_1);
-        }
-        switchDarkMode.setOnClickListener(v -> {
-            if (switchDarkMode.isChecked()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                editor.putBoolean("night", true);
-                Toast.makeText(this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                editor.putBoolean("night", false);
-                Toast.makeText(this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
-            }
-            editor.apply();
-        });
+//        if (nightMode) {
+//            switchDarkMode.setChecked(true);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
+//        switchDarkMode.setOnClickListener(v -> {
+//            if (switchDarkMode.isChecked()) {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                editor.putBoolean("night", true);
+//                Toast.makeText(this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_on_set), Toast.LENGTH_SHORT).show();
+//            } else {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                editor.putBoolean("night", false);
+//                Toast.makeText(this, getString(R.string.dark_mode_enabled_set) + " " + getString(R.string.dark_mode_off_set), Toast.LENGTH_SHORT).show();
+//            }
+//            editor.apply();
+//        });
 
         setOnClickListener(tvLanguageCurrency, Currency_Language_screen.class, documentId);
         setOnClickListener(tvUpdateInfo, UpdateInfo_screen.class, documentId);

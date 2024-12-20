@@ -58,7 +58,12 @@ public class EvaluateFragment extends Fragment {
         }
         apiService = RetrofitClient.getAPIService();
         // Khởi tạo RecyclerView và Adapter cho feedback
-        feedbackAdapter = new FeedbackAdapter(getContext(), orderList,apiService, documentId);
+        feedbackAdapter = new FeedbackAdapter(getContext(), orderList,apiService, documentId, new FeedbackAdapter.FeedbackUpdateCallback() {
+            @Override
+            public void onFeedbackSubmitted() {
+                getFeedbackData(documentId); // Gọi lại API để làm mới danh sách
+            }
+        });
         recyclerView.setAdapter(feedbackAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // Gọi API để lấy feedback

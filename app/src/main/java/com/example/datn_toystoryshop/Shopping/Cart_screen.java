@@ -181,6 +181,7 @@ public class Cart_screen extends AppCompatActivity {
                     cartAdapter.deselectAllItems();
                     updateCheckoutButton();
                     updateTotalPayment(0);
+        Lldiscount.setVisibility(View.GONE);
                 }
             }
         });
@@ -214,8 +215,9 @@ public class Cart_screen extends AppCompatActivity {
                 String formattedDiscount = "";
                 if (discountAmount >= 1000) {
                     // Chia cho 1000 để hiển thị theo dạng nghìn đồng
-                    int thousands = (int) (discountAmount / 1000);
-                    formattedDiscount = String.format("%,.0fđ", thousands);
+                    int thousands = (int) (discountAmount );
+                    formattedDiscount = String.format("%,.0fđ", (double) thousands);
+
                 } else {
                     // Nếu giá trị dưới 1000, hiển thị giá trị trực tiếp
                     formattedDiscount = String.format("%,.0fđ", discountAmount);
@@ -231,6 +233,7 @@ public class Cart_screen extends AppCompatActivity {
 
     public void updateTotalPayment(double total) {
         TotalPayment.setText(String.format("%,.0fđ", total));
+
         updateCheckoutButton();
     }
 

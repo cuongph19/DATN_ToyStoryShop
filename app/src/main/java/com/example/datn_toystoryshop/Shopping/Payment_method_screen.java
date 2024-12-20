@@ -35,6 +35,7 @@ public class Payment_method_screen extends AppCompatActivity {
         } else {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
+        imgBack.setOnClickListener(v -> onBackPressed());
        // radioCOD = findViewById(R.id.radioCOD);
         radioShopeePay = findViewById(R.id.radioShopeePay);
         tvAgree = findViewById(R.id.tvAgree);
