@@ -65,6 +65,8 @@ public class Sale_screen extends AppCompatActivity {
     private int minPriceLimit = 0;// Giá tối đa là 1.000.000
     private APIService apiService;
     private boolean nightMode;
+    private EditText searchBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class Sale_screen extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
+        searchBar = findViewById(R.id.search_bar);
+
 
         // Khởi tạo NotificationManager
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -98,6 +102,20 @@ public class Sale_screen extends AppCompatActivity {
             imgBack.setImageResource(R.drawable.back_icon_1);
         }
         apiService = RetrofitClient.getAPIService();
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                saleAdapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         apiService.getSale().enqueue(new Callback<List<Product_Model>>() {
             @Override
             public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {

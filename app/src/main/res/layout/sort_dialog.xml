@@ -42,17 +42,5 @@
         android:padding="8dp"
         android:text="@string/price_high_to_low" />
 
-    <TextView
-        android:id="@+id/tv_date_new_old"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/date_newest_to_oldest" />
 
-    <TextView
-        android:id="@+id/tv_date_old_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/date_oldest_to_newest" />
 </LinearLayout>
