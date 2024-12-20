@@ -92,25 +92,30 @@ public class Canceled_Fragment extends Fragment {
         call.enqueue(new Callback<List<Order_Model>>() {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
-                swipeRefreshLayout.setRefreshing(false);
+
                 if (response.isSuccessful() && response.body() != null) {
                     orderList.clear();
                     orderList.addAll(response.body());
                     filteredOrderList.clear();
                     filteredOrderList.addAll(orderList);
                     adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.GONE);
+                    rvOrderHistory.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(requireContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    rvOrderHistory.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setVisibility(View.GONE);
+                rvOrderHistory.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 llnot.setVisibility(View.VISIBLE);
             }
         });

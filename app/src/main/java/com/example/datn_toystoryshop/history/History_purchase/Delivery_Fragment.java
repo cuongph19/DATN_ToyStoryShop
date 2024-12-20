@@ -95,15 +95,18 @@ public class Delivery_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Order_Model>> call, Response<List<Order_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
                     orderList.clear();
                     orderList.addAll(response.body());
                     filteredOrderList.clear();
                     filteredOrderList.addAll(orderList);
                     adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
@@ -111,7 +114,8 @@ public class Delivery_Fragment extends Fragment {
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 llnot.setVisibility(View.VISIBLE);
             }
         });

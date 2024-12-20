@@ -95,18 +95,22 @@ public class Delivered_Fragment extends Fragment {
                     filteredOrderList.clear();
                     filteredOrderList.addAll(orderList);
                     adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.GONE);
+                    rvOrderHistory.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(requireContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    rvOrderHistory.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setVisibility(View.GONE);
+                rvOrderHistory.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 llnot.setVisibility(View.VISIBLE);
             }
         });

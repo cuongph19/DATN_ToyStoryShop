@@ -92,15 +92,18 @@ public class Refund_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Refund_Model>> call, Response<List<Refund_Model>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
                     refundList.clear();
                     refundList.addAll(response.body());
                     filteredOrderList.clear();
                     filteredOrderList.addAll(refundList);
                     adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
@@ -108,7 +111,8 @@ public class Refund_Fragment extends Fragment {
             @Override
             public void onFailure(Call<List<Refund_Model>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 llnot.setVisibility(View.VISIBLE);
             }
         });
