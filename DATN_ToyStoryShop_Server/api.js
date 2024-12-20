@@ -878,8 +878,12 @@ router.post('/add/add-to-order', async (req, res) => {
 
         const newOrder = new OrderModel({ cusId, revenue_all, name_order, phone_order, address_order, payment_method, prodDetails, content, orderStatus, orderDate });
         await newOrder.save();
-        res.status(201).json({ message: 'Thêm vào lịch sử mua thành công!', data: newOrder });
-    } catch (error) {
+        res.status(201).json({
+            message: 'Thêm vào lịch sử mua thành công!',
+            orderId: newOrder._id, // Trả về _id để client sử dụng
+            data: newOrder
+        });
+        } catch (error) {
         console.error('Lỗi chi tiết:', error);
         res.status(500).json({ message: 'Lỗi khi thêm vào lịch sử mua', error });
     }

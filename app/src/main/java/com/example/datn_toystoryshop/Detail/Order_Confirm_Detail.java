@@ -21,6 +21,7 @@ import com.example.datn_toystoryshop.Home_screen;
 import com.example.datn_toystoryshop.Model.LoadConfirm_Model;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
+import com.example.datn_toystoryshop.PayPalActivity;
 import com.example.datn_toystoryshop.Profile.ContactSupport_screen;
 import com.example.datn_toystoryshop.R;
 import com.example.datn_toystoryshop.Server.APIService;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 public class Order_Confirm_Detail extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView tvTotalPrice, tvOrderStatus, tvPaymentMethod, address_name, address_phone, address_detail,btncancelOrder;
+    private TextView tvTotalPrice, tvOrderStatus, tvPaymentMethod, address_name, address_phone, address_detail,btncancelOrder,btnPayment;
     private ImageView imgBack;
     private LinearLayout ivContactShop, ivSupportCenter;
     private APIService apiService;
@@ -46,6 +47,7 @@ public class Order_Confirm_Detail extends AppCompatActivity {
     private boolean nightMode;
     private RecyclerView rvProductList;
     private OrderHist_Detail_Adapter adapter;
+    private int revenueAll;
     // Biến toàn cục
     private List<LoadConfirm_Model> productStates = new ArrayList<>();
 
@@ -67,6 +69,7 @@ public class Order_Confirm_Detail extends AppCompatActivity {
         ivSupportCenter = findViewById(R.id.ivSupportCenter);
         imgBack = findViewById(R.id.btnBack);
         btncancelOrder = findViewById(R.id.btncancelOrder);
+        btnPayment = findViewById(R.id.btnPayment);
 
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
@@ -85,6 +88,7 @@ public class Order_Confirm_Detail extends AppCompatActivity {
             startActivity(intent1);
             finish();
         });
+
         ivContactShop.setOnClickListener(v -> {
             Intent intent1 = new Intent(Order_Confirm_Detail.this, ContactSupport_screen.class);
             startActivity(intent1);
@@ -114,6 +118,20 @@ public class Order_Confirm_Detail extends AppCompatActivity {
                         dialog.dismiss();
                     })
                     .show();
+        });
+        btnPayment.setOnClickListener(v -> {
+
+            Intent intent1 = new Intent(Order_Confirm_Detail.this, PayPalActivity.class);
+            System.out.println("MoneyPay: " + revenueAll);
+            System.out.println("documentId: " + documentId);
+            intent1.putExtra("amount", (long) Math.floor(revenueAll));
+            intent1.putExtra("user_id", documentId);
+            intent1.putExtra("orderId", orderId);
+            Log.e("PayPalActivity", "pppppppppppppp1 " + orderId);
+            Log.e("PayPalActivity", "pppppppppppppp2 " + (long) Math.floor(revenueAll));
+            Log.e("PayPalActivity", "pppppppppppppp3 " + documentId);
+            startActivity(intent1);
+            System.out.println("Đã chuyển sang màn hình thanh toán");
         });
 
         imgBack.setOnClickListener(v -> onBackPressed());
@@ -165,7 +183,7 @@ public class Order_Confirm_Detail extends AppCompatActivity {
                     address_phone.setText(orderModel.getPhone_order());
                     address_detail.setText(orderModel.getAddress_order());
 
-                    int revenueAll = orderModel.getRevenue_all();
+                     revenueAll = orderModel.getRevenue_all();
                     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
                     String formattedRevenue = currencyFormat.format(revenueAll);
                     tvTotalPrice.setText(": "+ formattedRevenue);
