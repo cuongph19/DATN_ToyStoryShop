@@ -351,18 +351,19 @@
     </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <LinearLayout
-            android:id="@+id/checkoutLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:orientation="vertical"
+        android:id="@+id/checkoutLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-            android:padding="15dp"
-            >
+        android:padding="15dp">
+
         <TextView
             android:id="@+id/btnPayment"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/rounded_button_background"
             android:gravity="center"
             android:padding="15dp"
@@ -372,20 +373,21 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/btncancelOrder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button_background"
-                android:gravity="center"
-                android:padding="15dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/cancel_order"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+        <TextView
+            android:id="@+id/btncancelOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_background"
+            android:gravity="center"
+            android:padding="15dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/cancel_order"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-        </LinearLayout>
+    </LinearLayout>
     </RelativeLayout>
 
