@@ -43,9 +43,10 @@ public class Product_New_Star_Adapter extends RecyclerView.Adapter<Product_New_S
 
     public Product_New_Star_Adapter(Context context, List<Product_Model> productModelList) {
         this.context = context;
-        this.productModelList = productModelList;
-        this.productModelListFull = new ArrayList<>(productModelList);
+        this.productModelList = productModelList != null ? productModelList : new ArrayList<>();
+        this.productModelListFull = new ArrayList<>(this.productModelList);
     }
+
 
     public Product_New_Star_Adapter(Context context, List<Product_Model> productModelList, boolean isInHomeFragment, String documentId) {
         this.context = context;
@@ -190,23 +191,28 @@ public class Product_New_Star_Adapter extends RecyclerView.Adapter<Product_New_S
         productModelList.clear();
         if (newProductList != null) {
             productModelList.addAll(newProductList);
+            productModelListFull = new ArrayList<>(newProductList); // Cập nhật cả danh sách đầy đủ
+        } else {
+            productModelListFull = new ArrayList<>();
         }
         notifyDataSetChanged();
     }
 
+
     public void filter(String query) {
-        productModelList.clear();
-        if (query.isEmpty()) {
-            productModelList.addAll(productModelListFull);
-        } else {
-            for (Product_Model product : productModelListFull) {
-                if (removeDiacritics(product.getNamePro().toLowerCase()).contains(query.toLowerCase())) {
-                    productModelList.add(product);
-                }
+        if (productModelListFull == null) return;
+
+        List<Product_Model> filteredList = new ArrayList<>();
+        for (Product_Model product : productModelListFull) {
+            if (product.getNamePro() != null &&
+                    product.getNamePro().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(product);
             }
         }
-        notifyDataSetChanged();
+        updateData(filteredList);
     }
+
+
 
     public void sortByPriceDescending() {
         Collections.sort(productModelList, (p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice()));

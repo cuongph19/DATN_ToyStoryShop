@@ -1,9 +1,14 @@
 package com.example.datn_toystoryshop.Home;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,14 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.datn_toystoryshop.Adapter.Home_Sale_Adapter;
 import com.example.datn_toystoryshop.Adapter.Product_New_Star_Adapter;
+import com.example.datn_toystoryshop.Adapter.Product_No_Star_Adapter;
 import com.example.datn_toystoryshop.Home.Banner.Toys_52_screen;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.R;
+import com.example.datn_toystoryshop.Server.APIService;
+import com.example.datn_toystoryshop.Server.RetrofitClient;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -42,64 +52,97 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class All_new_screen extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerViewAllNewProducts;
-    private Product_New_Star_Adapter productNewStarAdapter;
-    private List<Product_Model> productList;
+    private RecyclerView recyclerView;
+    private Product_No_Star_Adapter adapter;
+    private ImageView backIcon;
+    private List<Product_Model> productList; // Danh sách hiện tại đang hiển thị trên RecyclerView
+    private List<Product_Model> originalProductList; // Danh sách gốc lưu toàn bộ sản phẩm từ API
+    private int minPriceLimit = 0;// Giá tối đa là 1.000.000
+    private EditText searchBar;
+
+
+
     private String documentId;
     private SharedPreferences sharedPreferences;
     private boolean nightMode;
-    private ImageView imgBack;
-    private int minPriceLimit = 0;// Giá tối đa là 1.000.000
-
+    private  APIService apiService;
+    private Button btnSort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_new_screen);
-
-        recyclerViewAllNewProducts = findViewById(R.id.recyclerViewAllNewProducts);
-        imgBack = findViewById(R.id.ivBack);
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-
-        Intent intent = getIntent();
-        documentId = intent.getStringExtra("documentId");
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         nightMode = sharedPreferences.getBoolean("night", false);
-        productList = (List<Product_Model>) getIntent().getSerializableExtra("productList");
-        recyclerViewAllNewProducts.setLayoutManager(new LinearLayoutManager(this));
-
-
-        productNewStarAdapter = new Product_New_Star_Adapter(this, productList, false, documentId);
-        recyclerViewAllNewProducts.setAdapter(productNewStarAdapter);
-        Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
-        btnFilter.setOnClickListener(v -> showFilterDialog());
-        Button btnSort = findViewById(R.id.btnSort);
-        btnSort.setOnClickListener(v -> showSortDialog());
-
-
-        // Thêm ItemDecoration để tạo khoảng cách dưới mỗi item
-        recyclerViewAllNewProducts.addItemDecoration(new RecyclerView.ItemDecoration() {
+        searchBar = findViewById(R.id.search_bar);
+        btnSort = findViewById(R.id.btnSort);
+//        if (nightMode) {
+//            imgBack.setImageResource(R.drawable.back_icon);
+//        } else {
+//            imgBack.setImageResource(R.drawable.back_icon_1);
+//        }
+        recyclerView = findViewById(R.id.product_list);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        Intent intent = getIntent();
+        documentId = intent.getStringExtra("documentId");
+        Log.e("OrderHistoryAdapter", "j8888888888888888BlindBox_screen" + documentId);
+        originalProductList = new ArrayList<>();
+        apiService = RetrofitClient.getAPIService();
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                // Thêm khoảng cách dưới mỗi item (16px)
-                outRect.bottom = 16;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
-        if (nightMode) {
-            imgBack.setImageResource(R.drawable.back_icon);
-        } else {
-            imgBack.setImageResource(R.drawable.back_icon_1);
-        }
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            productNewStarAdapter.notifyDataSetChanged();
-            // Tắt hiệu ứng tải lại
-            swipeRefreshLayout.setRefreshing(false);
+        apiService.getProducts().enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API Response", "Danh sách sản phẩm: " + response.body().toString());
+                    originalProductList = new ArrayList<>(response.body()); // Cập nhật danh sách gốc
+                    updateBrandCounts();  // Cập nhật số lượng các thương hiệu
+                    adapter = new Product_No_Star_Adapter(All_new_screen.this, originalProductList, documentId);
+                    recyclerView.setAdapter(adapter);
+                    LoadAPI();
+                } else {
+                    Log.e("API Response", "Không có dữ liệu");
+                    Toast.makeText(All_new_screen.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                Toast.makeText(All_new_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
         });
-        imgBack.setOnClickListener(v -> onBackPressed());
+
+        backIcon = findViewById(R.id.ivBack);
+        backIcon.setOnClickListener(v -> onBackPressed());
+        Button btnFilter = findViewById(R.id.btn_filter); // Nút bộ lọc
+        btnFilter.setOnClickListener(v -> showFilterDialog());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            LoadAPI();
+
+        });
+
+        btnSort.setOnClickListener(v -> showSortDialog());
     }
+
     private void showSortDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(All_new_screen.this);
         String[] sortOptions = {
@@ -143,14 +186,14 @@ public class All_new_screen extends AppCompatActivity {
         return pattern.matcher(normalized).replaceAll("").replace('đ', 'd').replace('Đ', 'D');
     }
     private void sortProducts(String sortBy) {
-        if (productList == null || productList.isEmpty()) {
+        if (originalProductList == null || originalProductList.isEmpty()) {
             Toast.makeText(All_new_screen.this, "Không có sản phẩm để sắp xếp.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         switch (sortBy) {
             case "name_asc": // Sắp xếp A-Z
-                productList.sort((lhs, rhs) -> {
+                originalProductList.sort((lhs, rhs) -> {
                     String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
                     String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
                     return lhsName.compareTo(rhsName);
@@ -158,7 +201,7 @@ public class All_new_screen extends AppCompatActivity {
                 break;
 
             case "name_desc": // Sắp xếp Z-A
-                productList.sort((lhs, rhs) -> {
+                originalProductList.sort((lhs, rhs) -> {
                     String lhsName = removeDiacritics(lhs.getNamePro() != null ? lhs.getNamePro() : "");
                     String rhsName = removeDiacritics(rhs.getNamePro() != null ? rhs.getNamePro() : "");
                     return rhsName.compareTo(lhsName);
@@ -166,15 +209,15 @@ public class All_new_screen extends AppCompatActivity {
                 break;
 
             case "price_asc": // Sắp xếp giá từ thấp đến cao
-                productList.sort((lhs, rhs) -> Double.compare(lhs.getPrice(), rhs.getPrice()));
+                originalProductList.sort((lhs, rhs) -> Double.compare(lhs.getPrice(), rhs.getPrice()));
                 break;
 
             case "price_desc": // Sắp xếp giá từ cao đến thấp
-                productList.sort((lhs, rhs) -> Double.compare(rhs.getPrice(), lhs.getPrice()));
+                originalProductList.sort((lhs, rhs) -> Double.compare(rhs.getPrice(), lhs.getPrice()));
                 break;
 
             case "date_asc": // Sắp xếp ngày từ cũ đến mới
-                productList.sort((lhs, rhs) -> {
+                originalProductList.sort((lhs, rhs) -> {
                     String lhsDateStr = lhs.getCreatDatePro();
                     String rhsDateStr = rhs.getCreatDatePro();
 
@@ -197,7 +240,7 @@ public class All_new_screen extends AppCompatActivity {
                 break;
 
             case "date_desc": // Sắp xếp ngày từ mới đến cũ
-                productList.sort((lhs, rhs) -> {
+                originalProductList.sort((lhs, rhs) -> {
                     String lhsDateStr = lhs.getCreatDatePro();
                     String rhsDateStr = rhs.getCreatDatePro();
 
@@ -224,7 +267,7 @@ public class All_new_screen extends AppCompatActivity {
                 break;
         }
 
-        productNewStarAdapter.updateData(productList); // Cập nhật lại RecyclerView
+        adapter.updateData(originalProductList); // Cập nhật lại RecyclerView
     }
     private Date parseDate(String dateStr) {
         if (dateStr == null || dateStr.trim().isEmpty()) {
@@ -239,6 +282,30 @@ public class All_new_screen extends AppCompatActivity {
             return null; // Trả về null nếu không parse được
         }
     }
+
+    private  void LoadAPI(){
+        // Gọi lại API để làm mới danh sách sản phẩm
+        apiService.getProducts().enqueue(new Callback<List<Product_Model>>() {
+            @Override
+            public void onResponse(Call<List<Product_Model>> call, Response<List<Product_Model>> response) {
+                swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                if (response.isSuccessful() && response.body() != null) {
+                    originalProductList = response.body(); // Lưu danh sách sản phẩm mới
+                    adapter.updateData(originalProductList); // Cập nhật dữ liệu trong adapter
+                } else {
+                    Toast.makeText(All_new_screen.this, "Không có dữ liệu mới.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product_Model>> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false); // Dừng hiệu ứng refresh
+                Toast.makeText(All_new_screen.this, "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void showFilterDialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(All_new_screen.this);
         LayoutInflater inflater = getLayoutInflater();
@@ -401,13 +468,13 @@ public class All_new_screen extends AppCompatActivity {
 
     }
     private void applyFilterForAllProducts(int minPrice, int maxPrice) {
-        if (productList == null) {
+        if (originalProductList == null) {
             Toast.makeText(this, "Danh sách sản phẩm chưa được tải.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         List<Product_Model> filteredList = new ArrayList<>();
-        for (Product_Model product : productList) {
+        for (Product_Model product : originalProductList) {
             int price = (int) product.getPrice();
 
             // Kiểm tra khoảng giá
@@ -423,11 +490,12 @@ public class All_new_screen extends AppCompatActivity {
         }
 
         // Cập nhật Adapter với danh sách sản phẩm đã lọc
-        productNewStarAdapter.updateData(filteredList);
+        adapter.updateData(filteredList);
     }
 
+
     private void applyFilter(boolean isBrand1Selected, boolean isBrand2Selected, boolean isBrand3Selected,boolean isBrand4Selected, boolean isBrand5Selected, boolean isBrand6Selected, int minPrice, int maxPrice) {
-        if (productList == null) {
+        if (originalProductList == null) {
             Toast.makeText(this, "Danh sách sản phẩm chưa được tải.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -435,7 +503,7 @@ public class All_new_screen extends AppCompatActivity {
         boolean hasBrand1 = false, hasBrand2 = false, hasBrand3 = false ,hasBrand4 = false, hasBrand5 = false, hasBrand6 = false;
 
         // Kiểm tra xem có sản phẩm thuộc thương hiệu được chọn hay không
-        for (Product_Model product : productList) {
+        for (Product_Model product : originalProductList) {
             String brand = product.getBrand().trim();
 
             if (brand.equals("BANPRESTO")) hasBrand1 = true;
@@ -474,7 +542,7 @@ public class All_new_screen extends AppCompatActivity {
 
         // Nếu có sản phẩm phù hợp, tiếp tục lọc
         List<Product_Model> filteredList = new ArrayList<>();
-        for (Product_Model product : productList) {
+        for (Product_Model product : originalProductList) {
             String brand = product.getBrand().trim();
             int price = (int) product.getPrice();
 
@@ -497,14 +565,14 @@ public class All_new_screen extends AppCompatActivity {
         }
 
         // Cập nhật Adapter với danh sách sản phẩm đã lọc
-        productNewStarAdapter.updateData(filteredList);
+        adapter.updateData(filteredList);
     }
 
     private int countProductsByBrand(String brandName) {
         int count = 0;
 
-        if (productList != null) {
-            for (Product_Model product : productList) {
+        if (originalProductList != null) {
+            for (Product_Model product : originalProductList) {
                 String brand = product.getBrand().trim(); // Loại bỏ khoảng trắng thừa
                 Log.d("Brand Count", "Checking product: " + brand);  // Debugging để xem brand hiện tại
 
@@ -524,7 +592,7 @@ public class All_new_screen extends AppCompatActivity {
 
     private void updateBrandCounts() {
         brandCounts.clear();
-        for (Product_Model product : productList) {
+        for (Product_Model product : originalProductList) {
             String brand = product.getBrand().trim();
             brandCounts.put(brand, brandCounts.getOrDefault(brand, 0) + 1);
         }
