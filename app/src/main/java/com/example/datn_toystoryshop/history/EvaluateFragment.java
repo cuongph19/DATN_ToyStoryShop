@@ -93,11 +93,12 @@ public class EvaluateFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product_feedback>> call, Response<List<Product_feedback>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
                     orderList.clear();
                     orderList.addAll(response.body());
                     feedbackAdapter.notifyDataSetChanged();
-
+                    swipeRefreshLayout.setRefreshing(false);
+                    llnot.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     for (Product_feedback product : orderList) {
                         Log.d("Product", "Tên sản phẩm: " + product.getNamePro());
                         Log.d("Product", "Doanh thu: " + product.getRevenue());
@@ -106,7 +107,8 @@ public class EvaluateFragment extends Fragment {
                     }
                 } else {
                     Log.e("EvaluateFragment", "Failed to load product details");
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
@@ -115,7 +117,8 @@ public class EvaluateFragment extends Fragment {
             public void onFailure(Call<List<Product_feedback>> call, Throwable t) {
                 Log.e("EvaluateFragment", "Error: " + t.getMessage());
                 t.printStackTrace();
-                swipeRefreshLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 llnot.setVisibility(View.VISIBLE);
             }
         });

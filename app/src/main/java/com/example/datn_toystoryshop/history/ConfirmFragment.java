@@ -156,13 +156,12 @@ public class ConfirmFragment extends Fragment {
                         filteredOrderList.addAll(orderList);
                         adapter.notifyDataSetChanged();
                         swipeRefreshLayout.setRefreshing(false);
-                        Log.d("API Response", "Số lượng đơn hàngggggggggggg: " + response.body().size());
-                        for (Order_Model order : response.body()) {
-                            Log.d("Số lượng đơn hàngggggggggggg API Response", order.toString());
-                        }
+                        llnot.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getContext(), "Không có dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
                         llnot.setVisibility(View.VISIBLE);
                     }
                 }
@@ -172,7 +171,8 @@ public class ConfirmFragment extends Fragment {
             public void onFailure(Call<List<Order_Model>> call, Throwable t) {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     llnot.setVisibility(View.VISIBLE);
                 }
             }
