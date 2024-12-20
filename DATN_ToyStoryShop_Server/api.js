@@ -260,6 +260,36 @@ router.get('/carts', async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi lấy sản phẩm trong giỏ hàng.' });
     }
 });
+// router.delete('/deleteCartItem', async (req, res) => {
+//     try {
+//         const { prodId, cusId } = req.body; // Lấy prodId và cusId từ body
+
+//         // Tìm và xóa sản phẩm theo prodId và cusId
+//         const deletedCartItem = await CartModel.findOneAndDelete({ prodId, cusId });
+
+//         // Kiểm tra nếu không tìm thấy sản phẩm trong giỏ hàng
+//         if (!deletedCartItem) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: "Không tìm thấy sản phẩm để xóa trong giỏ hàng",
+//             });
+//         }
+
+//         // Trả về thông báo thành công sau khi xóa
+//         res.status(200).json({
+//             success: true,
+//             message: "Sản phẩm đã được xóa thành công khỏi giỏ hàng",
+//             data: deletedCartItem,
+//         });
+//     } catch (error) {
+//         console.error("Lỗi khi xóa sản phẩm trong giỏ hàng:", error);
+//         res.status(500).json({
+//             success: false,
+//             message: "Không thể xóa sản phẩm trong giỏ hàng",
+//             error: error.message,
+//         });
+//     }
+// });
 
 router.delete('/deleteCart/:id', async (req, res) => {
     const { id } = req.params; // Nhận _id từ đường dẫn

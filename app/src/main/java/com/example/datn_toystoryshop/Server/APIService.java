@@ -14,7 +14,6 @@ import com.example.datn_toystoryshop.Model.OrderResponse;
 import com.example.datn_toystoryshop.Model.Order_Model;
 import com.example.datn_toystoryshop.Model.Product_Model;
 import com.example.datn_toystoryshop.Model.Product_feedback;
-import com.example.datn_toystoryshop.Model.RefundResponse;
 import com.example.datn_toystoryshop.Model.Refund_Model;
 import com.example.datn_toystoryshop.Model.VnPayCreate_Model;
 import com.example.datn_toystoryshop.Model.Vnpay_Model;
@@ -225,5 +224,6 @@ public interface APIService {
     @POST("/create-checkout-vnpay")
     Call<Vnpay_Model> createCheckoutVnPay(@Body VnPayCreate_Model body);
 
-
+// @DELETE("/api/deleteCartItem")
+// Call<CartResponse> deleteCartItem(@Body Cart_Model request);
 }
